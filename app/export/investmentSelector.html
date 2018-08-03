@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Investment Selector</title>
+
+	<!-- Temporary styling for demonstration purposes only -->
+	<style>
+		.br-calc {
+			max-width: 980px;
+			margin:0 auto;
+			border:1px solid #838383;
+			-webkit-background-clip: padding-box;
+			-webkit-border-radius: 5px;
+			-moz-background-clip: padding-box;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background-clip: padding-box;
+		}
+	</style>
+	
+	<!-- inject:css -->
+	<link rel="stylesheet" href="assets/css/investmentSelector.css?1483565672578">
+	<!-- endinject -->
+
+</head>
+<!-- Important!! -->
+<!-- ng-jq attribute on body element to have angular use other variable for jQuery -->
+<body ng-jq="$cmsj">
+
+	<div id="br-ist-calc" ng-app="br-calc" ng-controller="br-calc as app" ng-include="module.investmentSelector" class="br-calc"></div>
+	<!-- jQuery version 1.9.1 -->
+		<script type="text/javascript" src="vendors/js/jquery.min.js?1464967859795"></script>
+	<!-- Important!! -->
+	<!-- highcharts.js MUST be loaded after jQuery,
+			but BEFORE jQuery is assigned to noConflict variable -->
+		<script type="text/javascript" src="vendors/js/highcharts.js?1464967859795"></script>
+
+	<!-- Temporary jQuery noConflict variable $cmsj -->
+	<!-- Simulating production environment -->
+	<!-- Replace in production with real noConflict assignment. -->
+				<script type="text/javascript" src="assets/js/jquery-cmsj-no-conflict.js?1464967859795"></script>
+
+		<script type="text/javascript" src="vendors/js/angular.min.js?1464967859795"></script>
+
+	<!-- Temporary Rates simulation -->
+	<!-- Replace in production with real method Rates.getAll(); -->
+		<script type="text/javascript" src="assets/js/rates.js?1464967859795"></script>
+
+	<!-- Unmerged config files for Edits -->
+		<script type="text/javascript" src="assets/config/dataConfig.js?1464967859795"></script>
+		<script type="text/javascript" src="assets/config/istConfig.js?1464967859795"></script>
+	<!-- END config -->
+
+	<!-- inject:js -->
+	<script type="text/javascript" src="assets/js/investmentSelector.js?1483565672576"></script>
+	<!-- endinject -->
+</body>
+</html>

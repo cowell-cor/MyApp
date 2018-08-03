@@ -1,0 +1,83 @@
+	<form class="rsc-form">
+
+		<div class="scenario">
+
+			<button ng-click="collapse.personnalQuestions = !collapse.personnalQuestions" class="collapse-button align-left {{ collapse.personnalQuestions ? '' : ' active' }}">
+				<span class="glyphicon glyphicon-chevron-down"></span>
+				Retirement Information
+			</button>
+
+			<div uib-collapse="collapse.personnalQuestions">
+
+				<meri-input field-specs="rsc.specs['currentAge' + sce.results.suffix]" data-binding="sce.data.currentAge" field-validation="sce.validation.currentAge" id="'currentAge' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs['retirementStartAge' + sce.results.suffix]" data-binding="sce.data.retirementStartAge" field-validation="sce.validation.retirementStartAge" id="'retirementStartAge' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs['yearsInRetirement' + sce.results.suffix]" data-binding="sce.data.yearsInRetirement" field-validation="sce.validation.yearsInRetirement" id="'yearsInRetirement' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs['annualIncome' + sce.results.suffix]" data-binding="sce.data.annualIncome" field-validation="sce.validation.annualIncome" id="'annualIncome' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+
+				<div class="form-group">
+					<label>{{ rsc.content.scenarioInputs['targetIncomeIsPercent' + sce.results.suffix] }}</label>
+
+					<div class="toggle-radio">
+						<label ng-repeat="option in rsc.specs.targetIncomeIsPercent.options">
+							<input type="radio" ng-model="sce.data.targetIncomeIsPercent" value="{{option.value}}" boolean />
+							<span class="btn btn-default btn-block">{{ option.label }}</span>
+						</label>
+					</div>
+				</div>			
+
+				<meri-input ng-show="!sce.data.targetIncomeIsPercent" field-specs="rsc.specs.targetIncomeAmount" data-binding="sce.data.targetIncomeAmount" field-validation="sce.validation.targetIncomeAmount" id="'targetIncomeAmount_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input ng-show="sce.data.targetIncomeIsPercent" field-specs="rsc.specs.targetIncomePercent" data-binding="sce.data.targetIncomePercent" field-validation="sce.validation.targetIncomePercent" id="'targetIncomePercent_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.estimatedROR" data-binding="rsc.data.estimatedROR" field-validation="rsc.validation.estimatedROR" id="'estimatedROR_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.inflationRate" data-binding="rsc.data.inflationRate" field-validation="rsc.validation.inflationRate" id="'inflationRate_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+			</div>
+
+			<button ng-click="collapse.sourceOfIncome = !collapse.sourceOfIncome" class="collapse-button align-left {{ collapse.sourceOfIncome ? '' : ' active' }}">
+				<span class="glyphicon glyphicon-chevron-down"></span>
+				{{ rsc.content.incomeSourceHeader }}
+			</button>
+			
+			<div uib-collapse="collapse.sourceOfIncome">
+				
+				<meri-input field-specs="rsc.specs.oas" data-binding="sce.data.oas" field-validation="sce.validation.oas" id="'oas_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.cpp" data-binding="sce.data.cpp" field-validation="sce.validation.cpp" id="'cpp_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.companyPension" data-binding="sce.data.companyPension" field-validation="sce.validation.companyPension" id="'companyPension_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.nonRegInvestments" data-binding="sce.data.nonRegInvestments" field-validation="sce.validation.nonRegInvestments" id="'nonRegInvestments_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.otherIncome" data-binding="sce.data.otherIncome" field-validation="sce.validation.otherIncome" id="'otherIncome_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+			</div>
+
+			<button ng-click="collapse.investmentsAnnual = !collapse.investmentsAnnual" class="collapse-button align-left {{ collapse.investmentsAnnual ? '' : ' active' }}">
+				<span class="glyphicon glyphicon-chevron-down"></span>
+				{{ rsc.content.investmentsHeader }}
+			</button>
+			<div uib-collapse="collapse.investmentsAnnual">
+				<meri-input field-specs="rsc.specs.currentRRSPSavings" data-binding="sce.data.currentRRSPSavings" field-validation="sce.validation.currentRRSPSavings" id="'currentRRSPSavings_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.currentTFSASavings" data-binding="sce.data.currentTFSASavings" field-validation="sce.validation.currentTFSASavings" id="'currentTFSASavings_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.currentNONREGSavings" data-binding="sce.data.currentNONREGSavings" field-validation="sce.validation.currentNONREGSavings" id="'currentNONREGSavings_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+			</div>
+
+			<button ng-click="collapse.investmentsMonthly = !collapse.investmentsMonthly" class="collapse-button align-left {{ collapse.investmentsMonthly ? '' : ' active' }}">
+				<span class="glyphicon glyphicon-chevron-down"></span>
+				{{ rsc.content.investmentsMonthlyHeader }}
+			</button>
+			<div uib-collapse="collapse.investmentsMonthly">
+				<meri-input field-specs="rsc.specs.monthlyRRSPcontribution" data-binding="sce.data.monthlyRRSPcontribution" field-validation="sce.validation.monthlyRRSPcontribution" id="'monthlyRRSPcontribution_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.monthlyTFSAcontribution" data-binding="sce.data.monthlyTFSAcontribution" field-validation="sce.validation.monthlyTFSAcontribution" id="'monthlyTFSAcontribution_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+				<meri-input field-specs="rsc.specs.monthlyNONREGcontribution" data-binding="sce.data.monthlyNONREGcontribution" field-validation="sce.validation.monthlyNONREGcontribution" id="'monthlyNONREGcontribution_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+			</div>
+		</div>
+	</form>

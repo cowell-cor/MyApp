@@ -1,0 +1,103 @@
+
+<div class="mainColumn" ng-cloak>
+	
+	<h2 class="calc-title text-left">{{ mpc.content.report.mortgageOptions }}</h2>
+	
+	<div class="text-center">
+		<table class="table table-bordered table-striped text-center table-responsive">
+			<thead>
+				<tr>
+					<th></th>
+					<th ng-repeat="scenario in sce.scenarios"><h4 class="text-uppercase text-center border-bottom" ng-style="{'borderBottomColor':mpc.content.compareScenarios['scenario_'+$index].color}">{{ mpc.content.compareScenarios['scenario_'+$index].name }}</h4></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>{{ mpc.content.report.mortgageAmount }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.mortgageAmount | currency:2 }}</td>
+				</tr>
+				<tr>	
+					<th>{{ mpc.content.report.productAndType }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.productAndType }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.amortization }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.amortization | year : 0 }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.interestRate }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.interestRate | percent:3 }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.paymentFrequency }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.paymentFrequencyLabel }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.extraPaymentFrequency }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.showExtra?(scenario.results.current.extraPaymentFrequencyLabel):'-' }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.extraPaymentAmount }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.showExtra?(scenario.data.extraPaymentAmount | currency:2):'-' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<br/><br/>
+
+	<h2 class="calc-title text-left">{{ mpc.content.report.termSummary }}</h2>
+	
+	<div class="text-center table-responsive">
+		<table class="table table-bordered table-striped text-center">
+			<thead>
+				<tr>
+					<th></th>
+					<th ng-repeat="scenario in sce.scenarios"><h4 class="text-uppercase text-center border-bottom" ng-style="{'borderBottomColor':mpc.content.compareScenarios['scenario_'+$index].color}">{{ mpc.content.compareScenarios['scenario_'+$index].name }}</h4></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>{{ mpc.content.report.mortgagePayment }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.mortgagePayment | currency:2 }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.termPrincipal }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.termPrincipal | currency:2 }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.termInterest }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.termInterest | currency:2 }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.termInterestAndPrincipal }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.termInterestAndPrincipal | currency:2 }}</td>
+				</tr>
+				<tr>
+					<th>{{ mpc.content.report.balanceAtEndOfTerm }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.balanceAtEndOfTerm | currency:2 }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<h2 class="calc-title text-left">{{ mpc.content.report.amortizationSchedule }}</h2>
+	
+	<div class="text-center">
+		<chart class="full-width" ng-model="sce.results.compareGraphConfig"></chart>
+	</div>
+		
+
+	<div class="actions">
+		<button class="btn btn-success" tab-value="multiple" tab-group="scenariosViews">
+			<i class="glyphicon glyphicon-menu-left"></i> Back 
+		</button>
+
+
+		<a ng-show="!isMobile" onclick="window.print(); return false;" href="#" class="btn btn-link"><i class="glyphicon glyphicon-print"></i> {{ content.ui.btnPrintReport }}</a>
+	</div>
+
+	<div class="disclaimer" ng-bind-html="mpc.content.disclaimer | html"></div>
+
+</div>
+	

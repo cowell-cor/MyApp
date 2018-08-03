@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Retirement tool</title>
+</head>
+<body>
+	<div ng-app="retirement" ng-controller="retirementCalc as calc">
+		<strong>Data:</strong>
+		<table>
+			<tr ng-repeat="(key,value) in calc.data">
+				<td>{{key}}: </td>
+				<td>{{value}}</td>
+			</tr>
+		</table>
+		<br/>
+		<strong>Results:</strong>
+		<table>
+			<tr ng-repeat="(key,value) in calc.results">
+				<td>{{key}}: </td>
+				<td>{{value}}</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/formula.js"></script>
+	<script type="text/javascript" src="js/toolbox.js"></script>
+	<script type="text/javascript" src="js/calculator.js"></script>
+</body>
+</html>

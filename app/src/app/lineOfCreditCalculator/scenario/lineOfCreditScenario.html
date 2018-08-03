@@ -1,0 +1,54 @@
+<div class="leftColumn">
+	<h2 class="text-center" bind-html-compile="loc.content.scenarioTypes[sce.data.repaymentDetails].formHeader"></h2>
+
+	<form name="lineOfCredit_{{sce.data.scenarioIndex}}">
+
+		<div class="form-group">
+			<label></label>
+
+			<div class="toggle-radio">
+				<label ng-repeat="option in loc.specs.repaymentDetails.options">
+					<input type="radio" ng-model="sce.data.repaymentDetails" name="loc-repaymentDetails" value="{{option.value}}" />
+					<span class="btn btn-default btn-block" ng-bind-html="option.label | html"></span>
+				</label>
+			</div>
+		</div>
+
+		<div ng-if="tabData.getCurrentTab('locScenariosViews') === 'multiple'">
+
+			<div ng-include="module.lineOfCreditCalculatorScenarioDetails" data-scenario-index="{{sce.data.scenarioIndex}}"></div>
+
+		</div>
+		<div class="scenario">
+
+			<span ng-if="sce.data.repaymentDetails === 'personalLoan'">
+				<meri-select field-specs="loc.specs.borrowReason_personalLoan" data-binding="sce.data.borrowReason_personalLoan" field-validation="sce.validation.borrowReason_personalLoan"></meri-select>
+			</span>
+
+			<span ng-if="sce.data.repaymentDetails === 'lineOfCredit'">
+				<meri-select field-specs="loc.specs.borrowReason_lineOfCredit" data-binding="sce.data.borrowReason_lineOfCredit" field-validation="sce.validation.borrowReason_lineOfCredit"></meri-select>
+			</span>
+
+			<meri-input field-specs="loc.specs.borrowAmount" data-binding="sce.data.borrowAmount" field-validation="sce.validation.borrowAmount"></meri-input>
+			
+			<meri-input field-specs="loc.specs.interestRate" data-binding="sce.data.interestRate" field-validation="sce.validation.interestRate"></meri-input>
+
+			<meri-input ng-if="sce.data.repaymentDetails==='personalLoan'" field-specs="loc.specs.amortization" data-binding="sce.data.amortization" field-validation="sce.validation.amortization"></meri-input>
+
+			<div class="form-group" ng-if="sce.data.repaymentDetails==='personalLoan'">
+				<label class="br-full-width" ng-bind-html="loc.content.scenarioInputs.paymentFrequency.label | html"></label>
+
+				<div class="row">
+					<div class="col-md-6" ng-repeat="option in loc.specs.paymentFrequency.options">
+						<label class="btn-radio">
+							<input type="radio" ng-model="sce.data.paymentFrequency" name="loc-paymentFrequency" value="{{option.value}}" />
+							<span class="btn btn-default btn-block" ng-bind-html="option.label | html"></span>
+						</label>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</form>
+
+</div>

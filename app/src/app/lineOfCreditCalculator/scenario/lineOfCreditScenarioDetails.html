@@ -1,0 +1,12 @@
+<div class="leftColumn scenarioDetails" ng-cloak>
+	<div class="row">
+		<div class="col-md-7"><p><strong>{{ loc.content.results.compareScenarios.monthlyPayment }}</strong></p></div>
+		<div class="col-md-5 align-right"><p><strong>{{sce.results.current.minimumMonthlyPayment | currency:2}}</strong></p></div>
+	</div>
+
+	<div class="row" ng-if="sce.results.current.interestCostForTurn">
+		<div class="col-md-7"><p>{{ loc.content.results.compareScenarios.interestCost }}</p></div>
+		<div class="col-md-5 align-right"><p>{{sce.results.current.interestCostForTurn | currency:2}}</p></div>
+	</div>
+		
+</div>

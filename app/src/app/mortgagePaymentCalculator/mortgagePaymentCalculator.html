@@ -1,0 +1,59 @@
+<div ng-cloak ng-controller="mortgagePaymentCalculatorCtrl as mpc" class="container-fluid" tab-default-value="scenariosViews:single">
+
+	<div class="row" ng-if="tabData.getCurrentTab('scenariosViews') === 'single'">
+
+		<div ng-cloak ng-controller="mortgagePaymentScenarioCtrl as sce" class="col-md-4" ng-include="module.mortgagePaymentCalculatorScenario" data-scenario-index="0"></div>
+
+		<div ng-cloak ng-controller="mortgagePaymentScenarioResultsCtrl as sce" class="col-md-8" ng-include="module.mortgagePaymentCalculatorScenarioResults" data-scenario-index="0"></div>
+	</div>
+
+	<div ng-if="tabData.getCurrentTab('scenariosViews') === 'multiple'" class="compare">
+		<div class="col-md-4 bordered">
+
+			<h3 class="text-uppercase border-bottom" ng-style="{'borderBottomColor':mpc.content.compareScenarios.scenario_0.color}">{{ mpc.content.compareScenarios.scenario_0.name }}</h3>
+
+			<div ng-cloak ng-controller="mortgagePaymentScenarioResultsCtrl as sce" ng-include="module.mortgagePaymentCalculatorScenarioDetails" data-scenario-index="0"></div>
+
+			<div ng-cloak ng-controller="mortgagePaymentScenarioCtrl as sce" ng-include="module.mortgagePaymentCalculatorScenario" data-scenario-index="0"></div>
+
+		</div>
+		
+		<div class="col-md-4 bordered">
+
+			<h3 class="text-uppercase border-bottom" ng-style="{'borderBottomColor':mpc.content.compareScenarios.scenario_1.color}">{{ mpc.content.compareScenarios.scenario_1.name }}</h3>
+
+			<div ng-cloak ng-controller="mortgagePaymentScenarioResultsCtrl as sce" ng-include="module.mortgagePaymentCalculatorScenarioDetails" data-scenario-index="1"></div>
+
+			<div ng-cloak ng-controller="mortgagePaymentScenarioCtrl as sce" ng-include="module.mortgagePaymentCalculatorScenario" data-scenario-index="1"></div>
+
+		</div>
+
+		<div class="col-md-4 bordered">
+
+			<h3 class="text-uppercase border-bottom" ng-style="{'borderBottomColor':mpc.content.compareScenarios.scenario_2.color}">{{ mpc.content.compareScenarios.scenario_2.name }}</h3>
+
+			<div ng-controller="mortgagePaymentScenarioResultsCtrl as sce" ng-include="module.mortgagePaymentCalculatorScenarioDetails" data-scenario-index="2"></div>
+
+			<div ng-controller="mortgagePaymentScenarioCtrl as sce" ng-include="module.mortgagePaymentCalculatorScenario" data-scenario-index="2"></div>
+
+		</div>
+
+		<br class="clearfix"/>
+		<div class="actions">
+			<button class="btn btn-success" tab-value="single" tab-group="scenariosViews">
+				<i class="glyphicon glyphicon-menu-left"></i> {{ content.ui.btnBack }} 
+			</button>
+			<a href="https://www.meridiancu.ca/ways-to-bank/contact-us.aspx" class="btn btn-warning">{{ content.ui.btnContactAdvisor }}</a>
+			<button class="btn btn-success" tab-value="report" tab-group="scenariosViews">
+				{{ content.ui.btnShowReport }} <i class="glyphicon glyphicon-menu-right"></i>
+			</button>
+		</div>
+
+		<div class="disclaimer" ng-bind-html="mpc.content.disclaimer | html"></div>
+	</div>
+
+	<div ng-if="tabData.getCurrentTab('scenariosViews') === 'report'">
+		<div ng-cloak ng-controller="mortgagePaymentScenarioReportCtrl as sce" class="col-md-12" ng-include="module.mortgagePaymentCalculatorScenarioReport"></div>
+	</div>
+
+</div>

@@ -1,0 +1,138 @@
+<div ng-controller="affordabilityCalculatorCtrl as aff" class="container-fluid">
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="leftColumn">
+				<h2 class="text-center" bind-html-compile="aff.content.formHeader"></h2>
+
+				<form>
+					<h4 bind-html-compile="aff.content.incomeHeader"></h4>
+
+					<meri-input field-specs="aff.specs.annualIncome" data-binding="aff.data.annualIncome" field-validation="aff.validation.annualIncome"></meri-input>
+
+					<h4>{{aff.content.expensesHeader}}</h4>
+
+					<meri-input field-specs="aff.specs.heatingCosts" data-binding="aff.data.heatingCosts" field-validation="aff.validation.heatingCosts"></meri-input>
+
+					<meri-input field-specs="aff.specs.propertyTaxes" data-binding="aff.data.propertyTaxes" field-validation="aff.validation.propertyTaxes"></meri-input>
+
+					<meri-input field-specs="aff.specs.condoFees" data-binding="aff.data.condoFees" field-validation="aff.validation.condoFees"></meri-input>
+
+
+					<div class="form-group">
+						<label for="meri-aff-total-other-debt">{{aff.specs.totalOtherDebt.label}}</label>
+
+						<div class="input-group">
+							<input id="meri-aff-total-other-debt" class="form-control" number="currency" type="text" ng-model="aff.data.totalOtherDebt" data-precision="2" ng-model-options="{ updateOn: 'blur', allowInvalid: 'true' }" meri-form-valid="aff.validation.totalOtherDebt"/>
+						     <span class="input-group-btn">
+						     	<button class="btn btn-default" type="button" ng-click="collapse.debtsDetails = !collapse.debtsDetails"><span class="glyphicon glyphicon-chevron-down"></span></button>
+						     </span>
+						</div>
+					</div>
+
+					<div uib-collapse="collapse.debtsDetails" class="well">
+						<div class="form-group">
+							<label for="meri-aff-vehicle-loan-lease">{{aff.specs.vehicleLoanLease.label}}</label>
+							<input id="meri-aff-vehicle-loan-lease" class="form-control" number="currency" type="text" ng-model="aff.data.otherDebt.vehicleLoanLease" data-precision="2" ng-model-options="{ updateOn: 'blur', allowInvalid: 'true' }"  meri-form-valid="aff.validation.vehicleLoanLease"/>
+						</div>
+
+						<div class="form-group">
+							<label for="meri-aff-personal-loan">{{aff.specs.personalLoan.label}}</label>
+							<input id="meri-aff-personal-loan" class="form-control" number="currency" type="text" ng-model="aff.data.otherDebt.personalLoan" data-precision="2" ng-model-options="{ updateOn: 'blur', allowInvalid: 'true' }"  meri-form-valid="aff.validation.personalLoan"/>
+						</div>
+
+						<div class="form-group">
+							<label for="meri-aff-line-of-credit">{{aff.specs.lineOfCredit.label}}</label>
+							<input id="meri-aff-line-of-credit" class="form-control" number="currency" type="text" ng-model="aff.data.otherDebt.lineOfCredit" data-precision="2" ng-model-options="{ updateOn: 'blur', allowInvalid: 'true' }"  meri-form-valid="aff.validation.lineOfCredit"/>
+						</div>
+
+
+						<div class="form-group">
+							<label for="meri-aff-credit-cards">{{aff.specs.creditCards.label}}</label>
+							<input id="meri-aff-credit-cards" class="form-control" number="currency" type="text" ng-model="aff.data.otherDebt.creditCards" data-precision="2" ng-model-options="{ updateOn: 'blur', allowInvalid: 'true' }"  meri-form-valid="aff.validation.creditCards"/>
+						</div>
+
+						<div class="form-group">
+							<label for="meri-aff-other-debt">{{aff.specs.otherDebt.label}}</label>
+							<input id="meri-aff-other-debt" class="form-control" number="currency" type="text" ng-model="aff.data.otherDebt.other" data-precision="2" ng-model-options="{ updateOn: 'blur', allowInvalid: 'true' }"  meri-form-valid="aff.validation.otherDebt"/>
+						</div>
+					</div>
+
+					<h4>{{aff.content.mortgageInformationHeader}}</h4>
+
+					<meri-input field-specs="aff.specs.interestRate" data-binding="aff.data.interestRate" field-validation="aff.validation.interestRate"></meri-input>
+
+					<meri-input field-specs="aff.specs.amortization" data-binding="aff.data.amortization" field-validation="aff.validation.amortization"></meri-input>
+
+					<meri-input field-specs="aff.specs.downPaymentAmount" data-binding="aff.data.downPaymentAmount" field-validation="aff.validation.downPaymentAmount"></meri-input>
+
+				</form>
+
+				<div class="text-center">
+					<button class="btn btn-link" ng-click="aff.clearScenario(0)">{{ content.ui.startOver }}</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="mainColumn">
+
+				<h3 class="calc-title text-center">{{aff.content.scenarioResults.header}}</h3>
+				<p class="header-large header-color-secondary text-center">{{aff.results.maximumPurchasePrice | currency:2 }}</p>
+				<p class="text-center">{{aff.content.scenarioResults.subtitle}}</p>
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-result table-responsive">
+						<tr>
+							<th>{{ aff.content.scenarioResults.maximumPurchasePrice }}</th>
+							<td>{{ aff.results.maximumPurchasePrice | currency:2 }}</td>
+						</tr>
+						<tr>
+							<th>{{ aff.content.scenarioResults.downPaymentPercent }}</th>
+							<td>{{aff.results.downPaymentPercentage | percent:3 }}</td>
+						</tr>
+						<tr>
+							<th>{{ aff.content.scenarioResults.downPaymentAmount }}</th>
+							<td>{{ aff.results.totalDownPaymentAmount | currency:2 }}</td>
+						</tr>
+						<tr>
+							<th>{{ aff.content.scenarioResults.principalMortgageAmount }}</th>
+							<td>{{ aff.results.totalPrincipalYouCanAfford | currency:2 }}</td>
+						</tr>
+						<tr>
+							<th>{{ aff.content.scenarioResults.defaultInsurance }}</th>
+							<td>{{ aff.results.totalInsuranceAmount | currency:2 }}</td>
+						</tr>
+						<tr>
+							<th>{{ aff.content.scenarioResults.totalMortgageAmount }}</th>
+							<td>{{ aff.results.totalMortgageYouCanAfford | currency:2 }}</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6">
+						<chart class="aff-chart" ng-model="aff.results.pieChart"></chart>
+					</div>
+					<div class="col-xs-6">
+						<div class="chart-legend">
+							<ul>
+								<li class="legend-item" ng-repeat="(key, obj) in aff.results.graphSeries">
+									<span class="pastil" ng-style="{'background-color':'{{obj.color}}'}"></span>
+									<span>{{ obj.name }}:</span>
+									<span>{{ obj.y | currency:2  }}</span>
+								</li>
+								<hr></hr>
+								<li class="legend-item">
+									<span>{{ aff.content.scenarioResults.totalMonthlyExpenses }}:</span>
+									<span>{{ aff.results.totalMonthlyExpenses  | currency:2 }}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="disclaimer" ng-bind-html="aff.content.disclaimer | html"></div>
+			</div>
+		</div>
+	</div>
+</div>

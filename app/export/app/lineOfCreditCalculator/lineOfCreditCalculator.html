@@ -1,0 +1,128 @@
+<div ng-controller="lineOfCreditCalculatorCtrl as loc" class="container-fluid">
+
+	<div class="row" ng-show="tabData.getCurrentTab('locScenariosViews') === 'single'" tab-default-value="locScenariosViews:single">
+
+		<div ng-controller="lineOfCreditScenarioCtrl as sce" class="col-md-4" ng-include="module.lineOfCreditCalculatorScenario" data-scenario-index="0"></div>
+		
+		<div ng-controller="lineOfCreditScenarioResultsCtrl as sce" class="col-md-8" data-scenario-index="0">
+
+			<div class="mainColumn">
+				<h3 class="calc-title text-center">{{ loc.content.results.header }}</h3>
+				
+				<br/>
+
+				<div ng-if="sce.data.repaymentDetails==='personalLoan'">
+					<div class="row">
+						<div class="col-md-6 text-center vertical-border-right">
+							<p class="header-large header-color-secondary text-center no-margin-bottom">
+								{{sce.results.current.minimumMonthlyPayment | currency:2 }}
+							</p>
+							<p>{{ loc.content.results.monthlyPayment }}</p>
+						</div>
+						<div class="col-md-6 text-center">
+							<p class="header-large header-color-secondary text-center no-margin-bottom">
+								{{sce.results.current.interestCostForTurn | currency:2 }}
+							</p>
+							<p>{{ loc.content.results.interestCost }}</p>
+						</div>
+					</div>
+					<br/>
+					
+					<chart class="chartLOC" ng-model="sce.results.chartLOC"></chart>
+					
+					<div class="actions">
+
+						<!-- <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#amortizationTable">  -->
+						<!-- <button class="btn btn-info btn-xs" ng-click="openModal('/amortizationTable.html')">  -->
+						<button class="btn btn-info btn-xs" ng-click="loc.isOpenAmortizationTable = !loc.isOpenAmortizationTable"> 
+							{{ content.ui.btnAmortizationTable }} <i class="glyphicon glyphicon-new-window"></i>
+						</button>
+
+						<modal data-is-open="loc.isOpenAmortizationTable" name="amortizationTable" data-header="loc.content.amortizationTable" data-close="content.ui.btnClose">											
+							<div class="text-center table-responsive">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<td>Year</td>
+											<td>Payment</td>
+											<td>Principal</td>
+											<td>Interest</td>
+											<td>Balance</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, obj) in sce.results.current.annualPaymentList">
+											<td>{{ obj.year + 1 }}</td>
+											<td>{{ obj.payment | currency:2 }}</td>
+											<td>{{ obj.principal | currency:2 }}</td>
+											<td>{{ obj.interest | currency:2 }}</td>
+											<td>{{ obj.balance | currency:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</modal>
+						<br/><br/>
+					
+						<a href="#multiple" class="btn btn-success" tab-group="locScenariosViews">{{ content.ui.btnCompareScenarios }} <i class="glyphicon glyphicon-menu-right"></i></a>
+						<a href="https://www.meridiancu.ca/ways-to-bank/contact-us.aspx" class="btn btn-warning">{{ content.ui.btnContactAdvisor }}</a>
+					</div>
+				</div>
+
+				<div ng-if="sce.data.repaymentDetails==='lineOfCredit'">
+					<div class="row">
+						<div class="col-xs-12 text-center">
+							<p class="header-large header-color-secondary text-center no-margin-bottom">
+								{{sce.results.current.minimumMonthlyPayment | currency:2 }}
+							</p>
+							<p>{{ loc.content.results.monthlyPayment }}</p>
+						</div>
+					</div>
+
+					<div class="actions">					
+						<a href="#multiple" class="btn btn-success" tab-group="locScenariosViews">{{ content.ui.btnCompareScenarios }} <i class="glyphicon glyphicon-menu-right"></i></a>
+						<a href="https://www.meridiancu.ca/ways-to-bank/contact-us.aspx" class="btn btn-warning">{{ content.ui.btnContactAdvisor }}</a>
+					</div>
+				</div>
+
+				<div class="disclaimer" ng-bind-html="loc.content.disclaimer | html"></div>
+
+			</div>
+
+		</div>
+	</div>
+	
+	<div ng-if="tabData.getCurrentTab('locScenariosViews') === 'multiple'" class="compare">
+
+		<div class="row">
+			<div class="col-md-4 bordered">
+				<div ng-controller="lineOfCreditScenarioCtrl as sce" ng-include="module.lineOfCreditCalculatorScenario" data-scenario-index="0"></div>
+			</div>
+			
+			<div class="col-md-4 bordered">
+				<div ng-controller="lineOfCreditScenarioCtrl as sce" ng-include="module.lineOfCreditCalculatorScenario" data-scenario-index="1"></div>
+			</div>
+
+			<div class="col-md-4 bordered">
+				<div ng-controller="lineOfCreditScenarioCtrl as sce" ng-include="module.lineOfCreditCalculatorScenario" data-scenario-index="2"></div>
+			</div>
+
+			<br class="clearfix"/>
+			<div class="actions">
+				<button class="btn btn-success" tab-value="single" tab-group="locScenariosViews">
+					<i class="glyphicon glyphicon-menu-left"></i> {{ content.ui.btnBack }}
+				</button>
+				<button class="btn btn-success" tab-value="report" tab-group="locScenariosViews">
+					{{ content.ui.btnShowReport }} <i class="glyphicon glyphicon-menu-right"></i>
+				</button>
+			</div>
+
+			<div class="disclaimer" ng-bind-html="loc.content.disclaimer | html"></div>
+		</div>
+	</div>
+
+	<div ng-show="tabData.getCurrentTab('locScenariosViews') === 'report'">
+		<div ng-cloak ng-controller="lineOfCreditScenarioReportCtrl as sce" class="col-md-12" ng-include="module.lineOfCreditCalculatorScenarioReport"></div>
+	</div>
+
+</div>

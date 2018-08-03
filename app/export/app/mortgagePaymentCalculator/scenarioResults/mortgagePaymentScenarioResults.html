@@ -1,0 +1,139 @@
+<!--	<div class="col-md-8">
+		 -->
+		<div class="mainColumn" ng-cloak>
+			<h3 class="calc-title text-center" bind-html-compile="mpc.content.results['header_'+sce.results.current.paymentFrequency.value]"></h3>
+			<p class="header-large header-color-secondary text-center">{{ sce.results.current.mortgagePayment | currency:2 }}</p>
+			<br/>
+	
+			<!-- Buttons to control the tab group "summaryTable" -->
+			<!-- amortization -> amortization details -->
+			<!-- termSummary -> mortgage term summary details -->
+			
+			<ul class="nav nav-tabs" role="tablist">
+			    <li role="presentation" ng-class="{ 'active':  tabData.getCurrentTab('summaryTable') === 'amortization'}">
+			    	<a data-target="#home" aria-controls="home" tab-value="amortization" tab-group="summaryTable" tab-default="true">{{mpc.content.results.tabs.amortization.content.tabLabel}}</a>
+			    </li>
+			    <li role="presentation" ng-class="{ 'active':  tabData.getCurrentTab('summaryTable') === 'termSummary'}">
+			    	<a data-target="#profile" aria-controls="profile" tab-value="termSummary" tab-group="summaryTable">{{mpc.content.results.tabs.termSummary}}</a>
+			    </li>
+			 </ul>
+			
+
+			<!-- amortization details div controled by tab-group "summaryTable" when value is 'amortization'  -->
+			<div ng-if="tabData.getCurrentTab('summaryTable') === 'amortization'">
+				<div class="tabContent" ng-repeat="(key,content) in mpc.content.results.tabs.amortization">
+					<!-- amortization graph div controled by tab-group "amortizationDetails" when value is 'amortizationGraph' -->
+					<div ng-if="tabData.getCurrentTab('amortizationDetails') === 'amortizationGraph'">
+						<chart ng-model="sce.results.chartMPC"></chart>
+					</div>
+					<!-- amortization payments details table div controled by tab-group "amortizationDetails" when value is 'amortizationTable' -->
+					<div ng-if="tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'">
+						<div class="text-center table-responsive">
+							<table class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<td>Year</td>
+										<td>Payment</td>
+										<td>Interest</td>
+										<td>Principal</td>
+										<td>Balance</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="(key, obj) in sce.results.current.annualPaymentList">
+										<td>{{ obj.year + 1 }}</td>
+										<td>{{ obj.payment | currency:2 }}</td>
+										<td>{{ obj.interest | currency:2 }}</td>
+										<td>{{ obj.principal | currency:2 }}</td>
+										<td>{{ obj.balance | currency:2 }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- amortization payments options list div controled by tab-group "amortizationDetails" when value is 'amortizationPaymentOptions' -->
+					<div ng-if="tabData.getCurrentTab('amortizationDetails') === 'amortizationPaymentOptions'">
+
+						<div class="text-center table-responsive">
+							<table class="table table-bordered table-result">
+								<thead>
+									<tr valign="center">
+										<th></th>
+										<th>Amount</th>
+										<th>Amortization</th>
+										<th>Term Interest cost</th>
+										<th>Amortization Interest cost</th>
+										<th>Amortization Interest savings</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="obj in sortable(sce.results.resultsByPaymentOption) | orderBy:'mortgagePayment'">
+										<th>{{ obj.paymentFrequencyLabel }}</th>
+										<td>{{ obj.mortgagePayment | currency : 2 }}</td>
+										<td>{{ obj.paymentAmortization | year : 0}}</td>
+										<td>{{ obj.termInterest | currency : 2 }}</td>
+										<td>{{ obj.amortizationInterest | currency : 2 }}</td>
+										<td>{{ obj.amortizationInterestSavings | currency : 2 }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- Buttons to control the tab group "amortizationDetails" -->
+				<!-- amortizationGraph -> amortization graph -->
+				<!-- amortizationTable -> amortization payments details table -->
+				<!-- amortizationPaymentOptions -> amortization payments options list -->
+				<div class="btn-group btn-group-justified" role="group" aria-label="...">
+					<div class="btn-group" role="group">
+						<button class="btn btn-default" tab-value="amortizationGraph" tab-group="amortizationDetails" tab-default="true" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationGraph'}">Graph</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button class="btn btn-default" tab-value="amortizationTable" tab-group="amortizationDetails" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'}">Table</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button class="btn btn-default" tab-value="amortizationPaymentOptions" tab-group="amortizationDetails" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationPaymentOptions'}">Payment options</button>
+					</div>
+				</div>
+					
+			</div>
+
+
+			<!-- mortgage term summary details div controled by tab-group "summaryTable" when value is 'termSummary' -->
+			<div ng-if="tabData.getCurrentTab('summaryTable') === 'termSummary'">
+				<div class="tabContent">
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped text-center">
+							<tbody>
+								<tr>
+									<td>Principal Paid for Term</td>
+									<td>{{ sce.results.current.termPrincipal | currency:2 }}</td>
+								</tr>
+								<tr>
+									<td>Interest Paid for Term</td>
+									<td>{{ sce.results.current.termInterest | currency:2 }}</td>
+								</tr>
+								<tr>
+									<td>Interest and Principal Paid for Term</td>
+									<td>{{ sce.results.current.termInterestAndPrincipal | currency:2 }}</td>
+								</tr>
+								<tr>
+									<td>Balance at End of Term</td>
+									<td>{{ sce.results.current.balanceAtEndOfTerm | currency:2 }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="actions">
+				<button class="btn btn-success" tab-value="multiple" tab-group="scenariosViews">Compare Scenarios <i class="glyphicon glyphicon-menu-right"></i></button>
+				<a href="https://www.meridiancu.ca/ways-to-bank/contact-us.aspx" class="btn btn-warning">Contact an Advisor</a>
+			</div>
+
+			<div class="disclaimer" ng-bind-html="mpc.content.disclaimer | html"></div>
+
+		</div>
+	<!-- </div>
+</div>

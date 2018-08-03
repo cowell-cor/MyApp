@@ -1,0 +1,49 @@
+@import 'meridian';
+
+.br-calc .leftColumn label h4 {
+	margin-top:0;
+}
+
+.rsc-results {
+	chart {
+		height:400px;
+	}
+}
+
+.rsc-summary-wrapper {
+	border:1px solid $meriFormColor;
+	@include border-radius(5px);
+	overflow:hidden;
+
+	table {
+		width:100%;
+		border:none;
+	}
+
+	th {
+		color:#fff;
+		line-height:1.5em;
+	}
+	th, td {
+		width:33.33333333%;
+		padding:8px;
+		border-width: 0 1px 0 0;
+		border-color: transparent $meriFormColor transparent transparent;
+		border-style: solid;
+		vertical-align: top;
+	}
+	th:last-child(),
+	td:last-child() {
+		border:none;
+	}
+	.results-savings-goal {
+		background-color:$colMeriOrange;
+	}
+	.results-actual-savings {
+		background-color:$colMeriBlue;
+	}
+	.results-shortfall ,
+	.results-surplus {
+		background-color:gray;
+	}
+}

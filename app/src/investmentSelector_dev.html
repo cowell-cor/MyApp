@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Investment Selector</title>
+
+	<!-- Temporary styling for demonstration purposes only -->
+	<style>
+		.br-calc {
+			max-width: 980px;
+			margin:0 auto;
+			border:1px solid #838383;
+			-webkit-background-clip: padding-box;
+			-webkit-border-radius: 5px;
+			-moz-background-clip: padding-box;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background-clip: padding-box;
+		}
+	</style>
+	
+	<!-- inject:css -->
+	<link rel="stylesheet" href="assets/css/investmentSelector.doc.css?1483455922514">
+	<!-- endinject -->
+
+</head>
+<!-- Important!! -->
+<!-- ng-jq attribute on body element to have angular use other variable for jQuery -->
+<body ng-jq="$cmsj">
+
+	<div id="br-ist-calc" ng-app="br-calc" ng-controller="br-calc as app" ng-include="module.investmentSelector" class="br-calc"></div>
+
+	<!-- inject:js -->
+	<script type="text/javascript" src="vendors/js/jquery.min.js?1483455922511"></script>
+	<script type="text/javascript" src="vendors/js/highcharts.js?1483455922511"></script>
+	<script type="text/javascript" src="vendors/js/bootstrap.min.js?1483455922512"></script>
+	<script type="text/javascript" src="assets/js/jquery-cmsj-no-conflict.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/angular.min.js?1483455922512"></script>
+	<script type="text/javascript" src="assets/js/rates.js?1483455922512"></script>
+	<script type="text/javascript" src="assets/config/dataConfig.js?1483455922512"></script>
+	<script type="text/javascript" src="assets/config/istConfig.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/angular-animate.min.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/angular-bind-html-compile.min.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/ui-bootstrap-tpls-2.1.3.min.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/highcharts-more.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/nouislider.min.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/formula.js?1483455922512"></script>
+	<script type="text/javascript" src="vendors/js/blueUtils.js?1483455922512"></script>
+	<script type="text/javascript" src="app/app.js?1483455922512"></script>
+	<script type="text/javascript" src="app/investmentSelector/investmentSelector.js?1483455922512"></script>
+	<!-- endinject -->
+</body>
+</html>

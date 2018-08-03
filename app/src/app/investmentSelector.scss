@@ -1,0 +1,532 @@
+@import 'meridian';
+
+#br-ist-calc {
+
+	font-size:13px;
+
+	a:hover,
+	a:focus {
+		text-decoration:none;
+	}
+
+	label {
+		height:30px;
+		line-height:30px;
+		font-size:18px;
+		font-weight:normal;
+	}
+
+	input {
+		padding:5px 10px;
+	}
+
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+		-webkit-appearance: none; 
+		margin: 0; 
+	}
+	input[type=number]{ 
+		-moz-appearance: textfield;
+	}
+
+	input[type=checkbox],
+	input[type=radio].checkbox {
+		display:none;
+		@extend .noselect;
+
+		&+label{
+			padding-left:30px;
+			position:relative;
+			@extend .noselect;
+
+			&::after {
+				content:"";
+				display:block;
+				position:absolute;
+				top:0;left:0;
+				width:16px;
+				height:100%;
+				background-image:url(../img/checkbox.png);
+				background-position:left center;
+				background-size:31px 16px;
+				background-repeat:no-repeat;
+				@extend .noselect;
+			}
+
+			@extend .align-content-middle;
+		}
+		&:checked+label::after{
+			background-position:right center;
+		}
+	}
+
+	button {
+		border:none;
+		outline:none;
+		@extend .br-button;
+	}
+
+	.br-strong {
+		font-weight:bold;
+	}
+
+	chart {
+		height:400px;
+	}
+
+	.br-view {
+		opacity:0;
+	}
+	.show {
+		opacity:1;
+		@include transition(opacity);
+	}
+	.invisible {
+		visibility:hidden;
+	}
+}
+
+/* SLIDER */
+.ist-slider-wrapper {
+	padding:0 $padding*3;
+
+	.ist-slider-legend {
+		position:relative;
+		width:100%;
+		top:5px;
+
+		.ist-start {
+			left:0;
+		}
+		.ist-middle {
+			left:50%;
+		}
+		.ist-end {
+			left:100%;
+		}
+
+		& > * {
+			display:inline-block;
+			position:absolute;
+			top:0;
+			font-size:.8em;
+
+			@include transform(translate(-50%, 0));
+		}
+	}
+}
+
+#ist {
+	color:$colMeriBlue;
+	font-size:18px;
+	
+	/*&,*/
+	.ist-border {
+		width:100%;
+		padding:$padding*2;
+		border:1px solid #838383;
+		@extend .default-border-radius;
+	}
+
+	h1 {
+		font-size:1.3888em;
+	}
+
+	h2 {
+		font-size:1.27777em;
+	}
+
+	h3 {
+		font-size:1.2em;
+	}
+
+	.ist-section {
+		position:relative;
+	}
+
+	.ist-header {
+		display:table;
+		max-width:767px;
+	}
+	.ist-header ,
+	.ist-content  {
+		max-width:767px;
+		margin:$padding*3 auto;
+	}
+	.ist-full-width {
+		width:100%;
+		max-width:100%;
+	}
+	.ist-nav-buttons {
+		display:table;
+
+		& > * {
+			display:table-cell;
+		}
+	}
+
+	.ist-nav-buttons {
+		width:100%;
+		margin-top:20px;
+		.br-button {
+			margin:$padding 0;
+		}
+	}
+
+	table.ist-content td {
+		padding:$padding*.5 $padding*1.5;
+		vertical-align: top;
+	}
+
+	#ist-results {
+		table.ist-content td {
+			padding:$padding*.5 $padding*1.5;
+		}
+
+		table.ist-content .ist-delimit-row td {
+			padding-left:0;
+			padding-right:0;
+		}
+
+		table tr:last-child td {
+			padding-bottom:0;
+		}
+
+		.br-input-display label,
+		.br-input-display button {
+			line-height:25px;
+			height:25px;
+			margin:0;
+		}
+	}
+
+	.ist-productLink:hover,
+	.ist-productLink:focus {
+		text-decoration: underline;
+	}
+
+	
+
+
+	.ist-content-wrapper {
+		font-size:0.8em;
+
+		margin:$padding*2 0;
+
+		.ist-delimit-row {
+			border-bottom:3px solid black;
+		}
+
+		.ist-one-quarter {
+			padding:0;
+			text-align:center;
+		}
+
+		.ist-content {
+			margin:0;
+			padding:$padding;
+		}
+	}
+}
+
+#ist-isReg {
+	.ist-icon {
+		width:149px;
+		height:152px;
+		background:url(../img/icons/safe.svg) no-repeat;
+	}
+}
+#ist-accountType {
+	.ist-icon {
+		width:153px;
+		height:145px;
+		background:url(../img/icons/roadsigns.svg) no-repeat;
+	}
+}
+#ist-amount {
+	.ist-icon {
+		width:83px;
+		height:77px;
+		background:url(../img/icons/coinTower.svg) no-repeat;
+	}
+}
+#ist-term {
+	.ist-icon {
+		width:90px;
+		height:88px;
+		background:url(../img/icons/calendar.svg) no-repeat;
+	}
+}
+#ist-earlyAccess {
+	.ist-icon {
+		width:117px;
+		height:123px;
+		background:url(../img/icons/inHand.svg) no-repeat;
+	}
+}
+#ist-returnType {
+	.ist-icon {
+		width:106px;
+		height:123px;
+		background:url(../img/icons/warningThought.svg) no-repeat;
+	}
+}
+
+
+#ist-nav {
+
+	$istNavH:20px;
+	$dotBorder:3px;
+	$colInactiveNav: $colMeriLightBlue;
+	$colActiveNav: $colMeriBlue;
+	$colActiveNavDot: #a3b919;
+
+	/*$minTotalNode:5;*/
+	/*$maxTotalNode:8;*/
+	$totalNode: 8;
+
+	width:100%;
+	font-size:0.72222em;
+
+	.ist-progress-bar {
+		width:100%;
+		height:$istNavH;
+		position:relative;
+		background-color:$colInactiveNav;
+		text-align:center;
+		@extend .default-border-radius;
+
+		.ist-progress {
+			position:absolute;
+			top:0;
+			left:0;
+			height:100%;
+			z-index:1;
+			background-color:$colActiveNavDot;
+			@extend .default-border-radius;
+			@include transition(width);
+		}
+
+		span {
+			position:relative;
+			z-index:2;
+			line-height:$istNavH;
+			font-weight:bold;
+		}
+	}
+
+	ul {
+		width:100%;
+		display:table;
+		padding:0; /* prevent ul default behavior */
+		position:relative;
+
+		li {
+			position:relative;
+			display:table-cell;
+			text-align:center;
+			color: $colInactiveNav;
+			overflow:hidden;
+			opacity:1;
+			@include transition(all);
+			@extend .noselect;
+			@extend .defaultcursor;
+			z-index:2;
+		}
+
+		&::before,
+		.nav-dot::after {
+			content:"";
+			display:block;
+			position:absolute;
+			left:0;
+			top:$dotBorder*2;
+			height:$istNavH - $dotBorder*4;
+		}
+		&::before {
+			background-color:$colInactiveNav;
+			width:100%;
+			@extend .default-border-radius;
+			z-index:1;
+		}
+	}
+
+	.nav-dot {
+		display:inline-block;
+		width:$istNavH;
+		height:$istNavH;
+		border:solid $dotBorder $colMeriBg;
+		background-color: $colInactiveNav;
+		@include border-radius(50%);
+		@include transition(background-color);
+
+		&::after {
+			background-color:$colActiveNavDot;
+			width:0;
+			@include transition(width);
+		}
+	}
+
+	li:first-child .nav-dot::after {
+		@include border-radius(5px 0 0 5px);
+	}
+
+	li:last-child .nav-dot::after {
+		@include border-radius(0 5px 5px 0);
+	}
+
+	@for $i from 0 through $totalNode {
+		@for $j from 0 through $i {
+
+			&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}) .nav-dot {
+				background-color: $colActiveNavDot;
+			}
+			/*&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}),*/
+			&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}) a {
+				color: $colActiveNav;
+			}
+			&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}).selected a {
+				color: #000;
+				font-weight: bold;
+			}
+			&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}) a:hover,
+			&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}) a:focus {
+				color: #000;
+			}
+			&[visitedProgress="#{$i - 1}"] li:nth-child(#{$j}) .nav-dot::after {
+				width:if($j == $i, if($totalNode == $i, 90%, 50%), 100%);
+			}
+		}
+	}
+
+	ul.evenly-spaced {
+		display:block;
+		overflow:hidden;
+		white-space:nowrap;
+
+		&[data-sections="#{$totalNode}"] li {
+			display:block;
+			float:left;
+			white-space: normal;
+			height:100%;
+			width:100%*$totalNode/($totalNode - 0.5)/$totalNode; /* half of Result page will be "off" the progress bar */
+
+			a {
+				/*padding:0 round($padding/2);*/
+			}
+		}
+
+		&[data-sections="#{$totalNode}"] li:last-child {
+			text-align:right;
+			width:100%*$totalNode/($totalNode - 0.5)/$totalNode*0.5;
+		}
+	}
+}
+	
+@media (max-width:$bootstrap-xs-max) {
+
+	/* form inputs */
+	#br-ist-calc {
+		input[type=checkbox]+label,
+		input[type=radio].checkbox+label {
+			padding-left:30px;
+			height:25px;
+			line-height:25px;
+			&::before {
+				/*width:25px;*/
+				background-position:top left;
+				background-size:50px 25px;
+				background-repeat:no-repeat;
+			}
+		}
+		input[type=checkbox]:checked+label::before,
+		input[type=radio].checkbox:checked+label::before {
+			background-position:top right;
+		}
+		/* Nullify bootstrap styles */
+		input[type=radio] {
+
+		} 
+	}
+
+	#ist {
+		font-size:18px;
+		
+		&,
+		.ist-border {
+
+			&.ist-highchart-content {
+				border:0;
+			}
+			padding:$padding;
+			/*border:1px solid #838383;*/
+			/*@extend .default-border-radius;*/
+		}
+
+		.btn-display-on-graph {
+			display:none;
+		}
+
+		h1 {
+			/*font-size:1.3888em;*/
+		}
+
+		#ist-results h2,
+		#ist-results p.h2 {
+			font-size:1em;
+			margin:round($padding*0.5);
+		}
+
+		h3 {
+			/*font-size:1.2em;*/
+		}
+
+		#ist-results .ist-header/* ,
+		.ist-content */  {
+			margin:0 auto;
+		}
+
+		.ist-nav-buttons {
+
+			margin-top:20px;
+			.br-button {
+				margin:$padding 0;
+			}
+		}
+
+		table.ist-content td {
+			/*padding:$padding*.5 $padding*1.5;*/
+		}
+
+		#ist-results table.ist-content td {
+			padding:$padding*.5 $padding*1.5;
+		}
+
+		#ist-results table.ist-content .ist-delimit-row td {
+			padding-left:0;
+			padding-right:0;
+		}
+
+		.ist-content-wrapper {
+			font-size:0.8em;
+
+			margin:$padding*2 0;
+
+			.ist-one-quarter.col-xs-12 {
+				padding:$padding;
+				margin-top:$padding;
+				background-color:$colMeriBlue;
+				color:#fff;
+
+				span.visible-xs {
+					display:inline !important;
+				}
+			}
+
+			.ist-content {
+				/*margin:0;*/
+				/*padding:$padding;*/
+			}
+		}
+	}
+}

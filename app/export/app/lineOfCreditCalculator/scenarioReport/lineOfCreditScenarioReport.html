@@ -1,0 +1,71 @@
+
+<div class="mainColumn" ng-cloak>
+	
+	<h2 class="calc-title text-left">{{loc.content.report.borrowOptions}}</h2>
+	<div class="text-center">
+		<table class="table table-bordered table-striped text-center table-responsive">
+			<thead>
+				<tr>
+					<th></th>
+					<th ng-repeat="scenario in sce.scenarios"><h4 class="text-uppercase text-center border-bottom">{{ loc.content.scenarioTypes[scenario.data.repaymentDetails].name }}</h4></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>{{ loc.content.report.borrowReason }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.borrowReason.label }}</td>
+				</tr>
+				<tr>	
+					<th>{{ loc.content.report.borrowAmount }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.borrowAmount | currency:2 }}</td>
+				</tr>
+				<tr>	
+					<th>{{ loc.content.report.interestRate }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.interestRate?(scenario.data.interestRate | percent:3):'-' }}</td>
+				</tr>
+				<tr>	
+					<th>{{ loc.content.report.amortization }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.repaymentDetails==='personalLoan'?(scenario.data.amortization | year:0):'-' }}</td>
+				</tr>
+				<tr>	
+					<th>{{ loc.content.report.paymentFrequency }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.data.repaymentDetails==='personalLoan'?(scenario.results.current.paymentFrequency.label):'-' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<br/><br/>
+	<h2 class="calc-title text-left">{{loc.content.report.paymentSummary}}</h2>
+	<div class="text-center">
+		<table class="table table-bordered table-striped text-center table-responsive">
+			<thead>
+				<tr>
+					<th></th>
+					<th ng-repeat="scenario in sce.scenarios"><h4 class="text-uppercase text-center border-bottom">{{ loc.content.scenarioTypes[scenario.data.repaymentDetails].name }}</h4></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>{{ loc.content.results.monthlyPayment }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{ scenario.results.current.minimumMonthlyPayment | currency:2 }}</td>
+				</tr>
+				<tr>	
+					<th>{{ loc.content.results.interestCost }}</th>
+					<td ng-repeat="scenario in sce.scenarios">{{scenario.results.current.interestCostForTurn?(scenario.results.current.interestCostForTurn | currency:2):'-' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="actions">
+		<button class="btn btn-success" tab-value="multiple" tab-group="locScenariosViews">
+			<i class="glyphicon glyphicon-menu-left"></i> {{ content.ui.btnBack }} 
+		</button>
+		<a ng-show="!isMobile" onclick="window.print(); return false;" href="#" class="btn btn-link"><i class="glyphicon glyphicon-print"></i> {{ content.ui.btnPrintReport }}</a>
+	</div>
+
+	<div class="disclaimer" ng-bind-html="loc.content.disclaimer | html"></div>
+
+</div>
+	

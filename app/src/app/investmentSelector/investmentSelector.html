@@ -1,0 +1,274 @@
+<div id="ist" class="br-view {{'show'}}" ng-controller="investmentSelector as ist">
+
+	<form name="ist.ist_form">
+
+		<h1 class="br-bold" bind-html-compile="ist.content.calculatorName"></h1>
+
+		<div id="ist-nav" currentSectionId="{{ist.currentSection.id}}" visitedProgress="{{ist.maxProgress}}">
+			<ul class="hidden-xs evenly-spaced" data-sections="{{ist.sectionsNumber}}">
+				<li ng-repeat="x in ist.pageOrder" class="{{ist.sections[x].isAvailable?'available':'unavailable'}} {{ist.currentSection.id===$index?'selected':''}}">
+					<a href="javascript:void(0)" ng-click="ist.goToSection(x)" ng-show="ist.sections[x].isAvailable"><span class="nav-dot"></span><br/>{{ist.sections[x].pageName}}</a>
+					<span ng-show="!ist.sections[x].isAvailable"><span class="nav-dot"></span><br/>{{ist.sections[x].pageName}}</span>
+				</li>
+			</ul>
+
+			<div class="visible-xs ist-progress-bar">
+				<div class="ist-progress" ng-style="{'width':ist.progressPercent*100 + '%'}">&nbsp;</div>
+				<span>{{ist.progressPercent | percent:0}}</span>
+			</div>
+		</div>
+
+		<hr/>
+
+		<div ng-show="ist.currentSection.name=='isReg'" id="ist-isReg" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.isReg.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td class="hidden-xs">
+						<div class="ist-icon">&nbsp;</div>
+					</td>
+					<td>
+						<div class="br-input-display" ng-repeat="x in ist.sections.isReg.inputs">
+							<input id="account-isreg-{{x.value}}" name="isreg" class="checkbox" value="{{x.value}}" type="{{ist.sections.isReg.inputType}}" ng-model="ist.data.isReg"/>
+							<label for="account-isreg-{{x.value}}" ng-bind-html="x.label | html"></label>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div ng-show="ist.currentSection.name=='accountType'" id="ist-accountType" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.accountType.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td class="hidden-xs">
+						<div class="ist-icon">&nbsp;</div>
+					</td>
+					<td>
+						<div class="br-input-display" ng-repeat="x in ist.sections.accountType.inputs">
+
+							<input id="account-type-{{x.value}}" name="account-type" class="checkbox" value="{{x.value}}" type="{{ist.sections.accountType.inputType}}" ng-model="ist.data.accountType"/>
+							<label for="account-type-{{x.value}}" ng-bind-html="x.label | html"></label>
+
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div ng-show="ist.currentSection.name=='amount'" id="ist-amount" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.amount.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td class="hidden-xs">
+						<div class="ist-icon">&nbsp;</div>
+					</td>
+					<td>
+						<div class="br-input-display form-group">
+							<input class="form-control" id="invest-ammount" name="amount" type="text" ng-model="ist.data.amount" ng-model-options="{updateOn:'blur'}"  number="currency" data-precision="0" />
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<div class="br-input-display visible-xs ist-slider-wrapper">
+				<div data-config="ist_amount" slider="ist.data.amount" class="ist-amountSlider" linked-model="ist.data.amount"></div>
+				<div class="ist-slider-legend">
+					<div class="ist-start">{{500 | currency:0}}</div>
+					<div class="ist-middle">{{500+(100000-500)/2 | currency:0}}</div>
+					<div class="ist-end">{{100000 | currency:0}}</div>
+				</div>
+			</div> 
+		</div>
+
+		<div ng-show="ist.currentSection.name=='term'" id="ist-term" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.term.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td class="hidden-xs">
+						<div class="ist-icon">&nbsp;</div>
+					</td>
+					<td>
+						<div class="br-input-display form-group">
+							<select class="form-control" ng-model="ist.data.term" ng-options="option.value as option.label for option in ist.sections.term.inputs" name="term" id="term">
+								<option ng-if="ist.data.term===undefined"></option>
+							</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div ng-show="ist.currentSection.name=='earlyAccess'" id="ist-earlyAccess" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.earlyAccess.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td class="hidden-xs">
+						<div class="ist-icon">&nbsp;</div>
+					</td>
+					<td>
+						<div class="br-input-display" ng-repeat="x in ist.sections.earlyAccess.inputs">
+
+							<input id="earlyaccess-{{x.value}}" name="earlyaccess" class="checkbox" value="{{x.value}}" type="{{ist.sections.earlyAccess.inputType}}" ng-model="ist.data.earlyAccess"/>
+							<label for="earlyaccess-{{x.value}}" ng-bind-html="x.label | html"></label>
+
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div ng-show="ist.currentSection.name=='accessTerm'" id="ist-accessTerm" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.accessTerm.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td>
+						<div class="br-input-display form-group">
+							<select class="form-control" name="accessTerm" id="accessTerm" ng-model="ist.data.accessTerm" ng-options="option.value as option.label for option in ist.sections.accessTerm.inputs"><option ng-if="ist.data.accessTerm===undefined"></option></select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div ng-show="ist.currentSection.name=='returnType'" id="ist-returnType" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.returnType.header"></h2>
+			</div>
+			
+			<table class="ist-content">
+				<tr>
+					<td class="hidden-xs">
+						<div class="ist-icon">&nbsp;</div>
+					</td>
+					<td>
+						<div class="br-input-display" ng-repeat="x in ist.sections.returnType.inputs">
+							<input id="returntype-{{x.value}}" name="returntype" class="checkbox" value="{{x.value}}" type="{{ist.sections.returnType.inputType}}" ng-model="ist.data.returnType"/>
+							<label for="returntype-{{x.value}}" ng-bind-html="x.label | html"></label>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div ng-show="ist.currentSection.name=='results'" id="ist-results" class="ist-section">
+			<div class="ist-header">
+				<h2 bind-html-compile="ist.content.pages.results.header"></h2>
+			</div>
+			<div class="ist-content-wrapper ist-border" id="{{ist.results.scenarios[ist.results.currentScenarioId].product.ID}}">
+				<table class="ist-content ist-full-width">
+					<tr class="ist-delimit-row" ng-style="{'borderColor':ist.results.scenarios[ist.results.currentScenarioId].color}">
+						<td>
+							<div class="ist-full-width">
+								<div class="title br-left"><strong><a href="{{ist.results.scenarios[ist.results.currentScenarioId].display.url}}" target="_blank" class="ist-productLink">{{ist.results.scenarios[ist.results.currentScenarioId].display.title}}</strong></a></div>
+							</div>
+						</td>
+					</tr>					
+					<tr>
+						<td>
+							<div class="ist-full-width">
+								<div class="ist-one-quarter col-sm-3 col-xs-4 {{ !ist.results.scenarios[ist.results.currentScenarioId].display.rate ? 'invisible' : '' }}">{{ist.content.pages.results.yield}}: <span class="br-strong mobile-br">{{ ist.results.scenarios[ist.results.currentScenarioId].display.rate }}</span></div>
+								<div class="ist-one-quarter col-sm-3 col-xs-4">{{ist.content.pages.results.investment}}: <span class="br-strong mobile-br">{{ist.results.scenarios[ist.results.currentScenarioId].display.investment }}</span></div>
+								<div class="ist-one-quarter col-sm-3 col-xs-4">{{ist.content.pages.results.length}}: <span class="br-strong mobile-br">{{ist.results.scenarios[ist.results.currentScenarioId].display.term }}</span></div>
+								<div class="ist-one-quarter col-sm-3 col-xs-12 {{ !ist.results.scenarios[ist.results.currentScenarioId].display.balance ? 'invisible' : '' }}">{{ist.content.pages.results.endBalance}}<span class="visible-xs"> {{ist.content.pages.results.after}} {{ ist.results.scenarios[ist.results.currentScenarioId].display.term }}</span>: <span class="br-strong">{{ ist.results.scenarios[ist.results.currentScenarioId].display.balance }}</span></div>
+							</div>
+					</tr>
+					<tr>
+						<td>
+							<div class="ist-full-width">
+								<div class="br-input-display br-left btn-display-on-graph" ng-show="ist.results.scenarios[ist.results.currentScenarioId].hasChart">
+									<input id="ist-product-{{ist.results.scenarios[ist.results.currentScenarioId].product.ID}}" name="product-{{ist.results.scenarios[ist.results.currentScenarioId].product.ID}}" ng-model="ist.results.graphVisibility[ist.results.currentScenarioId]" type="checkbox"/>
+									<label for="ist-product-{{ist.results.scenarios[ist.results.currentScenarioId].product.ID}}">{{ist.content.pages.results.displayOnGraph}}</label>
+								</div>
+								<a ng-if="ist.results.scenarios[ist.results.currentScenarioId].product.CTAURL" href="{{ist.results.scenarios[ist.results.currentScenarioId].product.CTAURL}}" class="br-bright-button br-button br-right br-smaller-button"><span class="br-bold">{{ist.results.scenarios[ist.results.currentScenarioId].product.ctaLabel}}</span></a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span ng-show="ist.results.scenarios[ist.results.currentScenarioId].product.note">{{ ist.results.scenarios[ist.results.currentScenarioId].product.note }}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="ist-header" ng-hide="ist.results.hideChart">
+				<p class="h2" bind-html-compile="ist.content.pages.results.chartHeader"></p>
+			</div>
+
+			<div class="ist-content-wrapper ist-border ist-highchart-content" ng-hide="ist.results.hideChart">
+				<!-- <div class="ist-highchart" data-config="ist_highchart" highchart="ist.results.highchart.element" data-model="ist.results.highchart.series">&nbsp;</div> -->
+				<chart class="ist-highchart" ng-model="ist.results.highchart.config" data-highchart="ist.results.highchart.element"></chart>
+			</div>
+
+			<div class="ist-header" ng-show="ist.results.scenarios.length>1">
+				<p class="h2" bind-html-compile="ist.content.pages.results.compareHeader"></p>
+			</div>
+
+			<div ng-repeat="scenario in ist.results.scenarios" ng-show="$index!==ist.results.currentScenarioId" id="{{scenario.product.ID}}" class="ist-content-wrapper ist-border">
+				<table class="ist-content ist-full-width">
+					<tr class="ist-delimit-row" ng-style="{'borderColor':scenario.color}">
+						<td>
+							<div class="ist-full-width">
+								<div class="title br-left"><a href="{{scenario.display.url}}" target="_blank" class="ist-productLink"><strong>{{scenario.display.title}}</strong></a></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="ist-full-width">
+								<div class="ist-one-quarter col-sm-3 col-xs-4 {{ !scenario.display.rate ? 'invisible' : '' }}">{{ist.content.pages.results.yield}}: <span class="br-strong mobile-br">{{ scenario.display.rate }}</span></div>
+								<div class="ist-one-quarter col-sm-3 col-xs-4">{{ist.content.pages.results.investment}}: <span class="br-strong mobile-br">{{ scenario.display.investment }}</span></div>
+								<div class="ist-one-quarter col-sm-3 col-xs-4">{{ist.content.pages.results.length}}: <span class="br-strong mobile-br">{{ scenario.display.term }}</span></div>
+								<div class="ist-one-quarter col-sm-3 col-xs-12 {{ !scenario.hasChart ? 'invisible' : '' }}">{{ist.content.pages.results.endBalance}}<span class="visible-xs"> {{ist.content.pages.results.after}} {{ scenario.display.term }}</span>: <span class="br-strong">{{ scenario.display.balance }}</span></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="ist-full-width">
+								<div class="br-input-display br-left btn-display-on-graph" ng-show="scenario.hasChart">
+									<input id="ist-product-{{scenario.product.ID}}" name="product-{{scenario.product.ID}}" ng-model="ist.results.graphVisibility[$index]" type="checkbox" ng-change=""/>
+									<label for="ist-product-{{scenario.product.ID}}">{{ist.content.pages.results.displayOnGraph}}</label>
+								</div>
+								<a ng-if="scenario.product.CTAURL" href="{{scenario.product.CTAURL}}" class="br-bright-button br-button br-right br-smaller-button"><span class="br-bold">{{scenario.product.ctaLabel}}</span></a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span ng-show="scenario.product.note">{{ scenario.product.note }}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+		</div>
+
+		<div class="ist-nav-buttons">
+			<button ng-show="ist.currentSection.id!=ist.lastSectionId" ng-click="ist.goToNextSection()" class="br-bright-button br-right"><span class="br-right-arrow-icon br-bold">{{ content.ui.btnNext }}</span></button>
+			<button ng-show="ist.currentSection.id!=0" ng-click="ist.goToPreviousSection()" class="br-dull-button br-left"><span class="br-left-arrow-icon br-bold">{{ content.ui.btnPrevious }}</span></button>
+		</div>
+
+		<div class="disclaimer" ng-bind-html="ist.content.disclaimer | html"></div>
+	</form>
+</div>

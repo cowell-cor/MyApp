@@ -1,0 +1,41 @@
+<div class="leftColumn scenario" ng-cloak>
+	
+	<h2 ng-if="tabData.getCurrentTab('scenariosViews') !== 'multiple'" class="text-center" bind-html-compile="mpc.content.formHeader"></h2>
+
+	<form>
+
+		<meri-input field-specs="mpc.specs.mortgageAmount" data-binding="sce.data.mortgageAmount" field-validation="sce.validation.mortgageAmount"></meri-input>
+
+		<meri-select field-specs="mpc.specs.productAndType" data-binding="sce.data.productAndType" field-validation="sce.validation.productAndType"></meri-select>
+
+		<meri-input field-specs="mpc.specs.amortization" data-binding="sce.data.amortization" field-validation="sce.validation.amortization"></meri-input>
+
+		<meri-input field-specs="mpc.specs.interestRate" data-binding="sce.data.interestRate" field-validation="sce.validation.interestRate"></meri-input>
+
+		<meri-select field-specs="mpc.specs.paymentFrequency" data-binding="sce.data.paymentFrequency" field-validation="sce.validation.paymentFrequency"></meri-select>
+
+		<div uib-collapse="!sce.data.showExtra">
+
+			<meri-select field-specs="mpc.specs.extraPaymentFrequency" data-binding="sce.data.extraPaymentFrequency" field-validation="sce.validation.extraPaymentFrequency"></meri-select>
+
+			<meri-input field-specs="mpc.specs.extraPaymentAmount" data-binding="sce.data.extraPaymentAmount" field-validation="sce.validation.extraPaymentAmount"></meri-input>
+			
+		</div>
+
+		<button ng-if="sce.data.scenarioIndex!=='0'" class="btn btn-primary btn-block" ng-click="toggleExtraPayments()">
+			<span ng-show="!sce.data.showExtra" class="toggleExtraPayements">
+				<i class="glyphicon glyphicon-plus floated"></i> &nbsp;
+				<span bind-html-compile="mpc.content.additionalPaymentButton_show"></span>
+			</span>
+
+			<span ng-show="sce.data.showExtra" class="toggleExtraPayements">
+				<i class="glyphicon glyphicon-remove floated"></i>&nbsp;<span>{{mpc.content.additionalPaymentButton_hide}}</span>
+			</span>
+		</button>
+
+		<div class="clearfix" ng-if="tabData.getCurrentTab('scenariosViews') === 'multiple'">&nbsp;</div>
+
+	</form>
+
+	
+</div>

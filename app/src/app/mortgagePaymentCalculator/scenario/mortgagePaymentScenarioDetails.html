@@ -1,0 +1,27 @@
+<div class="leftColumn scenarioDetails" ng-cloak>
+	<div class="row">
+		<div class="col-md-7"><p><strong>Mortgage Payment:</strong></p></div>
+		<div class="col-md-5 text-right"><p><strong>{{ sce.results.current.mortgagePayment | currency:2 }}</strong></p></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-7"><p>Payment amount:</p></div>
+		<div class="col-md-5 text-right"><p>{{ sce.results.current.termPrincipal | currency:2 }}</p></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-7"><p>Total interest paid:</p></div>
+		<div class="col-md-5 text-right"><p>{{ sce.results.current.termInterest | currency:2 }}</p></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-7"><p>Interest & principal paid for term:</p></div>
+		<div class="col-md-5 text-right"><p>{{ sce.results.current.termInterestAndPrincipal | currency:2 }}</p></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-7"><p>Balance at the end of term:</p></div>
+		<div class="col-md-5 text-right"><p>{{ sce.results.current.balanceAtEndOfTerm | currency:2 }}</p></div>
+	</div>
+		
+</div>
