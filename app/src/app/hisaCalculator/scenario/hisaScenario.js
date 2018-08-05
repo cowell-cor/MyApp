@@ -57,7 +57,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		 * Usage: Reset value of Deposit Transfer fields
 		 */
 		$scope.resetDeposit= () =>{
-			alert("hello"+JSON.stringify(rscData));
+			console.log("hello"+JSON.stringify(rscData));
 		}
 		// Important fix : Jan 03 2017 by BR Claudine
 		// !! important !!
