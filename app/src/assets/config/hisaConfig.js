@@ -45,16 +45,19 @@ window.hisaContent = {
         savingsOptions: {
             initialDepositAmount: 'Initial deposit amount',
             monthlyDepositAmount: 'Monthly deposit amount',
-            savingDurationDropDown: 'Saving duration',
-            savingDurationDropDownOptions: ['Monthly', 'Annually'],
+            savingDuration: 'Saving duration',
             savingDurationSlider: 'Saving duration',
             savingDurationSliderMonthlyDefault: 6,
             savingDurationSliderAnuallyDefault: 25,
             savingDurationSliderMonthlyMax: 24,
             savingDurationSliderAnuallyMax: 40,
-            meridianSavingsAccountDropDown: 'Choose a Meridian Savings Account',
-            meridianSavingsAccountDropDownOptions: ['Savings [SavingRate],Tax-free Savings [TFSARate],RSP [RSPRate]'],
-            autoSaveOptions: 'Add auto-save options to save even more',
+            meridianSavingsAccount: {
+                header:'Choose a Meridian Savings Account',
+                savings:'Savings',
+                tfsa:'Tax-free Savings',
+                rsp:'RSP'
+            },
+            autoSaveOptions: 'Add auto-save options to save even more.',
         },
 
         debitTransfer: {

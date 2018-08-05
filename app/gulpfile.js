@@ -179,7 +179,60 @@ var isProd = true,
 			vendorsCSSwatch, // THE NEXT ONES ARE FOR WATCHS ONLY 
 			appCSSwatch
 		]
-	}
+	},
+
+	hisa: {
+		name: 'hisa',
+		markup: isProd ? [ 
+			'src/hisa.html'
+		] : [ 
+			'src/hisa_dev.html'
+		],
+		javascript: isProd ? [	
+
+			'src/assets/js/no-conflict-wrap-start.js',
+			'src/vendors/**/bootstrap.min.js',// removable?? make sure they have our plugins
+			'src/assets/js/no-conflict-wrap-end.js',
+
+			/* Include Angular plugin */
+			'src/vendors/**/angular-*js',
+			'src/vendors/**/ui-bootstrap-tpls-*js',
+
+			/* Bluerush vendors */
+			'src/vendors/**/formula*.js',
+			'src/vendors/**/blueUtils*.js',
+			/* Others */
+			'src/app/app.js',
+			'src/app/hisaCalculator/**/*.js'
+		]:[	
+			'src/vendors/**/jquery*js',
+			'src/vendors/**/highcharts.*js',
+			'src/vendors/**/bootstrap*js',
+			'src/assets/js/jquery-cmsj-no-conflict.js',
+			'src/vendors/**/angular.*js',
+
+			'src/vendors/**/angular-*js',
+			'src/vendors/**/ui-bootstrap-*js',
+
+			/*Config*/		
+			'src/assets/js/rates.js',
+			'src/assets/config/dataConfig.js',
+			'src/assets/config/hisaConfig.js',
+
+			'src/vendors/**/ui-bootstrap-tpls-*js',
+			/* Bluerush vendors */
+			'src/vendors/**/formula*.js',
+			'src/vendors/**/blueUtils*.js',
+			/* Others */
+			'src/app/app.js',
+			'src/app/hisaCalculator/**/*.js'
+		],
+		css: [
+			'src/app/hisa.scss', // FIRST ENTRY IS THE COMPILED INDEX
+			vendorsCSSwatch, // THE NEXT ONES ARE FOR WATCHS ONLY 
+			appCSSwatch
+		]
+	},
 };
 
 var gulp = require('gulp'),

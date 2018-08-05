@@ -1,9 +1,9 @@
 (function($,jQuery){
-brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
+brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
 		var me = this,
-			retirementSavingsData = scenarios.getScenarios('retirementSavingsData'),
-			scenario = retirementSavingsData.getScenario($attrs.scenarioIndex),
-			rscData = retirementSavingsData.data,
+			hisa = scenarios.getScenarios('hisaData'),
+			scenario = hisa.getScenario($attrs.scenarioIndex),
+			rscData = hisa.data,
 			content = $scope.rsc.content,
 			constants = $scope.rsc.data.constants,
 			currentYear = new Date().getFullYear();
@@ -35,7 +35,7 @@ brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenar
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
-		initValidation();
+		//initValidation();
 
 		/////////////
 		// Watches //
@@ -79,7 +79,7 @@ brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenar
 			/////////////////////////////////
 			// Validation-changing watches //
 			/////////////////////////////////
-			$scope.$watch("sce.data.currentAge",function(value){
+			$scope.$watch("sce.data.initialDepositAmount",function(value){
 				me.validation.retirementStartAge.set('min',value+1);
 			});
 

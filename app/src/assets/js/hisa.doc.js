@@ -3410,11 +3410,31 @@ window.setDataToScope = function (ngModel,scope,value,$injector){
 };
 })($cmsj,$cmsj);
 (function($,jQuery){
-brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
+brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManager) {
+	var me = this;
+	// Set the content for the tool (language-dependant content found in config)
+	this.content = contentManager.setContent(hisaContent || {},'hisaContent').getContent('hisaContent');
+	// Get the scenarios reference, including data, results and validation objects
+	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
+	// Get the fieldspecs from the config
+	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
+	this.specs = contentManager.getConfig('fieldspecs.hisa');
+	
+	this.validation = this.retirementSavingsData.validation;
+
+	this.data = this.retirementSavingsData.data;
+
+	$scope.$watch('rsc.data.addSpouse',function(){
+		me.data.isScenarioViewSpouse = false;
+	});
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
 		var me = this,
-			retirementSavingsData = scenarios.getScenarios('retirementSavingsData'),
-			scenario = retirementSavingsData.getScenario($attrs.scenarioIndex),
-			rscData = retirementSavingsData.data,
+			hisa = scenarios.getScenarios('hisaData'),
+			scenario = hisa.getScenario($attrs.scenarioIndex),
+			rscData = hisa.data,
 			content = $scope.rsc.content,
 			constants = $scope.rsc.data.constants,
 			currentYear = new Date().getFullYear();
@@ -3446,7 +3466,7 @@ brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenar
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
-		initValidation();
+		//initValidation();
 
 		/////////////
 		// Watches //
@@ -3490,7 +3510,7 @@ brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenar
 			/////////////////////////////////
 			// Validation-changing watches //
 			/////////////////////////////////
-			$scope.$watch("sce.data.currentAge",function(value){
+			$scope.$watch("sce.data.initialDepositAmount",function(value){
 				me.validation.retirementStartAge.set('min',value+1);
 			});
 
@@ -3908,24 +3928,4 @@ brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","sc
 	this.data.scenarioIndex = $attrs.scenarioIndex;
 	this.results = scenario.results;
 }]);
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsCalculatorCtrl', function($scope, scenarios, contentManager) {
-	var me = this;
-	// Set the content for the tool (language-dependant content found in config)
-	this.content = contentManager.setContent(rscContent || {},'rscContent').getContent('rscContent');
-	// Get the scenarios reference, including data, results and validation objects
-	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
-	// Get the fieldspecs from the config
-	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
-	this.specs = contentManager.getConfig('fieldspecs.retirementSavings');
-	
-	this.validation = this.retirementSavingsData.validation;
-
-	this.data = this.retirementSavingsData.data;
-
-	$scope.$watch('rsc.data.addSpouse',function(){
-		me.data.isScenarioViewSpouse = false;
-	});
-});
 })($cmsj,$cmsj);

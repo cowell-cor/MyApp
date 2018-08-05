@@ -1670,7 +1670,13 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				mortgagePaymentCalculatorScenario : 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenario.html?'+versionCaching,
 				mortgagePaymentCalculatorScenarioDetails : 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenarioDetails.html?'+versionCaching,
 				mortgagePaymentCalculatorScenarioResults : 'app/mortgagePaymentCalculator/scenarioResults/mortgagePaymentScenarioResults.html?'+versionCaching,
-				mortgagePaymentCalculatorScenarioReport : 'app/mortgagePaymentCalculator/scenarioReport/mortgagePaymentScenarioReport.html?'+versionCaching
+				mortgagePaymentCalculatorScenarioReport : 'app/mortgagePaymentCalculator/scenarioReport/mortgagePaymentScenarioReport.html?'+versionCaching,
+
+				
+				hisaCalculator :'app/hisaCalculator/hisaCalculator.html?'+versionCaching,
+				hisaCalculatorScenario :'app/hisaCalculator/scenario/hisaScenario.html?'+versionCaching,
+				hisaCalculatorScenarioResults :'app/hisaCalculator/scenarioResults/hisaScenarioResults.html?'+versionCaching,
+				hisaCalculatorScenarioReport :'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?'+versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -3404,17 +3410,6 @@ window.setDataToScope = function (ngModel,scope,value,$injector){
 };
 })($cmsj,$cmsj);
 (function($,jQuery){
-brCalc.controller('mortgagePaymentCalculatorCtrl', function($scope,scenarios,contentManager) {
-	// Get the scenarios reference, including data, results and validation objects
-	this.mortgagePaymentData = scenarios.getScenarios('mortgagePaymentData');
-	// Set the content for the tool (language-dependant content found in config)
-	this.content = contentManager.setContent(threeInOneDataContent.mortgagePayment,'mortgagePayment').getContent('mortgagePayment');
-	// Get the fieldspecs from the config
-	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
-	this.specs = contentManager.getConfig('fieldspecs.mortgagePayment');
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
 brCalc.controller('mortgagePaymentScenarioCtrl', function($scope,scenarios,$attrs,$filter,contentManager) {
 	var me = this,
 		scenario = $scope.mpc.mortgagePaymentData.getScenario($attrs.scenarioIndex),
@@ -3974,6 +3969,17 @@ brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenario
 	this.data = scenario.data;
 	this.data.scenarioIndex = $attrs.scenarioIndex;
 	this.results = scenario.results;
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('mortgagePaymentCalculatorCtrl', function($scope,scenarios,contentManager) {
+	// Get the scenarios reference, including data, results and validation objects
+	this.mortgagePaymentData = scenarios.getScenarios('mortgagePaymentData');
+	// Set the content for the tool (language-dependant content found in config)
+	this.content = contentManager.setContent(threeInOneDataContent.mortgagePayment,'mortgagePayment').getContent('mortgagePayment');
+	// Get the fieldspecs from the config
+	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
+	this.specs = contentManager.getConfig('fieldspecs.mortgagePayment');
 });
 })($cmsj,$cmsj);
 (function($,jQuery){

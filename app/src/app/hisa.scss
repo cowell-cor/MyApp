@@ -1,0 +1,10 @@
+@import 'meridian';
+.br {
+	&-calc
+	 .leftColumn{
+		label.bold{
+			font-weight: 800;
+		}
+	 } 
+	
+}
