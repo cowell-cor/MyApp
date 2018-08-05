@@ -5,11 +5,11 @@
 		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			{{ rsc.content.savingsHeader }}
+			<meri-tooltip-with-header parent="parent" message="rsc.specs['savingsHeader' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
 		</button>
 
 		<div uib-collapse="collapse.savings">
-
-			<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
+			<meri-input field-specs="rsc.specs['initialDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
 			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
 			<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
 			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
@@ -22,6 +22,7 @@
 		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			{{ rsc.content.debitTransferHeader }}
+			<meri-tooltip-with-header parent="parent" message="rsc.specs['debitTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
 		</button>
 
 		<div uib-collapse="collapse.debitTransfer">
@@ -34,9 +35,13 @@
 		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			{{ rsc.content.depositTransferHeader }}
+			<meri-tooltip-with-header parent="parent" message="rsc.specs['depositTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
 		</button>
 		<div uib-collapse="collapse.depositTransfer">
 			<meri-input field-specs="rsc.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay" id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+			<div class="clear">
+				<button  ng-click="resetDeposit()">{{ rsc.content.debitTransfer.clear }}</button>
+			</div>
 		</div>
 	</div>
 </form>

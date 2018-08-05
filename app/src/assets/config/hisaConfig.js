@@ -34,7 +34,7 @@ window.hisaContent = {
 
         tooltip: {
             savingsHeader: 'Grow your nest egg',
-            savingsContent: 'Whatever balance you start with, watch your savings grow even faster when combining the benefits of Auto-Save with your chequing account and a high interest savings account.',
+            savingsContent: 'Grow your nest egg Whatever balance you start with, watch your savings grow even faster.',
             debitTransfer: 'Start saving every time you use your debit card',
             debitTransferContent: 'For each transaction you make you can have $1 to $5 automatically transferred into your high interest savings account',
             depositTransfer: 'Save even more when you make direct deposits',

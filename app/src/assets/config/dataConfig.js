@@ -463,6 +463,11 @@ window.defaultBRCalcDataConfig = {
 			}
 		},
 		hisa: {
+			savingsHeader: {
+				tooltip: {
+					contentModel: 'message:hisaContent.tooltip.savingsContent'
+				}
+			},
 			initialDepositAmount: {
 				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.savingsOptions.initialDepositAmount'
@@ -490,9 +495,19 @@ window.defaultBRCalcDataConfig = {
 					value: 'rsp'
 				}],
 			},
+			debitTransferContent: {
+				tooltip: {
+					contentModel: 'message:hisaContent.tooltip.debitTransferContent'
+				}
+			},
 			numberOfMonthlyDebitTransactions: {
 				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.debitTransfer.numberOfMonthlyDebitTransactions'
+			},
+			depositTransferContent: {
+				tooltip: {
+					contentModel: 'message:hisaContent.tooltip.depositTransferContent'
+				}
 			},
 			monthlyCreditsPay: {
 				configModel: 'input.currency2',

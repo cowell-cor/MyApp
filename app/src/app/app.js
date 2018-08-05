@@ -974,6 +974,47 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 		return directiveDefinitionObject;
 	})
 
+	.directive('meriTooltipWithHeader',function($compile){
+		var template = {
+				tooltip:'<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
+			}, 
+
+			directiveDefinitionObject = {
+				restrict: 'E',
+				transclude: false,
+				scope: {
+					parent:'=',
+					message:'='
+				},
+				replace: true,
+				controller: function ($scope,$element,$attrs,$interpolate) {
+					$scope.getMeriTooltipContent = function () {
+						if (typeof $scope.message === 'string') {
+							return $interpolate($scope.message)($scope.parent || $scope.$parent);
+						}
+						else {
+							return '';
+						}
+					};
+				},
+				compile: function compile(tElement, tAttrs) {
+					return {
+						// Before Link compile
+						pre: function preLink(/*scope, elem, attrs, ctrl*/) { },
+						// After Link compile
+						// Attach events here
+						post: function postLink(/*scope, elem, attrs, ctrl*/) { }
+					};
+				},
+
+				template: function(element,attr){
+					return template.tooltip;
+				}
+			};
+
+		return directiveDefinitionObject;
+	})
+
 	.directive('meriTooltip',function($compile){
 		var template = {
 				tooltip:'<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'

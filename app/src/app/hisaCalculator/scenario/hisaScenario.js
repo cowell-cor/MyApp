@@ -13,7 +13,6 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			debitTransfer:true,
 			depositTransfer:true
 		};
-
 		// FIX for annual limit for years 2017 and over
 		currentYear = currentYear>2016 ? 2016 : currentYear;
 
@@ -51,7 +50,15 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		////////////////////////
 		// Internal functions //
 		////////////////////////
-		
+
+
+		/**
+		 * Function: resetDeposit
+		 * Usage: Reset value of Deposit Transfer fields
+		 */
+		$scope.resetDeposit= () =>{
+			alert("hello"+JSON.stringify(rscData));
+		}
 		// Important fix : Jan 03 2017 by BR Claudine
 		// !! important !!
 		// Always look for selected year and return annual limit found
