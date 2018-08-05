@@ -490,6 +490,14 @@ window.defaultBRCalcDataConfig = {
 					value: 'rsp'
 				}],
 			},
+			numberOfMonthlyDebitTransactions: {
+				configModel: 'input.currency2',
+				contentModel: 'label:hisaContent.debitTransfer.numberOfMonthlyDebitTransactions'
+			},
+			monthlyCreditsPay: {
+				configModel: 'input.currency2',
+				contentModel: 'label:hisaContent.depositTransfer.monthlyCreditsPay'
+			},
 			retirementStartAge: {
 				configModel: 'input.year',
 				contentModel: 'label:rscContent.scenarioInputs.retirementStartAge'
@@ -946,23 +954,10 @@ window.defaultBRCalcDataConfig = {
 				scenarios: [],
 				scenarioModel: {
 					data: {
-						initialDepositAmount: 20000,
+						initialDepositAmount: 0,
 						monthlyDepositAmount: 0,
-						yearsInRetirement: 30,
-						annualIncome: 55000,
-						targetIncomePercent: 0.7,
-						targetIncomeAmount: 35000,
-						oas: 6846.24,
-						cpp: 13110,
-						companyPension: 0,
-						nonRegInvestments: 0,
-						otherIncome: 0,
-						currentRRSPSavings: 0,
-						currentTFSASavings: 0,
-						currentNONREGSavings: 0,
-						monthlyRRSPcontribution: 0,
-						monthlyTFSAcontribution: 0,
-						monthlyNONREGcontribution: 0
+						monthlyCreditsPay: 0,
+						numberOfMonthlyDebitTransactions: 0
 					},
 					validation: {
 						initialDepositAmount: {
@@ -973,20 +968,13 @@ window.defaultBRCalcDataConfig = {
 							max: 999999999.99,
 							min: 0
 						},
-						yearsInRetirement: {
+						monthlyCreditsPay: {
+							max: 999999999.99,
 							min: 0
 						},
-						annualIncome: {
-							min: 1,
-							max: 1000000
-						},
-						targetIncomePercent: {
-							min: 0.25,
-							max: 1
-						},
-						targetIncomeAmount: {
-							min: 1,
-							max: 1000000
+						numberOfMonthlyDebitTransactions:{
+							max: 1000,
+							min: 0	
 						},
 						oas: {
 							rules: [{

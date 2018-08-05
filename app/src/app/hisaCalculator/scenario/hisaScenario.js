@@ -9,10 +9,9 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			currentYear = new Date().getFullYear();
 
 		$scope.collapse = {
-			personnalQuestions:true,
-			sourceOfIncome:true,
-			investmentsAnnual:true,
-			investmentsMonthly:true
+			savings:false,
+			debitTransfer:true,
+			depositTransfer:true
 		};
 
 		// FIX for annual limit for years 2017 and over

@@ -3410,6 +3410,26 @@ window.setDataToScope = function (ngModel,scope,value,$injector){
 };
 })($cmsj,$cmsj);
 (function($,jQuery){
+brCalc.controller('retirementSavingsCalculatorCtrl', function($scope, scenarios, contentManager) {
+	var me = this;
+	// Set the content for the tool (language-dependant content found in config)
+	this.content = contentManager.setContent(rscContent || {},'rscContent').getContent('rscContent');
+	// Get the scenarios reference, including data, results and validation objects
+	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
+	// Get the fieldspecs from the config
+	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
+	this.specs = contentManager.getConfig('fieldspecs.retirementSavings');
+	
+	this.validation = this.retirementSavingsData.validation;
+
+	this.data = this.retirementSavingsData.data;
+
+	$scope.$watch('rsc.data.addSpouse',function(){
+		me.data.isScenarioViewSpouse = false;
+	});
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
 brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
 		var me = this,
 			retirementSavingsData = scenarios.getScenarios('retirementSavingsData'),
@@ -3908,24 +3928,4 @@ brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","sc
 	this.data.scenarioIndex = $attrs.scenarioIndex;
 	this.results = scenario.results;
 }]);
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsCalculatorCtrl', function($scope, scenarios, contentManager) {
-	var me = this;
-	// Set the content for the tool (language-dependant content found in config)
-	this.content = contentManager.setContent(rscContent || {},'rscContent').getContent('rscContent');
-	// Get the scenarios reference, including data, results and validation objects
-	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
-	// Get the fieldspecs from the config
-	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
-	this.specs = contentManager.getConfig('fieldspecs.retirementSavings');
-	
-	this.validation = this.retirementSavingsData.validation;
-
-	this.data = this.retirementSavingsData.data;
-
-	$scope.$watch('rsc.data.addSpouse',function(){
-		me.data.isScenarioViewSpouse = false;
-	});
-});
 })($cmsj,$cmsj);

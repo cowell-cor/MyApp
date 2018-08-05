@@ -62,9 +62,6 @@ window.hisaContent = {
 
         debitTransfer: {
             numberOfMonthlyDebitTransactions: 'Number of monthly debit transactions',
-            numberOfMonthlyDebitTransactionsMin: 0,
-            numberOfMonthlyDebitTransactionsMax: 100,
-            numberOfMonthlyDebitTransactionsDefault: 0,
             amountToDepositPerTransaction: 'Amount to deposit per transaction',
             amountToDepositPerTransactionMin: 0,
             amountToDepositPerTransactionMax: 5,

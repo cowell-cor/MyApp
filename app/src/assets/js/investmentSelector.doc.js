@@ -1730,7 +1730,13 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				mortgagePaymentCalculatorScenario : 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenario.html?'+versionCaching,
 				mortgagePaymentCalculatorScenarioDetails : 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenarioDetails.html?'+versionCaching,
 				mortgagePaymentCalculatorScenarioResults : 'app/mortgagePaymentCalculator/scenarioResults/mortgagePaymentScenarioResults.html?'+versionCaching,
-				mortgagePaymentCalculatorScenarioReport : 'app/mortgagePaymentCalculator/scenarioReport/mortgagePaymentScenarioReport.html?'+versionCaching
+				mortgagePaymentCalculatorScenarioReport : 'app/mortgagePaymentCalculator/scenarioReport/mortgagePaymentScenarioReport.html?'+versionCaching,
+
+				
+				hisaCalculator :'app/hisaCalculator/hisaCalculator.html?'+versionCaching,
+				hisaCalculatorScenario :'app/hisaCalculator/scenario/hisaScenario.html?'+versionCaching,
+				hisaCalculatorScenarioResults :'app/hisaCalculator/scenarioResults/hisaScenarioResults.html?'+versionCaching,
+				hisaCalculatorScenarioReport :'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?'+versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);

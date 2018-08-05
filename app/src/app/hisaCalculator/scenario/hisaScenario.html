@@ -1,62 +1,42 @@
-	<form class="br-hisa-form">
+<form class="br-hisa-form">
 
-		<div class="scenario">
+	<div class="scenario">
 
-			<button ng-click="collapse.personnalQuestions = !collapse.personnalQuestions" class="collapse-button align-left {{ collapse.personnalQuestions ? '' : ' active' }}">
-				<span class="glyphicon glyphicon-chevron-down"></span>
-				Savings
-			</button>
+		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }}">
+			<span class="glyphicon glyphicon-chevron-down"></span>
+			{{ rsc.content.savingsHeader }}
+		</button>
 
-			<div uib-collapse="collapse.personnalQuestions">
+		<div uib-collapse="collapse.savings">
 
-				<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"  id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-				<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"  id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-				<meri-select field-specs="rsc.specs.savingDuration" data-binding="sce.data.savingDurationDropDown1"></meri-select>
-				<meri-select field-specs="rsc.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount"></meri-select>
-				<label class="bold">{{rsc.content.savingsOptions.autoSaveOptions}}</label>
+			<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
+			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+			<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
+			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+			<meri-select field-specs="rsc.specs.savingDuration" data-binding="sce.data.savingDurationDropDown1"></meri-select>
+			<meri-select field-specs="rsc.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount"></meri-select>
+			<label class="bold">{{rsc.content.savingsOptions.autoSaveOptions}}</label>
 
-			</div>
-
-			<button ng-click="collapse.sourceOfIncome = !collapse.sourceOfIncome" class="collapse-button align-left {{ collapse.sourceOfIncome ? '' : ' active' }}">
-				<span class="glyphicon glyphicon-chevron-down"></span>
-				{{ rsc.content.incomeSourceHeader }}
-			</button>
-			
-			<div uib-collapse="collapse.sourceOfIncome">
-				
-				<meri-input field-specs="rsc.specs.oas" data-binding="sce.data.oas" field-validation="sce.validation.oas" id="'oas_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.cpp" data-binding="sce.data.cpp" field-validation="sce.validation.cpp" id="'cpp_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.companyPension" data-binding="sce.data.companyPension" field-validation="sce.validation.companyPension" id="'companyPension_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.nonRegInvestments" data-binding="sce.data.nonRegInvestments" field-validation="sce.validation.nonRegInvestments" id="'nonRegInvestments_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.otherIncome" data-binding="sce.data.otherIncome" field-validation="sce.validation.otherIncome" id="'otherIncome_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-			</div>
-
-			<button ng-click="collapse.investmentsAnnual = !collapse.investmentsAnnual" class="collapse-button align-left {{ collapse.investmentsAnnual ? '' : ' active' }}">
-				<span class="glyphicon glyphicon-chevron-down"></span>
-				{{ rsc.content.investmentsHeader }}
-			</button>
-			<div uib-collapse="collapse.investmentsAnnual">
-				<meri-input field-specs="rsc.specs.currentRRSPSavings" data-binding="sce.data.currentRRSPSavings" field-validation="sce.validation.currentRRSPSavings" id="'currentRRSPSavings_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.currentTFSASavings" data-binding="sce.data.currentTFSASavings" field-validation="sce.validation.currentTFSASavings" id="'currentTFSASavings_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.currentNONREGSavings" data-binding="sce.data.currentNONREGSavings" field-validation="sce.validation.currentNONREGSavings" id="'currentNONREGSavings_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-			</div>
-
-			<button ng-click="collapse.investmentsMonthly = !collapse.investmentsMonthly" class="collapse-button align-left {{ collapse.investmentsMonthly ? '' : ' active' }}">
-				<span class="glyphicon glyphicon-chevron-down"></span>
-				{{ rsc.content.investmentsMonthlyHeader }}
-			</button>
-			<div uib-collapse="collapse.investmentsMonthly">
-				<meri-input field-specs="rsc.specs.monthlyRRSPcontribution" data-binding="sce.data.monthlyRRSPcontribution" field-validation="sce.validation.monthlyRRSPcontribution" id="'monthlyRRSPcontribution_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.monthlyTFSAcontribution" data-binding="sce.data.monthlyTFSAcontribution" field-validation="sce.validation.monthlyTFSAcontribution" id="'monthlyTFSAcontribution_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
-				<meri-input field-specs="rsc.specs.monthlyNONREGcontribution" data-binding="sce.data.monthlyNONREGcontribution" field-validation="sce.validation.monthlyNONREGcontribution" id="'monthlyNONREGcontribution_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-			</div>
 		</div>
-	</form>
+
+		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }}">
+			<span class="glyphicon glyphicon-chevron-down"></span>
+			{{ rsc.content.debitTransferHeader }}
+		</button>
+
+		<div uib-collapse="collapse.debitTransfer">
+
+			<meri-input field-specs="rsc.specs.numberOfMonthlyDebitTransactions" data-binding="sce.data.numberOfMonthlyDebitTransactions"
+			    id="'numberOfMonthlyDebitTransactions_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
+
+		</div>
+
+		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }}">
+			<span class="glyphicon glyphicon-chevron-down"></span>
+			{{ rsc.content.depositTransferHeader }}
+		</button>
+		<div uib-collapse="collapse.depositTransfer">
+			<meri-input field-specs="rsc.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay" id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+		</div>
+	</div>
+</form>
