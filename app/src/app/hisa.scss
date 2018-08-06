@@ -24,5 +24,20 @@
 			line-height: 21px;
 			margin: 0 0 5px 24px;
 		}
+		.range-slider {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 7px;
+			.slide{
+				width: 65%;
+			}
+			.range{
+				width: 27%;
+				.form-group{
+					padding: 0;
+				}
+			}
+		}
 	}
 }

@@ -14,13 +14,14 @@
 			<meri-input field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
 			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
 			<meri-select field-specs="hisa.specs.savingDuration" data-binding="sce.data.savingDurationDropDown"></meri-select>
-			<div data-role="main" class="ui-content">
-				<form method="post" action="/action_page_post.php">
-					<div data-role="rangeslider">
-						<label for="price-min">Price:</label>
-						<input type="range" name="price-min" id="price-min" value="200" min="0" max="1000">
-					</div>
-				</form>
+			<div class="range-slider">
+				<div class="slide">
+					<slider-range min="1" max="24" value-min="search.price_min" value-max="search.price_max"></slider-range>
+				</div>
+				<div class="range">
+					<meri-input ng-model="search.price_max" id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+				</div>
+
 			</div>
 			<meri-select field-specs="hisa.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount"></meri-select>
 			<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
@@ -56,6 +57,16 @@
 		<div uib-collapse="collapse.depositTransfer">
 			<meri-input field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay"
 			    id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+				<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
+				<div class="range-slider">
+				<div class="slide">
+					<slider-range min="0%" max="100%" value-min="monthlyCreditsPay.price_min" value-max="monthlyCreditsPay.price_max"></slider-range>
+				</div>
+				<div class="range">
+					<meri-input ng-model="monthlyCreditsPay.price_max" id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+				</div>
+
+			</div>
 			<div class="clear clearTransfer">
 				<button ng-click="resetDeposit()">{{ hisa.content.depositTransfer.clear }}</button>
 			</div>
