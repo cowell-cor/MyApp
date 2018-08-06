@@ -4,43 +4,60 @@
 
 		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
-			{{ rsc.content.savingsHeader }}
-			<meri-tooltip-with-header parent="parent" message="rsc.specs['savingsHeader' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+			{{ hisa.content.savingsHeader }}
+			<meri-tooltip-with-header parent="parent" message="hisa.specs['savingsHeader' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
 		</button>
 
 		<div uib-collapse="collapse.savings">
-			<meri-input field-specs="rsc.specs['initialDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
+			<meri-input field-specs="hisa.specs['initialDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
 			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-			<meri-input field-specs="rsc.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
+			<meri-input field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
 			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-			<meri-select field-specs="rsc.specs.savingDuration" data-binding="sce.data.savingDurationDropDown1"></meri-select>
-			<meri-select field-specs="rsc.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount"></meri-select>
-			<label class="bold">{{rsc.content.savingsOptions.autoSaveOptions}}</label>
+			<meri-select field-specs="hisa.specs.savingDuration" data-binding="sce.data.savingDurationDropDown"></meri-select>
+			<div data-role="main" class="ui-content">
+				<form method="post" action="/action_page_post.php">
+					<div data-role="rangeslider">
+						<label for="price-min">Price:</label>
+						<input type="range" name="price-min" id="price-min" value="200" min="0" max="1000">
+					</div>
+				</form>
+			</div>
+			<meri-select field-specs="hisa.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount"></meri-select>
+			<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
 
 		</div>
 
 		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
-			{{ rsc.content.debitTransferHeader }}
-			<meri-tooltip-with-header parent="parent" message="rsc.specs['debitTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+			{{ hisa.content.debitTransferHeader }}
+			<meri-tooltip-with-header parent="parent" message="hisa.specs['debitTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+			<div class="sub-heading">
+				{{hisa.content.debitTransferDefaultContent}}
+			</div>
 		</button>
 
 		<div uib-collapse="collapse.debitTransfer">
 
-			<meri-input field-specs="rsc.specs.numberOfMonthlyDebitTransactions" data-binding="sce.data.numberOfMonthlyDebitTransactions"
+			<meri-input field-specs="hisa.specs.numberOfMonthlyDebitTransactions" data-binding="sce.data.numberOfMonthlyDebitTransactions"
 			    id="'numberOfMonthlyDebitTransactions_' + sce.results.suffix + sce.data.scenarioIndex"></meri-input>
-
+			<div class="clear clearDeposit">
+				<button ng-click="resetDeposit()">{{ hisa.content.debitTransfer.clear }}</button>
+			</div>
 		</div>
 
 		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
-			{{ rsc.content.depositTransferHeader }}
-			<meri-tooltip-with-header parent="parent" message="rsc.specs['depositTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+			{{ hisa.content.depositTransferHeader }}
+			<meri-tooltip-with-header parent="parent" message="hisa.specs['depositTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+			<div class="sub-heading">
+				{{hisa.content.depositTransferDefaultContent}}
+			</div>
 		</button>
 		<div uib-collapse="collapse.depositTransfer">
-			<meri-input field-specs="rsc.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay" id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-			<div class="clear">
-				<button  ng-click="resetDeposit()">{{ rsc.content.debitTransfer.clear }}</button>
+			<meri-input field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay"
+			    id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+			<div class="clear clearTransfer">
+				<button ng-click="resetDeposit()">{{ hisa.content.depositTransfer.clear }}</button>
 			</div>
 		</div>
 	</div>
