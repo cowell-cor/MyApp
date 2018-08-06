@@ -1435,6 +1435,7 @@ window.defaultBRCalcDataConfig = {
 			]
 		},
 		savingDuration: {
+			directive:'number',
 			options: [{
 					configModel: 'select.paymentFrequencyOptions.monthly'
 				},

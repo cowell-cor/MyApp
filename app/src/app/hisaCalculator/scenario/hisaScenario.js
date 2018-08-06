@@ -4,8 +4,8 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			hisa = scenarios.getScenarios('hisaData'),
 			scenario = hisa.getScenario($attrs.scenarioIndex),
 			rscData = hisa.data,
-			content = $scope.rsc.content,
-			constants = $scope.rsc.data.constants,
+			content = $scope.hisa.content,
+			constants = $scope.hisa.data.constants,
 			currentYear = new Date().getFullYear();
 
 		$scope.collapse = {
@@ -38,13 +38,13 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		/////////////
 		// Watches //
 		/////////////
-		$scope.$watch("rsc.data.isScenarioViewSpouse",function() {
+		$scope.$watch("hisa.data.isScenarioViewSpouse",function() {
 			if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
 				calculate();
 			}
 		});
-		$scope.$watch("rsc.data.inflationRate",calculate); // shared value that any scenario can change, and must recalculate again
-		$scope.$watch("rsc.data.estimatedROR",calculate); // shared value that any scenario can change, and must recalculate again
+		$scope.$watch("hisa.data.inflationRate",calculate); // shared value that any scenario can change, and must recalculate again
+		$scope.$watch("hisa.data.estimatedROR",calculate); // shared value that any scenario can change, and must recalculate again
 		$scope.$watchCollection("sce.data",calculate,true);
 		
 		////////////////////////

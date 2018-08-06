@@ -1,19 +1,28 @@
 @import 'meridian';
 .br {
-	&-calc
-	 .leftColumn{
-		label.bold{
+	&-calc .leftColumn {
+		label.bold {
 			font-weight: 800;
 		}
-	 } 
-	 &-hisa-form
-	 	.clear{
-			 padding: 0 7px;
-			 button{
+	}
+	&-hisa-form {
+		.clear {
+			button {
 				background: none;
 				border: none;
 				outline: none;
 				padding: 0;
-			 }
-		 }
+			}
+		}
+		.clearDeposit {
+			padding: 0 7px 7px 7px;
+		}
+		.clearTransfer {
+			padding: 0 7px;
+		}
+		.sub-heading {
+			line-height: 21px;
+			margin: 0 0 5px 24px;
+		}
+	}
 }
