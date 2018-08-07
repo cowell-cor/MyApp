@@ -22,22 +22,35 @@
 		}
 		.sub-heading {
 			line-height: 21px;
-			margin: 0 0 5px 24px;
 		}
 		.range-slider {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 7px;
-			.slide{
+			padding: 0 7px;
+			.slide {
 				width: 65%;
 			}
-			.range{
+			.range {
 				width: 27%;
-				.form-group{
+				.form-group {
 					padding: 0;
 				}
 			}
 		}
+		.collapsed {
+			display: flex;
+			align-items: center;
+			.collapse-header{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				margin: 5px 0;
+				.header{
+					line-height: 21px;
+				}
+			}
+		}
+		
 	}
 }

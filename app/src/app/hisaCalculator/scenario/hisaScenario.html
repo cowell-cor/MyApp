@@ -28,12 +28,17 @@
 
 		</div>
 
-		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }}">
+		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }} collapsed">
 			<span class="glyphicon glyphicon-chevron-down"></span>
-			{{ hisa.content.debitTransferHeader }}
-			<meri-tooltip-with-header parent="parent" message="hisa.specs['debitTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
-			<div class="sub-heading">
-				{{hisa.content.debitTransferDefaultContent}}
+			<div class="collapse-header">
+				<div class="header">
+					{{ hisa.content.debitTransferHeader }}
+					<meri-tooltip-with-header parent="parent" message="hisa.specs['debitTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+				</div>
+
+				<div class="sub-heading">
+					{{hisa.content.debitTransferDefaultContent}}
+				</div>
 			</div>
 		</button>
 
@@ -46,19 +51,24 @@
 			</div>
 		</div>
 
-		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }}">
+		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }} collapsed">
 			<span class="glyphicon glyphicon-chevron-down"></span>
-			{{ hisa.content.depositTransferHeader }}
-			<meri-tooltip-with-header parent="parent" message="hisa.specs['depositTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
-			<div class="sub-heading">
-				{{hisa.content.depositTransferDefaultContent}}
+			<div class="collapse-header">
+				<div class="header">
+					{{ hisa.content.depositTransferHeader }}
+					<meri-tooltip-with-header parent="parent" message="hisa.specs['depositTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+				</div>
+
+				<div class="sub-heading">
+					{{hisa.content.depositTransferDefaultContent}}
+				</div>
 			</div>
 		</button>
 		<div uib-collapse="collapse.depositTransfer">
 			<meri-input field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay"
 			    id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-				<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
-				<div class="range-slider">
+			<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
+			<div class="range-slider">
 				<div class="slide">
 					<slider-range min="0%" max="100%" value-min="monthlyCreditsPay.price_min" value-max="monthlyCreditsPay.price_max"></slider-range>
 				</div>

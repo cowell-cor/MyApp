@@ -41,12 +41,7 @@ window.hisaContent = {
             savingDurationSliderAnuallyDefault: 25,
             savingDurationSliderMonthlyMax: 24,
             savingDurationSliderAnuallyMax: 40,
-            meridianSavingsAccount: {
-                header:'Choose a Meridian Savings Account',
-                savings:'Savings',
-                tfsa:'Tax-free Savings',
-                rsp:'RSP'
-            },
+            meridianSavingsAccount: 'Choose a Meridian Savings Account',
             autoSaveOptions: 'Add auto-save options to save even more.',
         },
 
@@ -68,7 +63,7 @@ window.hisaContent = {
             percentageToTransferPerPayMin: 0,
             percentageToTransferPerPayMax: 100,
             percentageToTransferPerPayDefault: 0,
-            clear:'Clear'
+            clear: 'Clear'
         },
 
         boostMenu: {
