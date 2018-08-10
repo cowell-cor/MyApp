@@ -844,6 +844,52 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	    };
 	})
 
+//Range Slider which accepts min,max,default value
+.directive('meriRangeSlider',['$timeout',function(){
+	var tpl = "<div class='slider-cont'>" +
+				"<div class='slider-content'>"+
+					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='7' ng-model='defaultVal' />"+
+					"<div class='slider-label'><span>{{min}}</span>"+
+					"<span>{{max}}<span></div></div>" +
+				"<div class='slider-text'><meri-input id='slider-box' ng-model=defaultVal class='sliderText' ></meri-input></div></div>";
+	
+    return {
+        restrict: 'E',
+		template: tpl,
+		scope:{
+			min:'=',
+			max:'=',
+			defaultVal:'=',
+			step:'=',
+			sliderId:'='
+		},
+		link:function($scope,$elm,$attrs){
+			
+			$elm.on('change', function() {
+				updateSlider();
+			});
+			// take the slider input box value
+			var input = $('#slider-box');
+			input.on('keyup', function(e) {
+				var inVal = parseInt(e.target.value);
+				updateSlider(inVal);
+				$scope.defaultVal = inVal;
+				// update the value in the model
+				$scope.$apply();
+			});
+
+			function updateSlider(inputValue){
+				var slider = $('#'+$scope.sliderId)[0];
+				var sliderValue = inputValue || slider.value;
+				var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+				slider.style.backgroundImage ='-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + outputVal + ', #39709A), '
+					+ 'color-stop(' + outputVal + ', #fff)'
+					+ ')';
+			}
+		}
+	};
+}])
 //range slider directive
 .directive('sliderRange', ['$document',function($document) {
 
@@ -865,7 +911,8 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 		restrict: 'E',
 		scope:{
 		  valueMin:"=",
-		  valueMax:"="
+		  valueMax:"=",
+		  defaultval:"="
 		},
 		link: function postLink(scope, element, attrs) {
 			// Initilization
@@ -877,28 +924,37 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			var settings = {
 					"min"   : (typeof(attrs.min) !== "undefined"  ? parseInt(attrs.min,10) : 0),
 					"max"   : (typeof(attrs.max) !== "undefined"  ? parseInt(attrs.max,10) : 100),
-					"step"  : (typeof(attrs.step) !== "undefined" ? parseInt(attrs.step,10) : 1)
+					"step"  : (typeof(attrs.step) !== "undefined" ? parseInt(attrs.step,10) : 1),
+					"defaultval"  : (typeof(attrs.defaultval) !== "undefined" ? parseInt(attrs.defaultval,10) : 100)
 				};
 			if ( typeof(scope.valueMin) == "undefined" || scope.valueMin === '' ) 
 				scope.valueMin = settings.min;
 				
 			if ( typeof(scope.valueMax) == "undefined" || scope.valueMax === '' ) 
 				scope.valueMax = settings.max;
+
+			if ( typeof(scope.valueMax) == "undefined" || scope.valueMax === '' ) 
+			scope.valueMax = settings.max;
 				
 			// Track changes only from the outside of the directive
-			scope.$watch('valueMin', function() {
-			  if (dragging) return;
-			  xPosMin = ( scope.valueMin - settings.min ) / (settings.max - settings.min ) * 100;
-			  if(xPosMin < 0) {
-				  xPosMin = 0;
-			  } else if(xPosMin > 100)  {
-				  xPosMin = 100;
-			  }
-			  moveHandle("min",element,xPosMin);
-			  moveRange(element,xPosMin,xPosMax);
-			});
+			// scope.$watch('valueMin', function() {
+			//   if (dragging) return;
+			//   xPosMin = ( scope.valueMin - settings.min ) / (settings.max - settings.min ) * 100;
+			//   if(xPosMin < 0) {
+			// 	  xPosMin = 0;
+			//   } else if(xPosMin > 100)  {
+			// 	  xPosMin = 100;
+			//   }
+			//   moveHandle("min",element,xPosMin);
+			//   moveRange(element,xPosMin,xPosMax);
+			// });
 	
-			scope.$watch('valueMax', function() {
+			scope.$watch('valueMax', function(nVal, oVal) {
+				// if ((oVal === nVal)){
+				// 	moveHandle("max",element,scope.defaultVal);
+				// 	moveRange(element,xPosMin,scope.defaultVal);
+				// 	return;
+				// };
 			  if (dragging) return;
 			  xPosMax = ( scope.valueMax - settings.min ) / (settings.max - settings.min ) * 100;
 			  if(xPosMax < 0) {

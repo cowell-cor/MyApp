@@ -48,9 +48,6 @@ window.hisaContent = {
         debitTransfer: {
             numberOfMonthlyDebitTransactions: 'Number of monthly debit transactions',
             amountToDepositPerTransaction: 'Amount to deposit per transaction',
-            amountToDepositPerTransactionMin: 0,
-            amountToDepositPerTransactionMax: 5,
-            amountToDepositPerTransactionDefault: 2,
             clear: 'Clear'
         },
 
@@ -58,11 +55,6 @@ window.hisaContent = {
         depositTransfer: {
             monthlyCreditsPay: 'Monthly credits / pay',
             percentageToTransferPerPay: 'Percentage to transfer per pay',
-            percentageToTransferPerPayMin: 0,
-            percentageToTransferPerPayDefault: 0,
-            percentageToTransferPerPayMin: 0,
-            percentageToTransferPerPayMax: 100,
-            percentageToTransferPerPayDefault: 0,
             clear: 'Clear'
         },
 
