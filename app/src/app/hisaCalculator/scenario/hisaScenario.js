@@ -13,6 +13,20 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			debitTransfer:true,
 			depositTransfer:true
 		};
+		$scope.sliderSavingDuration = {
+			defaultValue : 6,
+			min : 1,
+			max : 24,
+			step: 1,
+			label: 'savings'
+		};
+		$scope.sliderDepositTransfer = {
+			defaultValue : 0,
+			min : 0,
+			max : 100,
+			step: 1,
+			label: 'depositTransfer'
+		};
 		// FIX for annual limit for years 2017 and over
 		currentYear = currentYear>2016 ? 2016 : currentYear;
 
@@ -53,11 +67,20 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 
 
 		/**
-		 * Function: resetDeposit
+		 * Function: resetDepositTransfer
 		 * Usage: Reset value of Deposit Transfer fields
 		 */
-		$scope.resetDeposit= () =>{
-			console.log("hello"+JSON.stringify(rscData));
+		$scope.resetDepositTransfer= function(){
+			$scope.sce.data.monthlyCreditsPay=0;
+		}
+
+
+		/**
+		 * Function: resetDebitTransfer
+		 * Usage: Reset value of Deposit Transfer fields
+		 */
+		$scope.resetDebitTransfer= function(){
+			$scope.sce.data.numberOfMonthlyDebitTransactions=0;
 		}
 		// Important fix : Jan 03 2017 by BR Claudine
 		// !! important !!
@@ -205,7 +228,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			calculateHypotheticalBalance();
 
 			// Update highchart
-			updateHighchart();
+			//updateHighchart();
 
 			return results;
 		}
@@ -413,74 +436,74 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			})();
 		}
 
-		function updateHighchart () {
-			var retirementDetails = me.results.retirementDetails,
-				i = 0,
-				len = retirementDetails.length,
-				details,
-				categories = [],
-				config = angular.extend({},me.results.chartRSC),
-				noSavings,
-				isSurplusScenario = false,
+		// function updateHighchart () {
+		// 	var retirementDetails = me.results.retirementDetails,
+		// 		i = 0,
+		// 		len = retirementDetails.length,
+		// 		details,
+		// 		categories = [],
+		// 		config = angular.extend({},me.results.chartRSC),
+		// 		noSavings,
+		// 		isSurplusScenario = false,
 
-				surplusText = content.highchart.surplus,
-				shortfallText = content.highchart.shortfall,
+		// 		surplusText = content.highchart.surplus,
+		// 		shortfallText = content.highchart.shortfall,
 
-				surplusData = {},
-				savingsGoalData = {
-					displayName: content.highchart.savingsGoal,
-					name: content.highchart.savingsGoal,
-					surplusShortfall: [],
-					actualSavings:{},
-					data: [],
-					visible: true,
-					showInLegend: true
-				},
-				actualSavingsData = {
-					name: content.highchart.actualSavings,
-					data: [],
-					showInLegend: false // Because it musn't be visible in a scenario where no actual savings are registered
-				};
+		// 		surplusData = {},
+		// 		savingsGoalData = {
+		// 			displayName: content.highchart.savingsGoal,
+		// 			name: content.highchart.savingsGoal,
+		// 			surplusShortfall: [],
+		// 			actualSavings:{},
+		// 			data: [],
+		// 			visible: true,
+		// 			showInLegend: true
+		// 		},
+		// 		actualSavingsData = {
+		// 			name: content.highchart.actualSavings,
+		// 			data: [],
+		// 			showInLegend: false // Because it musn't be visible in a scenario where no actual savings are registered
+		// 		};
 
-			config.series = [];
+		// 	config.series = [];
 
-			for (;i<len;i++) {
-				details = retirementDetails[i];
+		// 	for (;i<len;i++) {
+		// 		details = retirementDetails[i];
 
-				noSavings = details.actualBeginningBalance === 0;
+		// 		noSavings = details.actualBeginningBalance === 0;
 
-				if (!isSurplusScenario && details.neededSavings < 0) isSurplusScenario = true;
+		// 		if (!isSurplusScenario && details.neededSavings < 0) isSurplusScenario = true;
 
-				actualSavingsData.data.push(details.actualBeginningBalance);
+		// 		actualSavingsData.data.push(details.actualBeginningBalance);
 
-				// Savings Data will always be available on the graph
-				// It's this data set that's responsible to display the summary in the tooltip
-				savingsGoalData.data.push(details.hypotheticalBeginningBalance);
-				savingsGoalData.surplusShortfall.push(details.neededSavings<0?{name:surplusText,value:details.neededSavings*-1}:{name:shortfallText,value:details.neededSavings});
+		// 		// Savings Data will always be available on the graph
+		// 		// It's this data set that's responsible to display the summary in the tooltip
+		// 		savingsGoalData.data.push(details.hypotheticalBeginningBalance);
+		// 		savingsGoalData.surplusShortfall.push(details.neededSavings<0?{name:surplusText,value:details.neededSavings*-1}:{name:shortfallText,value:details.neededSavings});
 
-				if (!isSurplusScenario && !noSavings && !actualSavingsData.showInLegend) actualSavingsData.showInLegend = true;
+		// 		if (!isSurplusScenario && !noSavings && !actualSavingsData.showInLegend) actualSavingsData.showInLegend = true;
 
-				categories.push(details.age);
-			}
+		// 		categories.push(details.age);
+		// 	}
 
-			// actualSavingsData.data = surplusData.data;
-			$.extend(true,surplusData,actualSavingsData); // same data. This is a question of layering in the series
-			savingsGoalData.actualSavings = actualSavingsData;
+		// 	// actualSavingsData.data = surplusData.data;
+		// 	$.extend(true,surplusData,actualSavingsData); // same data. This is a question of layering in the series
+		// 	savingsGoalData.actualSavings = actualSavingsData;
 
-			// Determine layer visibility
-			surplusData.visible = isSurplusScenario;
-			surplusData.showInLegend = isSurplusScenario;
+		// 	// Determine layer visibility
+		// 	surplusData.visible = isSurplusScenario;
+		// 	surplusData.showInLegend = isSurplusScenario;
 
-			actualSavingsData.visible = !isSurplusScenario;
-			actualSavingsData.showInLegend = actualSavingsData.showInLegend || false;
+		// 	actualSavingsData.visible = !isSurplusScenario;
+		// 	actualSavingsData.showInLegend = actualSavingsData.showInLegend || false;
 			
-			config.xAxis.categories = categories;
-			// Series: (layering by color, first layer is bellow, last is above)
-			// 	    Blue              Orange            Blue
-			// 	Actual Savings     Savings Goal     Actual Savings
-			// config.series = [surplusData, shortfallData, savingsGoalData, actualSavingsData];
-			config.series = [surplusData, savingsGoalData, actualSavingsData];
-			me.results.chartRSC = config;
-		}
+		// 	config.xAxis.categories = categories;
+		// 	// Series: (layering by color, first layer is bellow, last is above)
+		// 	// 	    Blue              Orange            Blue
+		// 	// 	Actual Savings     Savings Goal     Actual Savings
+		// 	// config.series = [surplusData, shortfallData, savingsGoalData, actualSavingsData];
+		// 	config.series = [surplusData, savingsGoalData, actualSavingsData];
+		// 	me.results.chartRSC = config;
+		// }
 	});
 })($cmsj,$cmsj);

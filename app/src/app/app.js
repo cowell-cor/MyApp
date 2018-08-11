@@ -844,6 +844,201 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	    };
 	})
 
+//Range Slider which accepts min,max,default value
+.directive('meriRangeSlider',['$timeout',function(){
+	var tpl = "<div class='slider-cont'>" +
+				"<div class='slider-content'>"+
+					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='7' ng-model='defaultVal' />"+
+					"<div class='slider-label'><span>{{min}}</span>"+
+					"<span>{{max}}<span></div></div>" +
+				"<div class='slider-text'><meri-input id='slider-box' ng-model=defaultVal class='sliderText' ></meri-input></div></div>";
+	
+    return {
+        restrict: 'E',
+		template: tpl,
+		scope:{
+			min:'=',
+			max:'=',
+			defaultVal:'=',
+			step:'=',
+			sliderId:'='
+		},
+		link:function($scope,$elm,$attrs){
+			
+			$elm.on('change', function() {
+				updateSlider();
+			});
+			// take the slider input box value
+			var input = $('#slider-box');
+			input.on('keyup', function(e) {
+				var inVal = parseInt(e.target.value);
+				updateSlider(inVal);
+				$scope.defaultVal = inVal;
+				// update the value in the model
+				$scope.$apply();
+			});
+
+			function updateSlider(inputValue){
+				var slider = $('#'+$scope.sliderId)[0];
+				var sliderValue = inputValue || slider.value;
+				var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+				slider.style.backgroundImage ='-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + outputVal + ', #39709A), '
+					+ 'color-stop(' + outputVal + ', #fff)'
+					+ ')';
+			}
+		}
+	};
+}])
+//range slider directive
+.directive('sliderRange', ['$document',function($document) {
+
+	// Move slider handle and range line
+	  var moveHandle = function(handle, elem, posX) {
+		$(elem).find('.handle.'+handle).css("left",posX +'%');
+	  };
+	  var moveRange = function(elem,posMin,posMax) {
+		$(elem).find('.range').css("left",posMin +'%');
+		$(elem).find('.range').css("width",posMax - posMin +'%');
+	  };
+	
+	return {
+		template: '<div class="slider horizontal">'+
+					'<div class="range"></div>'+
+					'<a class="handle max" ng-mousedown="mouseDownMax($event)"></a>'+
+				  '</div>',
+		replace: true,
+		restrict: 'E',
+		scope:{
+		  valueMin:"=",
+		  valueMax:"=",
+		  defaultval:"="
+		},
+		link: function postLink(scope, element, attrs) {
+			// Initilization
+			var dragging = false;
+			var startPointXMin = 0;
+			var startPointXMax = 0;
+			var xPosMin = 0;
+			var xPosMax = 0;
+			var settings = {
+					"min"   : (typeof(attrs.min) !== "undefined"  ? parseInt(attrs.min,10) : 0),
+					"max"   : (typeof(attrs.max) !== "undefined"  ? parseInt(attrs.max,10) : 100),
+					"step"  : (typeof(attrs.step) !== "undefined" ? parseInt(attrs.step,10) : 1),
+					"defaultval"  : (typeof(attrs.defaultval) !== "undefined" ? parseInt(attrs.defaultval,10) : 100)
+				};
+			if ( typeof(scope.valueMin) == "undefined" || scope.valueMin === '' ) 
+				scope.valueMin = settings.min;
+				
+			if ( typeof(scope.valueMax) == "undefined" || scope.valueMax === '' ) 
+				scope.valueMax = settings.max;
+
+			if ( typeof(scope.valueMax) == "undefined" || scope.valueMax === '' ) 
+			scope.valueMax = settings.max;
+				
+			// Track changes only from the outside of the directive
+			// scope.$watch('valueMin', function() {
+			//   if (dragging) return;
+			//   xPosMin = ( scope.valueMin - settings.min ) / (settings.max - settings.min ) * 100;
+			//   if(xPosMin < 0) {
+			// 	  xPosMin = 0;
+			//   } else if(xPosMin > 100)  {
+			// 	  xPosMin = 100;
+			//   }
+			//   moveHandle("min",element,xPosMin);
+			//   moveRange(element,xPosMin,xPosMax);
+			// });
+	
+			scope.$watch('valueMax', function(nVal, oVal) {
+				// if ((oVal === nVal)){
+				// 	moveHandle("max",element,scope.defaultVal);
+				// 	moveRange(element,xPosMin,scope.defaultVal);
+				// 	return;
+				// };
+			  if (dragging) return;
+			  xPosMax = ( scope.valueMax - settings.min ) / (settings.max - settings.min ) * 100;
+			  if(xPosMax < 0) {
+				  xPosMax = 0;
+			  } else if(xPosMax > 100)  {
+				  xPosMax = 100;
+			  }
+			  moveHandle("max",element,xPosMax);
+			  moveRange(element,xPosMin,xPosMax);
+			});
+	
+			// Real action control is here
+			scope.mouseDownMin = function($event) {
+				dragging = true;
+				startPointXMin = $event.pageX;
+			
+				// Bind to full document, to make move easiery (not to lose focus on y axis)
+				$document.on('mousemove', function($event) {
+					if(!dragging) return;
+	
+					//Calculate handle position
+					var moveDelta = $event.pageX - startPointXMin;
+	
+					xPosMin = xPosMin + ( (moveDelta / element.outerWidth()) * 100 );
+					if(xPosMin < 0) {
+						xPosMin = 0;
+					} else if(xPosMin > xPosMax) {
+					  xPosMin = xPosMax;
+					} else {
+						// Prevent generating "lag" if moving outside window
+						startPointXMin = $event.pageX;
+					}
+					scope.valueMin = Math.round((((settings.max - settings.min ) * (xPosMin / 100))+settings.min)/settings.step ) * settings.step;
+					scope.$apply();
+					
+					// Move the Handle
+					moveHandle("min", element,xPosMin);
+					moveRange(element,xPosMin,xPosMax);
+				});
+			$document.mouseup(function(){
+					dragging = false;
+					$document.unbind('mousemove');
+					$document.unbind('mousemove');
+				});
+			};
+	
+			scope.mouseDownMax = function($event) {
+				dragging = true;
+				startPointXMax = $event.pageX;
+			
+				// Bind to full document, to make move easiery (not to lose focus on y axis)
+				$document.on('mousemove', function($event) {
+					if(!dragging) return;
+	
+					//Calculate handle position
+					var moveDelta = $event.pageX - startPointXMax;
+	
+					xPosMax = xPosMax + ( (moveDelta / element.outerWidth()) * 100 );
+					if(xPosMax > 100)  {
+						xPosMax = 100;
+					} else if(xPosMax < xPosMin) {
+					  xPosMax = xPosMin;
+					} else {
+						// Prevent generating "lag" if moving outside window
+						startPointXMax = $event.pageX;
+					}
+					scope.valueMax = Math.round((((settings.max - settings.min ) * (xPosMax / 100))+settings.min)/settings.step ) * settings.step;
+					scope.$apply();
+					
+					// Move the Handle
+					moveHandle("max", element,xPosMax);
+					moveRange(element,xPosMin,xPosMax);
+				});
+	
+				$document.mouseup(function(){
+					dragging = false;
+					$document.unbind('mousemove');
+					$document.unbind('mousemove');
+				});
+			};
+		}
+	  };
+	}])
+
 	.directive('meriSelect',function($compile){
 
 		var directiveDefinitionObject = {

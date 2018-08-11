@@ -41,21 +41,13 @@ window.hisaContent = {
             savingDurationSliderAnuallyDefault: 25,
             savingDurationSliderMonthlyMax: 24,
             savingDurationSliderAnuallyMax: 40,
-            meridianSavingsAccount: {
-                header:'Choose a Meridian Savings Account',
-                savings:'Savings',
-                tfsa:'Tax-free Savings',
-                rsp:'RSP'
-            },
+            meridianSavingsAccount: 'Choose a Meridian Savings Account',
             autoSaveOptions: 'Add auto-save options to save even more.',
         },
 
         debitTransfer: {
             numberOfMonthlyDebitTransactions: 'Number of monthly debit transactions',
             amountToDepositPerTransaction: 'Amount to deposit per transaction',
-            amountToDepositPerTransactionMin: 0,
-            amountToDepositPerTransactionMax: 5,
-            amountToDepositPerTransactionDefault: 2,
             clear: 'Clear'
         },
 
@@ -63,12 +55,7 @@ window.hisaContent = {
         depositTransfer: {
             monthlyCreditsPay: 'Monthly credits / pay',
             percentageToTransferPerPay: 'Percentage to transfer per pay',
-            percentageToTransferPerPayMin: 0,
-            percentageToTransferPerPayDefault: 0,
-            percentageToTransferPerPayMin: 0,
-            percentageToTransferPerPayMax: 100,
-            percentageToTransferPerPayDefault: 0,
-            clear:'Clear'
+            clear: 'Clear'
         },
 
         boostMenu: {

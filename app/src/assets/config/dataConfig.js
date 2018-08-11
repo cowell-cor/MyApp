@@ -43,6 +43,12 @@ var defaultBRCalcDataContent = {
 				closed_5_year_variable: '5 Year Closed Variable',
 				open_1_year_fixed: '1 Year Open Fixed',
 				convertible_6_months_fixed: '6 Month Convertible Fixed'
+			},
+
+			meridianSavingsAccount:{
+				savings: 'Savings',
+				tfsa: 'Tax-free Savings',
+				rsp: 'RSP'
 			}
 		},
 
@@ -482,18 +488,20 @@ window.defaultBRCalcDataConfig = {
 
 			},
 			meridianSavingsAccount: {
-				options: [{
-					contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.savings',
-					value: '1.40%'
-				},
-				{
-					contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.tfsa',
-					value: 'tfsa'
-				},
-				{
-					contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.rsp',
-					value: 'rsp'
-				}],
+				configModel: 'select.meridianSavingsAccount',
+				contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount',
+				// options: [{
+				// 	contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.savings',
+				// 	value: '1.40%'
+				// },
+				// {
+				// 	contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.tfsa',
+				// 	value: 'tfsa'
+				// },
+				// {
+				// 	contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.rsp',
+				// 	value: 'rsp'
+				// }],
 			},
 			debitTransferContent: {
 				tooltip: {
@@ -1434,6 +1442,20 @@ window.defaultBRCalcDataConfig = {
 				}
 			]
 		},
+		meridianSavingsAccountOptions:{
+			savings: {
+				contentModel: 'label:select.meridianSavingsAccount.savings',
+				value: 1.40
+			},
+			tfsa: {
+				contentModel: 'label:select.meridianSavingsAccount.tfsa',
+				value: 1.40
+			},
+			rsp: {
+				contentModel: 'label:select.meridianSavingsAccount.rsp',
+				value: 1.40
+			}
+		},
 		savingDuration: {
 			directive:'number',
 			options: [{
@@ -1442,6 +1464,19 @@ window.defaultBRCalcDataConfig = {
 				{
 					configModel: 'select.paymentFrequencyOptions.annually'
 				},
+			]
+		},
+		meridianSavingsAccount: {
+			directive:'number',
+			options: [{
+					configModel: 'select.meridianSavingsAccountOptions.savings'
+				},
+				{
+					configModel: 'select.meridianSavingsAccountOptions.tfsa'
+				},
+				{
+					configModel: 'select.meridianSavingsAccountOptions.rsp'
+				}
 			]
 		}
 	},
