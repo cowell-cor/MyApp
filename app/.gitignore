@@ -1,0 +1,7 @@
+node_modules
+export
+subdev
+packages
+_files
+src/vendors
+\.gitignore\.swp

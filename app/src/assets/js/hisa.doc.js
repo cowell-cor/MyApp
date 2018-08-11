@@ -2118,6 +2118,201 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	    };
 	})
 
+//Range Slider which accepts min,max,default value
+.directive('meriRangeSlider',['$timeout',function(){
+	var tpl = "<div class='slider-cont'>" +
+				"<div class='slider-content'>"+
+					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='7' ng-model='defaultVal' />"+
+					"<div class='slider-label'><span>{{min}}</span>"+
+					"<span>{{max}}<span></div></div>" +
+				"<div class='slider-text'><meri-input id='slider-box' ng-model=defaultVal class='sliderText' ></meri-input></div></div>";
+	
+    return {
+        restrict: 'E',
+		template: tpl,
+		scope:{
+			min:'=',
+			max:'=',
+			defaultVal:'=',
+			step:'=',
+			sliderId:'='
+		},
+		link:function($scope,$elm,$attrs){
+			
+			$elm.on('change', function() {
+				updateSlider();
+			});
+			// take the slider input box value
+			var input = $('#slider-box');
+			input.on('keyup', function(e) {
+				var inVal = parseInt(e.target.value);
+				updateSlider(inVal);
+				$scope.defaultVal = inVal;
+				// update the value in the model
+				$scope.$apply();
+			});
+
+			function updateSlider(inputValue){
+				var slider = $('#'+$scope.sliderId)[0];
+				var sliderValue = inputValue || slider.value;
+				var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+				slider.style.backgroundImage ='-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + outputVal + ', #39709A), '
+					+ 'color-stop(' + outputVal + ', #fff)'
+					+ ')';
+			}
+		}
+	};
+}])
+//range slider directive
+.directive('sliderRange', ['$document',function($document) {
+
+	// Move slider handle and range line
+	  var moveHandle = function(handle, elem, posX) {
+		$(elem).find('.handle.'+handle).css("left",posX +'%');
+	  };
+	  var moveRange = function(elem,posMin,posMax) {
+		$(elem).find('.range').css("left",posMin +'%');
+		$(elem).find('.range').css("width",posMax - posMin +'%');
+	  };
+	
+	return {
+		template: '<div class="slider horizontal">'+
+					'<div class="range"></div>'+
+					'<a class="handle max" ng-mousedown="mouseDownMax($event)"></a>'+
+				  '</div>',
+		replace: true,
+		restrict: 'E',
+		scope:{
+		  valueMin:"=",
+		  valueMax:"=",
+		  defaultval:"="
+		},
+		link: function postLink(scope, element, attrs) {
+			// Initilization
+			var dragging = false;
+			var startPointXMin = 0;
+			var startPointXMax = 0;
+			var xPosMin = 0;
+			var xPosMax = 0;
+			var settings = {
+					"min"   : (typeof(attrs.min) !== "undefined"  ? parseInt(attrs.min,10) : 0),
+					"max"   : (typeof(attrs.max) !== "undefined"  ? parseInt(attrs.max,10) : 100),
+					"step"  : (typeof(attrs.step) !== "undefined" ? parseInt(attrs.step,10) : 1),
+					"defaultval"  : (typeof(attrs.defaultval) !== "undefined" ? parseInt(attrs.defaultval,10) : 100)
+				};
+			if ( typeof(scope.valueMin) == "undefined" || scope.valueMin === '' ) 
+				scope.valueMin = settings.min;
+				
+			if ( typeof(scope.valueMax) == "undefined" || scope.valueMax === '' ) 
+				scope.valueMax = settings.max;
+
+			if ( typeof(scope.valueMax) == "undefined" || scope.valueMax === '' ) 
+			scope.valueMax = settings.max;
+				
+			// Track changes only from the outside of the directive
+			// scope.$watch('valueMin', function() {
+			//   if (dragging) return;
+			//   xPosMin = ( scope.valueMin - settings.min ) / (settings.max - settings.min ) * 100;
+			//   if(xPosMin < 0) {
+			// 	  xPosMin = 0;
+			//   } else if(xPosMin > 100)  {
+			// 	  xPosMin = 100;
+			//   }
+			//   moveHandle("min",element,xPosMin);
+			//   moveRange(element,xPosMin,xPosMax);
+			// });
+	
+			scope.$watch('valueMax', function(nVal, oVal) {
+				// if ((oVal === nVal)){
+				// 	moveHandle("max",element,scope.defaultVal);
+				// 	moveRange(element,xPosMin,scope.defaultVal);
+				// 	return;
+				// };
+			  if (dragging) return;
+			  xPosMax = ( scope.valueMax - settings.min ) / (settings.max - settings.min ) * 100;
+			  if(xPosMax < 0) {
+				  xPosMax = 0;
+			  } else if(xPosMax > 100)  {
+				  xPosMax = 100;
+			  }
+			  moveHandle("max",element,xPosMax);
+			  moveRange(element,xPosMin,xPosMax);
+			});
+	
+			// Real action control is here
+			scope.mouseDownMin = function($event) {
+				dragging = true;
+				startPointXMin = $event.pageX;
+			
+				// Bind to full document, to make move easiery (not to lose focus on y axis)
+				$document.on('mousemove', function($event) {
+					if(!dragging) return;
+	
+					//Calculate handle position
+					var moveDelta = $event.pageX - startPointXMin;
+	
+					xPosMin = xPosMin + ( (moveDelta / element.outerWidth()) * 100 );
+					if(xPosMin < 0) {
+						xPosMin = 0;
+					} else if(xPosMin > xPosMax) {
+					  xPosMin = xPosMax;
+					} else {
+						// Prevent generating "lag" if moving outside window
+						startPointXMin = $event.pageX;
+					}
+					scope.valueMin = Math.round((((settings.max - settings.min ) * (xPosMin / 100))+settings.min)/settings.step ) * settings.step;
+					scope.$apply();
+					
+					// Move the Handle
+					moveHandle("min", element,xPosMin);
+					moveRange(element,xPosMin,xPosMax);
+				});
+			$document.mouseup(function(){
+					dragging = false;
+					$document.unbind('mousemove');
+					$document.unbind('mousemove');
+				});
+			};
+	
+			scope.mouseDownMax = function($event) {
+				dragging = true;
+				startPointXMax = $event.pageX;
+			
+				// Bind to full document, to make move easiery (not to lose focus on y axis)
+				$document.on('mousemove', function($event) {
+					if(!dragging) return;
+	
+					//Calculate handle position
+					var moveDelta = $event.pageX - startPointXMax;
+	
+					xPosMax = xPosMax + ( (moveDelta / element.outerWidth()) * 100 );
+					if(xPosMax > 100)  {
+						xPosMax = 100;
+					} else if(xPosMax < xPosMin) {
+					  xPosMax = xPosMin;
+					} else {
+						// Prevent generating "lag" if moving outside window
+						startPointXMax = $event.pageX;
+					}
+					scope.valueMax = Math.round((((settings.max - settings.min ) * (xPosMax / 100))+settings.min)/settings.step ) * settings.step;
+					scope.$apply();
+					
+					// Move the Handle
+					moveHandle("max", element,xPosMax);
+					moveRange(element,xPosMin,xPosMax);
+				});
+	
+				$document.mouseup(function(){
+					dragging = false;
+					$document.unbind('mousemove');
+					$document.unbind('mousemove');
+				});
+			};
+		}
+	  };
+	}])
+
 	.directive('meriSelect',function($compile){
 
 		var directiveDefinitionObject = {
@@ -2242,6 +2437,47 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 // '<transcluded-content></transcluded-content>' +
 							'<span class="clearfix"></span>'+
 						'</div>';
+				}
+			};
+
+		return directiveDefinitionObject;
+	})
+
+	.directive('meriTooltipWithHeader',function($compile){
+		var template = {
+				tooltip:'<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
+			}, 
+
+			directiveDefinitionObject = {
+				restrict: 'E',
+				transclude: false,
+				scope: {
+					parent:'=',
+					message:'='
+				},
+				replace: true,
+				controller: function ($scope,$element,$attrs,$interpolate) {
+					$scope.getMeriTooltipContent = function () {
+						if (typeof $scope.message === 'string') {
+							return $interpolate($scope.message)($scope.parent || $scope.$parent);
+						}
+						else {
+							return '';
+						}
+					};
+				},
+				compile: function compile(tElement, tAttrs) {
+					return {
+						// Before Link compile
+						pre: function preLink(/*scope, elem, attrs, ctrl*/) { },
+						// After Link compile
+						// Attach events here
+						post: function postLink(/*scope, elem, attrs, ctrl*/) { }
+					};
+				},
+
+				template: function(element,attr){
+					return template.tooltip;
 				}
 			};
 
@@ -3415,18 +3651,19 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 	// Set the content for the tool (language-dependant content found in config)
 	this.content = contentManager.setContent(hisaContent || {},'hisaContent').getContent('hisaContent');
 	// Get the scenarios reference, including data, results and validation objects
-	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
+	this.hisaData = scenarios.getScenarios('hisaData');
 	// Get the fieldspecs from the config
 	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
 	this.specs = contentManager.getConfig('fieldspecs.hisa');
 	
-	this.validation = this.retirementSavingsData.validation;
+	this.validation = this.hisaData.validation;
 
-	this.data = this.retirementSavingsData.data;
+	this.data = this.hisaData.data;
+	console.log(this.data);
 
-	$scope.$watch('rsc.data.addSpouse',function(){
-		me.data.isScenarioViewSpouse = false;
-	});
+	// $scope.$watch('rsc.data.addSpouse',function(){
+	// 	me.data.isScenarioViewSpouse = false;
+	// });
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
@@ -3435,17 +3672,29 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			hisa = scenarios.getScenarios('hisaData'),
 			scenario = hisa.getScenario($attrs.scenarioIndex),
 			rscData = hisa.data,
-			content = $scope.rsc.content,
-			constants = $scope.rsc.data.constants,
+			content = $scope.hisa.content,
+			constants = $scope.hisa.data.constants,
 			currentYear = new Date().getFullYear();
 
 		$scope.collapse = {
-			personnalQuestions:true,
-			sourceOfIncome:true,
-			investmentsAnnual:true,
-			investmentsMonthly:true
+			savings:false,
+			debitTransfer:true,
+			depositTransfer:true
+		};	
+		$scope.sliderSavingDuration = {
+			defaultValue : 6,
+			min : 1,
+			max : 24,
+			step: 1,
+			label: 'savings'
 		};
-
+		$scope.sliderDepositTransfer = {
+			defaultValue : 0,
+			min : 0,
+			max : 100,
+			step: 1,
+			label: 'depositTransfer'
+		};
 		// FIX for annual limit for years 2017 and over
 		currentYear = currentYear>2016 ? 2016 : currentYear;
 
@@ -3471,19 +3720,36 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		/////////////
 		// Watches //
 		/////////////
-		$scope.$watch("rsc.data.isScenarioViewSpouse",function() {
+		$scope.$watch("hisa.data.isScenarioViewSpouse",function() {
 			if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
 				calculate();
 			}
 		});
-		$scope.$watch("rsc.data.inflationRate",calculate); // shared value that any scenario can change, and must recalculate again
-		$scope.$watch("rsc.data.estimatedROR",calculate); // shared value that any scenario can change, and must recalculate again
+		$scope.$watch("hisa.data.inflationRate",calculate); // shared value that any scenario can change, and must recalculate again
+		$scope.$watch("hisa.data.estimatedROR",calculate); // shared value that any scenario can change, and must recalculate again
 		$scope.$watchCollection("sce.data",calculate,true);
 		
 		////////////////////////
 		// Internal functions //
 		////////////////////////
-		
+
+
+		/**
+		 * Function: resetDepositTransfer
+		 * Usage: Reset value of Deposit Transfer fields
+		 */
+		$scope.resetDepositTransfer= function(){
+			$scope.sce.data.monthlyCreditsPay=0;
+		}
+
+
+		/**
+		 * Function: resetDebitTransfer
+		 * Usage: Reset value of Deposit Transfer fields
+		 */
+		$scope.resetDebitTransfer= function(){
+			$scope.sce.data.numberOfMonthlyDebitTransactions=0;
+		}
 		// Important fix : Jan 03 2017 by BR Claudine
 		// !! important !!
 		// Always look for selected year and return annual limit found
@@ -3630,7 +3896,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			calculateHypotheticalBalance();
 
 			// Update highchart
-			updateHighchart();
+			//updateHighchart();
 
 			return results;
 		}
@@ -3838,75 +4104,75 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			})();
 		}
 
-		function updateHighchart () {
-			var retirementDetails = me.results.retirementDetails,
-				i = 0,
-				len = retirementDetails.length,
-				details,
-				categories = [],
-				config = angular.extend({},me.results.chartRSC),
-				noSavings,
-				isSurplusScenario = false,
+		// function updateHighchart () {
+		// 	var retirementDetails = me.results.retirementDetails,
+		// 		i = 0,
+		// 		len = retirementDetails.length,
+		// 		details,
+		// 		categories = [],
+		// 		config = angular.extend({},me.results.chartRSC),
+		// 		noSavings,
+		// 		isSurplusScenario = false,
 
-				surplusText = content.highchart.surplus,
-				shortfallText = content.highchart.shortfall,
+		// 		surplusText = content.highchart.surplus,
+		// 		shortfallText = content.highchart.shortfall,
 
-				surplusData = {},
-				savingsGoalData = {
-					displayName: content.highchart.savingsGoal,
-					name: content.highchart.savingsGoal,
-					surplusShortfall: [],
-					actualSavings:{},
-					data: [],
-					visible: true,
-					showInLegend: true
-				},
-				actualSavingsData = {
-					name: content.highchart.actualSavings,
-					data: [],
-					showInLegend: false // Because it musn't be visible in a scenario where no actual savings are registered
-				};
+		// 		surplusData = {},
+		// 		savingsGoalData = {
+		// 			displayName: content.highchart.savingsGoal,
+		// 			name: content.highchart.savingsGoal,
+		// 			surplusShortfall: [],
+		// 			actualSavings:{},
+		// 			data: [],
+		// 			visible: true,
+		// 			showInLegend: true
+		// 		},
+		// 		actualSavingsData = {
+		// 			name: content.highchart.actualSavings,
+		// 			data: [],
+		// 			showInLegend: false // Because it musn't be visible in a scenario where no actual savings are registered
+		// 		};
 
-			config.series = [];
+		// 	config.series = [];
 
-			for (;i<len;i++) {
-				details = retirementDetails[i];
+		// 	for (;i<len;i++) {
+		// 		details = retirementDetails[i];
 
-				noSavings = details.actualBeginningBalance === 0;
+		// 		noSavings = details.actualBeginningBalance === 0;
 
-				if (!isSurplusScenario && details.neededSavings < 0) isSurplusScenario = true;
+		// 		if (!isSurplusScenario && details.neededSavings < 0) isSurplusScenario = true;
 
-				actualSavingsData.data.push(details.actualBeginningBalance);
+		// 		actualSavingsData.data.push(details.actualBeginningBalance);
 
-				// Savings Data will always be available on the graph
-				// It's this data set that's responsible to display the summary in the tooltip
-				savingsGoalData.data.push(details.hypotheticalBeginningBalance);
-				savingsGoalData.surplusShortfall.push(details.neededSavings<0?{name:surplusText,value:details.neededSavings*-1}:{name:shortfallText,value:details.neededSavings});
+		// 		// Savings Data will always be available on the graph
+		// 		// It's this data set that's responsible to display the summary in the tooltip
+		// 		savingsGoalData.data.push(details.hypotheticalBeginningBalance);
+		// 		savingsGoalData.surplusShortfall.push(details.neededSavings<0?{name:surplusText,value:details.neededSavings*-1}:{name:shortfallText,value:details.neededSavings});
 
-				if (!isSurplusScenario && !noSavings && !actualSavingsData.showInLegend) actualSavingsData.showInLegend = true;
+		// 		if (!isSurplusScenario && !noSavings && !actualSavingsData.showInLegend) actualSavingsData.showInLegend = true;
 
-				categories.push(details.age);
-			}
+		// 		categories.push(details.age);
+		// 	}
 
-			// actualSavingsData.data = surplusData.data;
-			$.extend(true,surplusData,actualSavingsData); // same data. This is a question of layering in the series
-			savingsGoalData.actualSavings = actualSavingsData;
+		// 	// actualSavingsData.data = surplusData.data;
+		// 	$.extend(true,surplusData,actualSavingsData); // same data. This is a question of layering in the series
+		// 	savingsGoalData.actualSavings = actualSavingsData;
 
-			// Determine layer visibility
-			surplusData.visible = isSurplusScenario;
-			surplusData.showInLegend = isSurplusScenario;
+		// 	// Determine layer visibility
+		// 	surplusData.visible = isSurplusScenario;
+		// 	surplusData.showInLegend = isSurplusScenario;
 
-			actualSavingsData.visible = !isSurplusScenario;
-			actualSavingsData.showInLegend = actualSavingsData.showInLegend || false;
+		// 	actualSavingsData.visible = !isSurplusScenario;
+		// 	actualSavingsData.showInLegend = actualSavingsData.showInLegend || false;
 			
-			config.xAxis.categories = categories;
-			// Series: (layering by color, first layer is bellow, last is above)
-			// 	    Blue              Orange            Blue
-			// 	Actual Savings     Savings Goal     Actual Savings
-			// config.series = [surplusData, shortfallData, savingsGoalData, actualSavingsData];
-			config.series = [surplusData, savingsGoalData, actualSavingsData];
-			me.results.chartRSC = config;
-		}
+		// 	config.xAxis.categories = categories;
+		// 	// Series: (layering by color, first layer is bellow, last is above)
+		// 	// 	    Blue              Orange            Blue
+		// 	// 	Actual Savings     Savings Goal     Actual Savings
+		// 	// config.series = [surplusData, shortfallData, savingsGoalData, actualSavingsData];
+		// 	config.series = [surplusData, savingsGoalData, actualSavingsData];
+		// 	me.results.chartRSC = config;
+		// }
 	});
 })($cmsj,$cmsj);
 (function($,jQuery){

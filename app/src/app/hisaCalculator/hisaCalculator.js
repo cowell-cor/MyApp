@@ -4,17 +4,18 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 	// Set the content for the tool (language-dependant content found in config)
 	this.content = contentManager.setContent(hisaContent || {},'hisaContent').getContent('hisaContent');
 	// Get the scenarios reference, including data, results and validation objects
-	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
+	this.hisaData = scenarios.getScenarios('hisaData');
 	// Get the fieldspecs from the config
 	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
 	this.specs = contentManager.getConfig('fieldspecs.hisa');
 	
-	this.validation = this.retirementSavingsData.validation;
+	this.validation = this.hisaData.validation;
 
-	this.data = this.retirementSavingsData.data;
+	this.data = this.hisaData.data;
+	console.log(this.data);
 
-	$scope.$watch('rsc.data.addSpouse',function(){
-		me.data.isScenarioViewSpouse = false;
-	});
+	// $scope.$watch('rsc.data.addSpouse',function(){
+	// 	me.data.isScenarioViewSpouse = false;
+	// });
 });
 })($cmsj,$cmsj);

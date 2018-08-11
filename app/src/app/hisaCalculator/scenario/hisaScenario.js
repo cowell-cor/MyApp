@@ -12,7 +12,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			savings:false,
 			debitTransfer:true,
 			depositTransfer:true
-		};
+		};	
 		$scope.sliderSavingDuration = {
 			defaultValue : 6,
 			min : 1,

@@ -9,16 +9,15 @@
 		</button>
 		<div uib-collapse="collapse.savings">
 			<meri-input field-specs="hisa.specs['initialDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
-			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
+			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex" field-validation="sce.validation.paymentFrequency"></meri-input>
 			<meri-input field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
 			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-			<meri-select field-specs="hisa.specs.savingDuration" data-binding="sce.data.savingDurationDropDown"></meri-select>
-
+			<meri-select field-specs="hisa.specs.savingDuration" data-binding="sce.data.savingDuration"></meri-select>
 			<meri-range-slider slider-id="sliderSavingDuration.label" min="sliderSavingDuration.min" max="sliderSavingDuration.max" step="sliderSavingDuration.step"
 			    default-val="sliderSavingDuration.defaultValue">
 			</meri-range-slider>
 
-			<meri-select field-specs="hisa.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount"></meri-select>
+			<meri-select field-specs="hisa.specs.meridianSavingsAccount" data-binding="sce.data.savingsAccountType"></meri-select>
 			<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
 
 		</div>

@@ -46,9 +46,9 @@ var defaultBRCalcDataContent = {
 			},
 
 			meridianSavingsAccount:{
-				savings: 'Savings',
-				tfsa: 'Tax-free Savings',
-				rsp: 'RSP'
+				savings: 'Savings (1.40%)',
+				tfsa: 'Tax-free Savings (1.40%)',
+				rsp: 'RSP (1.40%)'
 			}
 		},
 
@@ -474,6 +474,10 @@ window.defaultBRCalcDataConfig = {
 					contentModel: 'message:hisaContent.tooltip.savingsContent'
 				}
 			},
+				meridianSavingsAccount: {
+				configModel: 'select.meridianSavingsAccount',
+				contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount',
+			},
 			initialDepositAmount: {
 				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.savingsOptions.initialDepositAmount'
@@ -486,22 +490,6 @@ window.defaultBRCalcDataConfig = {
 				configModel: 'select.savingDuration',
 				contentModel: 'label:hisaContent.savingsOptions.savingDuration',
 
-			},
-			meridianSavingsAccount: {
-				configModel: 'select.meridianSavingsAccount',
-				contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount',
-				// options: [{
-				// 	contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.savings',
-				// 	value: '1.40%'
-				// },
-				// {
-				// 	contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.tfsa',
-				// 	value: 'tfsa'
-				// },
-				// {
-				// 	contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount.rsp',
-				// 	value: 'rsp'
-				// }],
 			},
 			debitTransferContent: {
 				tooltip: {
@@ -520,116 +508,8 @@ window.defaultBRCalcDataConfig = {
 			monthlyCreditsPay: {
 				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.depositTransfer.monthlyCreditsPay'
-			},
-			retirementStartAge: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.retirementStartAge'
-			},
-			yearsInRetirement_spouse: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.yearsInRetirement_spouse'
-			},
-			yearsInRetirement: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.yearsInRetirement',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.yearsInRetirement'
-				}
-			},
-			annualIncome_spouse: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.annualIncome_spouse'
-			},
-			annualIncome: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.annualIncome'
-			},
-			targetIncomePercent: {
-				configModel: 'input.percent2',
-				contentModel: 'label:rscContent.scenarioInputs.targetIncomePercent',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.targetIncomePercent'
-				}
-			},
-			targetIncomeAmount: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.targetIncomeAmount'
-			},
-			oas: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.oas',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.oas'
-				}
-			},
-			cpp: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.cpp',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.cpp'
-				}
-			},
-			companyPension: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.companyPension'
-			},
-			nonRegInvestments: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.nonRegInvestments'
-			},
-			otherIncome: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.otherIncome'
-			},
-			currentRRSPSavings: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.currentRRSPSavings'
-			},
-			currentTFSASavings: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.currentTFSASavings'
-			},
-			currentNONREGSavings: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.currentNONREGSavings'
-			},
-			monthlyRRSPcontribution: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.monthlyRRSPcontribution'
-			},
-			monthlyTFSAcontribution: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.monthlyTFSAcontribution'
-			},
-			monthlyNONREGcontribution: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.monthlyNONREGcontribution'
-			},
-
-			addSpouse: {
-				configModel: 'input.boolean',
-				contentModel: 'label:rscContent.scenarioInputs.addSpouse'
-			},
-			isScenarioViewSpouse: {
-				directive: 'boolean',
-				options: [{
-						value: false,
-						contentModel: 'label:rscContent.scenarioInputs.isScenarioViewSpouse'
-					},
-					{
-						value: true,
-						contentModel: 'label:rscContent.scenarioInputs.isScenarioViewSpouse_spouse'
-					}
-				]
-			},
-			estimatedROR: {
-				configModel: 'input.percent2',
-				contentModel: 'label:rscContent.scenarioInputs.estimatedROR'
-			},
-			inflationRate: {
-				configModel: 'input.percent2',
-				contentModel: 'label:rscContent.scenarioInputs.inflationRate'
 			}
+		
 		},
 	},
 
@@ -972,140 +852,30 @@ window.defaultBRCalcDataConfig = {
 			},
 			results: {}
 		},
-		hisaData: {
-			data: {
-				scenarios: [],
-				scenarioModel: {
-					data: {
-						initialDepositAmount: 0,
-						monthlyDepositAmount: 0,
-						monthlyCreditsPay: 0,
-						numberOfMonthlyDebitTransactions: 0
+		hisaData:{
+			data:{
+				scenarios:[],
+				scenarioModel:{
+					data:{
+						initialDepositAmount:20000,
+						savingDuration:'monthly',
+						savingsAccountType:1,
+						showExtra:false,
+						mortgageAmount:300000,
+						interestRate:0.0249,
+						extraPaymentAmount:0
 					},
+
+					results:{
+						resultsByPaymentOption:{ }
+					},
+
 					validation: {
-						initialDepositAmount: {
-							max: 999999999.99,
-							min: 0
-						},
-						monthlyDepositAmount: {
-							max: 999999999.99,
-							min: 0
-						},
-						monthlyCreditsPay: {
-							max: 999999999.99,
-							min: 0
-						},
-						numberOfMonthlyDebitTransactions:{
-							max: 1000,
-							min: 0	
-						},
-						oas: {
-							rules: [{
-								name: 'readjust',
-								contentModel: 'message:rscContent.errorMessages.oas'
-							}],
-							min: 0,
-							max: 6846.24
-						},
-						cpp: {
-							min: 0,
-							max: 13110
-						},
-						companyPension: {
-							min: 0,
-							max: 100000
-						},
-						nonRegInvestments: {
-							min: 0,
-							max: 1000000
-						},
-						otherIncome: {
-							min: 0,
-							max: 1000000
-						},
-						currentRRSPSavings: {
-							min: 0,
-							max: 5000000
-						},
-						currentTFSASavings: {
-							min: 0,
-							max: 1000000
-						},
-						currentNONREGSavings: {
-							min: 0,
-							max: 5000000
-						},
-						monthlyRRSPcontribution: {
-							rules: [{
-								name: 'readjust',
-								contentModel: 'message:rscContent.errorMessages.overAllowedRRSPContribution',
-								customize: {
-									max: 'max',
-									currentYear: 'currentYear'
-								}
-							}],
-							min: 0,
-							max: 10000, // overide inside scenario
-							currentYear: 2016 // overide inside scenario
-						},
-						monthlyTFSAcontribution: {
-							rules: [{
-								name: 'readjust',
-								contentModel: 'message:rscContent.errorMessages.overAllowedTFSAContribution',
-								customize: {
-									max: 'max',
-									currentYear: 'currentYear'
-								}
-							}],
-							min: 0,
-							max: 10000, // overide inside scenario
-							currentYear: 2016 // overide inside scenario
-						},
-						monthlyNONREGcontribution: {
-							min: 0,
-							max: 10000
-						}
 					}
-				},
-
-				constants: {
-					annualRRSPcontributionLimit: {
-						// '2016':25370
-						'2016': 24270
-					},
-					annualTFSAcontributionLimit: {
-						'2016': 5500
-					}
-				},
-
-				addSpouse: false,
-				isScenarioViewSpouse: false,
-				estimatedROR: 0.03,
-				inflationRate: 0.02
-			},
-
-			validation: {
-				// addSpouse:{ },
-				// isScenarioViewSpouse:{ },
-				estimatedROR: {
-					min: 0.001,
-					max: 0.2
-				},
-				inflationRate: {
-					rules: [{
-						name: 'readjust',
-						contentModel: 'message:rscContent.errorMessages.inflationRate',
-						customize: {
-							average: 'average'
-						}
-					}],
-					average: 0.0149,
-					min: 0.001,
-					max: 0.2
 				}
 			},
-			results: {}
-		},
+			results:{}
+		}
 	},
 
 	validation: {
@@ -1445,19 +1215,18 @@ window.defaultBRCalcDataConfig = {
 		meridianSavingsAccountOptions:{
 			savings: {
 				contentModel: 'label:select.meridianSavingsAccount.savings',
-				value: 1.40
+				value: 1
 			},
 			tfsa: {
 				contentModel: 'label:select.meridianSavingsAccount.tfsa',
-				value: 1.40
+				value: 2
 			},
 			rsp: {
 				contentModel: 'label:select.meridianSavingsAccount.rsp',
-				value: 1.40
+				value: 3
 			}
 		},
 		savingDuration: {
-			directive:'number',
 			options: [{
 					configModel: 'select.paymentFrequencyOptions.monthly'
 				},
@@ -1467,7 +1236,6 @@ window.defaultBRCalcDataConfig = {
 			]
 		},
 		meridianSavingsAccount: {
-			directive:'number',
 			options: [{
 					configModel: 'select.meridianSavingsAccountOptions.savings'
 				},
