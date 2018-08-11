@@ -4,6 +4,15 @@
 		label.bold {
 			font-weight: 800;
 		}
+		.form-group{
+			.savingsSelect{
+				margin-bottom: 7px;
+				padding: 0;
+			}
+			.merdianSavings{
+				padding: 0;	
+			}
+		}
 	}
 	&-hisa-form {
 		.clear {
@@ -14,11 +23,18 @@
 				padding: 0;
 			}
 		}
+		.override-all{
+			padding:0;
+		}
+		.override-bottom{
+			padding-bottom: 0;
+		}
+
 		.clearDeposit {
-			padding: 0 7px 7px 7px;
+			padding: 0 7px 17px 0;
 		}
 		.clearTransfer {
-			padding: 0 7px;
+			padding: 0;
 		}
 		.sub-heading {
 			line-height: 21px;
@@ -54,17 +70,31 @@
 			}
 		}
 		.stdSpacing{
-			padding: 0 7px;
+			padding: 0;
 		}
 		
 		.slider-cont{
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 0 7px;
-			margin-top: -14px;
+			margin-bottom: 8px;
 			.slider-text{
 				width: 30%;
+				input{
+					display: block;
+					width: 100%;
+					color: #39709a;
+					border: 1px solid #39709a;
+					font-size: 16px;
+					text-align: right;
+					height: 34px;
+					padding: 6px 12px;
+					border-radius: 4px;
+					box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+					-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+					-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+					transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+				}
 			}
 			.slider-content{
 				width: 65%;

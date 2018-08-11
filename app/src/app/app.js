@@ -849,9 +849,9 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	var tpl = "<div class='slider-cont'>" +
 				"<div class='slider-content'>"+
 					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='7' ng-model='defaultVal' />"+
-					"<div class='slider-label'><span>{{min}}</span>"+
-					"<span>{{max}}<span></div></div>" +
-				"<div class='slider-text'><meri-input id='slider-box' ng-model=defaultVal class='sliderText' ></meri-input></div></div>";
+					"<div class='slider-label'><span>{{displayMin || min}}</span>"+
+					"<span>{{displayMax||max}}<span></div></div>" +
+				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div>";
 	
     return {
         restrict: 'E',
@@ -861,17 +861,21 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			max:'=',
 			defaultVal:'=',
 			step:'=',
-			sliderId:'='
+			sliderId:'=',
+			displayMin:'=',
+			displayMax: '=',
+			sliderTextId:'='
 		},
 		link:function($scope,$elm,$attrs){
-			
+			console.log('1');
 			$elm.on('change', function() {
 				updateSlider();
 			});
 			// take the slider input box value
-			var input = $('#slider-box');
+			var input = $('#'+$scope.sliderTextId);
 			input.on('keyup', function(e) {
 				var inVal = parseInt(e.target.value);
+				console.log(inVal);
 				updateSlider(inVal);
 				$scope.defaultVal = inVal;
 				// update the value in the model

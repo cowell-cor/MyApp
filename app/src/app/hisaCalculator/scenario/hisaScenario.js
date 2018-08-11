@@ -18,14 +18,28 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			min : 1,
 			max : 24,
 			step: 1,
-			label: 'savings'
+			label: 'savings',
+			textId:'savings_text'
 		};
 		$scope.sliderDepositTransfer = {
 			defaultValue : 0,
 			min : 0,
 			max : 100,
 			step: 1,
-			label: 'depositTransfer'
+			label: 'depositTransfer',
+			displayMin: '0%',
+			displayMax:'100%',
+			textId:'depositTransfer_text'
+		};
+		$scope.sliderDebitTransfer = {
+			defaultValue : 2,
+			min : 0,
+			max : 5,
+			step: 1,
+			label: 'debitTransfer',
+			displayMin: '$0',
+			displayMax:'$5',
+			textId:'debitTransfer_text'
 		};
 		// FIX for annual limit for years 2017 and over
 		currentYear = currentYear>2016 ? 2016 : currentYear;
