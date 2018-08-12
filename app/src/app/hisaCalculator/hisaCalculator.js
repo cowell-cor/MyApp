@@ -12,7 +12,6 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 	this.validation = this.hisaData.validation;
 
 	this.data = this.hisaData.data;
-	console.log(this.data);
 
 	// $scope.$watch('rsc.data.addSpouse',function(){
 	// 	me.data.isScenarioViewSpouse = false;

@@ -403,6 +403,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				hisaCalculatorScenario :'app/hisaCalculator/scenario/hisaScenario.html?'+versionCaching,
 				hisaCalculatorScenarioResults :'app/hisaCalculator/scenarioResults/hisaScenarioResults.html?'+versionCaching,
 				hisaCalculatorScenarioReport :'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?'+versionCaching,
+				hisaBoostSavings :'app/hisaCalculator/boostSavings/boostSavings.html?'+versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -845,10 +846,10 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	})
 
 //Range Slider which accepts min,max,default value
-.directive('meriRangeSlider',['$timeout',function(){
+.directive('meriRangeSlider',function(){
 	var tpl = "<div class='slider-cont'>" +
 				"<div class='slider-content'>"+
-					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='7' ng-model='defaultVal' />"+
+					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />"+
 					"<div class='slider-label'><span>{{displayMin || min}}</span>"+
 					"<span>{{displayMax||max}}<span></div></div>" +
 				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div>";
@@ -867,33 +868,29 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			sliderTextId:'='
 		},
 		link:function($scope,$elm,$attrs){
-			console.log('1');
 			$elm.on('change', function() {
 				updateSlider();
 			});
-			// take the slider input box value
-			var input = $('#'+$scope.sliderTextId);
-			input.on('keyup', function(e) {
-				var inVal = parseInt(e.target.value);
-				console.log(inVal);
-				updateSlider(inVal);
-				$scope.defaultVal = inVal;
-				// update the value in the model
-				$scope.$apply();
+			// change value from inputbox
+			$elm.on('keyup', function(event) {
+				var input = parseInt(document.getElementById($scope.sliderTextId).value);
+				updateSlider(input);
 			});
 
 			function updateSlider(inputValue){
 				var slider = $('#'+$scope.sliderId)[0];
 				var sliderValue = inputValue || slider.value;
 				var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+				console.log(outputVal);
 				slider.style.backgroundImage ='-webkit-gradient(linear, left top, right top, '
 					+ 'color-stop(' + outputVal + ', #39709A), '
 					+ 'color-stop(' + outputVal + ', #fff)'
 					+ ')';
 			}
+			updateSlider();
 		}
 	};
-}])
+})
 //range slider directive
 .directive('sliderRange', ['$document',function($document) {
 
