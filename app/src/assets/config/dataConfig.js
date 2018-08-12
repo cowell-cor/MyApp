@@ -526,6 +526,34 @@ window.defaultBRCalcDataConfig = {
 			monthlyCreditsPay: {
 				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.depositTransfer.monthlyCreditsPay'
+			},
+			sliderSavingDuration : {
+				defaultValue : 6,
+				min : 1,
+				max : 24,
+				step: 1,
+				label: 'savings_slider',
+				textId:'savings_text'
+			},
+			sliderDebitTransfer:{
+				defaultValue : 2,
+				min : 0,
+				max : 5,
+				step: 1,
+				label: 'debitTransfer_slider',
+				displayMin: '$0',
+				displayMax:'$5',
+				textId:'debitTransfer_text'
+			},
+			sliderDepositTransfer:{
+				defaultValue : 0,
+				min : 0,
+				max : 100,
+				step: 1,
+				label: 'depositTransfer_slider',
+				displayMin: '0%',
+				displayMax:'100%',
+				textId:'depositTransfer_text'
 			}
 		
 		},

@@ -13,20 +13,6 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			debitTransfer:true,
 			depositTransfer:true
 		};	
-		$scope.sliderSavingDuration = {
-			defaultValue : 6,
-			min : 1,
-			max : 24,
-			step: 1,
-			label: 'savings'
-		};
-		$scope.sliderDepositTransfer = {
-			defaultValue : 0,
-			min : 0,
-			max : 100,
-			step: 1,
-			label: 'depositTransfer'
-		};
 
 		//////////////////////////////
 		// View accessible variable //
@@ -42,6 +28,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
+
 //////////////////////////////
 // FIN FONCTIONS DE CALCULS //
 //////////////////////////////
