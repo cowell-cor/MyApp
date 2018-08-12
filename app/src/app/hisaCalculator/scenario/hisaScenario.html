@@ -9,15 +9,16 @@
 		</button>
 		<div uib-collapse="collapse.savings">
 			<meri-input field-specs="hisa.specs['initialDepositAmount' + sce.results.suffix]" data-binding="sce.data.initialDepositAmount"
-			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex" field-validation="sce.validation.paymentFrequency"></meri-input>
+			    id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex" class="override-all"></meri-input>
 			<meri-input field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]" data-binding="sce.data.monthlyDepositAmount"
-			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-			<meri-select field-specs="hisa.specs.savingDuration" data-binding="sce.data.savingDuration"></meri-select>
-			<meri-range-slider slider-id="sliderSavingDuration.label" min="sliderSavingDuration.min" max="sliderSavingDuration.max" step="sliderSavingDuration.step"
-			    default-val="sliderSavingDuration.defaultValue">
+			    id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex" class="override-all"></meri-input>
+			<meri-select field-specs="hisa.specs.savingDuration" data-binding="sce.data.savingDurationDropDown" class="savingsSelect override-all"></meri-select>
+
+			<meri-range-slider slider-id="hisa.specs.sliderSavingDuration.label" slider-text-id="hisa.specs.sliderSavingDuration.textId" min="hisa.specs.sliderSavingDuration.min" max="hisa.specs.sliderSavingDuration.max" step="hisa.specs.sliderSavingDuration.step"
+			    default-val="hisa.specs.sliderSavingDuration.defaultValue">
 			</meri-range-slider>
 
-			<meri-select field-specs="hisa.specs.meridianSavingsAccount" data-binding="sce.data.savingsAccountType"></meri-select>
+			<meri-select field-specs="hisa.specs.meridianSavingsAccount" data-binding="sce.data.meridianSavingsAccount" class="merdianSavings"></meri-select>
 			<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
 
 		</div>
@@ -39,17 +40,11 @@
 		<div uib-collapse="collapse.debitTransfer">
 
 			<meri-input field-specs="hisa.specs.numberOfMonthlyDebitTransactions" data-binding="sce.data.numberOfMonthlyDebitTransactions"
-			    id="numberOfMonthlyDebitTransactions" ng-model="sce.data.numberOfMonthlyDebitTransactions"></meri-input>
+			    id="numberOfMonthlyDebitTransactions" ng-model="sce.data.numberOfMonthlyDebitTransactions" class="numMonthlyTrx"></meri-input>
 			<label class="stdSpacing">{{hisa.content.debitTransfer.amountToDepositPerTransaction}}</label>
-			<div class="range-slider">
-				<div class="slide">
-					<slider-range min="0%" max="5%" value-min="amountToDepositPerTransaction.price_min" value-max="amountToDepositPerTransaction.price_max"></slider-range>
-				</div>
-				<div class="range">
-					<meri-input ng-model="amountToDepositPerTransaction.price_max" id="'amountToDepositPerTransaction' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-				</div>
-
-			</div>
+			<meri-range-slider slider-id="hisa.specs.sliderDebitTransfer.label" slider-text-id="hisa.specs.sliderDebitTransfer.textId"  min="hisa.specs.sliderDebitTransfer.min" max="hisa.specs.sliderDebitTransfer.max" step="hisa.specs.sliderDebitTransfer.step"
+			    default-val="hisa.specs.sliderDebitTransfer.defaultValue" display-min="hisa.specs.sliderDebitTransfer.displayMin" display-max="hisa.specs.sliderDebitTransfer.displayMax">
+			</meri-range-slider>
 			<div class="clear clearDeposit">
 				<button ng-click="resetDebitTransfer()">{{ hisa.content.debitTransfer.clear }}</button>
 			</div>
@@ -70,21 +65,12 @@
 		</button>
 		<div uib-collapse="collapse.depositTransfer">
 			<meri-input field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]" data-binding="sce.data.monthlyCreditsPay"
-			    id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex" ng-model="sce.data.monthlyCreditsPay"></meri-input>
+			    id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex" ng-model="sce.data.monthlyCreditsPay" class="monCreditPay"></meri-input>
 			<label class="stdSpacing">{{hisa.content.depositTransfer.percentageToTransferPerPay}}</label>
-			<meri-range-slider slider-id="sliderDepositTransfer.label" min="sliderDepositTransfer.min" max="sliderDepositTransfer.max" step="sliderDepositTransfer.step"
-			    default-val="sliderDepositTransfer.defaultValue">
+			<meri-range-slider slider-id="hisa.specs.sliderDepositTransfer.label" slider-text-id="hisa.specs.sliderDepositTransfer.textId"  min="hisa.specs.sliderDepositTransfer.min" max="hisa.specs.sliderDepositTransfer.max"
+			    step="hisa.specs.sliderDepositTransfer.step" default-val="hisa.specs.sliderDepositTransfer.defaultValue" display-min="hisa.specs.sliderDepositTransfer.displayMin"
+			    display-max="hisa.specs.sliderDepositTransfer.displayMax">
 			</meri-range-slider>
-
-			<div class="range-slider">
-				<div class="slide">
-					<slider-range min="0%" max="100%" value-min="monthlyCreditsPay.price_min" value-max="monthlyCreditsPay.price_max"></slider-range>
-				</div>
-				<div class="range">
-					<meri-input ng-model="monthlyCreditsPay.price_max" id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"></meri-input>
-				</div>
-
-			</div>
 			<div class="clear clearTransfer">
 				<button ng-click="resetDepositTransfer()">{{ hisa.content.depositTransfer.clear }}</button>
 			</div>

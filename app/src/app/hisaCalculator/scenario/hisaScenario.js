@@ -13,20 +13,6 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			debitTransfer:true,
 			depositTransfer:true
 		};	
-		$scope.sliderSavingDuration = {
-			defaultValue : 6,
-			min : 1,
-			max : 24,
-			step: 1,
-			label: 'savings'
-		};
-		$scope.sliderDepositTransfer = {
-			defaultValue : 0,
-			min : 0,
-			max : 100,
-			step: 1,
-			label: 'depositTransfer'
-		};
 		// FIX for annual limit for years 2017 and over
 		currentYear = currentYear>2016 ? 2016 : currentYear;
 
@@ -72,6 +58,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		 */
 		$scope.resetDepositTransfer= function(){
 			$scope.sce.data.monthlyCreditsPay=0;
+			$scope.hisa.specs.sliderDepositTransfer.defaultValue=0;
 		}
 
 
@@ -81,6 +68,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		 */
 		$scope.resetDebitTransfer= function(){
 			$scope.sce.data.numberOfMonthlyDebitTransactions=0;
+			$scope.hisa.specs.sliderDebitTransfer.defaultValue=2;
 		}
 		// Important fix : Jan 03 2017 by BR Claudine
 		// !! important !!
