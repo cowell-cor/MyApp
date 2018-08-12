@@ -132,6 +132,24 @@ var defaultBRCalcDataContent = {
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 				}
+			},
+			chartHISA:{
+				title: {
+					text: 'Based on your responses, here is what you will save:<br><b>$9,999.99</b>'
+				},
+				yAxis : {
+					visible: false
+				},
+				xAxis: {
+					crosshair:{"width": 1, color: 'black'},
+					allowDecimals: false,
+					tickPositions: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
+						categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
+						tickmarkPlacement: 'off',
+						title: {
+							enabled: false
+						}
+					},
 			}
 		},
 
@@ -1465,6 +1483,91 @@ window.defaultBRCalcDataConfig = {
 					color: '#39709a'
 				}]
 			}]
-		}
+		},
+		chartHISA: {
+			contentModel: 'charts.chartHISA',
+			colors: ['#3b6e98', '#e68923', '#3b6e98'],
+			chart: {
+				type: 'areaspline'
+			},
+			legend:{
+				enabled:true
+			},
+			credits: {
+				enabled: false
+			},
+			xAxis: {
+				crosshair:{"width": 1, color: 'black'},
+				allowDecimals: false,
+				tickPositions: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
+					categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
+					tickmarkPlacement: 'off',
+					title: {
+						enabled: false
+					}
+				},
+			yAxis : {
+				visible: false
+			},
+			tooltip: {
+				backgroundColor: '#F5F5F5',
+				borderRadius: 10,
+				shared: true,
+				valuePrefix: '$',
+				positioner: function () {
+					return { x: 80, y: 50 };
+				}
+			},
+			plotOptions: {
+				area: {
+					stacking: 'normal',
+					lineColor: '#666666',
+					marker: {
+						enabled: false,
+						symbol: 'circle',
+						radius: 2,
+						states: {
+							hover: {
+								enabled: true
+							}
+						}
+					}
+				},
+				series: {
+					marker: {
+						enabled: false
+					},
+					stickyTracking: false
+				}
+			},
+			series: [{
+				name: 'Debit Transfers',
+				color: '#39709A',
+				"marker": {
+						"symbol": "circle",
+						"fillColor": '#FFFFFF',
+						"lineColor": "#000000"
+					},
+				data: [102, 235, 500, 800, 1200, 1504, 2000,2300, 2900, 3500, 4000, 4500]
+			},  {
+				name: 'Deposit Transfers',
+				color: '#A8B402',
+				"marker": {
+						"symbol": "circle",
+						"fillColor": '#FFFFFF',
+						"lineColor": "#000000"
+					},
+				data: [50, 150, 350, 600, 800, 1200, 1500,1800, 2191, 2400, 2800, 3400]
+			},{
+				name: 'High Interest',
+				color: '#E68823',
+				"marker": {
+						"symbol": "circle",
+						"fillColor": '#FFFFFF',
+						"lineColor": "#000000"
+					},
+				data: [30, 75, 175, 300, 400, 600, 750, 900, 1000, 1200, 1404, 1768]
+			}]
+			}
 	}
 };

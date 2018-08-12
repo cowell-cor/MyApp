@@ -27,68 +27,10 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<chart class="chartRSC" ng-model="sce.results.chartRSC"></chart>
+			<chart class="chartRSC" ng-model="sce.results.chartHISA"></chart>
 		</div>
 	</div>
 
-	<div class="row rsc-results-row">
-		<div class="col-xs-12">
-			<div class="rsc-summary-wrapper">
-				<table class="hidden-xs">
-					<thead>
-						<tr>
-							<th class="results-savings-goal">{{ rsc.content.highchart.savingsGoal }}</th>
-							<th class="results-actual-savings">{{ rsc.content.highchart.actualSavings }}</th>
-							<th class="results-shortfall" ng-if="sce.results.scenarioType===1">{{ rsc.content.highchart.shortfall }}</th>
-							<th class="results-surplus" ng-if="sce.results.scenarioType!==1">{{ rsc.content.highchart.surplus }}</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{{ sce.results.savingsGoalTextResult = rsc.content.results.resultsSummaryPart1 + ( sce.results.pvOfRecommendedInvestement | currency:2 ) + rsc.content.results.resultsSummaryPart2 + ( sce.results.recommendedInvestmentPerYear | currency:2 ) + rsc.content.results.resultsSummaryOverXyear + ( sce.data.yearsInRetirement | year:0 ) + '.'}}</td>
-							<td>{{ sce.results.actualSavingsTextResult = rsc.content.results.resultsSummaryPart1 + ( sce.results.savingsAtRetirement | currency:2 ) + rsc.content.results.resultsSummaryPart2 + ( sce.results.annualIncomeBasedOnActualSavings | currency:2 ) + rsc.content.results.resultsSummaryOverXyear + ( sce.data.yearsInRetirement | year:0 ) + '.'}}</td>
-							<td ng-if="sce.results.scenarioType===1">{{ sce.results.shortfallGraph | currency:2 }}</td>
-							<td ng-if="sce.results.scenarioType!==1">{{ sce.results.surplusGraph | currency:2 }}</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<table class="visible-xs">
-					<thead>
-						<tr><th class="results-savings-goal">{{ rsc.content.highchart.savingsGoal }}</th></tr>
-					</thead>
-					<tbody>
-						<tr><td>{{ sce.results.savingsGoalTextResult }}</td></tr>
-					</tbody>
-				</table>
-				<table class="visible-xs">
-					<thead>
-						<tr><th class="results-actual-savings">{{ rsc.content.highchart.actualSavings }}</th></tr>
-					</thead>
-					<tbody>
-						<tr><td>{{ sce.results.actualSavingsTextResult }}</td></tr>
-					</tbody>
-				</table>
-				<table class="visible-xs" ng-if="sce.results.scenarioType===1">
-					<thead>
-						<tr><th class="results-shortfall">{{ rsc.content.highchart.shortfall }}</th></tr>
-					</thead>
-					<tbody>
-						<tr><td>{{ sce.results.shortfallGraph | currency:2 }}</td></tr>
-					</tbody>
-				</table>
-				<table class="visible-xs" ng-if="sce.results.scenarioType!==1">
-					<thead>
-						<tr><th class="results-surplus">{{ rsc.content.highchart.surplus }}</th></tr>
-					</thead>
-					<tbody>
-						<tr><td>{{ sce.results.surplusGraph | currency:2 }}</td></tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	
 	<br/>
 	
 	<div class="actions">

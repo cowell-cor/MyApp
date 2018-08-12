@@ -1,5 +1,5 @@
 (function($,jQuery){
-brCalc.controller('retirementSavingsScenarioResultsCtrl', function($scope,$attrs,scenarios, $location) {
+brCalc.controller('hisaScenarioReportsCtrl', function($scope,$attrs,scenarios, $location) {
 	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
 		me = this;
 
