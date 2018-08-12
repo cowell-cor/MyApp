@@ -29,15 +29,14 @@
 		<div class="col-xs-12">
 			<chart class="chartRSC" ng-model="sce.results.chartHISA"></chart>
 		</div>
+		<div class="bottomColumn">
+				<div class="form-group" style="padding:0 7px">
+					<div ng-include="module.hisaBoostSavings" data-scenario-index="0"></div>
+				</div>
+		</div>
 	</div>
 
 	<br/>
-	
-	<div class="actions">
-		<a href="https://www.meridiancu.ca/ways-to-bank/contact-us.aspx" class="btn btn-warning">{{ content.ui.btnContactAdvisor }}</a>
-		<a ng-show="!isMobile" onclick="window.print(); return false;" href="#" class="btn btn-link"><i class="glyphicon glyphicon-print"></i> {{ content.ui.btnPrintReport }}</a>
-	</div>
-
 	<div class="disclaimer" ng-bind-html="rsc.content.disclaimer | html"></div>
 
 </div>

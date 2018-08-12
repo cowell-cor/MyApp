@@ -6,16 +6,11 @@
 				<div class="form-group" style="padding:0 7px">
 					<div ng-controller="hisaScenarioCtrl as sce" ng-include="module.hisaCalculatorScenario" data-scenario-index="0"></div>
 				</div>
+			</div>
 		</div>
 		<div class="col-md-8">
 			<div ng-cloak ng-controller="hisaScenarioResultsCtrl as sce" class="col-md-8" ng-include="module.hisaCalculatorScenarioResults"></div>
-			<div class="bottomColumn">
-				<div class="form-group" style="padding:0 7px">
-					<div ng-include="module.hisaBoostSavings" data-scenario-index="0"></div>
-				</div>
-			</div>
 		</div>
-	</div>
 </div>
 
 

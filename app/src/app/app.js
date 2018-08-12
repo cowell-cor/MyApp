@@ -881,13 +881,11 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				var slider = $('#'+$scope.sliderId)[0];
 				var sliderValue = inputValue || slider.value;
 				var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
-				console.log(outputVal);
 				slider.style.backgroundImage ='-webkit-gradient(linear, left top, right top, '
 					+ 'color-stop(' + outputVal + ', #39709A), '
 					+ 'color-stop(' + outputVal + ', #fff)'
 					+ ')';
 			}
-			updateSlider();
 		}
 	};
 })
