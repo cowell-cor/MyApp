@@ -3,53 +3,22 @@
 	<div class="row" ng-show="tabData.getCurrentTab('rscScenariosViews') === 'single'" tab-default-value="rscScenariosViews:single">
 		<div class="col-md-4">
 			<div class="leftColumn">
-
-				<!-- <h2 class="text-center" bind-html-compile="rsc.content.savingsHeader"></h2> -->
-
-				<!-- <div class="form-group">
-					<label>{{rsc.content.scenarioInputs.addSpouse}}</label>
-
-					<div class="toggle-radio">
-						<label ng-repeat="option in rsc.specs.addSpouse.options">
-							<input type="radio" ng-model="rsc.data.addSpouse" name="rsc-addSpouse" value="{{option.value}}" boolean />
-							<span class="btn btn-default btn-block">{{ option.label }}</span>
-						</label>
-					</div>
-				</div> -->
-
-				<!-- <div class="form-group" style="padding:0 7px">
-					<label><h4>{{ rsc.content.scenarioInputs.initialDepositAmount }}</h4></label> -->
-					<!-- <div class="toggle-radio">
-						<label ng-repeat="option in rsc.specs.isScenarioViewSpouse.options">
-							<input type="radio" ng-model="rsc.data.isScenarioViewSpouse" name="rsc-isScenarioViewSpouse" value="{{option.value}}" boolean ng-disabled="!rsc.data.addSpouse" />
-							<span class="btn btn-default btn-block">{{ option.label }}</span>
-						</label>
-					</div> -->
-				<!-- </div> -->
-
 				<div class="form-group" style="padding:0 7px">
 					<div ng-controller="hisaScenarioCtrl as sce" ng-include="module.hisaCalculatorScenario" data-scenario-index="0"></div>
 				</div>
-
-				<!-- <div class="form-group" ng-show="rsc.data.addSpouse && rsc.data.isScenarioViewSpouse" style="padding:0 7px">
-					<div ng-controller="retirementSavingsScenarioCtrl as sce" ng-include="module.retirementSavingsCalculatorScenario" data-scenario-index="1" data-suffix="true"></div>
-				</div> -->
-
+		</div>
+		<div class="col-md-8">
+			<div ng-cloak ng-controller="hisaScenarioResultsCtrl as sce" class="col-md-8" ng-include="module.hisaCalculatorScenarioResults"></div>
+			<div class="bottomColumn">
+				<div class="form-group" style="padding:0 7px">
+					<div ng-include="module.hisaBoostSavings" data-scenario-index="0"></div>
+				</div>
 			</div>
-
-		</div>		
-		
-		<!-- <div ng-if="!rsc.data.addSpouse || !rsc.data.isScenarioViewSpouse" ng-controller="retirementSavingsScenarioResultsCtrl as sce" class="col-md-8" ng-include="module.retirementSavingsCalculatorScenarioResults" data-scenario-index="0"></div>
-
-		<div ng-if="rsc.data.addSpouse && rsc.data.isScenarioViewSpouse" ng-controller="retirementSavingsScenarioResultsCtrl as sce" class="col-md-8" ng-include="module.retirementSavingsCalculatorScenarioResults" data-scenario-index="1"></div> -->
+		</div>
 	</div>
-
-	<!-- <div ng-if="tabData.getCurrentTab('rscScenariosViews') === 'report'">
-		<div ng-cloak ng-controller="retirementSavingsScenarioReportCtrl as sce" class="col-md-12" ng-include="module.retirementSavingsCalculatorScenarioReport"></div>
-	</div> -->
-
 </div>
 
 
-  </body>
+</body>
+
 </html>
