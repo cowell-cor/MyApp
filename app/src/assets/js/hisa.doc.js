@@ -1677,6 +1677,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				hisaCalculatorScenario :'app/hisaCalculator/scenario/hisaScenario.html?'+versionCaching,
 				hisaCalculatorScenarioResults :'app/hisaCalculator/scenarioResults/hisaScenarioResults.html?'+versionCaching,
 				hisaCalculatorScenarioReport :'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?'+versionCaching,
+				hisaBoostSavings :'app/hisaCalculator/boostSavings/boostSavings.html?'+versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -2119,13 +2120,13 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	})
 
 //Range Slider which accepts min,max,default value
-.directive('meriRangeSlider',['$timeout',function(){
+.directive('meriRangeSlider',function(){
 	var tpl = "<div class='slider-cont'>" +
 				"<div class='slider-content'>"+
-					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='7' ng-model='defaultVal' />"+
-					"<div class='slider-label'><span>{{min}}</span>"+
-					"<span>{{max}}<span></div></div>" +
-				"<div class='slider-text'><meri-input id='slider-box' ng-model=defaultVal class='sliderText' ></meri-input></div></div>";
+					"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />"+
+					"<div class='slider-label'><span>{{displayMin || min}}</span>"+
+					"<span>{{displayMax||max}}<span></div></div>" +
+				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div>";
 	
     return {
         restrict: 'E',
@@ -2135,21 +2136,19 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			max:'=',
 			defaultVal:'=',
 			step:'=',
-			sliderId:'='
+			sliderId:'=',
+			displayMin:'=',
+			displayMax: '=',
+			sliderTextId:'='
 		},
 		link:function($scope,$elm,$attrs){
-			
 			$elm.on('change', function() {
 				updateSlider();
 			});
-			// take the slider input box value
-			var input = $('#slider-box');
-			input.on('keyup', function(e) {
-				var inVal = parseInt(e.target.value);
-				updateSlider(inVal);
-				$scope.defaultVal = inVal;
-				// update the value in the model
-				$scope.$apply();
+			// change value from inputbox
+			$elm.on('keyup', function(event) {
+				var input = parseInt(document.getElementById($scope.sliderTextId).value);
+				updateSlider(input);
 			});
 
 			function updateSlider(inputValue){
@@ -2163,7 +2162,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			}
 		}
 	};
-}])
+})
 //range slider directive
 .directive('sliderRange', ['$document',function($document) {
 
@@ -3659,13 +3658,19 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 	this.validation = this.hisaData.validation;
 
 	this.data = this.hisaData.data;
-	console.log(this.data);
 
 	// $scope.$watch('rsc.data.addSpouse',function(){
 	// 	me.data.isScenarioViewSpouse = false;
 	// });
 });
 })($cmsj,$cmsj);
+
+  // angular.module('brCalc').component('heroDetail', {
+  //   template: '<div style="width:200px;height:200px;border:1px solid red;">hhhhh</div>',
+  //   bindings: {
+  //   }
+  // });
+
 (function($,jQuery){
 brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
 		var me = this,
@@ -3681,20 +3686,6 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			debitTransfer:true,
 			depositTransfer:true
 		};	
-		$scope.sliderSavingDuration = {
-			defaultValue : 6,
-			min : 1,
-			max : 24,
-			step: 1,
-			label: 'savings'
-		};
-		$scope.sliderDepositTransfer = {
-			defaultValue : 0,
-			min : 0,
-			max : 100,
-			step: 1,
-			label: 'depositTransfer'
-		};
 
 		//////////////////////////////
 		// View accessible variable //
@@ -3710,6 +3701,7 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
+
 //////////////////////////////
 // FIN FONCTIONS DE CALCULS //
 //////////////////////////////

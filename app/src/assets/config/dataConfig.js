@@ -905,7 +905,7 @@ window.defaultBRCalcDataConfig = {
 					data:{
 						initialDepositAmount:20000,
 						savingDuration:'monthly',
-						savingsAccountType:1,
+						savingsAccountType:"1",
 						showExtra:false,
 						mortgageAmount:300000,
 						interestRate:0.0249,
@@ -917,6 +917,41 @@ window.defaultBRCalcDataConfig = {
 					},
 
 					validation: {
+						// Select validation - blank slate
+						savingDuration: {},
+						savingsAccountType: {},
+						sliderSavingDurationMonthly: {
+							min: 1,
+							max: 24
+						},
+						sliderSavingDurationYearly: {
+							min: 1,
+							max: 40
+						},
+						showExtra: {
+							value: false,
+							validation: false
+						},
+						initialDepositAmount: {
+							min: 20000,
+							max: 10000000
+						},
+						interestRate: {
+							min: 0.001,
+							max: 0.2
+						},
+						monthlyDepositAmount: {
+							min: 0,
+							max: 10000000
+						},
+						debitTransactions:{
+							min:0,
+							max:1000
+						},
+						sliderDebitTransactions: {
+							min: 0,
+							max: 5
+						},
 					}
 				}
 			},
@@ -1488,7 +1523,8 @@ window.defaultBRCalcDataConfig = {
 			contentModel: 'charts.chartHISA',
 			colors: ['#3b6e98', '#e68923', '#3b6e98'],
 			chart: {
-				type: 'areaspline'
+				type: 'areaspline',
+				width: 600
 			},
 			legend:{
 				enabled:true
@@ -1537,7 +1573,8 @@ window.defaultBRCalcDataConfig = {
 					marker: {
 						enabled: false
 					},
-					stickyTracking: false
+					stickyTracking: false,
+					cursor: 'pointer'
 				}
 			},
 			series: [{
@@ -1568,6 +1605,11 @@ window.defaultBRCalcDataConfig = {
 					},
 				data: [30, 75, 175, 300, 400, 600, 750, 900, 1000, 1200, 1404, 1768]
 			}]
+			},
+			exporting: {
+				contextButton: {
+					enabled: false,
+				}
 			}
 	}
 };
