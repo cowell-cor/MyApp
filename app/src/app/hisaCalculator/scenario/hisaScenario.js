@@ -11,6 +11,20 @@
 			savings: false,
 			debitTransfer: true,
 			depositTransfer: true
+		};	
+		$scope.getDefaultVal= function(type){
+			console.log('called');
+			$scope.value = null;
+			switch(type){
+				case 'monthly':
+					$scope.value = 6;
+					break;
+				case 'annually':
+					$scope.value = 24;
+					break;
+			}
+			console.log($scope.value);
+			return $scope.value;
 		};
 
 		//////////////////////////////
@@ -56,6 +70,20 @@
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
+		
+		/////////////
+		// Watches //
+		/////////////
+		// $scope.$watch("rsc.data.isScenarioViewSpouse",function() {
+		// 	if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
+		// 		calculate();
+		// 	}
+		// });
+		$scope.$watch("sce.data.savingDuration",function(newValue, oldvalue){
+			console.log(newValue);
+			$scope.getDefaultVal(newValue);
+		});
+		
 
 		//////////////////////////////
 		// FIN FONCTIONS DE CALCULS //
@@ -71,5 +99,6 @@
 				return config;
 			})();
 		}
+		
 	});
 })($cmsj, $cmsj);

@@ -909,7 +909,44 @@ window.defaultBRCalcDataConfig = {
 						showExtra:false,
 						mortgageAmount:300000,
 						interestRate:0.0249,
-						extraPaymentAmount:0
+						extraPaymentAmount:0,
+						sliderSavingDurationMonthly: {
+							defaultValue : 6,
+							min: 1,
+							max: 24,
+							step: 1,
+							label: 'savings_slider',
+							textId:'savings_text'
+						},
+						sliderSavingDurationYearly: {
+							defaultValue : 25,
+							min: 1,
+							max: 40,
+							step: 1,
+							label: 'savings_slider',
+							textId:'savings_text'
+						},
+						
+						sliderDebitTransfer:{
+							defaultValue : 2,
+							min : 0,
+							max : 5,
+							step: 1,
+							label: 'debitTransfer_slider',
+							displayMin: '$0',
+							displayMax:'$5',
+							textId:'debitTransfer_text'
+						},
+						sliderDepositTransfer:{
+							defaultValue : 0,
+							min : 0,
+							max : 100,
+							step: 1,
+							label: 'depositTransfer_slider',
+							displayMin: '0%',
+							displayMax:'100%',
+							textId:'depositTransfer_text'
+						}
 					},
 
 					results:{
@@ -934,7 +971,7 @@ window.defaultBRCalcDataConfig = {
 						},
 						initialDepositAmount: {
 							min: 20000,
-							max: 10000000
+							max: 999999999.99
 						},
 						interestRate: {
 							min: 0.001,
@@ -942,7 +979,7 @@ window.defaultBRCalcDataConfig = {
 						},
 						monthlyDepositAmount: {
 							min: 0,
-							max: 10000000
+							max: 999999999.99
 						},
 						debitTransactions:{
 							min:0,
@@ -952,6 +989,10 @@ window.defaultBRCalcDataConfig = {
 							min: 0,
 							max: 5
 						},
+						monthlyCreditsPay:{
+							min: 0,
+							max: 999999999.99
+						}
 					}
 				}
 			},
