@@ -13,7 +13,6 @@
 			depositTransfer: true
 		};	
 		$scope.getDefaultVal= function(type){
-			console.log('called');
 			$scope.value = null;
 			switch(type){
 				case 'monthly':
