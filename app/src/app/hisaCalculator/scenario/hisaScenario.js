@@ -22,7 +22,6 @@
 					$scope.value = 24;
 					break;
 			}
-			console.log($scope.value);
 			return $scope.value;
 		};
 
