@@ -1,7 +1,5 @@
 <form class="br-hisa-form">
-
-	<div class="scenario">
-
+	<div class="scenario" ng-cloak>
 		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			{{ hisa.content.savingsHeader }}
@@ -23,23 +21,24 @@
 				field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]"
 				field-validation="sce.validation.monthlyDepositAmount">
 			</meri-input>
-
+	
 			<meri-select 
 				field-specs="hisa.specs.savingDuration"
 				data-binding="sce.data.savingDuration"
 				class="savingsSelect override-all">
 			</meri-select>
-
+			
 			<meri-range-slider 
+				ng-init="getDefaultVal(sce.data.savingDuration)"
 				slider-id="hisa.specs.sliderSavingDuration.label" 
 				slider-text-id="hisa.specs.sliderSavingDuration.textId" 
-				min="hisa.specs.sliderSavingDuration.min"
-				max="hisa.specs.sliderSavingDuration.max" 
+				min="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
+				max="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
 				step="hisa.specs.sliderSavingDuration.step"
-				default-val="hisa.specs.sliderSavingDuration.defaultValue"
-				field-validation="sce.validation.sliderSavingDuration">
+				bind="value"
+				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly">
 			</meri-range-slider>
-
+			
 			<meri-select 
 				field-specs="hisa.specs.meridianSavingsAccount" 
 				data-binding="sce.data.savingsAccountType" 
@@ -110,7 +109,7 @@
 				data-binding="sce.data.monthlyCreditsPay"
 				field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]"
 				ng-model="sce.data.monthlyCreditsPay"
-				>
+				field-validation="sce.validation.monthlyCreditsPay">>
 			</meri-input>
 			<label class="stdSpacing">{{hisa.content.depositTransfer.percentageToTransferPerPay}}</label>
 			<meri-range-slider slider-id="hisa.specs.sliderDepositTransfer.label" slider-text-id="hisa.specs.sliderDepositTransfer.textId"  min="hisa.specs.sliderDepositTransfer.min" max="hisa.specs.sliderDepositTransfer.max"

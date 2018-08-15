@@ -860,7 +860,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 		scope:{
 			min:'=',
 			max:'=',
-			defaultVal:'=',
+			defaultVal:'=bind',
 			step:'=',
 			sliderId:'=',
 			displayMin:'=',
@@ -868,6 +868,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			sliderTextId:'='
 		},
 		link:function($scope,$elm,$attrs){
+			console.log($scope.defaultVal);
 			$elm.on('change', function() {
 				updateSlider();
 			});
@@ -1390,7 +1391,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				},
 
 				template: function(element,attr){
-					return '<div class="form-group">' +
+					return '<div class="form-group test">' +
 						'<label for="{{ id }}">{{ label }}</label>' +
 						'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 						// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +

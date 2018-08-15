@@ -13,6 +13,20 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 			debitTransfer:true,
 			depositTransfer:true
 		};	
+		$scope.getDefaultVal= function(type){
+			console.log('called');
+			$scope.value = null;
+			switch(type){
+				case 'monthly':
+					$scope.value = 6;
+					break;
+				case 'annually':
+					$scope.value = 24;
+					break;
+			}
+			console.log($scope.value);
+			return $scope.value;
+		};
 
 		//////////////////////////////
 		// View accessible variable //
@@ -28,6 +42,20 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
+		
+		/////////////
+		// Watches //
+		/////////////
+		// $scope.$watch("rsc.data.isScenarioViewSpouse",function() {
+		// 	if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
+		// 		calculate();
+		// 	}
+		// });
+		$scope.$watch("sce.data.savingDuration",function(newValue, oldvalue){
+			console.log(newValue);
+			$scope.getDefaultVal(newValue);
+		});
+		
 
 //////////////////////////////
 // FIN FONCTIONS DE CALCULS //
@@ -43,5 +71,6 @@ brCalc.controller('hisaScenarioCtrl', function($scope,$attrs,scenarios,$filter,c
 				return config;
 			})();
 		}
+		
 	});
 })($cmsj,$cmsj);
