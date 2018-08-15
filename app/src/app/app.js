@@ -867,8 +867,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			displayMax: '=',
 			sliderTextId:'='
 		},
-		link:function($scope,$elm,$attrs){
-			console.log($scope.defaultVal);
+		link:function($scope,$elm){
 			$elm.on('change', function() {
 				updateSlider();
 			});
@@ -876,6 +875,14 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			$elm.on('keyup', function(event) {
 				var input = parseInt(document.getElementById($scope.sliderTextId).value);
 				updateSlider(input);
+			});
+			$scope.$on('resetEvent',  function(e,debitTransfer) { 
+				var sliderElm = $('#'+debitTransfer.sliderId)[0];
+				var outputVal = ((debitTransfer.defaultVal - debitTransfer.min) / (debitTransfer.max - debitTransfer.min));
+				sliderElm.style.backgroundImage ='-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + outputVal + ', #39709A), '
+					+ 'color-stop(' + outputVal + ', #fff)'
+					+ ')';
 			});
 
 			function updateSlider(inputValue){
@@ -887,7 +894,8 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 					+ 'color-stop(' + outputVal + ', #fff)'
 					+ ')';
 			}
-		}
+		},
+		
 	};
 })
 //range slider directive
