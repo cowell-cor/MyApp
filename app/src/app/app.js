@@ -860,7 +860,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 		scope:{
 			min:'=',
 			max:'=',
-			defaultVal:'=bind',
+			defaultVal:'=defaultVal',
 			step:'=',
 			sliderId:'=',
 			displayMin:'=',

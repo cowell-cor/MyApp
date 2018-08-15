@@ -57,8 +57,8 @@
 		 */
 
 		$scope.resetDepositTransfer = function () {
-			$scope.sce.data.monthlyCreditsPay = 0
-			$scope.hisa.specs.sliderDepositTransfer.defaultValue = 0
+			$scope.sce.data.monthlyCreditsPay = 0;
+			$scope.hisa.specs.sliderDepositTransfer.defaultValue = 0;
 			$rootScope.$broadcast('resetEvent', {
 				sliderId: 'depositTransfer_slider',
 				defaultVal: 0,
@@ -80,7 +80,6 @@
 		// 	}
 		// });
 		$scope.$watch("sce.data.savingDuration",function(newValue, oldvalue){
-			console.log(newValue);
 			$scope.getDefaultVal(newValue);
 		});
 		
