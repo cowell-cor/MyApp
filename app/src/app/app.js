@@ -320,6 +320,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 	 				$(e.currentTarget).on('focus',selectText);
 	 			},
 	 			selectText = function (e) {
+					if(e.target && e.target.type === 'range') return;
 	 				e.currentTarget.setSelectionRange(0,e.currentTarget.value.length);
 	 				$(e.currentTarget).on('blur',removeSelectText);
 	 			},
@@ -347,6 +348,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			// };
 
 			$scope.tabData = tabData;
+			console.log(tabData)
 
 			$scope.isMobile = window.BU && BU.detect.isMobileBrowser() || false;
 			$('body')
@@ -1425,6 +1427,9 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			},
 			link: function(scope, elem, attrs, ngModel){
 				if (!ngModel || !window.Highcharts) return;
+				var isChartHISA = elem.hasClass('chartHISA');
+				isChartHISA && (window.Highcharts.wrap(window.Highcharts.Tooltip.prototype, 'hide', function (defaultCallback) {
+				}))
 
 				ngModel.$render = function(){
                scope.value = ngModel.$modelValue;
@@ -1436,7 +1441,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
                	if (attrs.highchart) {
                		scope.highchart = elem.highcharts();
                	}
-
+				
                	var count=0,
                		countMax=10,
                		tmFunc = function(){

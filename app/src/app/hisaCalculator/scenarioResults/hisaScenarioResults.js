@@ -24,7 +24,6 @@ brCalc.controller('hisaScenarioResultsCtrl', ["$scope","$attrs","scenarios","con
 				s = '<span>After ' + this.x + ' you will have:</span><br/><b>Total Savings $' + sum;
 				$.each(this.points, function () {
 					me.results.seriesName = this.series.name;
-					console.log(this);
 					s += '<br/>' + this.series.name + ': $' +
 						this.y;
 					sum+= this.y;
