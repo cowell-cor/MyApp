@@ -50,7 +50,7 @@
 			});
 		}
 
-				/**
+		/**
 		 * Function: resetDepositTransfer
 		 */
 
@@ -64,6 +64,15 @@
 				max:100
 			});
 		}
+		/**
+		 * Function: hideDynamiclbl
+		 * compares the current value with default values and return the flag
+		 */
+
+		$scope.hideDynamiclbl = function (txtVal,sliderVal,txtDef,sliderDef) {
+			return txtVal === txtDef && sliderVal===sliderDef;
+		}
+		
 		///////////////////////////////
 		// Before watches initiation //
 		///////////////////////////////

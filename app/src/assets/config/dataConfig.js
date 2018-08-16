@@ -492,7 +492,7 @@ window.defaultBRCalcDataConfig = {
 					contentModel: 'message:hisaContent.tooltip.savingsContent'
 				}
 			},
-				meridianSavingsAccount: {
+			meridianSavingsAccount: {
 				configModel: 'select.meridianSavingsAccount',
 				contentModel: 'label:hisaContent.savingsOptions.meridianSavingsAccount',
 			},
@@ -910,6 +910,8 @@ window.defaultBRCalcDataConfig = {
 						mortgageAmount:300000,
 						interestRate:0.0249,
 						extraPaymentAmount:0,
+						monthlyCreditsPay:0,
+						numberOfMonthlyDebitTransactions:0,
 						sliderSavingDurationMonthly: {
 							defaultValue : 6,
 							min: 1,
@@ -926,7 +928,7 @@ window.defaultBRCalcDataConfig = {
 							label: 'savings_slider',
 							textId:'savings_text'
 						},
-						
+
 						sliderDebitTransfer:{
 							defaultValue : 2,
 							min : 0,

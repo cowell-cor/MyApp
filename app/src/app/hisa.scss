@@ -15,6 +15,17 @@
     }
   }
   &-hisa-form {
+    .scenario {
+      .auto-save {     
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 21px;
+        margin-bottom: 20px;
+      }
+      .auto-save-col{
+        margin-top: 20px;
+      }
+    }
     .clear {
       button {
         background: none;
