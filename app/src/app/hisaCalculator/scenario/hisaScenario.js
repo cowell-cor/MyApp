@@ -11,19 +11,60 @@
 			savings: false,
 			debitTransfer: true,
 			depositTransfer: true
-		};	
-		$scope.getDefaultVal= function(type){
+		};
+		/**
+		 * Reset the value of savings slider based on monthly or anually
+		 * @param {monthly/annually} type 
+		 */
+		$scope.getDefaultVal = function (type) {
 			$scope.value = null;
-			switch(type){
+			switch (type) {
+				case 'monthly':
+					$scope.value = 6;
+					//tigger the event to updated the slider color bar
+					$rootScope.$broadcast('resetSavings', {
+						sliderId: 'savings_slider',
+						defaultVal: $scope.value,
+						min:0,
+						max:24,
+						callback:function(val){
+							console.log("lll"+val);
+							$scope.value=val;
+							$scope.$apply();
+						}
+					});
+					break;
+				case 'annually':
+					$scope.value = 25;
+					$rootScope.$broadcast('resetSavings', {
+						sliderId: 'savings_slider',
+						defaultVal: $scope.value,
+						min: 0,
+						max: 40,
+						callback:function(val){
+							console.log("jjj"+val);
+							$scope.value=val;
+							$scope.$apply();
+						}
+					});
+					break;
+			}
+
+			return $scope.value;
+		};
+		//capture the change event from slider to update default value in scope
+		$scope.$on('getDefaultVal', function(e,duration){
+			switch (duration) {
 				case 'monthly':
 					$scope.value = 6;
 					break;
 				case 'annually':
-					$scope.value = 24;
+					$scope.value = 25;
 					break;
 			}
-			return $scope.value;
-		};
+			console.log("bbb"+$scope.value);
+			$scope.$apply();
+		} );
 
 		//////////////////////////////
 		// View accessible variable //
@@ -42,11 +83,11 @@
 		$scope.resetDebitTransfer = function () {
 			$scope.sce.data.numberOfMonthlyDebitTransactions = 0
 			$scope.hisa.specs.sliderDebitTransfer.defaultValue = 2
-			$rootScope.$broadcast('resetEvent', {
+			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'debitTransfer_slider',
 				defaultVal: 2,
-				min:0,
-				max:5
+				min: 0,
+				max: 5
 			});
 		}
 
@@ -57,11 +98,11 @@
 		$scope.resetDepositTransfer = function () {
 			$scope.sce.data.monthlyCreditsPay = 0;
 			$scope.hisa.specs.sliderDepositTransfer.defaultValue = 0;
-			$rootScope.$broadcast('resetEvent', {
+			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'depositTransfer_slider',
 				defaultVal: 0,
-				min:0,
-				max:100
+				min: 0,
+				max: 100
 			});
 		}
 		/**
@@ -69,15 +110,15 @@
 		 * compares the current value with default values and return the flag
 		 */
 
-		$scope.hideDynamiclbl = function (txtVal,sliderVal,txtDef,sliderDef) {
-			return txtVal === txtDef && sliderVal===sliderDef;
+		$scope.hideDynamiclbl = function (txtVal, sliderVal, txtDef, sliderDef) {
+			return txtVal === txtDef && sliderVal === sliderDef;
 		}
-		
+
 		///////////////////////////////
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
-		
+
 		/////////////
 		// Watches //
 		/////////////
@@ -86,10 +127,10 @@
 		// 		calculate();
 		// 	}
 		// });
-		$scope.$watch("sce.data.savingDuration",function(newValue, oldvalue){
+		$scope.$watch("sce.data.savingDuration", function (newValue, oldvalue) {
 			$scope.getDefaultVal(newValue);
 		});
-		
+
 
 		//////////////////////////////
 		// FIN FONCTIONS DE CALCULS //
@@ -105,6 +146,6 @@
 				return config;
 			})();
 		}
-		
+
 	});
 })($cmsj, $cmsj);
