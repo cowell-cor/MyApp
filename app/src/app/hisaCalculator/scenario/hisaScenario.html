@@ -31,13 +31,13 @@
 				field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]"
 				field-validation="sce.validation.monthlyDepositAmount">
 			</meri-input>
-
+	
 			<meri-select 
 				field-specs="hisa.specs.savingDuration"
 				data-binding="sce.data.savingDuration"
 				class="savingsSelect override-all">
 			</meri-select>
-
+			
 			<meri-range-slider 
 				ng-init="getDefaultVal(sce.data.savingDuration)"
 				slider-id="hisa.specs.sliderSavingDuration.label"

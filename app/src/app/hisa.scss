@@ -309,6 +309,9 @@
           }
         }
       }
+      .boost-spl-padding{
+        padding: 10px 30px 30px 30px;
+      }
       td {
         text-align: center;
         padding: 30px;
@@ -317,10 +320,20 @@
     .boost-savings-tbl3 {
       td {
         text-align: center;
-        padding: 18px;
+        padding: 18px 2px 2px 2px;
         font-size: 14px;
         line-height: 16px;
         text-align: center;
+      }
+      .lnk-disclaimer{
+        cursor: pointer;
+      }
+      .disclaimer-text{
+        padding: 0;
+        color: #999999;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
       }
     }
   }

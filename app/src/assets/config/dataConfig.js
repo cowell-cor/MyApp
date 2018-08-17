@@ -948,7 +948,13 @@ window.defaultBRCalcDataConfig = {
 							displayMin: '0%',
 							displayMax:'100%',
 							textId:'depositTransfer_text'
-						}
+						},
+						showBoostFeature: false,
+						boostSavings:{
+							boostSavingsPercentage: '3',
+							boostMonths: '4',
+							showBoost: false
+						},
 					},
 
 					results:{

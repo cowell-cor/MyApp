@@ -403,7 +403,7 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 				hisaCalculatorScenario :'app/hisaCalculator/scenario/hisaScenario.html?'+versionCaching,
 				hisaCalculatorScenarioResults :'app/hisaCalculator/scenarioResults/hisaScenarioResults.html?'+versionCaching,
 				hisaCalculatorScenarioReport :'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?'+versionCaching,
-				hisaBoostSavings :'app/hisaCalculator/boostSavings/boostSavings.html?'+versionCaching,
+				hisaBoostSavings :'app/hisaCalculator/scenarioResults/boostSavings.html?'+versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
