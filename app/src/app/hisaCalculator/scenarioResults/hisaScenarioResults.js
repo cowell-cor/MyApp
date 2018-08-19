@@ -1,12 +1,14 @@
 (function ($, jQuery) {
-	brCalc.controller('hisaScenarioResultsCtrl', ["$scope", "$attrs", "scenarios", "contentManager", function ($scope, $attrs, scenarios, contentManager) {
+	brCalc.controller('hisaScenarioResultsCtrl', ["$scope", "$attrs", "scenarios", "contentManager","$rootScope", function ($scope, $attrs, scenarios, contentManager,$rootScope) {
 		var scenario = scenarios.getScenario('hisaData', $attrs.scenarioIndex, contentManager),
 			me = this;
 
 		this.data = scenario.data;
 		this.data.scenarioIndex = $attrs.scenarioIndex;
 		this.results = scenario.results;
-
+		$rootScope.$on('openAccountLink', function(event, link) {
+			$scope.openActLink = link;
+		 });
 
 		//me.results.chartHISA = contentManager.getHighchartConfig('chartHISA');
 		initChart();
