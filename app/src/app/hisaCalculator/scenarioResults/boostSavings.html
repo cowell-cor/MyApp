@@ -57,10 +57,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="disclaimer-text" ng-if="hideFlag && sce.data.showBoostFeature">
-								<p>{{hisa.content.disclaimer.boostSelectedPara1}} </p>
-								<p>{{hisa.content.disclaimer.boostSelectedPara2}} </p>
-								<p>{{hisa.content.disclaimer.boostSelectedPara3}} </p>
+							<td class="disclaimer-text" ng-if="hideFlag && sce.data.showBoostFeature" ng-bind-html="hisa.content.disclaimer.boostSelectedPara | html">
 							</td>
 							<td class="disclaimer-text" ng-if="hideFlag && !sce.data.showBoostFeature">
 								{{hisa.content.disclaimer.boostNotSelected}}
