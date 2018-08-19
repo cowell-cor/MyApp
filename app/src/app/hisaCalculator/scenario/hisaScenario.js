@@ -6,7 +6,9 @@
 			rscData = hisa.data,
 			content = $scope.hisa.content,
 			constants = $scope.hisa.data.constants;
-
+		
+		me.data = hisa.data;
+		me.data.value = null;
 		$scope.collapse = {
 			savings: false,
 			debitTransfer: true,
@@ -17,52 +19,49 @@
 		 * @param {monthly/annually} type 
 		 */
 		$scope.getDefaultVal = function (type) {
-			$scope.value = null;
 			switch (type) {
 				case 'monthly':
-					$scope.value = 6;
+					me.data.value = 6;
 					//tigger the event to updated the slider color bar
-					$rootScope.$broadcast('resetSavings', {
-						sliderId: 'savings_slider',
-						defaultVal: $scope.value,
-						min:0,
-						max:24,
-						callback:function(val){
-							console.log("lll"+val);
-							$scope.value=val;
-							$scope.$apply();
-						}
-					});
+					// $rootScope.$broadcast('resetSavings', {
+					// 	sliderId: 'savings_slider',
+					// 	defaultVal: $scope.value,
+					// 	min:0,
+					// 	max:24,
+					// 	callback:function(val){
+					// 		console.log("lll"+val);
+					// 		$scope.value=val;
+					// 		$scope.$apply();
+					// 	}
+					// });
 					break;
 				case 'annually':
-					$scope.value = 25;
-					$rootScope.$broadcast('resetSavings', {
-						sliderId: 'savings_slider',
-						defaultVal: $scope.value,
-						min: 0,
-						max: 40,
-						callback:function(val){
-							console.log("jjj"+val);
-							$scope.value=val;
-							$scope.$apply();
-						}
-					});
+					me.data.value = 25;
+					// $rootScope.$broadcast('resetSavings', {
+					// 	sliderId: 'savings_slider',
+					// 	defaultVal: $scope.value,
+					// 	min: 0,
+					// 	max: 40,
+					// 	callback:function(val){
+					// 		console.log("jjj"+val);
+					// 		$scope.value=val;
+					// 		$scope.$apply();
+					// 	}
+					// });
 					break;
 			}
-
-			return $scope.value;
 		};
 		//capture the change event from slider to update default value in scope
 		$scope.$on('getDefaultVal', function(e,duration){
 			switch (duration) {
 				case 'monthly':
-					$scope.value = 6;
+					me.data.value = 6;
 					break;
 				case 'annually':
-					$scope.value = 25;
+					me.data.value = 25;
 					break;
 			}
-			console.log("bbb"+$scope.value);
+			console.log("bbb"+me.data.value);
 			$scope.$apply();
 		} );
 
@@ -130,7 +129,6 @@
 		$scope.$watch("sce.data.savingDuration", function (newValue, oldvalue) {
 			$scope.getDefaultVal(newValue);
 		});
-
 
 		//////////////////////////////
 		// FIN FONCTIONS DE CALCULS //
