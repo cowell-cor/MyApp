@@ -12,31 +12,29 @@
 		initChart();
 
 		function initChart() {
-			me.results.chartHISA = (function () {
+		me.results.chartHISA = (function(){
 
-				var config = contentManager.getHighchartConfig('chartHISA');
-				// Tooltip formatting
-				config.tooltip.formatter = function () {
-					var sum = 0,
-						s;
-					$.each(this.points, function () {
-						sum += this.y;
-					});
-					s = '<span>After ' + this.x + ' you will have:</span><br/><b>Total Savings $' + sum;
-					$.each(this.points, function () {
-						me.results.seriesName = this.series.name;
-						console.log(this);
-						s += '<br/>' + this.series.name + ': $' +
-							this.y;
-						sum += this.y;
+			var config = contentManager.getHighchartConfig('chartHISA');
+			// Tooltip formatting
+			config.tooltip.formatter = function(){
+				var sum = 0,s;
+				$.each(this.points, function () {
+				sum+= this.y;
+				});
+				s = '<span>After ' + this.x + ' you will have:</span><br/><b>Total Savings $' + sum;
+				$.each(this.points, function () {
+					me.results.seriesName = this.series.name;
+					s += '<br/>' + this.series.name + ': $' +
+						this.y;
+					sum+= this.y;
+				
+				});
+				me.results.total = sum;
 
-					});
-					me.results.total = sum;
-
-					return s;
-				};
-				return config;
-			})();
+				return s;
+			};
+			return config;
+		})();
 
 		}
 

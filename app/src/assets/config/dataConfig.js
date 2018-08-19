@@ -1572,6 +1572,16 @@ window.defaultBRCalcDataConfig = {
 			contentModel: 'charts.chartHISA',
 			colors: ['#3b6e98', '#e68923', '#3b6e98'],
 			chart: {
+				events: {
+					load: function(){
+						var s = this.series;
+						var p = [];
+						s.forEach(function(v, k){
+							p.push(v.points[v.points.length -1 ]);
+						});
+						this.tooltip.refresh(p);  
+					}
+				},
 				type: 'areaspline',
 				width: 600
 			},
@@ -1622,7 +1632,11 @@ window.defaultBRCalcDataConfig = {
 					marker: {
 						enabled: false
 					},
-					stickyTracking: false,
+					events: {
+                        mouseOut: function() {
+                            return false;
+                        }                       
+                    },
 					cursor: 'pointer'
 				}
 			},
