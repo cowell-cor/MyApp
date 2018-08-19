@@ -16,6 +16,14 @@
       }
     }
     .mainColumn {
+      .hisa-header {
+        line-height: 31px;
+        padding: 0;
+        margin: 10px 0 0 0;
+      }
+      .chart-container {
+        margin-top: 23px;
+      }
       .btn-charts {
         width: 30%;
         margin-bottom: 25px;
@@ -309,7 +317,7 @@
           }
         }
       }
-      .boost-spl-padding{
+      .boost-spl-padding {
         padding: 10px 30px 30px 30px;
       }
       td {
@@ -325,10 +333,10 @@
         line-height: 16px;
         text-align: center;
       }
-      .lnk-disclaimer{
+      .lnk-disclaimer {
         cursor: pointer;
       }
-      .disclaimer-text{
+      .disclaimer-text {
         padding: 0;
         color: #999999;
         font-size: 14px;

@@ -48,10 +48,10 @@
 					<tbody>
 						<tr>
 							<td>
-								<span class="lnk-disclaimer" ng-click="showDisclaimer()" ng-if="!hideFlag">
+								<span class="lnk-disclaimer" ng-click="showDisclaimer()" ng-if="!isBoostSavings">
 									{{hisa.content.disclaimer.show}}
 								</span>
-								<span class="lnk-disclaimer" ng-click="showDisclaimer()" ng-if="hideFlag">
+								<span class="lnk-disclaimer" ng-click="showDisclaimer()" ng-if="isBoostSavings">
 									{{hisa.content.disclaimer.hide}}
 								</span>
 							</td>

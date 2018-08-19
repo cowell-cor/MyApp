@@ -135,7 +135,7 @@ var defaultBRCalcDataContent = {
 			},
 			chartHISA:{
 				title: {
-					text: 'Based on your responses, here is what you will save:<br><b>$9,999.99</b>'
+					text: ''
 				},
 				yAxis : {
 					visible: false

@@ -1,6 +1,6 @@
 window.hisaContent = {
     en: {
-        hisaHeader: 'Based on your responses, here is what you’ll save: [$amount, based on calculation]',
+        hisaHeader: 'Based on your responses, here is what you’ll save:',
         savingsHeader: 'Savings',
         savingsDynamicContent: '[Dollars] for [duration in months or years] at [rate percentage]',
         debitTransferHeader: 'Debit Transfer',
@@ -57,11 +57,12 @@ window.hisaContent = {
             percentageToTransferPerPay: 'Percentage to transfer per pay',
             clear: 'Clear'
         },
-
+        graph: 'Graph',
+        table: 'Table',
         boostSavings: {
             boostToggle: 'Show Me The Boost',
         },
-        
+
         openYourAccount: 'Open your account',
         disclaimer: {
             show: 'Show Disclaimer',
