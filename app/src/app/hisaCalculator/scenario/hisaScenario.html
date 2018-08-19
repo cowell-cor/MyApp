@@ -1,9 +1,19 @@
 <form class="br-hisa-form">
 	<div class="scenario" ng-cloak>
-		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }}">
-			<span class="glyphicon glyphicon-chevron-down"></span>
-			{{ hisa.content.savingsHeader }}
-			<meri-tooltip-with-header parent="parent" message="hisa.specs['savingsHeader' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+
+		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }} collapsed">
+			<span class="glyphicon glyphicon-chevron-down icon-scenario"></span>
+			<div class="collapse-header">
+				<div class="header">
+					{{ hisa.content.savingsHeader }}
+					<meri-tooltip-with-header parent="parent" message="hisa.specs['savingsHeader' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
+				</div>
+
+				<div ng-if="collapse.savings" class="sub-heading">
+					${{sce.data.initialDepositAmount}} for {{hisa.specs.sliderSavingDuration.defaultValue}} {{sce.data.savingDuration}}
+					 at {{sce.data.savingsAccountType}}
+				</div>
+			</div>
 		</button>
 		<div uib-collapse="collapse.savings">
 			<meri-input 
@@ -30,7 +40,7 @@
 			
 			<meri-range-slider 
 				ng-init="getDefaultVal(sce.data.savingDuration)"
-				slider-id="hisa.specs.sliderSavingDuration.label" 
+				slider-id="hisa.specs.sliderSavingDuration.label"
 				slider-text-id="hisa.specs.sliderSavingDuration.textId" 
 				min="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
 				max="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
@@ -38,15 +48,14 @@
 				default-val="value"
 				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly">
 			</meri-range-slider>
-			
+
 			<meri-select 
 				field-specs="hisa.specs.meridianSavingsAccount" 
 				data-binding="sce.data.savingsAccountType" 
 				class="merdianSavings">
 			</meri-select>
-
-			<label class="bold">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
 		</div>
+		<label class="auto-save {{collapse.savings?'auto-save-col':''}}">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
 
 		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }} collapsed">
 			<span class="glyphicon glyphicon-chevron-down"></span>
@@ -56,8 +65,15 @@
 					<meri-tooltip-with-header parent="parent" message="hisa.specs['debitTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
 				</div>
 
-				<div class="sub-heading">
-					{{hisa.content.debitTransferDefaultContent}}
+				<div ng-if="collapse.debitTransfer &&
+						hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,hisa.specs.sliderDebitTransfer.defaultValue,0,2)"
+						class="sub-heading">
+						{{hisa.content.debitTransferDefaultContent}}
+				</div>
+				<div ng-if="collapse.debitTransfer &&
+						!hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,hisa.specs.sliderDebitTransfer.defaultValue,0,2)"
+						class="sub-heading">
+						${{sce.data.numberOfMonthlyDebitTransactions}} monthly transactions at ${{hisa.specs.sliderDebitTransfer.defaultValue}} each
 				</div>
 			</div>
 		</button>
@@ -88,8 +104,7 @@
 			<div class="clear clearDeposit">
 				<button ng-click="resetDebitTransfer()">{{ hisa.content.debitTransfer.clear }}</button>
 			</div>
-		</div>
-
+		</div>	
 		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }} collapsed">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			<div class="collapse-header">
@@ -97,8 +112,16 @@
 					{{ hisa.content.depositTransferHeader }}
 					<meri-tooltip-with-header parent="parent" message="hisa.specs['depositTransferContent' + sce.results.suffix].tooltip.message"></meri-tooltip-with-header>
 				</div>
-				<div class="sub-heading">
+				
+				<div ng-if="collapse.depositTransfer &&
+						hideDynamiclbl(sce.data.monthlyCreditsPay,hisa.specs.sliderDepositTransfer.defaultValue,0,0)"
+						class="sub-heading">
 					{{hisa.content.depositTransferDefaultContent}}
+				</div>
+				<div ng-if="collapse.depositTransfer &&
+						!hideDynamiclbl(sce.data.monthlyCreditsPay,hisa.specs.sliderDepositTransfer.defaultValue,0,0)"
+						class="sub-heading">
+						{{hisa.specs.sliderDepositTransfer.defaultValue}}% of {{sce.data.monthlyCreditsPay}} monthly
 				</div>
 			</div>
 		</button>

@@ -12,9 +12,11 @@
 				<br/>
 				<span>{{ rsc.content.results['scenarioSurplusPart2'+sce.results.suffix] }}</span>
 			</div>
-			
+
 			<div ng-if="sce.results.scenarioType===1" class="text-center">
-				<h3 class="calc-title text-center">{{ rsc.content.results['headerPart1'+sce.results.suffix] }}<p class="header-large header-color-secondary text-center">{{ sce.results.pvOfRecommendedInvestement | currency:2 }}</p>{{ rsc.content.results['headerPart2'+sce.results.suffix] }}</h3>
+				<h3 class="calc-title text-center">{{ rsc.content.results['headerPart1'+sce.results.suffix] }}
+					<p class="header-large header-color-secondary text-center">{{ sce.results.pvOfRecommendedInvestement | currency:2 }}</p>{{ rsc.content.results['headerPart2'+sce.results.suffix]
+					}}</h3>
 				<br/>
 				<span>{{ rsc.content.results['scenarioShortfallPart1'+sce.results.suffix] }}</span>
 				<br/>
@@ -29,22 +31,20 @@
 		<div class="col-xs-12">
 			<chart class="chartHISA full-width" ng-model="sce.results.chartHISA"></chart>
 		</div>
-		<div class="btn-group btn-group-justified" role="group" aria-label="...">
-				<div class="btn-group" role="group">
-					<button class="btn btn-default btn-primary" tab-value="hisaGraph" tab-default="true">Graph</button>
-				</div>
-				<div class="btn-group" role="group">
-					<button class="btn btn-default" tab-value="hisaTable"  ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'}">Table</button>
-				</div>
+		<div class="btn-group btn-group-justified center-block btn-charts" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<button class="btn btn-default btn-primary" tab-value="hisaGraph" tab-default="true">Graph</button>
 			</div>
+			<div class="btn-group" role="group">
+				<button class="btn btn-default" tab-value="hisaTable" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'}">Table</button>
+			</div>
+		</div>
 		<div class="bottomColumn">
-				<div class="form-group" style="padding:0 7px">
-					<div ng-include="module.hisaBoostSavings" data-scenario-index="0"></div>
-				</div>
+			<div class="form-group" style="padding:0 7px">
+				<div ng-include="module.hisaBoostSavings" data-scenario-index="0" ng-controller="hisaScenarioResultsCtrl as sce"></div>
+			</div>
 		</div>
 	</div>
 
 	<br/>
 	<div class="disclaimer" ng-bind-html="rsc.content.disclaimer | html"></div>
-
-</div>
