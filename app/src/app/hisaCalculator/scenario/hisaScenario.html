@@ -37,7 +37,7 @@
 				data-binding="sce.data.savingDuration"
 				class="savingsSelect override-all">
 			</meri-select>
-			
+			{{sce.data.value}}
 			<meri-range-slider 
 				ng-init="getDefaultVal(sce.data.savingDuration)"
 				slider-id="hisa.specs.sliderSavingDuration.label"
@@ -45,7 +45,7 @@
 				min="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
 				max="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
 				step="hisa.specs.sliderSavingDuration.step"
-				default-val="value"
+				default-val="sce.data.value"
 				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly">
 			</meri-range-slider>
 

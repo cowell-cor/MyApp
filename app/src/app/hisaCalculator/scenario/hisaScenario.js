@@ -6,7 +6,9 @@
 			rscData = hisa.data,
 			content = $scope.hisa.content,
 			constants = $scope.hisa.data.constants;
-
+		
+		me.data = hisa.data;
+		me.data.value = null;
 		$scope.collapse = {
 			savings: false,
 			debitTransfer: true,
@@ -19,11 +21,10 @@
 		 * @param {monthly/annually} type 
 		 */
 		$scope.getDefaultVal = function (type) {
-			$scope.value = null;
 			switch (type) {
 				case 'monthly':
-					$scope.value = 6;
-					//tigger the event to updated the slider color bar
+					me.data.value = 6;
+					//trigger the event to updated the slider color bar
 					$rootScope.$broadcast('resetSavings', {
 						sliderId: 'savings_slider',
 						defaultVal: $scope.value,
@@ -51,20 +52,17 @@
 					});
 					break;
 			}
-
-			return $scope.value;
 		};
 		//capture the change event from slider to update default value in scope
 		$scope.$on('getDefaultVal', function (e, duration) {
 			switch (duration) {
 				case 'monthly':
-					$scope.value = 6;
+					me.data.value = 6;
 					break;
 				case 'annually':
-					$scope.value = 25;
+					me.data.value = 25;
 					break;
 			}
-			console.log("bbb" + $scope.value);
 			$scope.$apply();
 		});
 
@@ -124,14 +122,10 @@
 		/////////////
 		// Watches //
 		/////////////
-		// $scope.$watch("rsc.data.isScenarioViewSpouse",function() {
-		// 	if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
-		// 		calculate();
-		// 	}
-		// });
 		$scope.$watch("sce.data.savingDuration", function (newValue, oldvalue) {
 			$scope.getDefaultVal(newValue);
 		});
+
 		// create dynamic value for open account link based on the savings
 		$scope.$watch("sce.data.savingsAccountType", function (newValue, oldvalue) {
 			switch (newValue) {

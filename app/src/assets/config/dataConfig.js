@@ -45,7 +45,7 @@ var defaultBRCalcDataContent = {
 				convertible_6_months_fixed: '6 Month Convertible Fixed'
 			},
 
-			meridianSavingsAccount:{
+			meridianSavingsAccount: {
 				savings: 'Savings (1.40%)',
 				tfsa: 'Tax-free Savings (1.40%)',
 				rsp: 'RSP (1.40%)'
@@ -132,26 +132,7 @@ var defaultBRCalcDataContent = {
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 				}
-			},
-			chartHISA:{
-				title: {
-					text: ''
-				},
-				yAxis : {
-					visible: false
-				},
-				xAxis: {
-					crosshair:{"width": 1, color: 'black'},
-					allowDecimals: false,
-					tickPositions: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
-						categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
-						tickmarkPlacement: 'off',
-						title: {
-							enabled: false
-						}
-					},
-			}
-		},
+		  },
 
 		units: {
 			year: 'year',
@@ -527,35 +508,35 @@ window.defaultBRCalcDataConfig = {
 				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.depositTransfer.monthlyCreditsPay'
 			},
-			sliderSavingDuration : {
-				defaultValue : 6,
-				min : 1,
-				max : 24,
+			sliderSavingDuration: {
+				defaultValue: 6,
+				min: 1,
+				max: 24,
 				step: 1,
 				label: 'savings_slider',
-				textId:'savings_text'
+				textId: 'savings_text'
 			},
-			sliderDebitTransfer:{
-				defaultValue : 2,
-				min : 0,
-				max : 5,
+			sliderDebitTransfer: {
+				defaultValue: 2,
+				min: 0,
+				max: 5,
 				step: 1,
 				label: 'debitTransfer_slider',
 				displayMin: '$0',
-				displayMax:'$5',
-				textId:'debitTransfer_text'
+				displayMax: '$5',
+				textId: 'debitTransfer_text'
 			},
-			sliderDepositTransfer:{
-				defaultValue : 0,
-				min : 0,
-				max : 100,
+			sliderDepositTransfer: {
+				defaultValue: 0,
+				min: 0,
+				max: 100,
 				step: 1,
 				label: 'depositTransfer_slider',
 				displayMin: '0%',
-				displayMax:'100%',
-				textId:'depositTransfer_text'
+				displayMax: '100%',
+				textId: 'depositTransfer_text'
 			}
-		
+
 		},
 	},
 
@@ -898,67 +879,67 @@ window.defaultBRCalcDataConfig = {
 			},
 			results: {}
 		},
-		hisaData:{
-			data:{
-				scenarios:[],
-				scenarioModel:{
-					data:{
-						initialDepositAmount:20000,
-						savingDuration:'monthly',
-						savingsAccountType:"1",
-						showExtra:false,
-						mortgageAmount:300000,
-						interestRate:0.0249,
-						extraPaymentAmount:0,
-						monthlyCreditsPay:0,
-						numberOfMonthlyDebitTransactions:0,
+		hisaData: {
+			data: {
+				scenarios: [],
+				scenarioModel: {
+					data: {
+						initialDepositAmount: 20000,
+						savingDuration: 'monthly',
+						savingsAccountType: "1",
+						showExtra: false,
+						mortgageAmount: 300000,
+						interestRate: 0.0249,
+						extraPaymentAmount: 0,
+						monthlyCreditsPay: 0,
+						numberOfMonthlyDebitTransactions: 0,
 						sliderSavingDurationMonthly: {
-							defaultValue : 6,
+							defaultValue: 6,
 							min: 1,
 							max: 24,
 							step: 1,
 							label: 'savings_slider',
-							textId:'savings_text'
+							textId: 'savings_text'
 						},
 						sliderSavingDurationYearly: {
-							defaultValue : 25,
+							defaultValue: 25,
 							min: 1,
 							max: 40,
 							step: 1,
 							label: 'savings_slider',
-							textId:'savings_text'
+							textId: 'savings_text'
 						},
 
-						sliderDebitTransfer:{
-							defaultValue : 2,
-							min : 0,
-							max : 5,
+						sliderDebitTransfer: {
+							defaultValue: 2,
+							min: 0,
+							max: 5,
 							step: 1,
 							label: 'debitTransfer_slider',
 							displayMin: '$0',
-							displayMax:'$5',
-							textId:'debitTransfer_text'
+							displayMax: '$5',
+							textId: 'debitTransfer_text'
 						},
-						sliderDepositTransfer:{
-							defaultValue : 0,
-							min : 0,
-							max : 100,
+						sliderDepositTransfer: {
+							defaultValue: 0,
+							min: 0,
+							max: 100,
 							step: 1,
 							label: 'depositTransfer_slider',
 							displayMin: '0%',
-							displayMax:'100%',
-							textId:'depositTransfer_text'
+							displayMax: '100%',
+							textId: 'depositTransfer_text'
 						},
 						showBoostFeature: false,
-						boostSavings:{
+						boostSavings: {
 							boostSavingsPercentage: '3',
 							boostMonths: '4',
 							showBoost: false
 						},
 					},
 
-					results:{
-						resultsByPaymentOption:{ }
+					results: {
+						resultsByPaymentOption: {}
 					},
 
 					validation: {
@@ -989,22 +970,22 @@ window.defaultBRCalcDataConfig = {
 							min: 0,
 							max: 999999999.99
 						},
-						debitTransactions:{
-							min:0,
-							max:1000
+						debitTransactions: {
+							min: 0,
+							max: 1000
 						},
 						sliderDebitTransactions: {
 							min: 0,
 							max: 5
 						},
-						monthlyCreditsPay:{
+						monthlyCreditsPay: {
 							min: 0,
 							max: 999999999.99
 						}
 					}
 				}
 			},
-			results:{}
+			results: {}
 		}
 	},
 
@@ -1342,7 +1323,7 @@ window.defaultBRCalcDataConfig = {
 				}
 			]
 		},
-		meridianSavingsAccountOptions:{
+		meridianSavingsAccountOptions: {
 			savings: {
 				contentModel: 'label:select.meridianSavingsAccount.savings',
 				value: 1
@@ -1571,47 +1552,58 @@ window.defaultBRCalcDataConfig = {
 		chartHISA: {
 			contentModel: 'charts.chartHISA',
 			colors: ['#3b6e98', '#e68923', '#3b6e98'],
+			title: '',
 			chart: {
 				events: {
-					load: function(){
+					load: function () {
 						var s = this.series;
 						var p = [];
-						s.forEach(function(v, k){
-							p.push(v.points[v.points.length -1 ]);
+						s.forEach(function (v, k) {
+							p.push(v.points[v.points.length - 1]);
 						});
-						this.tooltip.refresh(p);  
+						this.tooltip.refresh(p);
 					}
 				},
 				type: 'areaspline',
-				width: 600
 			},
-			legend:{
-				enabled:true
+			legend: {
+				enabled: false
 			},
 			credits: {
 				enabled: false
 			},
 			xAxis: {
-				crosshair:{"width": 1, color: 'black'},
-				allowDecimals: false,
-				tickPositions: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
-					categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
-					tickmarkPlacement: 'off',
-					title: {
-						enabled: false
-					}
+				showFirstLabel: true,
+				showLastLabel: true,
+				labels: {
+					//enabled: false
+					//step: 11
 				},
-			yAxis : {
+				//crosshair:{"width": 1, color: 'black','z-index':20},
+				allowDecimals: false,
+				categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
+			},
+			yAxis: {
 				visible: false
 			},
 			tooltip: {
 				backgroundColor: '#F5F5F5',
-				borderRadius: 10,
+				borderRadius: 1,
+				borderWidth: 0,
 				shared: true,
+				useHTML: true,
 				valuePrefix: '$',
 				positioner: function () {
-					return { x: 80, y: 50 };
-				}
+					return {
+						x: 10,
+						y: 50
+					};
+				},
+				crosshairs: [{
+					width: 1,
+					color: 'white',
+					zIndex: 20
+				}]
 			},
 			plotOptions: {
 				area: {
@@ -1633,10 +1625,10 @@ window.defaultBRCalcDataConfig = {
 						enabled: false
 					},
 					events: {
-                        mouseOut: function() {
-                            return false;
-                        }                       
-                    },
+						mouseOut: function () {
+							return false;
+						}
+					},
 					cursor: 'pointer'
 				}
 			},
@@ -1644,35 +1636,81 @@ window.defaultBRCalcDataConfig = {
 				name: 'Debit Transfers',
 				color: '#39709A',
 				"marker": {
-						"symbol": "circle",
-						"fillColor": '#FFFFFF',
-						"lineColor": "#000000"
-					},
-				data: [102, 235, 500, 800, 1200, 1504, 2000,2300, 2900, 3500, 4000, 4500]
-			},  {
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: [102, 235, 500, 800, 1200, 1504, 2000, 2300, 2900, 3500, 4000, 4500],
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index];
+							xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								length = xAxis.labelGroup.element.children.length,
+								firstIdx = 1,
+								lastIdx = length-2;
+							if(index !== firstIdx || index !== lastIdx)	{
+								xAxis.labelGroup.element.children[index].innerHTML = '';
+							}
+								
+						},
+					}
+				}
+			}, {
 				name: 'Deposit Transfers',
 				color: '#A8B402',
 				"marker": {
-						"symbol": "circle",
-						"fillColor": '#FFFFFF',
-						"lineColor": "#000000"
-					},
-				data: [50, 150, 350, 600, 800, 1200, 1500,1800, 2191, 2400, 2800, 3400]
-			},{
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: [50, 150, 350, 600, 800, 1200, 1500, 1800, 2191, 2400, 2800, 3400],
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index]
+							xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index;
+							xAxis.labelGroup.element.children[index].innerHTML = '';
+						},
+					}
+				}
+			}, {
 				name: 'High Interest',
 				color: '#E68823',
 				"marker": {
-						"symbol": "circle",
-						"fillColor": '#FFFFFF',
-						"lineColor": "#000000"
-					},
-				data: [30, 75, 175, 300, 400, 600, 750, 900, 1000, 1200, 1404, 1768]
-			}]
-			},
-			exporting: {
-				contextButton: {
-					enabled: false,
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: [30, 75, 175, 300, 400, 600, 750, 900, 1000, 1200, 1404, 1768],
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index]
+							xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index;
+							xAxis.labelGroup.element.children[index].innerHTML = '';
+						},
+					}
 				}
-			}
+			}]
+		}
 	}
 };
