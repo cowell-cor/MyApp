@@ -14,6 +14,8 @@
 			debitTransfer: true,
 			depositTransfer: true
 		};
+		// default value for open account link
+		$scope.openAcctLnk = "#link1";
 		/**
 		 * Reset the value of savings slider based on monthly or anually
 		 * @param {monthly/annually} type 
@@ -22,37 +24,37 @@
 			switch (type) {
 				case 'monthly':
 					me.data.value = 6;
-					//tigger the event to updated the slider color bar
-					// $rootScope.$broadcast('resetSavings', {
-					// 	sliderId: 'savings_slider',
-					// 	defaultVal: $scope.value,
-					// 	min:0,
-					// 	max:24,
-					// 	callback:function(val){
-					// 		console.log("lll"+val);
-					// 		$scope.value=val;
-					// 		$scope.$apply();
-					// 	}
-					// });
+					//trigger the event to updated the slider color bar
+					$rootScope.$broadcast('resetSavings', {
+						sliderId: 'savings_slider',
+						defaultVal: $scope.value,
+						min: 0,
+						max: 24,
+						callback: function (val) {
+							console.log("lll" + val);
+							$scope.value = val;
+							$scope.$apply();
+						}
+					});
 					break;
 				case 'annually':
-					me.data.value = 25;
-					// $rootScope.$broadcast('resetSavings', {
-					// 	sliderId: 'savings_slider',
-					// 	defaultVal: $scope.value,
-					// 	min: 0,
-					// 	max: 40,
-					// 	callback:function(val){
-					// 		console.log("jjj"+val);
-					// 		$scope.value=val;
-					// 		$scope.$apply();
-					// 	}
-					// });
+					$scope.value = 25;
+					$rootScope.$broadcast('resetSavings', {
+						sliderId: 'savings_slider',
+						defaultVal: $scope.value,
+						min: 0,
+						max: 40,
+						callback: function (val) {
+							console.log("jjj" + val);
+							$scope.value = val;
+							$scope.$apply();
+						}
+					});
 					break;
 			}
 		};
 		//capture the change event from slider to update default value in scope
-		$scope.$on('getDefaultVal', function(e,duration){
+		$scope.$on('getDefaultVal', function (e, duration) {
 			switch (duration) {
 				case 'monthly':
 					me.data.value = 6;
@@ -62,7 +64,7 @@
 					break;
 			}
 			$scope.$apply();
-		} );
+		});
 
 		//////////////////////////////
 		// View accessible variable //
@@ -120,15 +122,24 @@
 		/////////////
 		// Watches //
 		/////////////
-		// $scope.$watch("rsc.data.isScenarioViewSpouse",function() {
-		// 	if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
-		// 		calculate();
-		// 	}
-		// });
 		$scope.$watch("sce.data.savingDuration", function (newValue, oldvalue) {
 			$scope.getDefaultVal(newValue);
 		});
 
+		// create dynamic value for open account link based on the savings
+		$scope.$watch("sce.data.savingsAccountType", function (newValue, oldvalue) {
+			switch (newValue) {
+				case '1':
+					$rootScope.$broadcast('openAccountLink', '#link1')
+					break;
+				case '2':
+					$rootScope.$broadcast('openAccountLink', '#link2')
+					break;
+				case '3':
+					$rootScope.$broadcast('openAccountLink', '#link3')
+					break;
+			}
+		});
 		//////////////////////////////
 		// FIN FONCTIONS DE CALCULS //
 		//////////////////////////////

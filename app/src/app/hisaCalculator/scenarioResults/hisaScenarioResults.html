@@ -3,44 +3,49 @@
 	<div class="row">
 		<div class="col-xs-12 text-center">
 
-			<div ng-if="sce.results.scenarioType!==1" class="text-center">
-				<h3>{{ rsc.content.results['scenarioOnTrack'+sce.results.suffix] }}</h3>
-				<br/>
-				<span>{{ rsc.content.results['scenarioSurplusPart1'+sce.results.suffix] }}</span>
-				<br/>
+			<div class="text-center">
+				<h3 class="hisa-header">{{ hisa.content.hisaHeader }}</h3>
 				<span class="header-large header-color-secondary">{{ sce.results.totalMonthlySurplus | currency:2 }}</span>
 				<br/>
-				<span>{{ rsc.content.results['scenarioSurplusPart2'+sce.results.suffix] }}</span>
-			</div>
-
-			<div ng-if="sce.results.scenarioType===1" class="text-center">
-				<h3 class="calc-title text-center">{{ rsc.content.results['headerPart1'+sce.results.suffix] }}
-					<p class="header-large header-color-secondary text-center">{{ sce.results.pvOfRecommendedInvestement | currency:2 }}</p>{{ rsc.content.results['headerPart2'+sce.results.suffix]
-					}}</h3>
-				<br/>
-				<span>{{ rsc.content.results['scenarioShortfallPart1'+sce.results.suffix] }}</span>
-				<br/>
-				<span class="header-large header-color-secondary">{{ sce.results.totalMonthlyContributionsNeeded | currency:2 }}</span>
-				<br/>
-				<span>{{ rsc.content.results.scenarioShortfallPart2 }}</span>
 			</div>
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row chart-container">
 		<div class="col-xs-12">
-			<chart class="chartHISA full-width" ng-model="sce.results.chartHISA"></chart>
+			<chart class="chartHISA full-width" ng-model="sce.results.chartHISA" ng-if="isChartOpen"></chart>
+			<!--Show table when chart is hidden-->
+			<div class="text-center table-responsive" ng-if="isTableOpen">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>Months</td>
+							<td>Deposits</td>
+							<td>Interest Earned</td>
+							<td>Total</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(key, obj) in results  track by $index">
+							<td>{{ $index + 1 }}</td>
+							<td>{{ obj.deposit | currency:2 }}</td>
+							<td>{{ obj.interest | currency:2 }}</td>
+							<td>{{ obj.total | currency:2 }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="row">
 			<div class="btn-group btn-group-justified center-block btn-charts" role="group" aria-label="...">
-					<div class="btn-group" role="group">
-						<button class="btn btn-default btn-primary" tab-value="hisaGraph" tab-default="true">Graph</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button class="btn btn-default" tab-value="hisaTable" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'}">Table</button>
-					</div>
-				</div>
+				<div class="btn-group" role="group">
+				  <button class="btn btn-default" ng-class="{'btn-primary':isChartOpen}" ng-click="toggleChart('graph')"  >{{hisa.content.graph}}</button>
+			  </div>
+			  <div class="btn-group" role="group">
+				  <button class="btn btn-default" ng-class="{ 'btn-primary': isTableOpen}" ng-click="toggleChart('table')">{{hisa.content.table}}</button>
+			  </div>
+		</div>
 				<div class="bottomColumn">
 					<div class="form-group" style="padding:0 7px">
 						<div ng-include="module.hisaBoostSavings" data-scenario-index="0" ng-controller="hisaScenarioResultsCtrl as sce"></div>

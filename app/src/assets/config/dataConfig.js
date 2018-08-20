@@ -132,18 +132,7 @@ var defaultBRCalcDataContent = {
 				tooltip: {
 					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 				}
-			}
-			// chartHISA:{
-			// 	title: {
-			// 		text: 'Based on your responses, here is what you will save:<br><b>$9,999.99</b>'
-			// 	},
-			// 	xAxis: {
-			// 		//allowDecimals: false,
-			// 		//categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
-			// 		//tickmarkPlacement: 'off',
-			// 	},
-			// }
-		},
+		  },
 
 		units: {
 			year: 'year',

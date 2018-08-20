@@ -1,6 +1,6 @@
 window.hisaContent = {
     en: {
-        hisaHeader: 'Based on your responses, here is what you’ll save: [$amount, based on calculation]',
+        hisaHeader: 'Based on your responses, here is what you’ll save:',
         savingsHeader: 'Savings',
         savingsDynamicContent: '[Dollars] for [duration in months or years] at [rate percentage]',
         debitTransferHeader: 'Debit Transfer',
@@ -37,10 +37,6 @@ window.hisaContent = {
             monthlyDepositAmount: 'Monthly deposit amount',
             savingDuration: 'Saving duration',
             savingDurationSlider: 'Saving duration',
-            savingDurationSliderMonthlyDefault: 6,
-            savingDurationSliderAnuallyDefault: 25,
-            savingDurationSliderMonthlyMax: 24,
-            savingDurationSliderAnuallyMax: 40,
             meridianSavingsAccount: 'Choose a Meridian Savings Account',
             autoSaveOptions: 'Add auto-save options to save even more.',
         },
@@ -57,16 +53,17 @@ window.hisaContent = {
             percentageToTransferPerPay: 'Percentage to transfer per pay',
             clear: 'Clear'
         },
-
+        graph: 'Graph',
+        table: 'Table',
         boostSavings: {
             boostToggle: 'Show Me The Boost',
         },
-        
+
         openYourAccount: 'Open your account',
         disclaimer: {
             show: 'Show Disclaimer',
             hide: 'Hide Disclaimer',
-            boostNotSelected: '<p>This savings calculator is intended for illustration purposes only and should not be relied upon as financial advice without additional input from a trusted and competent financial advisor Results are based on the information you provide and the calculator assumes that the annual interest rate will never vary over the savings duration you have selected. The actual rate will likely vary over the course of time and such fluctuations will affect the overall savings calculation. Interest rates as shown are annualized rates and calculated daily and paid monthly.</p>',
+            boostNotSelected: 'This savings calculator is intended for illustration purposes only and should not be relied upon as financial advice without additional input from a trusted and competent financial advisor Results are based on the information you provide and the calculator assumes that the annual interest rate will never vary over the savings duration you have selected. The actual rate will likely vary over the course of time and such fluctuations will affect the overall savings calculation. Interest rates as shown are annualized rates and calculated daily and paid monthly.',
             boostSelectedPara: '<p>"Bonus Interest" is 1.35% for the Eligible Account. Bonus Interest is added to Meridian’s GTG HISA posted rate of interest as shown on Meridian’s website ("Posted Rate") to calculate the total amount of interest payable under this Offer. For example, Posted Rate of 1.40% on GTG HISA + Bonus Interest of 1.35% = the Offer rate of 2.75% (example uses interest rates current as of May 18, 2018). Eligible Members receive Bonus Interest on deposits to the Eligible Account during the Promotion Period. Subject to the limits and qualifications outlined in these Terms and Conditions, Posted and Bonus interest is calculated on the closing daily balance and is paid monthly on deposits during the Promotion Period to the Eligible Account. Any change to the Posted Rate will result in a corresponding change to the Offer rate. Bonus Interest and/or Posted Rates are annualized rates and may change at any time without prior notice.</p><p>This calculator is intended for illustration purposes only and should not be relied upon as financial advice without additional input from a trusted and competent financial advisor. Results are based on the information you provide and the calculator assumes that the annual interest rate will never vary over the savings duration you have selected. The actual rate will likely vary over the course of time and such fluctuations will affect the overall savings calculation. Interest rates as shown are annualized rates and calculated daily and paid monthly.</p><p>This savings calculator is intended for illustration purposes only and should not be relied upon as financial advice without additional input from a trusted and competent financial advisor. Results are based on the information you provide and the calculator assumes that the annual interest rate will never vary over the savings duration you have selected. The actual rate will likely vary over the course of time and such fluctuations will affect the overall savings calculation. Interest rates as shown are annualized rates and calculated daily and paid monthly.</p> '
 
         }
