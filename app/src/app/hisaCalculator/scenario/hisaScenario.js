@@ -61,7 +61,6 @@
 					me.data.value = 25;
 					break;
 			}
-			console.log("bbb"+me.data.value);
 			$scope.$apply();
 		} );
 

@@ -13,8 +13,5 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 	this.data = this.hisaData.data;
 
-	// $scope.$watch('rsc.data.addSpouse',function(){
-	// 	me.data.isScenarioViewSpouse = false;
-	// });
 });
 })($cmsj,$cmsj);

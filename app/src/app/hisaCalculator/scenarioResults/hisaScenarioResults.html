@@ -31,19 +31,21 @@
 		<div class="col-xs-12">
 			<chart class="chartHISA full-width" ng-model="sce.results.chartHISA"></chart>
 		</div>
-		<div class="btn-group btn-group-justified center-block btn-charts" role="group" aria-label="...">
-			<div class="btn-group" role="group">
-				<button class="btn btn-default btn-primary" tab-value="hisaGraph" tab-default="true">Graph</button>
-			</div>
-			<div class="btn-group" role="group">
-				<button class="btn btn-default" tab-value="hisaTable" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'}">Table</button>
-			</div>
-		</div>
-		<div class="bottomColumn">
-			<div class="form-group" style="padding:0 7px">
-				<div ng-include="module.hisaBoostSavings" data-scenario-index="0" ng-controller="hisaScenarioResultsCtrl as sce"></div>
-			</div>
-		</div>
+	</div>
+	<div class="row">
+			<div class="btn-group btn-group-justified center-block btn-charts" role="group" aria-label="...">
+					<div class="btn-group" role="group">
+						<button class="btn btn-default btn-primary" tab-value="hisaGraph" tab-default="true">Graph</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button class="btn btn-default" tab-value="hisaTable" ng-class="{ 'btn-primary':  tabData.getCurrentTab('amortizationDetails') === 'amortizationTable'}">Table</button>
+					</div>
+				</div>
+				<div class="bottomColumn">
+					<div class="form-group" style="padding:0 7px">
+						<div ng-include="module.hisaBoostSavings" data-scenario-index="0" ng-controller="hisaScenarioResultsCtrl as sce"></div>
+					</div>
+				</div>
 	</div>
 
 	<br/>
