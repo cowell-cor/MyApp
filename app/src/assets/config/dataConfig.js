@@ -1,138 +1,139 @@
 var defaultBRCalcDataContent = {
-	en: {
+		en: {
 
-		calculatorNames: {
-			lineOfCredit: 'Loan/Line of Credit Calculator',
-			affordability: 'Affordability Calculator',
-			paymentCalculator: 'Mortgage Payment Calculator'
-		},
-
-		input: {
-			amortization: 'Amortization',
-			interestRate: 'Interest Rate'
-		},
-
-		select: {
-			paymentFrequency: {
-				oneTime: 'One Time Payment',
-				annual: 'Annual',
-				annually: 'Annually',
-				monthly: 'Monthly',
-				semiMonthly: 'Semi-Monthly',
-				biWeekly: 'Bi-Weekly',
-				weekly: 'Weekly',
-				acceleratedBiWeekly: 'Accelerated Bi-Weekly',
-				acceleratedWeekly: 'Accelerated Weekly',
-				paymentFrequency: 'Payment Frequency'
+			calculatorNames: {
+				lineOfCredit: 'Loan/Line of Credit Calculator',
+				affordability: 'Affordability Calculator',
+				paymentCalculator: 'Mortgage Payment Calculator'
 			},
 
-			boolean: {
-				yes: 'Yes',
-				no: 'No'
+			input: {
+				amortization: 'Amortization',
+				interestRate: 'Interest Rate'
 			},
 
-			productAndTerm: {
-				closed_1_year: '1 year fixed closed',
-				closed_2_year: '2 year fixed closed',
-				closed_3_year: '3 year fixed closed',
-				closed_4_year: '4 year fixed closed',
-				closed_5_year: '5 year fixed closed',
-				closed_7_year: '7 year fixed closed',
-				closed_10_year: '10 year fixed closed',
-				open_5_year_variable: '5 Year Open Variable',
-				closed_5_year_variable: '5 Year Closed Variable',
-				open_1_year_fixed: '1 Year Open Fixed',
-				convertible_6_months_fixed: '6 Month Convertible Fixed'
-			},
-
-			meridianSavingsAccount: {
-				savings: 'Savings (1.40%)',
-				tfsa: 'Tax-free Savings (1.40%)',
-				rsp: 'RSP (1.40%)'
-			}
-		},
-
-		errors: {
-			default: 'Value entered is incorrect.',
-			readjust: 'Value entered has been adjusted to the minimum or maximum value allowed.',
-			mortgage_matchPaymentFrequency: 'Error, your Extra payment frequency must match your regular payment frequency.',
-			aff_annualIncome_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. This is the amount you earn before taxes.',
-			aff_totalOtherDebts_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. Provide the amount outstanding on your loans, lines of credit, and credit cards. You may enter these individually by expanding this field (click the down arrow).',
-			aff_downPaymentAmount_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. For mortgages up to $500,000 you must provide at least 5%. For mortgages above $500,000 and below $1 million, you must provide 5% for the first $500,000 and 10% for the remaining amount. For mortgages equal to or above $1 Million you must provide at least 20%.',
-			aboveAllowedByMortgage: 'The mortgage amount doesn\'t allow the amount to be above {{ [max] | year }}.'
-		},
-
-		charts: {
-			chartLOC: {
-				title: {
-					text: 'Outstanding Loan Balance'
+			select: {
+				paymentFrequency: {
+					oneTime: 'One Time Payment',
+					annual: 'Annual',
+					annually: 'Annually',
+					monthly: 'Monthly',
+					semiMonthly: 'Semi-Monthly',
+					biWeekly: 'Bi-Weekly',
+					weekly: 'Weekly',
+					acceleratedBiWeekly: 'Accelerated Bi-Weekly',
+					acceleratedWeekly: 'Accelerated Weekly',
+					paymentFrequency: 'Payment Frequency'
 				},
-				yAxis: {
+
+				boolean: {
+					yes: 'Yes',
+					no: 'No'
+				},
+
+				productAndTerm: {
+					closed_1_year: '1 year fixed closed',
+					closed_2_year: '2 year fixed closed',
+					closed_3_year: '3 year fixed closed',
+					closed_4_year: '4 year fixed closed',
+					closed_5_year: '5 year fixed closed',
+					closed_7_year: '7 year fixed closed',
+					closed_10_year: '10 year fixed closed',
+					open_5_year_variable: '5 Year Open Variable',
+					closed_5_year_variable: '5 Year Closed Variable',
+					open_1_year_fixed: '1 Year Open Fixed',
+					convertible_6_months_fixed: '6 Month Convertible Fixed'
+				},
+
+				meridianSavingsAccount: {
+					savings: 'Savings (1.40%)',
+					tfsa: 'Tax-free Savings (1.40%)',
+					rsp: 'RSP (1.40%)'
+				}
+			},
+
+			errors: {
+				default: 'Value entered is incorrect.',
+				readjust: 'Value entered has been adjusted to the minimum or maximum value allowed.',
+				mortgage_matchPaymentFrequency: 'Error, your Extra payment frequency must match your regular payment frequency.',
+				aff_annualIncome_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. This is the amount you earn before taxes.',
+				aff_totalOtherDebts_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. Provide the amount outstanding on your loans, lines of credit, and credit cards. You may enter these individually by expanding this field (click the down arrow).',
+				aff_downPaymentAmount_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. For mortgages up to $500,000 you must provide at least 5%. For mortgages above $500,000 and below $1 million, you must provide 5% for the first $500,000 and 10% for the remaining amount. For mortgages equal to or above $1 Million you must provide at least 20%.',
+				aboveAllowedByMortgage: 'The mortgage amount doesn\'t allow the amount to be above {{ [max] | year }}.'
+			},
+
+			charts: {
+				chartLOC: {
 					title: {
-						text: 'Amount'
+						text: 'Outstanding Loan Balance'
+					},
+					yAxis: {
+						title: {
+							text: 'Amount'
+						}
+					},
+					xAxis: {
+						title: {
+							text: 'Amortization Period'
+						}
 					}
 				},
-				xAxis: {
+				chartRSC: {
 					title: {
-						text: 'Amortization Period'
+						text: 'Retirement Saving Goals'
+					},
+					yAxis: {
+						title: {
+							text: 'Amount'
+						}
+					},
+					xAxis: {
+						title: {
+							text: 'Age'
+						}
+					}
+				},
+				chartMPC: {
+					title: {
+						text: 'This illustrates the total amortization of the selected mortgage options.'
+					},
+					yAxis: {
+						title: {
+							text: 'Amount'
+						}
+					}
+				},
+				chartCompareMPC: {
+					title: {
+						text: 'This illustrates the total amortization of the selected mortgage options.'
+					},
+					yAxis: {
+						title: {
+							text: 'Amount'
+						}
+					}
+				},
+				ist_highchart: {
+					title: {
+						text: ''
+					},
+					xAxis: {
+						title: {
+							text: 'Term'
+						}
+					},
+					yAxis: {
+						title: {
+							text: 'Amount'
+						}
+					}
+				},
+				affordability: {
+					tooltip: {
+						pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 					}
 				}
 			},
-			chartRSC: {
-				title: {
-					text: 'Retirement Saving Goals'
-				},
-				yAxis: {
-					title: {
-						text: 'Amount'
-					}
-				},
-				xAxis: {
-					title: {
-						text: 'Age'
-					}
-				}
-			},
-			chartMPC: {
-				title: {
-					text: 'This illustrates the total amortization of the selected mortgage options.'
-				},
-				yAxis: {
-					title: {
-						text: 'Amount'
-					}
-				}
-			},
-			chartCompareMPC: {
-				title: {
-					text: 'This illustrates the total amortization of the selected mortgage options.'
-				},
-				yAxis: {
-					title: {
-						text: 'Amount'
-					}
-				}
-			},
-			ist_highchart: {
-				title: {
-					text: ''
-				},
-				xAxis: {
-					title: {
-						text: 'Term'
-					}
-				},
-				yAxis: {
-					title: {
-						text: 'Amount'
-					}
-				}
-			},
-			affordability: {
-				tooltip: {
-					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-				}
-		  },
 
 		units: {
 			year: 'year',
@@ -885,6 +886,7 @@ window.defaultBRCalcDataConfig = {
 				scenarioModel: {
 					data: {
 						initialDepositAmount: 20000,
+						monthlyDepositAmount:0,
 						savingDuration: 'monthly',
 						savingsAccountType: "1",
 						showExtra: false,
@@ -1596,7 +1598,7 @@ window.defaultBRCalcDataConfig = {
 				positioner: function () {
 					return {
 						x: 10,
-						y: 50
+						y: 10
 					};
 				},
 				crosshairs: [{
@@ -1654,11 +1656,11 @@ window.defaultBRCalcDataConfig = {
 								index = this.index,
 								length = xAxis.labelGroup.element.children.length,
 								firstIdx = 1,
-								lastIdx = length-2;
-							if(index !== firstIdx || index !== lastIdx)	{
+								lastIdx = length - 2;
+							if (index !== firstIdx || index !== lastIdx) {
 								xAxis.labelGroup.element.children[index].innerHTML = '';
 							}
-								
+
 						},
 					}
 				}

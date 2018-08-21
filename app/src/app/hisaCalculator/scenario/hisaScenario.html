@@ -18,7 +18,6 @@
 		<div uib-collapse="collapse.savings">
 			<meri-input 
 				id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"
-				class="override-all"
 				data-binding="sce.data.initialDepositAmount"
 				field-specs="hisa.specs['initialDepositAmount' + sce.results.suffix]"
 				field-validation="sce.validation.initialDepositAmount">
@@ -26,7 +25,6 @@
 
 			<meri-input
 				id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex" 
-				class="override-all"
 				data-binding="sce.data.monthlyDepositAmount"
 				field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]"
 				field-validation="sce.validation.monthlyDepositAmount">
@@ -35,9 +33,9 @@
 			<meri-select 
 				field-specs="hisa.specs.savingDuration"
 				data-binding="sce.data.savingDuration"
-				class="savingsSelect override-all">
+				class="savingsSelect">
 			</meri-select>
-			{{sce.data.value}}
+			
 			<meri-range-slider 
 				ng-init="getDefaultVal(sce.data.savingDuration)"
 				slider-id="hisa.specs.sliderSavingDuration.label"
