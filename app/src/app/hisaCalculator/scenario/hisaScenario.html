@@ -38,10 +38,11 @@
 			
 			<meri-range-slider 
 				ng-init="getDefaultVal(sce.data.savingDuration)"
+				saving-duration="sce.data.savingDuration"
 				slider-id="hisa.specs.sliderSavingDuration.label"
 				slider-text-id="hisa.specs.sliderSavingDuration.textId" 
-				min="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
-				max="sce.data.savingDuration==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
+				min="sce.data.savingDuration ==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
+				max="sce.data.savingDuration ==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
 				step="hisa.specs.sliderSavingDuration.step"
 				default-val="sce.data.value"
 				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly">

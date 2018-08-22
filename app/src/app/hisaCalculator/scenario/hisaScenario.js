@@ -20,33 +20,35 @@
 		 * Reset the value of savings slider based on monthly or anually
 		 * @param {monthly/annually} type 
 		 */
-		$scope.getDefaultVal = function (type) {
+		$scope.getDefaultVal = function (type, isError) {
+			me.data.savingDurationError = isError ? isError : false;
+			console.log(me.data.savingDurationError);
 			switch (type) {
 				case 'monthly':
 					me.data.value = 6;
 					//trigger the event to updated the slider color bar
 					$rootScope.$broadcast('resetSavings', {
 						sliderId: 'savings_slider',
-						defaultVal: $scope.value,
+						defaultVal: me.data.value,
 						min: 0,
 						max: 24,
 						callback: function (val) {
 							console.log("lll" + val);
-							$scope.value = val;
+							me.data.value = val;
 							$scope.$apply();
 						}
 					});
 					break;
 				case 'annually':
-					$scope.value = 25;
+					me.data.value = 25;
 					$rootScope.$broadcast('resetSavings', {
 						sliderId: 'savings_slider',
-						defaultVal: $scope.value,
+						defaultVal: me.data.value,
 						min: 0,
 						max: 40,
 						callback: function (val) {
 							console.log("jjj" + val);
-							$scope.value = val;
+							me.data.value = val;
 							$scope.$apply();
 						}
 					});
@@ -54,7 +56,8 @@
 			}
 		};
 		//capture the change event from slider to update default value in scope
-		$scope.$on('getDefaultVal', function (e, duration) {
+		$rootScope.$on('setDefaultVal', function (e, duration) {
+			console.log(duration);
 			switch (duration) {
 				case 'monthly':
 					me.data.value = 6;
@@ -104,7 +107,7 @@
 				min: 0,
 				max: 100
 			});
-		}
+		};
 		/**
 		 * Function: hideDynamiclbl
 		 * compares the current value with default values and return the flag
@@ -112,7 +115,7 @@
 
 		$scope.hideDynamiclbl = function (txtVal, sliderVal, txtDef, sliderDef) {
 			return txtVal === txtDef && sliderVal === sliderDef;
-		}
+		};
 
 		///////////////////////////////
 		// Before watches initiation //
@@ -122,12 +125,33 @@
 		/////////////
 		// Watches //
 		/////////////
-		$scope.$watch("sce.data.savingDuration", function (newValue, oldvalue) {
+		$scope.$watch("sce.data.savingDuration", function (newValue) {
 			$scope.getDefaultVal(newValue);
 		});
 
+
+		// $scope.$watch("sce.data.value", function (newValue) {
+		// 	if(me.data.savingDuration === 'monthly'){
+		// 		if(newValue >= me.data.sliderSavingDurationMonthly.min && newValue <= me.data.sliderSavingDurationMonthly.max){
+		// 			me.data.savingDurationError = false;
+		// 			return true;
+		// 		}else{
+		// 			me.data.savingDurationError = true;
+		// 			$scope.getDefaultVal(me.data.savingDuration,true);
+		// 		}
+		// 	}else if(me.data.savingDuration === 'annually') {
+		// 		if(newValue >= me.data.sliderSavingDurationYearly.min && newValue <= me.data.sliderSavingDurationYearly.max){
+		// 			me.data.savingDurationError = false;
+		// 			return true;
+		// 		}else{
+		// 			me.data.savingDurationError = true;
+		// 			$scope.getDefaultVal(me.data.savingDuration,true);
+		// 		}
+		// 	}
+		// });
+
 		// create dynamic value for open account link based on the savings
-		$scope.$watch("sce.data.savingsAccountType", function (newValue, oldvalue) {
+		$scope.$watch("sce.data.savingsAccountType", function (newValue) {
 			switch (newValue) {
 				case '1':
 					$rootScope.$broadcast('openAccountLink', '#link1')

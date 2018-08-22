@@ -874,8 +874,8 @@
 		})
 
 		//Range Slider which accepts min,max,default value
-		.directive('meriRangeSlider', function () {
-			var tpl = "<div class='slider-cont'>" +
+		.directive('meriRangeSlider', function ($rootScope) {
+			var tpl = "<div class='slider-cont form-group'>" +
 				"<div class='slider-content'>" +
 				"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
@@ -888,6 +888,7 @@
 				scope: {
 					min: '=',
 					max: '=',
+					savingDuration:'=',
 					defaultVal: '=defaultVal',
 					step: '=',
 					sliderId: '=',
@@ -897,18 +898,37 @@
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
-						updateSlider();
-						//	resetSliderVal();
+						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
+						if(isInputValid(inputVal)){
+							updateSlider();
+						}else{
+							//add switch statement to handle other range slider's as well
+							$rootScope.$broadcast('setDefaultVal', $scope.savingDuration);
+							updateSlider();
+						}
 					});
 					// change value from inputbox
 					$elm.on('keyup', function (event) {
-						var input = parseInt(document.getElementById($scope.sliderTextId).value);
-						updateSlider(input);
+						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
+						var parentElem = $elm[0].children[0];
+						if(isInputValid(inputVal)){
+							updateSlider(inputVal);
+							parentElem.classList.remove('error');
+						}else{
+							$rootScope.$broadcast('setDefaultVal', $scope.savingDuration);
+							updateSlider();
+							var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
+							var span = document.createElement('div');
+							span.classList.add("error-message");
+							span.innerHTML = errorElem;
+							parentElem.appendChild(span);
+							parentElem.classList.add('error');
+						}
+						
 					});
 					$scope.$on('resetSlider', function (e, slider) {
 						var sliderElm = $('#' + slider.sliderId)[0];
 						var outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
-						console.log(outputVal);
 						sliderElm.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +
@@ -917,6 +937,14 @@
 							slider.callback(slider.defaultVal);
 						}
 					});
+
+					function isInputValid(inputVal){
+						if((inputVal >= $scope.min) && (inputVal<= $scope.max)){
+							return true;
+						}
+						return false;
+					}
+					
 
 					function updateSlider(inputValue) {
 						var slider = $('#' + $scope.sliderId)[0];
@@ -928,18 +956,18 @@
 							')';
 					}
 
-					function resetSliderVal() {
-						var slider = $('#' + $scope.sliderId)[0];
-						var sliderValue = slider.max;
-						var duration = "";
-						if (sliderValue > 24) {
-							duration = 'annually'
-						} else {
-							duration = 'monthly'
-						}
-						$scope.$emit('getDefaultVal', duration);
-						e.preventDefault();
-					}
+					// function resetSliderVal() {
+					// 	var slider = $('#' + $scope.sliderId)[0];
+					// 	var sliderValue = slider.max;
+					// 	var duration = "";
+					// 	if (sliderValue > 24) {
+					// 		duration = 'annually';
+					// 	} else {
+					// 		duration = 'monthly';
+					// 	}
+					// 	$scope.$emit('getDefaultVal', duration);
+					// 	e.preventDefault();
+					// }
 				},
 
 			};

@@ -888,6 +888,7 @@ window.defaultBRCalcDataConfig = {
 						initialDepositAmount: 20000,
 						monthlyDepositAmount:0,
 						savingDuration: 'monthly',
+						//savingDurationError: false,
 						savingsAccountType: "1",
 						showExtra: false,
 						mortgageAmount: 300000,
