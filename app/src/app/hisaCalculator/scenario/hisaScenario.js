@@ -21,8 +21,6 @@
 		 * @param {monthly/annually} type 
 		 */
 		$scope.getDefaultVal = function (type, isError) {
-			me.data.savingDurationError = isError ? isError : false;
-			console.log(me.data.savingDurationError);
 			switch (type) {
 				case 'monthly':
 					me.data.value = 6;
@@ -57,7 +55,6 @@
 		};
 		//capture the change event from slider to update default value in scope
 		$rootScope.$on('setDefaultVal', function (e, duration) {
-			console.log(duration);
 			switch (duration) {
 				case 'monthly':
 					me.data.value = 6;

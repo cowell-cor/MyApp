@@ -28,6 +28,17 @@
         width: 30%;
         margin-bottom: 25px;
       }
+      .chartHISA{
+        path.highcharts-tick {
+          display: none;
+        }
+        .highcharts-tooltip{
+          span{
+            padding: 5px;
+            z-index: 999999;
+          }
+        }
+      }
     }
   }
   &-hisa-form {

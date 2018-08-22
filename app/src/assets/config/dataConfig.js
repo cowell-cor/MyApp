@@ -1562,9 +1562,47 @@ window.defaultBRCalcDataConfig = {
 						var s = this.series;
 						var p = [];
 						s.forEach(function (v, k) {
-							p.push(v.points[v.points.length - 1]);
+							var xAxis = s[0].chart.xAxis[0],
+								length = xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								categories = xAxis.options.categories,
+								lastIdx = length - 1;
+								//replacing html of first and last category
+								xAxis.labelGroup.element.children[0].innerHTML= categories[0];
+								xAxis.labelGroup.element.children[length-1].innerHTML= categories[length-1];
+						
+								for(var i=1; i< length-1; i++){
+									if (i !== firstIdx || i !== lastIdx)  {
+										xAxis.labelGroup.element.children[i].innerHTML = '';
+									}
+								}
+								//show the tooltip
+								p.push(v.points[v.points.length - 1]);
+								
 						});
 						this.tooltip.refresh(p);
+					},
+					redraw: function () {
+						var s = this.series;
+						s.forEach(function (v, k) {
+							var xAxis = s[0].chart.xAxis[0],
+								length = xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								categories = xAxis.options.categories,
+								lastIdx = length - 1;
+								//replacing html of first and last category
+								xAxis.labelGroup.element.children[0].innerHTML= categories[0];
+								xAxis.labelGroup.element.children[length-1].innerHTML= categories[length-1];
+						
+								for(var i=1; i< length-1; i++){
+									if (i !== firstIdx || i !== lastIdx)  {
+										xAxis.labelGroup.element.children[i].innerHTML = '';
+									}
+								}
+								//show the tooltip
+								//p.push(v.points[v.points.length - 1]);
+								
+						});
 					}
 				},
 				type: 'areaspline',
@@ -1576,11 +1614,10 @@ window.defaultBRCalcDataConfig = {
 				enabled: false
 			},
 			xAxis: {
-				showFirstLabel: true,
-				showLastLabel: true,
 				labels: {
-					//enabled: false
-					//step: 11
+					align: 'center',
+					autoRotation: [0],
+					padding:3,
 				},
 				//crosshair:{"width": 1, color: 'black','z-index':20},
 				allowDecimals: false,
@@ -1650,18 +1687,18 @@ window.defaultBRCalcDataConfig = {
 							var xAxis = this.series.chart.xAxis[0],
 								index = this.index,
 								category = this.series.xAxis.options.categories[index];
-							xAxis.labelGroup.element.children[index].innerHTML = category;
+								xAxis.labelGroup.element.children[index].innerHTML = category;
 						},
 						mouseOut: function () {
 							var xAxis = this.series.chart.xAxis[0],
 								index = this.index,
 								length = xAxis.labelGroup.element.children.length,
-								firstIdx = 1,
-								lastIdx = length - 2;
-							if (index !== firstIdx || index !== lastIdx) {
-								xAxis.labelGroup.element.children[index].innerHTML = '';
-							}
-
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
+								if (index !== firstIdx || index !== lastIdx) {
+									xAxis.labelGroup.element.children[index].innerHTML = '';
+								}
 						},
 					}
 				}
@@ -1679,12 +1716,16 @@ window.defaultBRCalcDataConfig = {
 						mouseOver: function () {
 							var xAxis = this.series.chart.xAxis[0],
 								index = this.index,
-								category = this.series.xAxis.options.categories[index]
+								category = this.series.xAxis.options.categories[index];
 							xAxis.labelGroup.element.children[index].innerHTML = category;
 						},
 						mouseOut: function () {
 							var xAxis = this.series.chart.xAxis[0],
-								index = this.index;
+								index = this.index,
+								length = xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
 							xAxis.labelGroup.element.children[index].innerHTML = '';
 						},
 					}
@@ -1708,7 +1749,11 @@ window.defaultBRCalcDataConfig = {
 						},
 						mouseOut: function () {
 							var xAxis = this.series.chart.xAxis[0],
-								index = this.index;
+								index = this.index,
+								length = xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
 							xAxis.labelGroup.element.children[index].innerHTML = '';
 						},
 					}
