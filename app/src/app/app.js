@@ -876,11 +876,11 @@
 		//Range Slider which accepts min,max,default value
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
-				"<div class='slider-content'>" +
+				"<div class='slider-container'><div class='slider-content'>" +
 				"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div>";
+				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -903,7 +903,7 @@
 							updateSlider();
 						}else{
 							//add switch statement to handle other range slider's as well
-							$rootScope.$broadcast('setDefaultVal', $scope.savingDuration);
+							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
 							updateSlider();
 						}
 					});
@@ -911,17 +911,21 @@
 					$elm.on('keyup', function (event) {
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
 						var parentElem = $elm[0].children[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
 						if(isInputValid(inputVal)){
 							updateSlider(inputVal);
+							$(errElm).remove();
 							parentElem.classList.remove('error');
 						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.savingDuration);
+							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
 							updateSlider();
-							var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
-							var span = document.createElement('div');
-							span.classList.add("error-message");
-							span.innerHTML = errorElem;
-							parentElem.appendChild(span);
+							if(errElm.length === 0){
+								var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
+								var span = document.createElement('div');
+								span.classList.add("error-message");
+								span.innerHTML = errorElem;
+								parentElem.appendChild(span);
+							}
 							parentElem.classList.add('error');
 						}
 						
