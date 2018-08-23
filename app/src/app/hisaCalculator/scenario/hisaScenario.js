@@ -25,13 +25,12 @@
 				case 'monthly':
 					me.data.value = 6;
 					//trigger the event to updated the slider color bar
-					$rootScope.$broadcast('resetSavings', {
+					$rootScope.$broadcast('resetSlider', {
 						sliderId: 'savings_slider',
 						defaultVal: me.data.value,
 						min: 0,
 						max: 24,
 						callback: function (val) {
-							console.log("lll" + val);
 							me.data.value = val;
 							$scope.$apply();
 						}
@@ -39,13 +38,12 @@
 					break;
 				case 'annually':
 					me.data.value = 25;
-					$rootScope.$broadcast('resetSavings', {
+					$rootScope.$broadcast('resetSlider', {
 						sliderId: 'savings_slider',
 						defaultVal: me.data.value,
 						min: 0,
 						max: 40,
 						callback: function (val) {
-							console.log("jjj" + val);
 							me.data.value = val;
 							$scope.$apply();
 						}
