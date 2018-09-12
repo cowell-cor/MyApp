@@ -21,7 +21,10 @@
 									</span>
 									<span class="toggle">
 										<label class="switch">
-											<input type="checkbox" ng-checked="sce.data.boostSavings.showBoost">
+											<input type="checkbox" 
+												ng-checked="sce.data.boostSavingsEnabled" 
+												ng-model="sce.data.boostSavingsEnabled"
+												ng-change="!sce.data.boostSavingsEnabled">
 											<span class="slider round"></span>
 										</label>
 									</span>
@@ -57,9 +60,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="disclaimer-text" ng-if="isBoostSavings && sce.data.showBoostFeature" ng-bind-html="hisa.content.disclaimer.boostSelectedPara | html">
+							<td class="disclaimer-text" ng-if="isBoostSavings && sce.data.boostSavingsEnabled" ng-bind-html="hisa.content.disclaimer.boostSelectedPara | html">
 							</td>
-							<td class="disclaimer-text" ng-if="isBoostSavings && !sce.data.showBoostFeature">
+							<td class="disclaimer-text" ng-if="isBoostSavings && !sce.data.boostSavingsEnabled">
 								{{hisa.content.disclaimer.boostNotSelected}}
 							</td>
 						</tr>

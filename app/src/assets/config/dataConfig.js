@@ -497,7 +497,6 @@ window.defaultBRCalcDataConfig = {
 				}
 			},
 			numberOfMonthlyDebitTransactions: {
-				configModel: 'input.currency2',
 				contentModel: 'label:hisaContent.debitTransfer.numberOfMonthlyDebitTransactions'
 			},
 			depositTransferContent: {
@@ -518,13 +517,7 @@ window.defaultBRCalcDataConfig = {
 				textId: 'savings_text'
 			},
 			sliderDebitTransfer: {
-				defaultValue: 2,
-				min: 0,
-				max: 5,
-				step: 1,
 				label: 'debitTransfer_slider',
-				displayMin: '$0',
-				displayMax: '$5',
 				textId: 'debitTransfer_text'
 			},
 			sliderDepositTransfer: {
@@ -885,17 +878,19 @@ window.defaultBRCalcDataConfig = {
 				scenarios: [],
 				scenarioModel: {
 					data: {
+						boostSavingsEnabled: false,
+						totalSavings: 0,
 						initialDepositAmount: 20000,
 						monthlyDepositAmount:0,
 						savingDuration: 'monthly',
-						//savingDurationError: false,
 						savingsAccountType: "1",
 						showExtra: false,
-						mortgageAmount: 300000,
 						interestRate: 0.0249,
 						extraPaymentAmount: 0,
 						monthlyCreditsPay: 0,
 						numberOfMonthlyDebitTransactions: 0,
+						sliderDebitTransferDefVal:2,
+						sliderDepositTransferDefVal:0,
 						sliderSavingDurationMonthly: {
 							defaultValue: 6,
 							min: 1,
@@ -933,16 +928,15 @@ window.defaultBRCalcDataConfig = {
 							displayMax: '100%',
 							textId: 'depositTransfer_text'
 						},
-						showBoostFeature: false,
+						showBoostFeature: true,
 						boostSavings: {
-							boostSavingsPercentage: '3',
-							boostMonths: '4',
-							showBoost: false
+							boostSavingsPercentage: 3,
+							boostMonths: 4
 						},
 					},
 
 					results: {
-						resultsByPaymentOption: {}
+						resultsBySavingDuration: {}
 					},
 
 					validation: {
@@ -962,7 +956,7 @@ window.defaultBRCalcDataConfig = {
 							validation: false
 						},
 						initialDepositAmount: {
-							min: 20000,
+							min: 0,
 							max: 999999999.99
 						},
 						interestRate: {
@@ -1554,7 +1548,7 @@ window.defaultBRCalcDataConfig = {
 		},
 		chartHISA: {
 			contentModel: 'charts.chartHISA',
-			colors: ['#3b6e98', '#e68923', '#3b6e98'],
+			//colors: ['#3b6e98', '#e68923', '#3b6e98'],
 			title: '',
 			chart: {
 				events: {
@@ -1563,7 +1557,7 @@ window.defaultBRCalcDataConfig = {
 						var p = [];
 						s.forEach(function (v, k) {
 							var xAxis = s[0].chart.xAxis[0],
-								length = xAxis.labelGroup.element.children.length,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								categories = xAxis.options.categories,
 								lastIdx = length - 1;
@@ -1586,7 +1580,7 @@ window.defaultBRCalcDataConfig = {
 						var s = this.series;
 						s.forEach(function (v, k) {
 							var xAxis = s[0].chart.xAxis[0],
-								length = xAxis.labelGroup.element.children.length,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								categories = xAxis.options.categories,
 								lastIdx = length - 1;
@@ -1606,6 +1600,8 @@ window.defaultBRCalcDataConfig = {
 					}
 				},
 				type: 'areaspline',
+				marginTop: 100,
+				height: 500
 			},
 			legend: {
 				enabled: false
@@ -1620,8 +1616,7 @@ window.defaultBRCalcDataConfig = {
 					padding:3,
 				},
 				//crosshair:{"width": 1, color: 'black','z-index':20},
-				allowDecimals: false,
-				categories: ['2 months', '4 months', '6 months', '8 months', '10 months', '12 months', '14 months', '16 months', '18 months', '20 months', '22 months', '24 months'],
+				allowDecimals: false
 			},
 			yAxis: {
 				visible: false
@@ -1633,6 +1628,7 @@ window.defaultBRCalcDataConfig = {
 				shared: true,
 				useHTML: true,
 				valuePrefix: '$',
+				//outside: true,
 				positioner: function () {
 					return {
 						x: 10,
@@ -1672,93 +1668,7 @@ window.defaultBRCalcDataConfig = {
 					cursor: 'pointer'
 				}
 			},
-			series: [{
-				name: 'Debit Transfers',
-				color: '#39709A',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
-				},
-				data: [102, 235, 500, 800, 1200, 1504, 2000, 2300, 2900, 3500, 4000, 4500],
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index];
-								xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-								if (index !== firstIdx || index !== lastIdx) {
-									xAxis.labelGroup.element.children[index].innerHTML = '';
-								}
-						},
-					}
-				}
-			}, {
-				name: 'Deposit Transfers',
-				color: '#A8B402',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
-				},
-				data: [50, 150, 350, 600, 800, 1200, 1500, 1800, 2191, 2400, 2800, 3400],
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index];
-							xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-							xAxis.labelGroup.element.children[index].innerHTML = '';
-						},
-					}
-				}
-			}, {
-				name: 'High Interest',
-				color: '#E68823',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
-				},
-				data: [30, 75, 175, 300, 400, 600, 750, 900, 1000, 1200, 1404, 1768],
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index]
-							xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-							xAxis.labelGroup.element.children[index].innerHTML = '';
-						},
-					}
-				}
-			}]
+			series: []
 		}
 	}
 };

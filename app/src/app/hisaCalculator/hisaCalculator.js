@@ -11,7 +11,5 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 	
 	this.validation = this.hisaData.validation;
 
-	this.data = this.hisaData.data;
-
 });
 })($cmsj,$cmsj);

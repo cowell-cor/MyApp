@@ -79,63 +79,6 @@ c.event,c.classes,c.options)}return function(a){if(a.from&&a.to){var b=d(a.from)
 hidden:/(auto|scroll|hidden)/},f={auto:/\s?auto?\s?/i,primary:/^(top|bottom|left|right)$/,secondary:/^(top|bottom|left|right|center)$/,vertical:/^(top|bottom)$/},g=/(HTML|BODY)/;return{getRawNode:function(a){return a.nodeName?a:a[0]||a},parseStyle:function(a){return a=parseFloat(a),isFinite(a)?a:0},offsetParent:function(c){function d(a){return"static"===(b.getComputedStyle(a).position||"static")}c=this.getRawNode(c);for(var e=c.offsetParent||a[0].documentElement;e&&e!==a[0].documentElement&&d(e);)e=e.offsetParent;return e||a[0].documentElement},scrollbarWidth:function(e){if(e){if(angular.isUndefined(d)){var f=a.find("body");f.addClass("uib-position-body-scrollbar-measure"),d=b.innerWidth-f[0].clientWidth,d=isFinite(d)?d:0,f.removeClass("uib-position-body-scrollbar-measure")}return d}if(angular.isUndefined(c)){var g=angular.element('<div class="uib-position-scrollbar-measure"></div>');a.find("body").append(g),c=g[0].offsetWidth-g[0].clientWidth,c=isFinite(c)?c:0,g.remove()}return c},scrollbarPadding:function(a){a=this.getRawNode(a);var c=b.getComputedStyle(a),d=this.parseStyle(c.paddingRight),e=this.parseStyle(c.paddingBottom),f=this.scrollParent(a,!1,!0),h=this.scrollbarWidth(f,g.test(f.tagName));return{scrollbarWidth:h,widthOverflow:f.scrollWidth>f.clientWidth,right:d+h,originalRight:d,heightOverflow:f.scrollHeight>f.clientHeight,bottom:e+h,originalBottom:e}},isScrollable:function(a,c){a=this.getRawNode(a);var d=c?e.hidden:e.normal,f=b.getComputedStyle(a);return d.test(f.overflow+f.overflowY+f.overflowX)},scrollParent:function(c,d,f){c=this.getRawNode(c);var g=d?e.hidden:e.normal,h=a[0].documentElement,i=b.getComputedStyle(c);if(f&&g.test(i.overflow+i.overflowY+i.overflowX))return c;var j="absolute"===i.position,k=c.parentElement||h;if(k===h||"fixed"===i.position)return h;for(;k.parentElement&&k!==h;){var l=b.getComputedStyle(k);if(j&&"static"!==l.position&&(j=!1),!j&&g.test(l.overflow+l.overflowY+l.overflowX))break;k=k.parentElement}return k},position:function(c,d){c=this.getRawNode(c);var e=this.offset(c);if(d){var f=b.getComputedStyle(c);e.top-=this.parseStyle(f.marginTop),e.left-=this.parseStyle(f.marginLeft)}var g=this.offsetParent(c),h={top:0,left:0};return g!==a[0].documentElement&&(h=this.offset(g),h.top+=g.clientTop-g.scrollTop,h.left+=g.clientLeft-g.scrollLeft),{width:Math.round(angular.isNumber(e.width)?e.width:c.offsetWidth),height:Math.round(angular.isNumber(e.height)?e.height:c.offsetHeight),top:Math.round(e.top-h.top),left:Math.round(e.left-h.left)}},offset:function(c){c=this.getRawNode(c);var d=c.getBoundingClientRect();return{width:Math.round(angular.isNumber(d.width)?d.width:c.offsetWidth),height:Math.round(angular.isNumber(d.height)?d.height:c.offsetHeight),top:Math.round(d.top+(b.pageYOffset||a[0].documentElement.scrollTop)),left:Math.round(d.left+(b.pageXOffset||a[0].documentElement.scrollLeft))}},viewportOffset:function(c,d,e){c=this.getRawNode(c),e=e!==!1;var f=c.getBoundingClientRect(),g={top:0,left:0,bottom:0,right:0},h=d?a[0].documentElement:this.scrollParent(c),i=h.getBoundingClientRect();if(g.top=i.top+h.clientTop,g.left=i.left+h.clientLeft,h===a[0].documentElement&&(g.top+=b.pageYOffset,g.left+=b.pageXOffset),g.bottom=g.top+h.clientHeight,g.right=g.left+h.clientWidth,e){var j=b.getComputedStyle(h);g.top+=this.parseStyle(j.paddingTop),g.bottom-=this.parseStyle(j.paddingBottom),g.left+=this.parseStyle(j.paddingLeft),g.right-=this.parseStyle(j.paddingRight)}return{top:Math.round(f.top-g.top),bottom:Math.round(g.bottom-f.bottom),left:Math.round(f.left-g.left),right:Math.round(g.right-f.right)}},parsePlacement:function(a){var b=f.auto.test(a);return b&&(a=a.replace(f.auto,"")),a=a.split("-"),a[0]=a[0]||"top",f.primary.test(a[0])||(a[0]="top"),a[1]=a[1]||"center",f.secondary.test(a[1])||(a[1]="center"),b?a[2]=!0:a[2]=!1,a},positionElements:function(a,c,d,e){a=this.getRawNode(a),c=this.getRawNode(c);var g=angular.isDefined(c.offsetWidth)?c.offsetWidth:c.prop("offsetWidth"),h=angular.isDefined(c.offsetHeight)?c.offsetHeight:c.prop("offsetHeight");d=this.parsePlacement(d);var i=e?this.offset(a):this.position(a),j={top:0,left:0,placement:""};if(d[2]){var k=this.viewportOffset(a,e),l=b.getComputedStyle(c),m={width:g+Math.round(Math.abs(this.parseStyle(l.marginLeft)+this.parseStyle(l.marginRight))),height:h+Math.round(Math.abs(this.parseStyle(l.marginTop)+this.parseStyle(l.marginBottom)))};if(d[0]="top"===d[0]&&m.height>k.top&&m.height<=k.bottom?"bottom":"bottom"===d[0]&&m.height>k.bottom&&m.height<=k.top?"top":"left"===d[0]&&m.width>k.left&&m.width<=k.right?"right":"right"===d[0]&&m.width>k.right&&m.width<=k.left?"left":d[0],d[1]="top"===d[1]&&m.height-i.height>k.bottom&&m.height-i.height<=k.top?"bottom":"bottom"===d[1]&&m.height-i.height>k.top&&m.height-i.height<=k.bottom?"top":"left"===d[1]&&m.width-i.width>k.right&&m.width-i.width<=k.left?"right":"right"===d[1]&&m.width-i.width>k.left&&m.width-i.width<=k.right?"left":d[1],"center"===d[1])if(f.vertical.test(d[0])){var n=i.width/2-g/2;k.left+n<0&&m.width-i.width<=k.right?d[1]="left":k.right+n<0&&m.width-i.width<=k.left&&(d[1]="right")}else{var o=i.height/2-m.height/2;k.top+o<0&&m.height-i.height<=k.bottom?d[1]="top":k.bottom+o<0&&m.height-i.height<=k.top&&(d[1]="bottom")}}switch(d[0]){case"top":j.top=i.top-h;break;case"bottom":j.top=i.top+i.height;break;case"left":j.left=i.left-g;break;case"right":j.left=i.left+i.width}switch(d[1]){case"top":j.top=i.top;break;case"bottom":j.top=i.top+i.height-h;break;case"left":j.left=i.left;break;case"right":j.left=i.left+i.width-g;break;case"center":f.vertical.test(d[0])?j.left=i.left+i.width/2-g/2:j.top=i.top+i.height/2-h/2}return j.top=Math.round(j.top),j.left=Math.round(j.left),j.placement="center"===d[1]?d[0]:d[0]+"-"+d[1],j},adjustTop:function(a,b,c,d){return-1!==a.indexOf("top")&&c!==d?{top:b.top-d+"px"}:void 0},positionArrow:function(a,c){a=this.getRawNode(a);var d=a.querySelector(".tooltip-inner, .popover-inner");if(d){var e=angular.element(d).hasClass("tooltip-inner"),g=e?a.querySelector(".tooltip-arrow"):a.querySelector(".arrow");if(g){var h={top:"",bottom:"",left:"",right:""};if(c=this.parsePlacement(c),"center"===c[1])return void angular.element(g).css(h);var i="border-"+c[0]+"-width",j=b.getComputedStyle(g)[i],k="border-";k+=f.vertical.test(c[0])?c[0]+"-"+c[1]:c[1]+"-"+c[0],k+="-radius";var l=b.getComputedStyle(e?d:a)[k];switch(c[0]){case"top":h.bottom=e?"0":"-"+j;break;case"bottom":h.top=e?"0":"-"+j;break;case"left":h.right=e?"0":"-"+j;break;case"right":h.left=e?"0":"-"+j}h[c[1]]=l,angular.element(g).css(h)}}}}}]),angular.module("ui.bootstrap.datepickerPopup",["ui.bootstrap.datepicker","ui.bootstrap.position"]).value("$datepickerPopupLiteralWarning",!0).constant("uibDatepickerPopupConfig",{altInputFormats:[],appendToBody:!1,clearText:"Clear",closeOnDateSelection:!0,closeText:"Done",currentText:"Today",datepickerPopup:"yyyy-MM-dd",datepickerPopupTemplateUrl:"uib/template/datepickerPopup/popup.html",datepickerTemplateUrl:"uib/template/datepicker/datepicker.html",html5Types:{date:"yyyy-MM-dd","datetime-local":"yyyy-MM-ddTHH:mm:ss.sss",month:"yyyy-MM"},onOpenFocus:!0,showButtonBar:!0,placement:"auto bottom-left"}).controller("UibDatepickerPopupController",["$scope","$element","$attrs","$compile","$log","$parse","$window","$document","$rootScope","$uibPosition","dateFilter","uibDateParser","uibDatepickerPopupConfig","$timeout","uibDatepickerConfig","$datepickerPopupLiteralWarning",function(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p){function q(b){var c=l.parse(b,w,a.date);if(isNaN(c))for(var d=0;d<I.length;d++)if(c=l.parse(b,I[d],a.date),!isNaN(c))return c;return c}function r(a){if(angular.isNumber(a)&&(a=new Date(a)),!a)return null;if(angular.isDate(a)&&!isNaN(a))return a;if(angular.isString(a)){var b=q(a);if(!isNaN(b))return l.fromTimezone(b,G.timezone)}return F.$options&&F.$options.allowInvalid?a:void 0}function s(a,b){var d=a||b;return c.ngRequired||d?(angular.isNumber(d)&&(d=new Date(d)),d?angular.isDate(d)&&!isNaN(d)?!0:angular.isString(d)?!isNaN(q(d)):!1:!0):!0}function t(c){if(a.isOpen||!a.disabled){var d=H[0],e=b[0].contains(c.target),f=void 0!==d.contains&&d.contains(c.target);!a.isOpen||e||f||a.$apply(function(){a.isOpen=!1})}}function u(c){27===c.which&&a.isOpen?(c.preventDefault(),c.stopPropagation(),a.$apply(function(){a.isOpen=!1}),b[0].focus()):40!==c.which||a.isOpen||(c.preventDefault(),c.stopPropagation(),a.$apply(function(){a.isOpen=!0}))}function v(){if(a.isOpen){var d=angular.element(H[0].querySelector(".uib-datepicker-popup")),e=c.popupPlacement?c.popupPlacement:m.placement,f=j.positionElements(b,d,e,y);d.css({top:f.top+"px",left:f.left+"px"}),d.hasClass("uib-position-measure")&&d.removeClass("uib-position-measure")}}var w,x,y,z,A,B,C,D,E,F,G,H,I,J=!1,K=[];this.init=function(e){if(F=e,G=angular.isObject(e.$options)?e.$options:{timezone:null},x=angular.isDefined(c.closeOnDateSelection)?a.$parent.$eval(c.closeOnDateSelection):m.closeOnDateSelection,y=angular.isDefined(c.datepickerAppendToBody)?a.$parent.$eval(c.datepickerAppendToBody):m.appendToBody,z=angular.isDefined(c.onOpenFocus)?a.$parent.$eval(c.onOpenFocus):m.onOpenFocus,A=angular.isDefined(c.datepickerPopupTemplateUrl)?c.datepickerPopupTemplateUrl:m.datepickerPopupTemplateUrl,B=angular.isDefined(c.datepickerTemplateUrl)?c.datepickerTemplateUrl:m.datepickerTemplateUrl,I=angular.isDefined(c.altInputFormats)?a.$parent.$eval(c.altInputFormats):m.altInputFormats,a.showButtonBar=angular.isDefined(c.showButtonBar)?a.$parent.$eval(c.showButtonBar):m.showButtonBar,m.html5Types[c.type]?(w=m.html5Types[c.type],J=!0):(w=c.uibDatepickerPopup||m.datepickerPopup,c.$observe("uibDatepickerPopup",function(a,b){var c=a||m.datepickerPopup;if(c!==w&&(w=c,F.$modelValue=null,!w))throw new Error("uibDatepickerPopup must have a date format specified.")})),!w)throw new Error("uibDatepickerPopup must have a date format specified.");if(J&&c.uibDatepickerPopup)throw new Error("HTML5 date input types do not support custom formats.");C=angular.element("<div uib-datepicker-popup-wrap><div uib-datepicker></div></div>"),C.attr({"ng-model":"date","ng-change":"dateSelection(date)","template-url":A}),D=angular.element(C.children()[0]),D.attr("template-url",B),a.datepickerOptions||(a.datepickerOptions={}),J&&"month"===c.type&&(a.datepickerOptions.datepickerMode="month",a.datepickerOptions.minMode="month"),D.attr("datepicker-options","datepickerOptions"),J?F.$formatters.push(function(b){return a.date=l.fromTimezone(b,G.timezone),b}):(F.$$parserName="date",F.$validators.date=s,F.$parsers.unshift(r),F.$formatters.push(function(b){return F.$isEmpty(b)?(a.date=b,b):(angular.isNumber(b)&&(b=new Date(b)),a.date=l.fromTimezone(b,G.timezone),l.filter(a.date,w))})),F.$viewChangeListeners.push(function(){a.date=q(F.$viewValue)}),b.on("keydown",u),H=d(C)(a),C.remove(),y?h.find("body").append(H):b.after(H),a.$on("$destroy",function(){for(a.isOpen===!0&&(i.$$phase||a.$apply(function(){a.isOpen=!1})),H.remove(),b.off("keydown",u),h.off("click",t),E&&E.off("scroll",v),angular.element(g).off("resize",v);K.length;)K.shift()()})},a.getText=function(b){return a[b+"Text"]||m[b+"Text"]},a.isDisabled=function(b){"today"===b&&(b=l.fromTimezone(new Date,G.timezone));var c={};return angular.forEach(["minDate","maxDate"],function(b){a.datepickerOptions[b]?angular.isDate(a.datepickerOptions[b])?c[b]=new Date(a.datepickerOptions[b]):(p&&e.warn("Literal date support has been deprecated, please switch to date object usage"),c[b]=new Date(k(a.datepickerOptions[b],"medium"))):c[b]=null}),a.datepickerOptions&&c.minDate&&a.compare(b,c.minDate)<0||c.maxDate&&a.compare(b,c.maxDate)>0},a.compare=function(a,b){return new Date(a.getFullYear(),a.getMonth(),a.getDate())-new Date(b.getFullYear(),b.getMonth(),b.getDate())},a.dateSelection=function(c){a.date=c;var d=a.date?l.filter(a.date,w):null;b.val(d),F.$setViewValue(d),x&&(a.isOpen=!1,b[0].focus())},a.keydown=function(c){27===c.which&&(c.stopPropagation(),a.isOpen=!1,b[0].focus())},a.select=function(b,c){if(c.stopPropagation(),"today"===b){var d=new Date;angular.isDate(a.date)?(b=new Date(a.date),b.setFullYear(d.getFullYear(),d.getMonth(),d.getDate())):(b=l.fromTimezone(d,G.timezone),b.setHours(0,0,0,0))}a.dateSelection(b)},a.close=function(c){c.stopPropagation(),a.isOpen=!1,b[0].focus()},a.disabled=angular.isDefined(c.disabled)||!1,c.ngDisabled&&K.push(a.$parent.$watch(f(c.ngDisabled),function(b){a.disabled=b})),a.$watch("isOpen",function(d){d?a.disabled?a.isOpen=!1:n(function(){v(),z&&a.$broadcast("uib:datepicker.focus"),h.on("click",t);var d=c.popupPlacement?c.popupPlacement:m.placement;y||j.parsePlacement(d)[2]?(E=E||angular.element(j.scrollParent(b)),E&&E.on("scroll",v)):E=null,angular.element(g).on("resize",v)},0,!1):(h.off("click",t),E&&E.off("scroll",v),angular.element(g).off("resize",v))}),a.$on("uib:datepicker.mode",function(){n(v,0,!1)})}]).directive("uibDatepickerPopup",function(){return{require:["ngModel","uibDatepickerPopup"],controller:"UibDatepickerPopupController",scope:{datepickerOptions:"=?",isOpen:"=?",currentText:"@",clearText:"@",closeText:"@"},link:function(a,b,c,d){var e=d[0],f=d[1];f.init(e)}}}).directive("uibDatepickerPopupWrap",function(){return{restrict:"A",transclude:!0,templateUrl:function(a,b){return b.templateUrl||"uib/template/datepickerPopup/popup.html"}}}),angular.module("ui.bootstrap.debounce",[]).factory("$$debounce",["$timeout",function(a){return function(b,c){var d;return function(){var e=this,f=Array.prototype.slice.call(arguments);d&&a.cancel(d),d=a(function(){b.apply(e,f)},c)}}}]),angular.module("ui.bootstrap.dropdown",["ui.bootstrap.position"]).constant("uibDropdownConfig",{appendToOpenClass:"uib-dropdown-open",openClass:"open"}).service("uibDropdownService",["$document","$rootScope",function(a,b){var c=null;this.open=function(b,e){c||a.on("click",d),c&&c!==b&&(c.isOpen=!1),c=b},this.close=function(b,e){c===b&&(c=null,a.off("click",d),a.off("keydown",this.keybindFilter))};var d=function(a){if(c&&!(a&&"disabled"===c.getAutoClose()||a&&3===a.which)){var d=c.getToggleElement();if(!(a&&d&&d[0].contains(a.target))){var e=c.getDropdownElement();a&&"outsideClick"===c.getAutoClose()&&e&&e[0].contains(a.target)||(c.isOpen=!1,c.focusToggleElement(),b.$$phase||c.$apply())}}};this.keybindFilter=function(a){var b=c.getDropdownElement(),e=c.getToggleElement(),f=b&&b[0].contains(a.target),g=e&&e[0].contains(a.target);27===a.which?(a.stopPropagation(),c.focusToggleElement(),d()):c.isKeynavEnabled()&&-1!==[38,40].indexOf(a.which)&&c.isOpen&&(f||g)&&(a.preventDefault(),a.stopPropagation(),c.focusDropdownEntry(a.which))}}]).controller("UibDropdownController",["$scope","$element","$attrs","$parse","uibDropdownConfig","uibDropdownService","$animate","$uibPosition","$document","$compile","$templateRequest",function(a,b,c,d,e,f,g,h,i,j,k){var l,m,n=this,o=a.$new(),p=e.appendToOpenClass,q=e.openClass,r=angular.noop,s=c.onToggle?d(c.onToggle):angular.noop,t=!1,u=null,v=!1,w=i.find("body");b.addClass("dropdown"),this.init=function(){if(c.isOpen&&(m=d(c.isOpen),r=m.assign,a.$watch(m,function(a){o.isOpen=!!a})),angular.isDefined(c.dropdownAppendTo)){var e=d(c.dropdownAppendTo)(o);e&&(u=angular.element(e))}t=angular.isDefined(c.dropdownAppendToBody),v=angular.isDefined(c.keyboardNav),t&&!u&&(u=w),u&&n.dropdownMenu&&(u.append(n.dropdownMenu),b.on("$destroy",function(){n.dropdownMenu.remove()}))},this.toggle=function(a){return o.isOpen=arguments.length?!!a:!o.isOpen,angular.isFunction(r)&&r(o,o.isOpen),o.isOpen},this.isOpen=function(){return o.isOpen},o.getToggleElement=function(){return n.toggleElement},o.getAutoClose=function(){return c.autoClose||"always"},o.getElement=function(){return b},o.isKeynavEnabled=function(){return v},o.focusDropdownEntry=function(a){var c=n.dropdownMenu?angular.element(n.dropdownMenu).find("a"):b.find("ul").eq(0).find("a");switch(a){case 40:angular.isNumber(n.selectedOption)?n.selectedOption=n.selectedOption===c.length-1?n.selectedOption:n.selectedOption+1:n.selectedOption=0;break;case 38:angular.isNumber(n.selectedOption)?n.selectedOption=0===n.selectedOption?0:n.selectedOption-1:n.selectedOption=c.length-1}c[n.selectedOption].focus()},o.getDropdownElement=function(){return n.dropdownMenu},o.focusToggleElement=function(){n.toggleElement&&n.toggleElement[0].focus()},o.$watch("isOpen",function(c,d){if(u&&n.dropdownMenu){var e,m,v,w=h.positionElements(b,n.dropdownMenu,"bottom-left",!0),x=0;if(e={top:w.top+"px",display:c?"block":"none"},m=n.dropdownMenu.hasClass("dropdown-menu-right"),m?(e.left="auto",v=h.scrollbarPadding(u),v.heightOverflow&&v.scrollbarWidth&&(x=v.scrollbarWidth),e.right=window.innerWidth-x-(w.left+b.prop("offsetWidth"))+"px"):(e.left=w.left+"px",e.right="auto"),!t){var y=h.offset(u);e.top=w.top-y.top+"px",m?e.right=window.innerWidth-(w.left-y.left+b.prop("offsetWidth"))+"px":e.left=w.left-y.left+"px"}n.dropdownMenu.css(e)}var z=u?u:b,A=z.hasClass(u?p:q);if(A===!c&&g[c?"addClass":"removeClass"](z,u?p:q).then(function(){angular.isDefined(c)&&c!==d&&s(a,{open:!!c})}),c)n.dropdownMenuTemplateUrl?k(n.dropdownMenuTemplateUrl).then(function(a){l=o.$new(),j(a.trim())(l,function(a){var b=a;n.dropdownMenu.replaceWith(b),n.dropdownMenu=b,i.on("keydown",f.keybindFilter)})}):i.on("keydown",f.keybindFilter),o.focusToggleElement(),f.open(o,b);else{if(f.close(o,b),n.dropdownMenuTemplateUrl){l&&l.$destroy();var B=angular.element('<ul class="dropdown-menu"></ul>');n.dropdownMenu.replaceWith(B),n.dropdownMenu=B}n.selectedOption=null}angular.isFunction(r)&&r(a,c)})}]).directive("uibDropdown",function(){return{controller:"UibDropdownController",link:function(a,b,c,d){d.init()}}}).directive("uibDropdownMenu",function(){return{restrict:"A",require:"?^uibDropdown",link:function(a,b,c,d){if(d&&!angular.isDefined(c.dropdownNested)){b.addClass("dropdown-menu");var e=c.templateUrl;e&&(d.dropdownMenuTemplateUrl=e),d.dropdownMenu||(d.dropdownMenu=b)}}}}).directive("uibDropdownToggle",function(){return{require:"?^uibDropdown",link:function(a,b,c,d){if(d){b.addClass("dropdown-toggle"),d.toggleElement=b;var e=function(e){e.preventDefault(),b.hasClass("disabled")||c.disabled||a.$apply(function(){d.toggle()})};b.bind("click",e),b.attr({"aria-haspopup":!0,"aria-expanded":!1}),a.$watch(d.isOpen,function(a){b.attr("aria-expanded",!!a)}),a.$on("$destroy",function(){b.unbind("click",e)})}}}}),angular.module("ui.bootstrap.stackedMap",[]).factory("$$stackedMap",function(){return{createNew:function(){var a=[];return{add:function(b,c){a.push({key:b,value:c})},get:function(b){for(var c=0;c<a.length;c++)if(b===a[c].key)return a[c]},keys:function(){for(var b=[],c=0;c<a.length;c++)b.push(a[c].key);return b},top:function(){return a[a.length-1]},remove:function(b){for(var c=-1,d=0;d<a.length;d++)if(b===a[d].key){c=d;break}return a.splice(c,1)[0]},removeTop:function(){return a.pop()},length:function(){return a.length}}}}}),angular.module("ui.bootstrap.modal",["ui.bootstrap.stackedMap","ui.bootstrap.position"]).factory("$$multiMap",function(){return{createNew:function(){var a={};return{entries:function(){return Object.keys(a).map(function(b){return{key:b,value:a[b]}})},get:function(b){return a[b]},hasKey:function(b){return!!a[b]},keys:function(){return Object.keys(a)},put:function(b,c){a[b]||(a[b]=[]),a[b].push(c)},remove:function(b,c){var d=a[b];if(d){var e=d.indexOf(c);-1!==e&&d.splice(e,1),d.length||delete a[b]}}}}}}).provider("$uibResolve",function(){var a=this;this.resolver=null,this.setResolver=function(a){this.resolver=a},this.$get=["$injector","$q",function(b,c){var d=a.resolver?b.get(a.resolver):null;return{resolve:function(a,e,f,g){if(d)return d.resolve(a,e,f,g);var h=[];return angular.forEach(a,function(a){angular.isFunction(a)||angular.isArray(a)?h.push(c.resolve(b.invoke(a))):angular.isString(a)?h.push(c.resolve(b.get(a))):h.push(c.resolve(a))}),c.all(h).then(function(b){var c={},d=0;return angular.forEach(a,function(a,e){c[e]=b[d++]}),c})}}}]}).directive("uibModalBackdrop",["$animate","$injector","$uibModalStack",function(a,b,c){function d(b,d,e){e.modalInClass&&(a.addClass(d,e.modalInClass),b.$on(c.NOW_CLOSING_EVENT,function(c,f){var g=f();b.modalOptions.animation?a.removeClass(d,e.modalInClass).then(g):g()}))}return{restrict:"A",compile:function(a,b){return a.addClass(b.backdropClass),d}}}]).directive("uibModalWindow",["$uibModalStack","$q","$animateCss","$document",function(a,b,c,d){return{scope:{index:"@"},restrict:"A",transclude:!0,templateUrl:function(a,b){return b.templateUrl||"uib/template/modal/window.html"},link:function(e,f,g){f.addClass(g.windowTopClass||""),e.size=g.size,e.close=function(b){var c=a.getTop();c&&c.value.backdrop&&"static"!==c.value.backdrop&&b.target===b.currentTarget&&(b.preventDefault(),b.stopPropagation(),a.dismiss(c.key,"backdrop click"))},f.on("click",e.close),e.$isRendered=!0;var h=b.defer();e.$$postDigest(function(){h.resolve()}),h.promise.then(function(){var h=null;g.modalInClass&&(h=c(f,{addClass:g.modalInClass}).start(),e.$on(a.NOW_CLOSING_EVENT,function(a,b){var d=b();c(f,{removeClass:g.modalInClass}).start().then(d)})),b.when(h).then(function(){var b=a.getTop();if(b&&a.modalRendered(b.key),!d[0].activeElement||!f[0].contains(d[0].activeElement)){var c=f[0].querySelector("[autofocus]");c?c.focus():f[0].focus()}})})}}}]).directive("uibModalAnimationClass",function(){return{compile:function(a,b){b.modalAnimation&&a.addClass(b.uibModalAnimationClass)}}}).directive("uibModalTransclude",["$animate",function(a){return{link:function(b,c,d,e,f){f(b.$parent,function(b){c.empty(),a.enter(b,c)})}}}]).factory("$uibModalStack",["$animate","$animateCss","$document","$compile","$rootScope","$q","$$multiMap","$$stackedMap","$uibPosition",function(a,b,c,d,e,f,g,h,i){function j(a){var b="-";return a.replace(C,function(a,c){return(c?b:"")+a.toLowerCase()})}function k(a){return!!(a.offsetWidth||a.offsetHeight||a.getClientRects().length)}function l(){for(var a=-1,b=w.keys(),c=0;c<b.length;c++)w.get(b[c]).value.backdrop&&(a=c);return a>-1&&z>a&&(a=z),a}function m(a,b){var c=w.get(a).value,d=c.appendTo;w.remove(a),A=w.top(),A&&(z=parseInt(A.value.modalDomEl.attr("index"),10)),p(c.modalDomEl,c.modalScope,function(){var b=c.openedClass||v;x.remove(b,a);var e=x.hasKey(b);d.toggleClass(b,e),!e&&u&&u.heightOverflow&&u.scrollbarWidth&&(u.originalRight?d.css({paddingRight:u.originalRight+"px"}):d.css({paddingRight:""}),u=null),n(!0)},c.closedDeferred),o(),b&&b.focus?b.focus():d.focus&&d.focus()}function n(a){var b;w.length()>0&&(b=w.top().value,b.modalDomEl.toggleClass(b.windowTopClass||"",a))}function o(){if(s&&-1===l()){var a=t;p(s,t,function(){a=null}),s=void 0,t=void 0}}function p(b,c,d,e){function g(){g.done||(g.done=!0,a.leave(b).then(function(){d&&d(),b.remove(),e&&e.resolve()}),c.$destroy())}var h,i=null,j=function(){return h||(h=f.defer(),i=h.promise),function(){h.resolve()}};return c.$broadcast(y.NOW_CLOSING_EVENT,j),f.when(i).then(g)}function q(a){if(a.isDefaultPrevented())return a;var b=w.top();if(b)switch(a.which){case 27:b.value.keyboard&&(a.preventDefault(),e.$apply(function(){y.dismiss(b.key,"escape key press")}));break;case 9:var c=y.loadFocusElementList(b),d=!1;a.shiftKey?(y.isFocusInFirstItem(a,c)||y.isModalFocused(a,b))&&(d=y.focusLastFocusableElement(c)):y.isFocusInLastItem(a,c)&&(d=y.focusFirstFocusableElement(c)),d&&(a.preventDefault(),a.stopPropagation())}}function r(a,b,c){return!a.value.modalScope.$broadcast("modal.closing",b,c).defaultPrevented}var s,t,u,v="modal-open",w=h.createNew(),x=g.createNew(),y={NOW_CLOSING_EVENT:"modal.stack.now-closing"},z=0,A=null,B="a[href], area[href], input:not([disabled]):not([tabindex='-1']), button:not([disabled]):not([tabindex='-1']),select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), iframe, object, embed, *[tabindex]:not([tabindex='-1']), *[contenteditable=true]",C=/[A-Z]/g;return e.$watch(l,function(a){t&&(t.index=a)}),c.on("keydown",q),e.$on("$destroy",function(){c.off("keydown",q)}),y.open=function(b,f){var g=c[0].activeElement,h=f.openedClass||v;n(!1),A=w.top(),w.add(b,{deferred:f.deferred,renderDeferred:f.renderDeferred,closedDeferred:f.closedDeferred,modalScope:f.scope,backdrop:f.backdrop,keyboard:f.keyboard,openedClass:f.openedClass,windowTopClass:f.windowTopClass,animation:f.animation,appendTo:f.appendTo}),x.put(h,b);var k=f.appendTo,m=l();if(!k.length)throw new Error("appendTo element not found. Make sure that the element passed is in DOM.");m>=0&&!s&&(t=e.$new(!0),t.modalOptions=f,t.index=m,s=angular.element('<div uib-modal-backdrop="modal-backdrop"></div>'),s.attr({"class":"modal-backdrop","ng-style":"{'z-index': 1040 + (index && 1 || 0) + index*10}","uib-modal-animation-class":"fade","modal-in-class":"in"}),f.backdropClass&&s.addClass(f.backdropClass),f.animation&&s.attr("modal-animation","true"),d(s)(t),a.enter(s,k),i.isScrollable(k)&&(u=i.scrollbarPadding(k),u.heightOverflow&&u.scrollbarWidth&&k.css({paddingRight:u.right+"px"})));var o;f.component?(o=document.createElement(j(f.component.name)),o=angular.element(o),o.attr({resolve:"$resolve","modal-instance":"$uibModalInstance",close:"$close($value)",dismiss:"$dismiss($value)"})):o=f.content,z=A?parseInt(A.value.modalDomEl.attr("index"),10)+1:0;var p=angular.element('<div uib-modal-window="modal-window"></div>');p.attr({"class":"modal","template-url":f.windowTemplateUrl,"window-top-class":f.windowTopClass,role:"dialog","aria-labelledby":f.ariaLabelledBy,"aria-describedby":f.ariaDescribedBy,size:f.size,index:z,animate:"animate","ng-style":"{'z-index': 1050 + $$topModalIndex*10, display: 'block'}",tabindex:-1,"uib-modal-animation-class":"fade","modal-in-class":"in"}).append(o),f.windowClass&&p.addClass(f.windowClass),f.animation&&p.attr("modal-animation","true"),k.addClass(h),f.scope&&(f.scope.$$topModalIndex=z),a.enter(d(p)(f.scope),k),w.top().value.modalDomEl=p,w.top().value.modalOpener=g},y.close=function(a,b){var c=w.get(a);return c&&r(c,b,!0)?(c.value.modalScope.$$uibDestructionScheduled=!0,c.value.deferred.resolve(b),m(a,c.value.modalOpener),!0):!c},y.dismiss=function(a,b){var c=w.get(a);return c&&r(c,b,!1)?(c.value.modalScope.$$uibDestructionScheduled=!0,c.value.deferred.reject(b),m(a,c.value.modalOpener),!0):!c},y.dismissAll=function(a){for(var b=this.getTop();b&&this.dismiss(b.key,a);)b=this.getTop()},y.getTop=function(){return w.top()},y.modalRendered=function(a){var b=w.get(a);b&&b.value.renderDeferred.resolve()},y.focusFirstFocusableElement=function(a){return a.length>0?(a[0].focus(),!0):!1},y.focusLastFocusableElement=function(a){return a.length>0?(a[a.length-1].focus(),!0):!1},y.isModalFocused=function(a,b){if(a&&b){var c=b.value.modalDomEl;if(c&&c.length)return(a.target||a.srcElement)===c[0]}return!1},y.isFocusInFirstItem=function(a,b){return b.length>0?(a.target||a.srcElement)===b[0]:!1},y.isFocusInLastItem=function(a,b){return b.length>0?(a.target||a.srcElement)===b[b.length-1]:!1},y.loadFocusElementList=function(a){if(a){var b=a.value.modalDomEl;if(b&&b.length){var c=b[0].querySelectorAll(B);return c?Array.prototype.filter.call(c,function(a){return k(a)}):c}}},y}]).provider("$uibModal",function(){var a={options:{animation:!0,backdrop:!0,keyboard:!0},$get:["$rootScope","$q","$document","$templateRequest","$controller","$uibResolve","$uibModalStack",function(b,c,d,e,f,g,h){function i(a){return a.template?c.when(a.template):e(angular.isFunction(a.templateUrl)?a.templateUrl():a.templateUrl)}var j={},k=null;return j.getPromiseChain=function(){return k},j.open=function(e){function j(){return q}var l=c.defer(),m=c.defer(),n=c.defer(),o=c.defer(),p={result:l.promise,opened:m.promise,closed:n.promise,rendered:o.promise,close:function(a){return h.close(p,a)},dismiss:function(a){return h.dismiss(p,a)}};if(e=angular.extend({},a.options,e),e.resolve=e.resolve||{},e.appendTo=e.appendTo||d.find("body").eq(0),!e.component&&!e.template&&!e.templateUrl)throw new Error("One of component or template or templateUrl options is required.");var q;q=e.component?c.when(g.resolve(e.resolve,{},null,null)):c.all([i(e),g.resolve(e.resolve,{},null,null)]);var r;return r=k=c.all([k]).then(j,j).then(function(a){function c(b,c,d,e){b.$scope=g,b.$scope.$resolve={},d?b.$scope.$uibModalInstance=p:b.$uibModalInstance=p;var f=c?a[1]:a;angular.forEach(f,function(a,c){e&&(b[c]=a),b.$scope.$resolve[c]=a})}var d=e.scope||b,g=d.$new();g.$close=p.close,g.$dismiss=p.dismiss,g.$on("$destroy",function(){g.$$uibDestructionScheduled||g.$dismiss("$uibUnscheduledDestruction")});var i,j,k={scope:g,deferred:l,renderDeferred:o,closedDeferred:n,animation:e.animation,backdrop:e.backdrop,keyboard:e.keyboard,backdropClass:e.backdropClass,windowTopClass:e.windowTopClass,windowClass:e.windowClass,windowTemplateUrl:e.windowTemplateUrl,ariaLabelledBy:e.ariaLabelledBy,ariaDescribedBy:e.ariaDescribedBy,size:e.size,openedClass:e.openedClass,appendTo:e.appendTo},q={},r={};e.component?(c(q,!1,!0,!1),q.name=e.component,k.component=q):e.controller&&(c(r,!0,!1,!0),j=f(e.controller,r,!0,e.controllerAs),e.controllerAs&&e.bindToController&&(i=j.instance,i.$close=g.$close,i.$dismiss=g.$dismiss,angular.extend(i,{$resolve:r.$scope.$resolve},d)),i=j(),angular.isFunction(i.$onInit)&&i.$onInit()),e.component||(k.content=a[0]),h.open(p,k),m.resolve(!0)},function(a){m.reject(a),l.reject(a)})["finally"](function(){k===r&&(k=null)}),p},j}]};return a}),angular.module("ui.bootstrap.paging",[]).factory("uibPaging",["$parse",function(a){return{create:function(b,c,d){b.setNumPages=d.numPages?a(d.numPages).assign:angular.noop,b.ngModelCtrl={$setViewValue:angular.noop},b._watchers=[],b.init=function(a,e){b.ngModelCtrl=a,b.config=e,a.$render=function(){b.render()},d.itemsPerPage?b._watchers.push(c.$parent.$watch(d.itemsPerPage,function(a){b.itemsPerPage=parseInt(a,10),c.totalPages=b.calculateTotalPages(),b.updatePage()})):b.itemsPerPage=e.itemsPerPage,c.$watch("totalItems",function(a,d){(angular.isDefined(a)||a!==d)&&(c.totalPages=b.calculateTotalPages(),b.updatePage())})},b.calculateTotalPages=function(){var a=b.itemsPerPage<1?1:Math.ceil(c.totalItems/b.itemsPerPage);return Math.max(a||0,1)},b.render=function(){c.page=parseInt(b.ngModelCtrl.$viewValue,10)||1},c.selectPage=function(a,d){d&&d.preventDefault();var e=!c.ngDisabled||!d;e&&c.page!==a&&a>0&&a<=c.totalPages&&(d&&d.target&&d.target.blur(),b.ngModelCtrl.$setViewValue(a),b.ngModelCtrl.$render())},c.getText=function(a){return c[a+"Text"]||b.config[a+"Text"]},c.noPrevious=function(){return 1===c.page},c.noNext=function(){return c.page===c.totalPages},b.updatePage=function(){b.setNumPages(c.$parent,c.totalPages),c.page>c.totalPages?c.selectPage(c.totalPages):b.ngModelCtrl.$render()},c.$on("$destroy",function(){for(;b._watchers.length;)b._watchers.shift()()})}}}]),angular.module("ui.bootstrap.pager",["ui.bootstrap.paging","ui.bootstrap.tabindex"]).controller("UibPagerController",["$scope","$attrs","uibPaging","uibPagerConfig",function(a,b,c,d){a.align=angular.isDefined(b.align)?a.$parent.$eval(b.align):d.align,c.create(this,a,b)}]).constant("uibPagerConfig",{itemsPerPage:10,previousText:"« Previous",nextText:"Next »",align:!0}).directive("uibPager",["uibPagerConfig",function(a){return{scope:{totalItems:"=",previousText:"@",nextText:"@",ngDisabled:"="},require:["uibPager","?ngModel"],restrict:"A",controller:"UibPagerController",controllerAs:"pager",templateUrl:function(a,b){return b.templateUrl||"uib/template/pager/pager.html"},link:function(b,c,d,e){c.addClass("pager");var f=e[0],g=e[1];g&&f.init(g,a)}}}]),angular.module("ui.bootstrap.pagination",["ui.bootstrap.paging","ui.bootstrap.tabindex"]).controller("UibPaginationController",["$scope","$attrs","$parse","uibPaging","uibPaginationConfig",function(a,b,c,d,e){function f(a,b,c){return{number:a,text:b,active:c}}function g(a,b){var c=[],d=1,e=b,g=angular.isDefined(i)&&b>i;g&&(j?(d=Math.max(a-Math.floor(i/2),1),e=d+i-1,e>b&&(e=b,d=e-i+1)):(d=(Math.ceil(a/i)-1)*i+1,e=Math.min(d+i-1,b)));for(var h=d;e>=h;h++){var n=f(h,m(h),h===a);c.push(n)}if(g&&i>0&&(!j||k||l)){if(d>1){if(!l||d>3){var o=f(d-1,"...",!1);c.unshift(o);
 }if(l){if(3===d){var p=f(2,"2",!1);c.unshift(p)}var q=f(1,"1",!1);c.unshift(q)}}if(b>e){if(!l||b-2>e){var r=f(e+1,"...",!1);c.push(r)}if(l){if(e===b-2){var s=f(b-1,b-1,!1);c.push(s)}var t=f(b,b,!1);c.push(t)}}}return c}var h=this,i=angular.isDefined(b.maxSize)?a.$parent.$eval(b.maxSize):e.maxSize,j=angular.isDefined(b.rotate)?a.$parent.$eval(b.rotate):e.rotate,k=angular.isDefined(b.forceEllipses)?a.$parent.$eval(b.forceEllipses):e.forceEllipses,l=angular.isDefined(b.boundaryLinkNumbers)?a.$parent.$eval(b.boundaryLinkNumbers):e.boundaryLinkNumbers,m=angular.isDefined(b.pageLabel)?function(c){return a.$parent.$eval(b.pageLabel,{$page:c})}:angular.identity;a.boundaryLinks=angular.isDefined(b.boundaryLinks)?a.$parent.$eval(b.boundaryLinks):e.boundaryLinks,a.directionLinks=angular.isDefined(b.directionLinks)?a.$parent.$eval(b.directionLinks):e.directionLinks,d.create(this,a,b),b.maxSize&&h._watchers.push(a.$parent.$watch(c(b.maxSize),function(a){i=parseInt(a,10),h.render()}));var n=this.render;this.render=function(){n(),a.page>0&&a.page<=a.totalPages&&(a.pages=g(a.page,a.totalPages))}}]).constant("uibPaginationConfig",{itemsPerPage:10,boundaryLinks:!1,boundaryLinkNumbers:!1,directionLinks:!0,firstText:"First",previousText:"Previous",nextText:"Next",lastText:"Last",rotate:!0,forceEllipses:!1}).directive("uibPagination",["$parse","uibPaginationConfig",function(a,b){return{scope:{totalItems:"=",firstText:"@",previousText:"@",nextText:"@",lastText:"@",ngDisabled:"="},require:["uibPagination","?ngModel"],restrict:"A",controller:"UibPaginationController",controllerAs:"pagination",templateUrl:function(a,b){return b.templateUrl||"uib/template/pagination/pagination.html"},link:function(a,c,d,e){c.addClass("pagination");var f=e[0],g=e[1];g&&f.init(g,b)}}}]),angular.module("ui.bootstrap.tooltip",["ui.bootstrap.position","ui.bootstrap.stackedMap"]).provider("$uibTooltip",function(){function a(a){var b=/[A-Z]/g,c="-";return a.replace(b,function(a,b){return(b?c:"")+a.toLowerCase()})}var b={placement:"top",placementClassPrefix:"",animation:!0,popupDelay:0,popupCloseDelay:0,useContentExp:!1},c={mouseenter:"mouseleave",click:"click",outsideClick:"outsideClick",focus:"blur",none:""},d={};this.options=function(a){angular.extend(d,a)},this.setTriggers=function(a){angular.extend(c,a)},this.$get=["$window","$compile","$timeout","$document","$uibPosition","$interpolate","$rootScope","$parse","$$stackedMap",function(e,f,g,h,i,j,k,l,m){function n(a){if(27===a.which){var b=o.top();b&&(b.value.close(),b=null)}}var o=m.createNew();return h.on("keyup",n),k.$on("$destroy",function(){h.off("keyup",n)}),function(e,k,m,n){function p(a){var b=(a||n.trigger||m).split(" "),d=b.map(function(a){return c[a]||a});return{show:b,hide:d}}n=angular.extend({},b,d,n);var q=a(e),r=j.startSymbol(),s=j.endSymbol(),t="<div "+q+'-popup uib-title="'+r+"title"+s+'" '+(n.useContentExp?'content-exp="contentExp()" ':'content="'+r+"content"+s+'" ')+'origin-scope="origScope" class="uib-position-measure '+k+'" tooltip-animation-class="fade"uib-tooltip-classes ng-class="{ in: isOpen }" ></div>';return{compile:function(a,b){var c=f(t);return function(a,b,d,f){function j(){N.isOpen?q():m()}function m(){M&&!a.$eval(d[k+"Enable"])||(u(),x(),N.popupDelay?G||(G=g(r,N.popupDelay,!1)):r())}function q(){s(),N.popupCloseDelay?H||(H=g(t,N.popupCloseDelay,!1)):t()}function r(){return s(),u(),N.content?(v(),void N.$evalAsync(function(){N.isOpen=!0,y(!0),S()})):angular.noop}function s(){G&&(g.cancel(G),G=null),I&&(g.cancel(I),I=null)}function t(){N&&N.$evalAsync(function(){N&&(N.isOpen=!1,y(!1),N.animation?F||(F=g(w,150,!1)):w())})}function u(){H&&(g.cancel(H),H=null),F&&(g.cancel(F),F=null)}function v(){D||(E=N.$new(),D=c(E,function(a){K?h.find("body").append(a):b.after(a)}),o.add(N,{close:t}),z())}function w(){s(),u(),A(),D&&(D.remove(),D=null),o.remove(N),E&&(E.$destroy(),E=null)}function x(){N.title=d[k+"Title"],Q?N.content=Q(a):N.content=d[e],N.popupClass=d[k+"Class"],N.placement=angular.isDefined(d[k+"Placement"])?d[k+"Placement"]:n.placement;var b=i.parsePlacement(N.placement);J=b[1]?b[0]+"-"+b[1]:b[0];var c=parseInt(d[k+"PopupDelay"],10),f=parseInt(d[k+"PopupCloseDelay"],10);N.popupDelay=isNaN(c)?n.popupDelay:c,N.popupCloseDelay=isNaN(f)?n.popupCloseDelay:f}function y(b){P&&angular.isFunction(P.assign)&&P.assign(a,b)}function z(){R.length=0,Q?(R.push(a.$watch(Q,function(a){N.content=a,!a&&N.isOpen&&t()})),R.push(E.$watch(function(){O||(O=!0,E.$$postDigest(function(){O=!1,N&&N.isOpen&&S()}))}))):R.push(d.$observe(e,function(a){N.content=a,!a&&N.isOpen?t():S()})),R.push(d.$observe(k+"Title",function(a){N.title=a,N.isOpen&&S()})),R.push(d.$observe(k+"Placement",function(a){N.placement=a?a:n.placement,N.isOpen&&S()}))}function A(){R.length&&(angular.forEach(R,function(a){a()}),R.length=0)}function B(a){N&&N.isOpen&&D&&(b[0].contains(a.target)||D[0].contains(a.target)||q())}function C(){var c=[],e=[],f=a.$eval(d[k+"Trigger"]);T(),angular.isObject(f)?(Object.keys(f).forEach(function(a){c.push(a),e.push(f[a])}),L={show:c,hide:e}):L=p(f),"none"!==L.show&&L.show.forEach(function(a,c){"outsideClick"===a?(b.on("click",j),h.on("click",B)):a===L.hide[c]?b.on(a,j):a&&(b.on(a,m),b.on(L.hide[c],q)),b.on("keypress",function(a){27===a.which&&q()})})}var D,E,F,G,H,I,J,K=angular.isDefined(n.appendToBody)?n.appendToBody:!1,L=p(void 0),M=angular.isDefined(d[k+"Enable"]),N=a.$new(!0),O=!1,P=angular.isDefined(d[k+"IsOpen"])?l(d[k+"IsOpen"]):!1,Q=n.useContentExp?l(d[e]):!1,R=[],S=function(){D&&D.html()&&(I||(I=g(function(){var a=i.positionElements(b,D,N.placement,K),c=angular.isDefined(D.offsetHeight)?D.offsetHeight:D.prop("offsetHeight"),d=K?i.offset(b):i.position(b);D.css({top:a.top+"px",left:a.left+"px"});var e=a.placement.split("-");D.hasClass(e[0])||(D.removeClass(J.split("-")[0]),D.addClass(e[0])),D.hasClass(n.placementClassPrefix+a.placement)||(D.removeClass(n.placementClassPrefix+J),D.addClass(n.placementClassPrefix+a.placement)),g(function(){var a=angular.isDefined(D.offsetHeight)?D.offsetHeight:D.prop("offsetHeight"),b=i.adjustTop(e,d,c,a);b&&D.css(b)},0,!1),D.hasClass("uib-position-measure")?(i.positionArrow(D,a.placement),D.removeClass("uib-position-measure")):J!==a.placement&&i.positionArrow(D,a.placement),J=a.placement,I=null},0,!1)))};N.origScope=a,N.isOpen=!1,N.contentExp=function(){return N.content},d.$observe("disabled",function(a){a&&s(),a&&N.isOpen&&t()}),P&&a.$watch(P,function(a){N&&!a===N.isOpen&&j()});var T=function(){L.show.forEach(function(a){"outsideClick"===a?b.off("click",j):(b.off(a,m),b.off(a,j))}),L.hide.forEach(function(a){"outsideClick"===a?h.off("click",B):b.off(a,q)})};C();var U=a.$eval(d[k+"Animation"]);N.animation=angular.isDefined(U)?!!U:n.animation;var V,W=k+"AppendToBody";V=W in d&&void 0===d[W]?!0:a.$eval(d[W]),K=angular.isDefined(V)?V:K,a.$on("$destroy",function(){T(),w(),N=null})}}}}}]}).directive("uibTooltipTemplateTransclude",["$animate","$sce","$compile","$templateRequest",function(a,b,c,d){return{link:function(e,f,g){var h,i,j,k=e.$eval(g.tooltipTemplateTranscludeScope),l=0,m=function(){i&&(i.remove(),i=null),h&&(h.$destroy(),h=null),j&&(a.leave(j).then(function(){i=null}),i=j,j=null)};e.$watch(b.parseAsResourceUrl(g.uibTooltipTemplateTransclude),function(b){var g=++l;b?(d(b,!0).then(function(d){if(g===l){var e=k.$new(),i=d,n=c(i)(e,function(b){m(),a.enter(b,f)});h=e,j=n,h.$emit("$includeContentLoaded",b)}},function(){g===l&&(m(),e.$emit("$includeContentError",b))}),e.$emit("$includeContentRequested",b)):m()}),e.$on("$destroy",m)}}}]).directive("uibTooltipClasses",["$uibPosition",function(a){return{restrict:"A",link:function(b,c,d){if(b.placement){var e=a.parsePlacement(b.placement);c.addClass(e[0])}b.popupClass&&c.addClass(b.popupClass),b.animation&&c.addClass(d.tooltipAnimationClass)}}}]).directive("uibTooltipPopup",function(){return{restrict:"A",scope:{content:"@"},templateUrl:"uib/template/tooltip/tooltip-popup.html"}}).directive("uibTooltip",["$uibTooltip",function(a){return a("uibTooltip","tooltip","mouseenter")}]).directive("uibTooltipTemplatePopup",function(){return{restrict:"A",scope:{contentExp:"&",originScope:"&"},templateUrl:"uib/template/tooltip/tooltip-template-popup.html"}}).directive("uibTooltipTemplate",["$uibTooltip",function(a){return a("uibTooltipTemplate","tooltip","mouseenter",{useContentExp:!0})}]).directive("uibTooltipHtmlPopup",function(){return{restrict:"A",scope:{contentExp:"&"},templateUrl:"uib/template/tooltip/tooltip-html-popup.html"}}).directive("uibTooltipHtml",["$uibTooltip",function(a){return a("uibTooltipHtml","tooltip","mouseenter",{useContentExp:!0})}]),angular.module("ui.bootstrap.popover",["ui.bootstrap.tooltip"]).directive("uibPopoverTemplatePopup",function(){return{restrict:"A",scope:{uibTitle:"@",contentExp:"&",originScope:"&"},templateUrl:"uib/template/popover/popover-template.html"}}).directive("uibPopoverTemplate",["$uibTooltip",function(a){return a("uibPopoverTemplate","popover","click",{useContentExp:!0})}]).directive("uibPopoverHtmlPopup",function(){return{restrict:"A",scope:{contentExp:"&",uibTitle:"@"},templateUrl:"uib/template/popover/popover-html.html"}}).directive("uibPopoverHtml",["$uibTooltip",function(a){return a("uibPopoverHtml","popover","click",{useContentExp:!0})}]).directive("uibPopoverPopup",function(){return{restrict:"A",scope:{uibTitle:"@",content:"@"},templateUrl:"uib/template/popover/popover.html"}}).directive("uibPopover",["$uibTooltip",function(a){return a("uibPopover","popover","click")}]),angular.module("ui.bootstrap.progressbar",[]).constant("uibProgressConfig",{animate:!0,max:100}).controller("UibProgressController",["$scope","$attrs","uibProgressConfig",function(a,b,c){function d(){return angular.isDefined(a.maxParam)?a.maxParam:c.max}var e=this,f=angular.isDefined(b.animate)?a.$parent.$eval(b.animate):c.animate;this.bars=[],a.max=d(),this.addBar=function(a,b,c){f||b.css({transition:"none"}),this.bars.push(a),a.max=d(),a.title=c&&angular.isDefined(c.title)?c.title:"progressbar",a.$watch("value",function(b){a.recalculatePercentage()}),a.recalculatePercentage=function(){var b=e.bars.reduce(function(a,b){return b.percent=+(100*b.value/b.max).toFixed(2),a+b.percent},0);b>100&&(a.percent-=b-100)},a.$on("$destroy",function(){b=null,e.removeBar(a)})},this.removeBar=function(a){this.bars.splice(this.bars.indexOf(a),1),this.bars.forEach(function(a){a.recalculatePercentage()})},a.$watch("maxParam",function(a){e.bars.forEach(function(a){a.max=d(),a.recalculatePercentage()})})}]).directive("uibProgress",function(){return{replace:!0,transclude:!0,controller:"UibProgressController",require:"uibProgress",scope:{maxParam:"=?max"},templateUrl:"uib/template/progressbar/progress.html"}}).directive("uibBar",function(){return{replace:!0,transclude:!0,require:"^uibProgress",scope:{value:"=",type:"@"},templateUrl:"uib/template/progressbar/bar.html",link:function(a,b,c,d){d.addBar(a,b,c)}}}).directive("uibProgressbar",function(){return{replace:!0,transclude:!0,controller:"UibProgressController",scope:{value:"=",maxParam:"=?max",type:"@"},templateUrl:"uib/template/progressbar/progressbar.html",link:function(a,b,c,d){d.addBar(a,angular.element(b.children()[0]),{title:c.title})}}}),angular.module("ui.bootstrap.rating",[]).constant("uibRatingConfig",{max:5,stateOn:null,stateOff:null,enableReset:!0,titles:["one","two","three","four","five"]}).controller("UibRatingController",["$scope","$attrs","uibRatingConfig",function(a,b,c){var d={$setViewValue:angular.noop},e=this;this.init=function(e){d=e,d.$render=this.render,d.$formatters.push(function(a){return angular.isNumber(a)&&a<<0!==a&&(a=Math.round(a)),a}),this.stateOn=angular.isDefined(b.stateOn)?a.$parent.$eval(b.stateOn):c.stateOn,this.stateOff=angular.isDefined(b.stateOff)?a.$parent.$eval(b.stateOff):c.stateOff,this.enableReset=angular.isDefined(b.enableReset)?a.$parent.$eval(b.enableReset):c.enableReset;var f=angular.isDefined(b.titles)?a.$parent.$eval(b.titles):c.titles;this.titles=angular.isArray(f)&&f.length>0?f:c.titles;var g=angular.isDefined(b.ratingStates)?a.$parent.$eval(b.ratingStates):new Array(angular.isDefined(b.max)?a.$parent.$eval(b.max):c.max);a.range=this.buildTemplateObjects(g)},this.buildTemplateObjects=function(a){for(var b=0,c=a.length;c>b;b++)a[b]=angular.extend({index:b},{stateOn:this.stateOn,stateOff:this.stateOff,title:this.getTitle(b)},a[b]);return a},this.getTitle=function(a){return a>=this.titles.length?a+1:this.titles[a]},a.rate=function(b){if(!a.readonly&&b>=0&&b<=a.range.length){var c=e.enableReset&&d.$viewValue===b?0:b;d.$setViewValue(c),d.$render()}},a.enter=function(b){a.readonly||(a.value=b),a.onHover({value:b})},a.reset=function(){a.value=d.$viewValue,a.onLeave()},a.onKeydown=function(b){/(37|38|39|40)/.test(b.which)&&(b.preventDefault(),b.stopPropagation(),a.rate(a.value+(38===b.which||39===b.which?1:-1)))},this.render=function(){a.value=d.$viewValue,a.title=e.getTitle(a.value-1)}}]).directive("uibRating",function(){return{require:["uibRating","ngModel"],restrict:"A",scope:{readonly:"=?readOnly",onHover:"&",onLeave:"&"},controller:"UibRatingController",templateUrl:"uib/template/rating/rating.html",link:function(a,b,c,d){var e=d[0],f=d[1];e.init(f)}}}),angular.module("ui.bootstrap.tabs",[]).controller("UibTabsetController",["$scope",function(a){function b(a){for(var b=0;b<d.tabs.length;b++)if(d.tabs[b].index===a)return b}var c,d=this;d.tabs=[],d.select=function(a,f){if(!e){var g=b(c),h=d.tabs[g];if(h){if(h.tab.onDeselect({$event:f,$selectedIndex:a}),f&&f.isDefaultPrevented())return;h.tab.active=!1}var i=d.tabs[a];i?(i.tab.onSelect({$event:f}),i.tab.active=!0,d.active=i.index,c=i.index):!i&&angular.isDefined(c)&&(d.active=null,c=null)}},d.addTab=function(a){if(d.tabs.push({tab:a,index:a.index}),d.tabs.sort(function(a,b){return a.index>b.index?1:a.index<b.index?-1:0}),a.index===d.active||!angular.isDefined(d.active)&&1===d.tabs.length){var c=b(a.index);d.select(c)}},d.removeTab=function(a){for(var b,c=0;c<d.tabs.length;c++)if(d.tabs[c].tab===a){b=c;break}if(d.tabs[b].index===d.active){var e=b===d.tabs.length-1?b-1:b+1%d.tabs.length;d.select(e)}d.tabs.splice(b,1)},a.$watch("tabset.active",function(a){angular.isDefined(a)&&a!==c&&d.select(b(a))});var e;a.$on("$destroy",function(){e=!0})}]).directive("uibTabset",function(){return{transclude:!0,replace:!0,scope:{},bindToController:{active:"=?",type:"@"},controller:"UibTabsetController",controllerAs:"tabset",templateUrl:function(a,b){return b.templateUrl||"uib/template/tabs/tabset.html"},link:function(a,b,c){a.vertical=angular.isDefined(c.vertical)?a.$parent.$eval(c.vertical):!1,a.justified=angular.isDefined(c.justified)?a.$parent.$eval(c.justified):!1}}}).directive("uibTab",["$parse",function(a){return{require:"^uibTabset",replace:!0,templateUrl:function(a,b){return b.templateUrl||"uib/template/tabs/tab.html"},transclude:!0,scope:{heading:"@",index:"=?",classes:"@?",onSelect:"&select",onDeselect:"&deselect"},controller:function(){},controllerAs:"tab",link:function(b,c,d,e,f){b.disabled=!1,d.disable&&b.$parent.$watch(a(d.disable),function(a){b.disabled=!!a}),angular.isUndefined(d.index)&&(e.tabs&&e.tabs.length?b.index=Math.max.apply(null,e.tabs.map(function(a){return a.index}))+1:b.index=0),angular.isUndefined(d.classes)&&(b.classes=""),b.select=function(a){if(!b.disabled){for(var c,d=0;d<e.tabs.length;d++)if(e.tabs[d].tab===b){c=d;break}e.select(c,a)}},e.addTab(b),b.$on("$destroy",function(){e.removeTab(b)}),b.$transcludeFn=f}}}]).directive("uibTabHeadingTransclude",function(){return{restrict:"A",require:"^uibTab",link:function(a,b){a.$watch("headingElement",function(a){a&&(b.html(""),b.append(a))})}}}).directive("uibTabContentTransclude",function(){function a(a){return a.tagName&&(a.hasAttribute("uib-tab-heading")||a.hasAttribute("data-uib-tab-heading")||a.hasAttribute("x-uib-tab-heading")||"uib-tab-heading"===a.tagName.toLowerCase()||"data-uib-tab-heading"===a.tagName.toLowerCase()||"x-uib-tab-heading"===a.tagName.toLowerCase()||"uib:tab-heading"===a.tagName.toLowerCase())}return{restrict:"A",require:"^uibTabset",link:function(b,c,d){var e=b.$eval(d.uibTabContentTransclude).tab;e.$transcludeFn(e.$parent,function(b){angular.forEach(b,function(b){a(b)?e.headingElement=b:c.append(b)})})}}}),angular.module("ui.bootstrap.timepicker",[]).constant("uibTimepickerConfig",{hourStep:1,minuteStep:1,secondStep:1,showMeridian:!0,showSeconds:!1,meridians:null,readonlyInput:!1,mousewheel:!0,arrowkeys:!0,showSpinners:!0,templateUrl:"uib/template/timepicker/timepicker.html"}).controller("UibTimepickerController",["$scope","$element","$attrs","$parse","$log","$locale","uibTimepickerConfig",function(a,b,c,d,e,f,g){function h(){var b=+a.hours,c=a.showMeridian?b>0&&13>b:b>=0&&24>b;return c&&""!==a.hours?(a.showMeridian&&(12===b&&(b=0),a.meridian===v[1]&&(b+=12)),b):void 0}function i(){var b=+a.minutes,c=b>=0&&60>b;return c&&""!==a.minutes?b:void 0}function j(){var b=+a.seconds;return b>=0&&60>b?b:void 0}function k(a,b){return null===a?"":angular.isDefined(a)&&a.toString().length<2&&!b?"0"+a:a.toString()}function l(a){m(),u.$setViewValue(new Date(s)),n(a)}function m(){u.$setValidity("time",!0),a.invalidHours=!1,a.invalidMinutes=!1,a.invalidSeconds=!1}function n(b){if(u.$modelValue){var c=s.getHours(),d=s.getMinutes(),e=s.getSeconds();a.showMeridian&&(c=0===c||12===c?12:c%12),a.hours="h"===b?c:k(c,!w),"m"!==b&&(a.minutes=k(d)),a.meridian=s.getHours()<12?v[0]:v[1],"s"!==b&&(a.seconds=k(e)),a.meridian=s.getHours()<12?v[0]:v[1]}else a.hours=null,a.minutes=null,a.seconds=null,a.meridian=v[0]}function o(a){s=q(s,a),l()}function p(a,b){return q(a,60*b)}function q(a,b){var c=new Date(a.getTime()+1e3*b),d=new Date(a);return d.setHours(c.getHours(),c.getMinutes(),c.getSeconds()),d}function r(){return(null===a.hours||""===a.hours)&&(null===a.minutes||""===a.minutes)&&(!a.showSeconds||a.showSeconds&&(null===a.seconds||""===a.seconds))}var s=new Date,t=[],u={$setViewValue:angular.noop},v=angular.isDefined(c.meridians)?a.$parent.$eval(c.meridians):g.meridians||f.DATETIME_FORMATS.AMPMS,w=angular.isDefined(c.padHours)?a.$parent.$eval(c.padHours):!0;a.tabindex=angular.isDefined(c.tabindex)?c.tabindex:0,b.removeAttr("tabindex"),this.init=function(b,d){u=b,u.$render=this.render,u.$formatters.unshift(function(a){return a?new Date(a):null});var e=d.eq(0),f=d.eq(1),h=d.eq(2),i=angular.isDefined(c.mousewheel)?a.$parent.$eval(c.mousewheel):g.mousewheel;i&&this.setupMousewheelEvents(e,f,h);var j=angular.isDefined(c.arrowkeys)?a.$parent.$eval(c.arrowkeys):g.arrowkeys;j&&this.setupArrowkeyEvents(e,f,h),a.readonlyInput=angular.isDefined(c.readonlyInput)?a.$parent.$eval(c.readonlyInput):g.readonlyInput,this.setupInputEvents(e,f,h)};var x=g.hourStep;c.hourStep&&t.push(a.$parent.$watch(d(c.hourStep),function(a){x=+a}));var y=g.minuteStep;c.minuteStep&&t.push(a.$parent.$watch(d(c.minuteStep),function(a){y=+a}));var z;t.push(a.$parent.$watch(d(c.min),function(a){var b=new Date(a);z=isNaN(b)?void 0:b}));var A;t.push(a.$parent.$watch(d(c.max),function(a){var b=new Date(a);A=isNaN(b)?void 0:b}));var B=!1;c.ngDisabled&&t.push(a.$parent.$watch(d(c.ngDisabled),function(a){B=a})),a.noIncrementHours=function(){var a=p(s,60*x);return B||a>A||s>a&&z>a},a.noDecrementHours=function(){var a=p(s,60*-x);return B||z>a||a>s&&a>A},a.noIncrementMinutes=function(){var a=p(s,y);return B||a>A||s>a&&z>a},a.noDecrementMinutes=function(){var a=p(s,-y);return B||z>a||a>s&&a>A},a.noIncrementSeconds=function(){var a=q(s,C);return B||a>A||s>a&&z>a},a.noDecrementSeconds=function(){var a=q(s,-C);return B||z>a||a>s&&a>A},a.noToggleMeridian=function(){return s.getHours()<12?B||p(s,720)>A:B||p(s,-720)<z};var C=g.secondStep;c.secondStep&&t.push(a.$parent.$watch(d(c.secondStep),function(a){C=+a})),a.showSeconds=g.showSeconds,c.showSeconds&&t.push(a.$parent.$watch(d(c.showSeconds),function(b){a.showSeconds=!!b})),a.showMeridian=g.showMeridian,c.showMeridian&&t.push(a.$parent.$watch(d(c.showMeridian),function(b){if(a.showMeridian=!!b,u.$error.time){var c=h(),d=i();angular.isDefined(c)&&angular.isDefined(d)&&(s.setHours(c),l())}else n()})),this.setupMousewheelEvents=function(b,c,d){var e=function(a){a.originalEvent&&(a=a.originalEvent);var b=a.wheelDelta?a.wheelDelta:-a.deltaY;return a.detail||b>0};b.bind("mousewheel wheel",function(b){B||a.$apply(e(b)?a.incrementHours():a.decrementHours()),b.preventDefault()}),c.bind("mousewheel wheel",function(b){B||a.$apply(e(b)?a.incrementMinutes():a.decrementMinutes()),b.preventDefault()}),d.bind("mousewheel wheel",function(b){B||a.$apply(e(b)?a.incrementSeconds():a.decrementSeconds()),b.preventDefault()})},this.setupArrowkeyEvents=function(b,c,d){b.bind("keydown",function(b){B||(38===b.which?(b.preventDefault(),a.incrementHours(),a.$apply()):40===b.which&&(b.preventDefault(),a.decrementHours(),a.$apply()))}),c.bind("keydown",function(b){B||(38===b.which?(b.preventDefault(),a.incrementMinutes(),a.$apply()):40===b.which&&(b.preventDefault(),a.decrementMinutes(),a.$apply()))}),d.bind("keydown",function(b){B||(38===b.which?(b.preventDefault(),a.incrementSeconds(),a.$apply()):40===b.which&&(b.preventDefault(),a.decrementSeconds(),a.$apply()))})},this.setupInputEvents=function(b,c,d){if(a.readonlyInput)return a.updateHours=angular.noop,a.updateMinutes=angular.noop,void(a.updateSeconds=angular.noop);var e=function(b,c,d){u.$setViewValue(null),u.$setValidity("time",!1),angular.isDefined(b)&&(a.invalidHours=b),angular.isDefined(c)&&(a.invalidMinutes=c),angular.isDefined(d)&&(a.invalidSeconds=d)};a.updateHours=function(){var a=h(),b=i();u.$setDirty(),angular.isDefined(a)&&angular.isDefined(b)?(s.setHours(a),s.setMinutes(b),z>s||s>A?e(!0):l("h")):e(!0)},b.bind("blur",function(b){u.$setTouched(),r()?m():null===a.hours||""===a.hours?e(!0):!a.invalidHours&&a.hours<10&&a.$apply(function(){a.hours=k(a.hours,!w)})}),a.updateMinutes=function(){var a=i(),b=h();u.$setDirty(),angular.isDefined(a)&&angular.isDefined(b)?(s.setHours(b),s.setMinutes(a),z>s||s>A?e(void 0,!0):l("m")):e(void 0,!0)},c.bind("blur",function(b){u.$setTouched(),r()?m():null===a.minutes?e(void 0,!0):!a.invalidMinutes&&a.minutes<10&&a.$apply(function(){a.minutes=k(a.minutes)})}),a.updateSeconds=function(){var a=j();u.$setDirty(),angular.isDefined(a)?(s.setSeconds(a),l("s")):e(void 0,void 0,!0)},d.bind("blur",function(b){r()?m():!a.invalidSeconds&&a.seconds<10&&a.$apply(function(){a.seconds=k(a.seconds)})})},this.render=function(){var b=u.$viewValue;isNaN(b)?(u.$setValidity("time",!1),e.error('Timepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.')):(b&&(s=b),z>s||s>A?(u.$setValidity("time",!1),a.invalidHours=!0,a.invalidMinutes=!0):m(),n())},a.showSpinners=angular.isDefined(c.showSpinners)?a.$parent.$eval(c.showSpinners):g.showSpinners,a.incrementHours=function(){a.noIncrementHours()||o(60*x*60)},a.decrementHours=function(){a.noDecrementHours()||o(60*-x*60)},a.incrementMinutes=function(){a.noIncrementMinutes()||o(60*y)},a.decrementMinutes=function(){a.noDecrementMinutes()||o(60*-y)},a.incrementSeconds=function(){a.noIncrementSeconds()||o(C)},a.decrementSeconds=function(){a.noDecrementSeconds()||o(-C)},a.toggleMeridian=function(){var b=i(),c=h();a.noToggleMeridian()||(angular.isDefined(b)&&angular.isDefined(c)?o(720*(s.getHours()<12?60:-60)):a.meridian=a.meridian===v[0]?v[1]:v[0])},a.blur=function(){u.$setTouched()},a.$on("$destroy",function(){for(;t.length;)t.shift()()})}]).directive("uibTimepicker",["uibTimepickerConfig",function(a){return{require:["uibTimepicker","?^ngModel"],restrict:"A",controller:"UibTimepickerController",controllerAs:"timepicker",scope:{},templateUrl:function(b,c){return c.templateUrl||a.templateUrl},link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f,b.find("input"))}}}]),angular.module("ui.bootstrap.typeahead",["ui.bootstrap.debounce","ui.bootstrap.position"]).factory("uibTypeaheadParser",["$parse",function(a){var b=/^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+([\s\S]+?)$/;return{parse:function(c){var d=c.match(b);if(!d)throw new Error('Expected typeahead specification in form of "_modelValue_ (as _label_)? for _item_ in _collection_" but got "'+c+'".');return{itemName:d[3],source:a(d[4]),viewMapper:a(d[2]||d[1]),modelMapper:a(d[1])}}}}]).controller("UibTypeaheadController",["$scope","$element","$attrs","$compile","$parse","$q","$timeout","$document","$window","$rootScope","$$debounce","$uibPosition","uibTypeaheadParser",function(a,b,c,d,e,f,g,h,i,j,k,l,m){function n(){O.moveInProgress||(O.moveInProgress=!0,O.$digest()),Z()}function o(){O.position=E?l.offset(b):l.position(b),O.position.top+=b.prop("offsetHeight")}var p,q,r=[9,13,27,38,40],s=200,t=a.$eval(c.typeaheadMinLength);t||0===t||(t=1),a.$watch(c.typeaheadMinLength,function(a){t=a||0===a?a:1});var u=a.$eval(c.typeaheadWaitMs)||0,v=a.$eval(c.typeaheadEditable)!==!1;a.$watch(c.typeaheadEditable,function(a){v=a!==!1});var w,x,y=e(c.typeaheadLoading).assign||angular.noop,z=c.typeaheadShouldSelect?e(c.typeaheadShouldSelect):function(a,b){var c=b.$event;return 13===c.which||9===c.which},A=e(c.typeaheadOnSelect),B=angular.isDefined(c.typeaheadSelectOnBlur)?a.$eval(c.typeaheadSelectOnBlur):!1,C=e(c.typeaheadNoResults).assign||angular.noop,D=c.typeaheadInputFormatter?e(c.typeaheadInputFormatter):void 0,E=c.typeaheadAppendToBody?a.$eval(c.typeaheadAppendToBody):!1,F=c.typeaheadAppendTo?a.$eval(c.typeaheadAppendTo):null,G=a.$eval(c.typeaheadFocusFirst)!==!1,H=c.typeaheadSelectOnExact?a.$eval(c.typeaheadSelectOnExact):!1,I=e(c.typeaheadIsOpen).assign||angular.noop,J=a.$eval(c.typeaheadShowHint)||!1,K=e(c.ngModel),L=e(c.ngModel+"($$$p)"),M=function(b,c){return angular.isFunction(K(a))&&q&&q.$options&&q.$options.getterSetter?L(b,{$$$p:c}):K.assign(b,c)},N=m.parse(c.uibTypeahead),O=a.$new(),P=a.$on("$destroy",function(){O.$destroy()});O.$on("$destroy",P);var Q="typeahead-"+O.$id+"-"+Math.floor(1e4*Math.random());b.attr({"aria-autocomplete":"list","aria-expanded":!1,"aria-owns":Q});var R,S;J&&(R=angular.element("<div></div>"),R.css("position","relative"),b.after(R),S=b.clone(),S.attr("placeholder",""),S.attr("tabindex","-1"),S.val(""),S.css({position:"absolute",top:"0px",left:"0px","border-color":"transparent","box-shadow":"none",opacity:1,background:"none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255)",color:"#999"}),b.css({position:"relative","vertical-align":"top","background-color":"transparent"}),S.attr("id")&&S.removeAttr("id"),R.append(S),S.after(b));var T=angular.element("<div uib-typeahead-popup></div>");T.attr({id:Q,matches:"matches",active:"activeIdx",select:"select(activeIdx, evt)","move-in-progress":"moveInProgress",query:"query",position:"position","assign-is-open":"assignIsOpen(isOpen)",debounce:"debounceUpdate"}),angular.isDefined(c.typeaheadTemplateUrl)&&T.attr("template-url",c.typeaheadTemplateUrl),angular.isDefined(c.typeaheadPopupTemplateUrl)&&T.attr("popup-template-url",c.typeaheadPopupTemplateUrl);var U=function(){J&&S.val("")},V=function(){O.matches=[],O.activeIdx=-1,b.attr("aria-expanded",!1),U()},W=function(a){return Q+"-option-"+a};O.$watch("activeIdx",function(a){0>a?b.removeAttr("aria-activedescendant"):b.attr("aria-activedescendant",W(a))});var X=function(a,b){return O.matches.length>b&&a?a.toUpperCase()===O.matches[b].label.toUpperCase():!1},Y=function(c,d){var e={$viewValue:c};y(a,!0),C(a,!1),f.when(N.source(a,e)).then(function(f){var g=c===p.$viewValue;if(g&&w)if(f&&f.length>0){O.activeIdx=G?0:-1,C(a,!1),O.matches.length=0;for(var h=0;h<f.length;h++)e[N.itemName]=f[h],O.matches.push({id:W(h),label:N.viewMapper(O,e),model:f[h]});if(O.query=c,o(),b.attr("aria-expanded",!0),H&&1===O.matches.length&&X(c,0)&&(angular.isNumber(O.debounceUpdate)||angular.isObject(O.debounceUpdate)?k(function(){O.select(0,d)},angular.isNumber(O.debounceUpdate)?O.debounceUpdate:O.debounceUpdate["default"]):O.select(0,d)),J){var i=O.matches[0].label;angular.isString(c)&&c.length>0&&i.slice(0,c.length).toUpperCase()===c.toUpperCase()?S.val(c+i.slice(c.length)):S.val("")}}else V(),C(a,!0);g&&y(a,!1)},function(){V(),y(a,!1),C(a,!0)})};E&&(angular.element(i).on("resize",n),h.find("body").on("scroll",n));var Z=k(function(){O.matches.length&&o(),O.moveInProgress=!1},s);O.moveInProgress=!1,O.query=void 0;var $,_=function(a){$=g(function(){Y(a)},u)},aa=function(){$&&g.cancel($)};V(),O.assignIsOpen=function(b){I(a,b)},O.select=function(d,e){var f,h,i={};x=!0,i[N.itemName]=h=O.matches[d].model,f=N.modelMapper(a,i),M(a,f),p.$setValidity("editable",!0),p.$setValidity("parse",!0),A(a,{$item:h,$model:f,$label:N.viewMapper(a,i),$event:e}),V(),O.$eval(c.typeaheadFocusOnSelect)!==!1&&g(function(){b[0].focus()},0,!1)},b.on("keydown",function(b){if(0!==O.matches.length&&-1!==r.indexOf(b.which)){var c=z(a,{$event:b});if(-1===O.activeIdx&&c||9===b.which&&b.shiftKey)return V(),void O.$digest();b.preventDefault();var d;switch(b.which){case 27:b.stopPropagation(),V(),a.$digest();break;case 38:O.activeIdx=(O.activeIdx>0?O.activeIdx:O.matches.length)-1,O.$digest(),d=T[0].querySelectorAll(".uib-typeahead-match")[O.activeIdx],d.parentNode.scrollTop=d.offsetTop;break;case 40:O.activeIdx=(O.activeIdx+1)%O.matches.length,O.$digest(),d=T[0].querySelectorAll(".uib-typeahead-match")[O.activeIdx],d.parentNode.scrollTop=d.offsetTop;break;default:c&&O.$apply(function(){angular.isNumber(O.debounceUpdate)||angular.isObject(O.debounceUpdate)?k(function(){O.select(O.activeIdx,b)},angular.isNumber(O.debounceUpdate)?O.debounceUpdate:O.debounceUpdate["default"]):O.select(O.activeIdx,b)})}}}),b.bind("focus",function(a){w=!0,0!==t||p.$viewValue||g(function(){Y(p.$viewValue,a)},0)}),b.bind("blur",function(a){B&&O.matches.length&&-1!==O.activeIdx&&!x&&(x=!0,O.$apply(function(){angular.isObject(O.debounceUpdate)&&angular.isNumber(O.debounceUpdate.blur)?k(function(){O.select(O.activeIdx,a)},O.debounceUpdate.blur):O.select(O.activeIdx,a)})),!v&&p.$error.editable&&(p.$setViewValue(),O.$apply(function(){p.$setValidity("editable",!0),p.$setValidity("parse",!0)}),b.val("")),w=!1,x=!1});var ba=function(c){b[0]!==c.target&&3!==c.which&&0!==O.matches.length&&(V(),j.$$phase||a.$digest())};h.on("click",ba),a.$on("$destroy",function(){h.off("click",ba),(E||F)&&ca.remove(),E&&(angular.element(i).off("resize",n),h.find("body").off("scroll",n)),T.remove(),J&&R.remove()});var ca=d(T)(O);E?h.find("body").append(ca):F?angular.element(F).eq(0).append(ca):b.after(ca),this.init=function(b,c){p=b,q=c,O.debounceUpdate=p.$options&&e(p.$options.debounce)(a),p.$parsers.unshift(function(b){return w=!0,0===t||b&&b.length>=t?u>0?(aa(),_(b)):Y(b):(y(a,!1),aa(),V()),v?b:b?void p.$setValidity("editable",!1):(p.$setValidity("editable",!0),null)}),p.$formatters.push(function(b){var c,d,e={};return v||p.$setValidity("editable",!0),D?(e.$model=b,D(a,e)):(e[N.itemName]=b,c=N.viewMapper(a,e),e[N.itemName]=void 0,d=N.viewMapper(a,e),c!==d?c:b)})}}]).directive("uibTypeahead",function(){return{controller:"UibTypeaheadController",require:["ngModel","^?ngModelOptions","uibTypeahead"],link:function(a,b,c,d){d[2].init(d[0],d[1])}}}).directive("uibTypeaheadPopup",["$$debounce",function(a){return{scope:{matches:"=",query:"=",active:"=",position:"&",moveInProgress:"=",select:"&",assignIsOpen:"&",debounce:"&"},replace:!0,templateUrl:function(a,b){return b.popupTemplateUrl||"uib/template/typeahead/typeahead-popup.html"},link:function(b,c,d){b.templateUrl=d.templateUrl,b.isOpen=function(){var a=b.matches.length>0;return b.assignIsOpen({isOpen:a}),a},b.isActive=function(a){return b.active===a},b.selectActive=function(a){b.active=a},b.selectMatch=function(c,d){var e=b.debounce();angular.isNumber(e)||angular.isObject(e)?a(function(){b.select({activeIdx:c,evt:d})},angular.isNumber(e)?e:e["default"]):b.select({activeIdx:c,evt:d})}}}}]).directive("uibTypeaheadMatch",["$templateRequest","$compile","$parse",function(a,b,c){return{scope:{index:"=",match:"=",query:"="},link:function(d,e,f){var g=c(f.templateUrl)(d.$parent)||"uib/template/typeahead/typeahead-match.html";
 a(g).then(function(a){var c=angular.element(a.trim());e.replaceWith(c),b(c)(d)})}}}]).filter("uibTypeaheadHighlight",["$sce","$injector","$log",function(a,b,c){function d(a){return a.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1")}function e(a){return/<.*>/g.test(a)}var f;return f=b.has("$sanitize"),function(b,g){return!f&&e(b)&&c.warn("Unsafe use of typeahead please use ngSanitize"),b=g?(""+b).replace(new RegExp(d(g),"gi"),"<strong>$&</strong>"):b,f||(b=a.trustAsHtml(b)),b}}]),angular.module("uib/template/accordion/accordion-group.html",[]).run(["$templateCache",function(a){a.put("uib/template/accordion/accordion-group.html",'<div role="tab" id="{{::headingId}}" aria-selected="{{isOpen}}" class="panel-heading" ng-keypress="toggleOpen($event)">\n  <h4 class="panel-title">\n    <a role="button" data-toggle="collapse" href aria-expanded="{{isOpen}}" aria-controls="{{::panelId}}" tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading" ng-disabled="isDisabled" uib-tabindex-toggle><span uib-accordion-header ng-class="{\'text-muted\': isDisabled}">{{heading}}</span></a>\n  </h4>\n</div>\n<div id="{{::panelId}}" aria-labelledby="{{::headingId}}" aria-hidden="{{!isOpen}}" role="tabpanel" class="panel-collapse collapse" uib-collapse="!isOpen">\n  <div class="panel-body" ng-transclude></div>\n</div>\n')}]),angular.module("uib/template/accordion/accordion.html",[]).run(["$templateCache",function(a){a.put("uib/template/accordion/accordion.html",'<div role="tablist" class="panel-group" ng-transclude></div>')}]),angular.module("uib/template/alert/alert.html",[]).run(["$templateCache",function(a){a.put("uib/template/alert/alert.html",'<button ng-show="closeable" type="button" class="close" ng-click="close({$event: $event})">\n  <span aria-hidden="true">&times;</span>\n  <span class="sr-only">Close</span>\n</button>\n<div ng-transclude></div>\n')}]),angular.module("uib/template/carousel/carousel.html",[]).run(["$templateCache",function(a){a.put("uib/template/carousel/carousel.html",'<div class="carousel-inner" ng-transclude></div>\n<a role="button" href class="left carousel-control" ng-click="prev()" ng-class="{ disabled: isPrevDisabled() }" ng-show="slides.length > 1">\n  <span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>\n  <span class="sr-only">previous</span>\n</a>\n<a role="button" href class="right carousel-control" ng-click="next()" ng-class="{ disabled: isNextDisabled() }" ng-show="slides.length > 1">\n  <span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>\n  <span class="sr-only">next</span>\n</a>\n<ol class="carousel-indicators" ng-show="slides.length > 1">\n  <li ng-repeat="slide in slides | orderBy:indexOfSlide track by $index" ng-class="{ active: isActive(slide) }" ng-click="select(slide)">\n    <span class="sr-only">slide {{ $index + 1 }} of {{ slides.length }}<span ng-if="isActive(slide)">, currently active</span></span>\n  </li>\n</ol>\n')}]),angular.module("uib/template/carousel/slide.html",[]).run(["$templateCache",function(a){a.put("uib/template/carousel/slide.html",'<div class="text-center" ng-transclude></div>\n')}]),angular.module("uib/template/datepicker/datepicker.html",[]).run(["$templateCache",function(a){a.put("uib/template/datepicker/datepicker.html",'<div ng-switch="datepickerMode">\n  <div uib-daypicker ng-switch-when="day" tabindex="0" class="uib-daypicker"></div>\n  <div uib-monthpicker ng-switch-when="month" tabindex="0" class="uib-monthpicker"></div>\n  <div uib-yearpicker ng-switch-when="year" tabindex="0" class="uib-yearpicker"></div>\n</div>\n')}]),angular.module("uib/template/datepicker/day.html",[]).run(["$templateCache",function(a){a.put("uib/template/datepicker/day.html",'<table role="grid" aria-labelledby="{{::uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left uib-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="{{::5 + showWeeks}}"><button id="{{::uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm uib-title" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" tabindex="-1"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right uib-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n    <tr>\n      <th ng-if="showWeeks" class="text-center"></th>\n      <th ng-repeat="label in ::labels track by $index" class="text-center"><small aria-label="{{::label.full}}">{{::label.abbr}}</small></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class="uib-weeks" ng-repeat="row in rows track by $index" role="row">\n      <td ng-if="showWeeks" class="text-center h6"><em>{{ weekNumbers[$index] }}</em></td>\n      <td ng-repeat="dt in row" class="uib-day text-center" role="gridcell"\n        id="{{::dt.uid}}"\n        ng-class="::dt.customClass">\n        <button type="button" class="btn btn-default btn-sm"\n          uib-is-class="\n            \'btn-info\' for selectedDt,\n            \'active\' for activeDt\n            on dt"\n          ng-click="select(dt.date)"\n          ng-disabled="::dt.disabled"\n          tabindex="-1"><span ng-class="::{\'text-muted\': dt.secondary, \'text-info\': dt.current}">{{::dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("uib/template/datepicker/month.html",[]).run(["$templateCache",function(a){a.put("uib/template/datepicker/month.html",'<table role="grid" aria-labelledby="{{::uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left uib-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="{{::yearHeaderColspan}}"><button id="{{::uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm uib-title" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" tabindex="-1"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right uib-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class="uib-months" ng-repeat="row in rows track by $index" role="row">\n      <td ng-repeat="dt in row" class="uib-month text-center" role="gridcell"\n        id="{{::dt.uid}}"\n        ng-class="::dt.customClass">\n        <button type="button" class="btn btn-default"\n          uib-is-class="\n            \'btn-info\' for selectedDt,\n            \'active\' for activeDt\n            on dt"\n          ng-click="select(dt.date)"\n          ng-disabled="::dt.disabled"\n          tabindex="-1"><span ng-class="::{\'text-info\': dt.current}">{{::dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("uib/template/datepicker/year.html",[]).run(["$templateCache",function(a){a.put("uib/template/datepicker/year.html",'<table role="grid" aria-labelledby="{{::uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left uib-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="{{::columns - 2}}"><button id="{{::uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm uib-title" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" tabindex="-1"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right uib-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class="uib-years" ng-repeat="row in rows track by $index" role="row">\n      <td ng-repeat="dt in row" class="uib-year text-center" role="gridcell"\n        id="{{::dt.uid}}"\n        ng-class="::dt.customClass">\n        <button type="button" class="btn btn-default"\n          uib-is-class="\n            \'btn-info\' for selectedDt,\n            \'active\' for activeDt\n            on dt"\n          ng-click="select(dt.date)"\n          ng-disabled="::dt.disabled"\n          tabindex="-1"><span ng-class="::{\'text-info\': dt.current}">{{::dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("uib/template/datepickerPopup/popup.html",[]).run(["$templateCache",function(a){a.put("uib/template/datepickerPopup/popup.html",'<ul class="uib-datepicker-popup dropdown-menu uib-position-measure" dropdown-nested ng-if="isOpen" ng-keydown="keydown($event)" ng-click="$event.stopPropagation()">\n  <li ng-transclude></li>\n  <li ng-if="showButtonBar" class="uib-button-bar">\n    <span class="btn-group pull-left">\n      <button type="button" class="btn btn-sm btn-info uib-datepicker-current" ng-click="select(\'today\', $event)" ng-disabled="isDisabled(\'today\')">{{ getText(\'current\') }}</button>\n      <button type="button" class="btn btn-sm btn-danger uib-clear" ng-click="select(null, $event)">{{ getText(\'clear\') }}</button>\n    </span>\n    <button type="button" class="btn btn-sm btn-success pull-right uib-close" ng-click="close($event)">{{ getText(\'close\') }}</button>\n  </li>\n</ul>\n')}]),angular.module("uib/template/modal/window.html",[]).run(["$templateCache",function(a){a.put("uib/template/modal/window.html","<div class=\"modal-dialog {{size ? 'modal-' + size : ''}}\"><div class=\"modal-content\" uib-modal-transclude></div></div>\n")}]),angular.module("uib/template/pager/pager.html",[]).run(["$templateCache",function(a){a.put("uib/template/pager/pager.html",'<li ng-class="{disabled: noPrevious()||ngDisabled, previous: align}"><a href ng-click="selectPage(page - 1, $event)" ng-disabled="noPrevious()||ngDisabled" uib-tabindex-toggle>{{::getText(\'previous\')}}</a></li>\n<li ng-class="{disabled: noNext()||ngDisabled, next: align}"><a href ng-click="selectPage(page + 1, $event)" ng-disabled="noNext()||ngDisabled" uib-tabindex-toggle>{{::getText(\'next\')}}</a></li>\n')}]),angular.module("uib/template/pagination/pagination.html",[]).run(["$templateCache",function(a){a.put("uib/template/pagination/pagination.html",'<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)" ng-disabled="noPrevious()||ngDisabled" uib-tabindex-toggle>{{::getText(\'first\')}}</a></li>\n<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)" ng-disabled="noPrevious()||ngDisabled" uib-tabindex-toggle>{{::getText(\'previous\')}}</a></li>\n<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)" ng-disabled="ngDisabled&&!page.active" uib-tabindex-toggle>{{page.text}}</a></li>\n<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)" ng-disabled="noNext()||ngDisabled" uib-tabindex-toggle>{{::getText(\'next\')}}</a></li>\n<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)" ng-disabled="noNext()||ngDisabled" uib-tabindex-toggle>{{::getText(\'last\')}}</a></li>\n')}]),angular.module("uib/template/tooltip/tooltip-html-popup.html",[]).run(["$templateCache",function(a){a.put("uib/template/tooltip/tooltip-html-popup.html",'<div class="tooltip-arrow"></div>\n<div class="tooltip-inner" ng-bind-html="contentExp()"></div>\n')}]),angular.module("uib/template/tooltip/tooltip-popup.html",[]).run(["$templateCache",function(a){a.put("uib/template/tooltip/tooltip-popup.html",'<div class="tooltip-arrow"></div>\n<div class="tooltip-inner" ng-bind="content"></div>\n')}]),angular.module("uib/template/tooltip/tooltip-template-popup.html",[]).run(["$templateCache",function(a){a.put("uib/template/tooltip/tooltip-template-popup.html",'<div class="tooltip-arrow"></div>\n<div class="tooltip-inner"\n  uib-tooltip-template-transclude="contentExp()"\n  tooltip-template-transclude-scope="originScope()"></div>\n')}]),angular.module("uib/template/popover/popover-html.html",[]).run(["$templateCache",function(a){a.put("uib/template/popover/popover-html.html",'<div class="arrow"></div>\n\n<div class="popover-inner">\n    <h3 class="popover-title" ng-bind="uibTitle" ng-if="uibTitle"></h3>\n    <div class="popover-content" ng-bind-html="contentExp()"></div>\n</div>\n')}]),angular.module("uib/template/popover/popover-template.html",[]).run(["$templateCache",function(a){a.put("uib/template/popover/popover-template.html",'<div class="arrow"></div>\n\n<div class="popover-inner">\n    <h3 class="popover-title" ng-bind="uibTitle" ng-if="uibTitle"></h3>\n    <div class="popover-content"\n      uib-tooltip-template-transclude="contentExp()"\n      tooltip-template-transclude-scope="originScope()"></div>\n</div>\n')}]),angular.module("uib/template/popover/popover.html",[]).run(["$templateCache",function(a){a.put("uib/template/popover/popover.html",'<div class="arrow"></div>\n\n<div class="popover-inner">\n    <h3 class="popover-title" ng-bind="uibTitle" ng-if="uibTitle"></h3>\n    <div class="popover-content" ng-bind="content"></div>\n</div>\n')}]),angular.module("uib/template/progressbar/bar.html",[]).run(["$templateCache",function(a){a.put("uib/template/progressbar/bar.html",'<div class="progress-bar" ng-class="type && \'progress-bar-\' + type" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="{{max}}" ng-style="{width: (percent < 100 ? percent : 100) + \'%\'}" aria-valuetext="{{percent | number:0}}%" aria-labelledby="{{::title}}" ng-transclude></div>\n')}]),angular.module("uib/template/progressbar/progress.html",[]).run(["$templateCache",function(a){a.put("uib/template/progressbar/progress.html",'<div class="progress" ng-transclude aria-labelledby="{{::title}}"></div>')}]),angular.module("uib/template/progressbar/progressbar.html",[]).run(["$templateCache",function(a){a.put("uib/template/progressbar/progressbar.html",'<div class="progress">\n  <div class="progress-bar" ng-class="type && \'progress-bar-\' + type" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="{{max}}" ng-style="{width: (percent < 100 ? percent : 100) + \'%\'}" aria-valuetext="{{percent | number:0}}%" aria-labelledby="{{::title}}" ng-transclude></div>\n</div>\n')}]),angular.module("uib/template/rating/rating.html",[]).run(["$templateCache",function(a){a.put("uib/template/rating/rating.html",'<span ng-mouseleave="reset()" ng-keydown="onKeydown($event)" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="{{range.length}}" aria-valuenow="{{value}}" aria-valuetext="{{title}}">\n    <span ng-repeat-start="r in range track by $index" class="sr-only">({{ $index < value ? \'*\' : \' \' }})</span>\n    <i ng-repeat-end ng-mouseenter="enter($index + 1)" ng-click="rate($index + 1)" class="glyphicon" ng-class="$index < value && (r.stateOn || \'glyphicon-star\') || (r.stateOff || \'glyphicon-star-empty\')" ng-attr-title="{{r.title}}"></i>\n</span>\n')}]),angular.module("uib/template/tabs/tab.html",[]).run(["$templateCache",function(a){a.put("uib/template/tabs/tab.html",'<li ng-class="[{active: active, disabled: disabled}, classes]" class="uib-tab nav-item">\n  <a href ng-click="select($event)" class="nav-link" uib-tab-heading-transclude>{{heading}}</a>\n</li>\n')}]),angular.module("uib/template/tabs/tabset.html",[]).run(["$templateCache",function(a){a.put("uib/template/tabs/tabset.html",'<div>\n  <ul class="nav nav-{{tabset.type || \'tabs\'}}" ng-class="{\'nav-stacked\': vertical, \'nav-justified\': justified}" ng-transclude></ul>\n  <div class="tab-content">\n    <div class="tab-pane"\n         ng-repeat="tab in tabset.tabs"\n         ng-class="{active: tabset.active === tab.index}"\n         uib-tab-content-transclude="tab">\n    </div>\n  </div>\n</div>\n')}]),angular.module("uib/template/timepicker/timepicker.html",[]).run(["$templateCache",function(a){a.put("uib/template/timepicker/timepicker.html",'<table class="uib-timepicker">\n  <tbody>\n    <tr class="text-center" ng-show="::showSpinners">\n      <td class="uib-increment hours"><a ng-click="incrementHours()" ng-class="{disabled: noIncrementHours()}" class="btn btn-link" ng-disabled="noIncrementHours()" tabindex="-1"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n      <td>&nbsp;</td>\n      <td class="uib-increment minutes"><a ng-click="incrementMinutes()" ng-class="{disabled: noIncrementMinutes()}" class="btn btn-link" ng-disabled="noIncrementMinutes()" tabindex="-1"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n      <td ng-show="showSeconds">&nbsp;</td>\n      <td ng-show="showSeconds" class="uib-increment seconds"><a ng-click="incrementSeconds()" ng-class="{disabled: noIncrementSeconds()}" class="btn btn-link" ng-disabled="noIncrementSeconds()" tabindex="-1"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n      <td ng-show="showMeridian"></td>\n    </tr>\n    <tr>\n      <td class="form-group uib-time hours" ng-class="{\'has-error\': invalidHours}">\n        <input type="text" placeholder="HH" ng-model="hours" ng-change="updateHours()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementHours()" ng-blur="blur()">\n      </td>\n      <td class="uib-separator">:</td>\n      <td class="form-group uib-time minutes" ng-class="{\'has-error\': invalidMinutes}">\n        <input type="text" placeholder="MM" ng-model="minutes" ng-change="updateMinutes()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementMinutes()" ng-blur="blur()">\n      </td>\n      <td ng-show="showSeconds" class="uib-separator">:</td>\n      <td class="form-group uib-time seconds" ng-class="{\'has-error\': invalidSeconds}" ng-show="showSeconds">\n        <input type="text" placeholder="SS" ng-model="seconds" ng-change="updateSeconds()" class="form-control text-center" ng-readonly="readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementSeconds()" ng-blur="blur()">\n      </td>\n      <td ng-show="showMeridian" class="uib-time am-pm"><button type="button" ng-class="{disabled: noToggleMeridian()}" class="btn btn-default text-center" ng-click="toggleMeridian()" ng-disabled="noToggleMeridian()" tabindex="{{::tabindex}}">{{meridian}}</button></td>\n    </tr>\n    <tr class="text-center" ng-show="::showSpinners">\n      <td class="uib-decrement hours"><a ng-click="decrementHours()" ng-class="{disabled: noDecrementHours()}" class="btn btn-link" ng-disabled="noDecrementHours()" tabindex="-1"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n      <td>&nbsp;</td>\n      <td class="uib-decrement minutes"><a ng-click="decrementMinutes()" ng-class="{disabled: noDecrementMinutes()}" class="btn btn-link" ng-disabled="noDecrementMinutes()" tabindex="-1"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n      <td ng-show="showSeconds">&nbsp;</td>\n      <td ng-show="showSeconds" class="uib-decrement seconds"><a ng-click="decrementSeconds()" ng-class="{disabled: noDecrementSeconds()}" class="btn btn-link" ng-disabled="noDecrementSeconds()" tabindex="-1"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n      <td ng-show="showMeridian"></td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("uib/template/typeahead/typeahead-match.html",[]).run(["$templateCache",function(a){a.put("uib/template/typeahead/typeahead-match.html",'<a href\n   tabindex="-1"\n   ng-bind-html="match.label | uibTypeaheadHighlight:query"\n   ng-attr-title="{{match.label}}"></a>\n')}]),angular.module("uib/template/typeahead/typeahead-popup.html",[]).run(["$templateCache",function(a){a.put("uib/template/typeahead/typeahead-popup.html",'<ul class="dropdown-menu" ng-show="isOpen() && !moveInProgress" ng-style="{top: position().top+\'px\', left: position().left+\'px\'}" role="listbox" aria-hidden="{{!isOpen()}}">\n    <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index, $event)" role="option" id="{{::match.id}}">\n        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>\n    </li>\n</ul>\n')}]),angular.module("ui.bootstrap.carousel").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibCarouselCss&&angular.element(document).find("head").prepend('<style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>'),angular.$$uibCarouselCss=!0}),angular.module("ui.bootstrap.datepicker").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibDatepickerCss&&angular.element(document).find("head").prepend('<style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-left,.uib-right{width:100%}</style>'),angular.$$uibDatepickerCss=!0}),angular.module("ui.bootstrap.position").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibPositionCss&&angular.element(document).find("head").prepend('<style type="text/css">.uib-position-measure{display:block !important;visibility:hidden !important;position:absolute !important;top:-9999px !important;left:-9999px !important;}.uib-position-scrollbar-measure{position:absolute !important;top:-9999px !important;width:50px !important;height:50px !important;overflow:scroll !important;}.uib-position-body-scrollbar-measure{overflow:scroll !important;}</style>'),angular.$$uibPositionCss=!0}),angular.module("ui.bootstrap.datepickerPopup").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibDatepickerpopupCss&&angular.element(document).find("head").prepend('<style type="text/css">.uib-datepicker-popup.dropdown-menu{display:block;float:none;margin:0;}.uib-button-bar{padding:10px 9px 2px;}</style>'),angular.$$uibDatepickerpopupCss=!0}),angular.module("ui.bootstrap.tooltip").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibTooltipCss&&angular.element(document).find("head").prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'),angular.$$uibTooltipCss=!0}),angular.module("ui.bootstrap.timepicker").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibTimepickerCss&&angular.element(document).find("head").prepend('<style type="text/css">.uib-time input{width:50px;}</style>'),angular.$$uibTimepickerCss=!0}),angular.module("ui.bootstrap.typeahead").run(function(){!angular.$$csp().noInlineStyle&&!angular.$$uibTypeaheadCss&&angular.element(document).find("head").prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'),angular.$$uibTypeaheadCss=!0});
-/*
- Highcharts JS v4.2.3 (2016-02-08)
-
- (c) 2009-2016 Torstein Honsi
-
- License: www.highcharts.com/license
-*/
-(function(m){typeof module==="object"&&module.exports?module.exports=m:m(Highcharts)})(function(m){function J(a,b,c){this.init(a,b,c)}var O=m.arrayMin,P=m.arrayMax,s=m.each,F=m.extend,t=m.merge,Q=m.map,q=m.pick,A=m.pInt,o=m.getOptions().plotOptions,k=m.seriesTypes,u=m.extendClass,K=m.splat,v=m.wrap,L=m.Axis,y=m.Tick,G=m.Point,R=m.Pointer,S=m.CenteredSeriesMixin,B=m.TrackerMixin,w=m.Series,x=Math,E=x.round,C=x.floor,M=x.max,T=m.Color,r=function(){};F(J.prototype,{init:function(a,b,c){var d=this,g=
-d.defaultOptions;d.chart=b;d.options=a=t(g,b.angular?{background:{}}:void 0,a);(a=a.background)&&s([].concat(K(a)).reverse(),function(a){var g=a.backgroundColor,b=c.userOptions,a=t(d.defaultBackgroundOptions,a);if(g)a.backgroundColor=g;a.color=a.backgroundColor;c.options.plotBands.unshift(a);b.plotBands=b.plotBands||[];b.plotBands!==c.options.plotBands&&b.plotBands.unshift(a)})},defaultOptions:{center:["50%","50%"],size:"85%",startAngle:0},defaultBackgroundOptions:{shape:"circle",borderWidth:1,borderColor:"silver",
-backgroundColor:{linearGradient:{x1:0,y1:0,x2:0,y2:1},stops:[[0,"#FFF"],[1,"#DDD"]]},from:-Number.MAX_VALUE,innerRadius:0,to:Number.MAX_VALUE,outerRadius:"105%"}});var z=L.prototype,y=y.prototype,U={getOffset:r,redraw:function(){this.isDirty=!1},render:function(){this.isDirty=!1},setScale:r,setCategories:r,setTitle:r},N={isRadial:!0,defaultRadialGaugeOptions:{labels:{align:"center",x:0,y:null},minorGridLineWidth:0,minorTickInterval:"auto",minorTickLength:10,minorTickPosition:"inside",minorTickWidth:1,
-tickLength:10,tickPosition:"inside",tickWidth:2,title:{rotation:0},zIndex:2},defaultRadialXOptions:{gridLineWidth:1,labels:{align:null,distance:15,x:0,y:null},maxPadding:0,minPadding:0,showLastLabel:!1,tickLength:0},defaultRadialYOptions:{gridLineInterpolation:"circle",labels:{align:"right",x:-3,y:-2},showLastLabel:!1,title:{x:4,text:null,rotation:90}},setOptions:function(a){a=this.options=t(this.defaultOptions,this.defaultRadialOptions,a);if(!a.plotBands)a.plotBands=[]},getOffset:function(){z.getOffset.call(this);
-this.chart.axisOffset[this.side]=0;this.center=this.pane.center=S.getCenter.call(this.pane)},getLinePath:function(a,b){var c=this.center,b=q(b,c[2]/2-this.offset);return this.chart.renderer.symbols.arc(this.left+c[0],this.top+c[1],b,b,{start:this.startAngleRad,end:this.endAngleRad,open:!0,innerR:0})},setAxisTranslation:function(){z.setAxisTranslation.call(this);if(this.center)this.transA=this.isCircular?(this.endAngleRad-this.startAngleRad)/(this.max-this.min||1):this.center[2]/2/(this.max-this.min||
-1),this.minPixelPadding=this.isXAxis?this.transA*this.minPointOffset:0},beforeSetTickPositions:function(){this.autoConnect&&(this.max+=this.categories&&1||this.pointRange||this.closestPointRange||0)},setAxisSize:function(){z.setAxisSize.call(this);if(this.isRadial){this.center=this.pane.center=m.CenteredSeriesMixin.getCenter.call(this.pane);if(this.isCircular)this.sector=this.endAngleRad-this.startAngleRad;this.len=this.width=this.height=this.center[2]*q(this.sector,1)/2}},getPosition:function(a,
-b){return this.postTranslate(this.isCircular?this.translate(a):0,q(this.isCircular?b:this.translate(a),this.center[2]/2)-this.offset)},postTranslate:function(a,b){var c=this.chart,d=this.center,a=this.startAngleRad+a;return{x:c.plotLeft+d[0]+Math.cos(a)*b,y:c.plotTop+d[1]+Math.sin(a)*b}},getPlotBandPath:function(a,b,c){var d=this.center,g=this.startAngleRad,e=d[2]/2,j=[q(c.outerRadius,"100%"),c.innerRadius,q(c.thickness,10)],l=/%$/,i,f=this.isCircular;this.options.gridLineInterpolation==="polygon"?
-d=this.getPlotLinePath(a).concat(this.getPlotLinePath(b,!0)):(a=Math.max(a,this.min),b=Math.min(b,this.max),f||(j[0]=this.translate(a),j[1]=this.translate(b)),j=Q(j,function(a){l.test(a)&&(a=A(a,10)*e/100);return a}),c.shape==="circle"||!f?(a=-Math.PI/2,b=Math.PI*1.5,i=!0):(a=g+this.translate(a),b=g+this.translate(b)),d=this.chart.renderer.symbols.arc(this.left+d[0],this.top+d[1],j[0],j[0],{start:Math.min(a,b),end:Math.max(a,b),innerR:q(j[1],j[0]-j[2]),open:i}));return d},getPlotLinePath:function(a,
-b){var c=this,d=c.center,g=c.chart,e=c.getPosition(a),j,l,i;c.isCircular?i=["M",d[0]+g.plotLeft,d[1]+g.plotTop,"L",e.x,e.y]:c.options.gridLineInterpolation==="circle"?(a=c.translate(a))&&(i=c.getLinePath(0,a)):(s(g.xAxis,function(a){a.pane===c.pane&&(j=a)}),i=[],a=c.translate(a),d=j.tickPositions,j.autoConnect&&(d=d.concat([d[0]])),b&&(d=[].concat(d).reverse()),s(d,function(e,b){l=j.getPosition(e,a);i.push(b?"L":"M",l.x,l.y)}));return i},getTitlePosition:function(){var a=this.center,b=this.chart,
-c=this.options.title;return{x:b.plotLeft+a[0]+(c.x||0),y:b.plotTop+a[1]-{high:0.5,middle:0.25,low:0}[c.align]*a[2]+(c.y||0)}}};v(z,"init",function(a,b,c){var h;var d=b.angular,g=b.polar,e=c.isX,j=d&&e,l,i;i=b.options;var f=c.pane||0;if(d){if(F(this,j?U:N),l=!e)this.defaultRadialOptions=this.defaultRadialGaugeOptions}else if(g)F(this,N),this.defaultRadialOptions=(l=e)?this.defaultRadialXOptions:t(this.defaultYAxisOptions,this.defaultRadialYOptions);a.call(this,b,c);if(!j&&(d||g)){a=this.options;if(!b.panes)b.panes=
-[];this.pane=(h=b.panes[f]=b.panes[f]||new J(K(i.pane)[f],b,this),f=h);f=f.options;b.inverted=!1;i.chart.zoomType=null;this.startAngleRad=b=(f.startAngle-90)*Math.PI/180;this.endAngleRad=i=(q(f.endAngle,f.startAngle+360)-90)*Math.PI/180;this.offset=a.offset||0;if((this.isCircular=l)&&c.max===void 0&&i-b===2*Math.PI)this.autoConnect=!0}});v(z,"autoLabelAlign",function(a){if(!this.isRadial)return a.apply(this,[].slice.call(arguments,1))});v(y,"getPosition",function(a,b,c,d,g){var e=this.axis;return e.getPosition?
-e.getPosition(c):a.call(this,b,c,d,g)});v(y,"getLabelPosition",function(a,b,c,d,g,e,j,l,i){var f=this.axis,h=e.y,n=20,k=e.align,m=(f.translate(this.pos)+f.startAngleRad+Math.PI/2)/Math.PI*180%360;f.isRadial?(a=f.getPosition(this.pos,f.center[2]/2+q(e.distance,-25)),e.rotation==="auto"?d.attr({rotation:m}):h===null&&(h=f.chart.renderer.fontMetrics(d.styles.fontSize).b-d.getBBox().height/2),k===null&&(f.isCircular?(this.label.getBBox().width>f.len*f.tickInterval/(f.max-f.min)&&(n=0),k=m>n&&m<180-n?
-"left":m>180+n&&m<360-n?"right":"center"):k="center",d.attr({align:k})),a.x+=e.x,a.y+=h):a=a.call(this,b,c,d,g,e,j,l,i);return a});v(y,"getMarkPath",function(a,b,c,d,g,e,j){var l=this.axis;l.isRadial?(a=l.getPosition(this.pos,l.center[2]/2+d),b=["M",b,c,"L",a.x,a.y]):b=a.call(this,b,c,d,g,e,j);return b});o.arearange=t(o.area,{lineWidth:1,marker:null,threshold:null,tooltip:{pointFormat:'<span style="color:{series.color}">\u25cf</span> {series.name}: <b>{point.low}</b> - <b>{point.high}</b><br/>'},
-trackByArea:!0,dataLabels:{align:null,verticalAlign:null,xLow:0,xHigh:0,yLow:0,yHigh:0},states:{hover:{halo:!1}}});k.arearange=u(k.area,{type:"arearange",pointArrayMap:["low","high"],dataLabelCollections:["dataLabel","dataLabelUpper"],toYData:function(a){return[a.low,a.high]},pointValKey:"low",deferTranslatePolar:!0,highToXY:function(a){var b=this.chart,c=this.xAxis.postTranslate(a.rectPlotX,this.yAxis.len-a.plotHigh);a.plotHighX=c.x-b.plotLeft;a.plotHigh=c.y-b.plotTop},translate:function(){var a=
-this,b=a.yAxis;k.area.prototype.translate.apply(a);s(a.points,function(a){var d=a.low,g=a.high,e=a.plotY;g===null||d===null?a.isNull=!0:(a.plotLow=e,a.plotHigh=b.translate(g,0,1,0,1))});this.chart.polar&&s(this.points,function(b){a.highToXY(b)})},getGraphPath:function(){var a=this.points,b=[],c=[],d=a.length,g=w.prototype.getGraphPath,e,j,l;l=this.options;for(var i=l.step,d=a.length;d--;)e=a[d],!e.isNull&&(!a[d+1]||a[d+1].isNull)&&c.push({plotX:e.plotX,plotY:e.plotLow}),j={plotX:e.plotX,plotY:e.plotHigh,
-isNull:e.isNull},c.push(j),b.push(j),!e.isNull&&(!a[d-1]||a[d-1].isNull)&&c.push({plotX:e.plotX,plotY:e.plotLow});a=g.call(this,a);if(i)i===!0&&(i="left"),l.step={left:"right",center:"center",right:"left"}[i];b=g.call(this,b);c=g.call(this,c);l.step=i;l=[].concat(a,b);!this.chart.polar&&c[0]==="M"&&(c[0]="L");this.areaPath=this.areaPath.concat(a,c);return l},drawDataLabels:function(){var a=this.data,b=a.length,c,d=[],g=w.prototype,e=this.options.dataLabels,j=e.align,l=e.verticalAlign,i=e.inside,f,
-h,n=this.chart.inverted;if(e.enabled||this._hasPointLabels){for(c=b;c--;)if(f=a[c]){h=i?f.plotHigh<f.plotLow:f.plotHigh>f.plotLow;f.y=f.high;f._plotY=f.plotY;f.plotY=f.plotHigh;d[c]=f.dataLabel;f.dataLabel=f.dataLabelUpper;f.below=h;if(n){if(!j)e.align=h?"right":"left"}else if(!l)e.verticalAlign=h?"top":"bottom";e.x=e.xHigh;e.y=e.yHigh}g.drawDataLabels&&g.drawDataLabels.apply(this,arguments);for(c=b;c--;)if(f=a[c]){h=i?f.plotHigh<f.plotLow:f.plotHigh>f.plotLow;f.dataLabelUpper=f.dataLabel;f.dataLabel=
-d[c];f.y=f.low;f.plotY=f._plotY;f.below=!h;if(n){if(!j)e.align=h?"left":"right"}else if(!l)e.verticalAlign=h?"bottom":"top";e.x=e.xLow;e.y=e.yLow}g.drawDataLabels&&g.drawDataLabels.apply(this,arguments)}e.align=j;e.verticalAlign=l},alignDataLabel:function(){k.column.prototype.alignDataLabel.apply(this,arguments)},setStackedPoints:r,getSymbol:r,drawPoints:r});o.areasplinerange=t(o.arearange);k.areasplinerange=u(k.arearange,{type:"areasplinerange",getPointSpline:k.spline.prototype.getPointSpline});
-(function(){var a=k.column.prototype;o.columnrange=t(o.column,o.arearange,{lineWidth:1,pointRange:null});k.columnrange=u(k.arearange,{type:"columnrange",translate:function(){var b=this,c=b.yAxis,d=b.xAxis,g=b.chart,e;a.translate.apply(b);s(b.points,function(a){var l=a.shapeArgs,i=b.options.minPointLength,f,h;a.plotHigh=e=c.translate(a.high,0,1,0,1);a.plotLow=a.plotY;h=e;f=a.plotY-e;Math.abs(f)<i?(i-=f,f+=i,h-=i/2):f<0&&(f*=-1,h-=f);l.height=f;l.y=h;a.tooltipPos=g.inverted?[c.len+c.pos-g.plotLeft-
-h-f/2,d.len+d.pos-g.plotTop-l.x-l.width/2,f]:[d.left-g.plotLeft+l.x+l.width/2,c.pos-g.plotTop+h+f/2,f]})},directTouch:!0,trackerGroups:["group","dataLabelsGroup"],drawGraph:r,crispCol:a.crispCol,pointAttrToOptions:a.pointAttrToOptions,drawPoints:a.drawPoints,drawTracker:a.drawTracker,animate:a.animate,getColumnMetrics:a.getColumnMetrics})})();o.gauge=t(o.line,{dataLabels:{enabled:!0,defer:!1,y:15,borderWidth:1,borderColor:"silver",borderRadius:3,crop:!1,verticalAlign:"top",zIndex:2},dial:{},pivot:{},
-tooltip:{headerFormat:""},showInLegend:!1});B={type:"gauge",pointClass:u(G,{setState:function(a){this.state=a}}),angular:!0,drawGraph:r,fixedBox:!0,forceDL:!0,trackerGroups:["group","dataLabelsGroup"],translate:function(){var a=this.yAxis,b=this.options,c=a.center;this.generatePoints();s(this.points,function(d){var g=t(b.dial,d.dial),e=A(q(g.radius,80))*c[2]/200,j=A(q(g.baseLength,70))*e/100,l=A(q(g.rearLength,10))*e/100,i=g.baseWidth||3,f=g.topWidth||1,h=b.overshoot,n=a.startAngleRad+a.translate(d.y,
-null,null,null,!0);h&&typeof h==="number"?(h=h/180*Math.PI,n=Math.max(a.startAngleRad-h,Math.min(a.endAngleRad+h,n))):b.wrap===!1&&(n=Math.max(a.startAngleRad,Math.min(a.endAngleRad,n)));n=n*180/Math.PI;d.shapeType="path";d.shapeArgs={d:g.path||["M",-l,-i/2,"L",j,-i/2,e,-f/2,e,f/2,j,i/2,-l,i/2,"z"],translateX:c[0],translateY:c[1],rotation:n};d.plotX=c[0];d.plotY=c[1]})},drawPoints:function(){var a=this,b=a.yAxis.center,c=a.pivot,d=a.options,g=d.pivot,e=a.chart.renderer;s(a.points,function(b){var g=
-b.graphic,c=b.shapeArgs,f=c.d,h=t(d.dial,b.dial);g?(g.animate(c),c.d=f):b.graphic=e[b.shapeType](c).attr({stroke:h.borderColor||"none","stroke-width":h.borderWidth||0,fill:h.backgroundColor||"black",rotation:c.rotation,zIndex:1}).add(a.group)});c?c.animate({translateX:b[0],translateY:b[1]}):a.pivot=e.circle(0,0,q(g.radius,5)).attr({"stroke-width":g.borderWidth||0,stroke:g.borderColor||"silver",fill:g.backgroundColor||"black",zIndex:2}).translate(b[0],b[1]).add(a.group)},animate:function(a){var b=
-this;if(!a)s(b.points,function(a){var d=a.graphic;d&&(d.attr({rotation:b.yAxis.startAngleRad*180/Math.PI}),d.animate({rotation:a.shapeArgs.rotation},b.options.animation))}),b.animate=null},render:function(){this.group=this.plotGroup("group","series",this.visible?"visible":"hidden",this.options.zIndex,this.chart.seriesGroup);w.prototype.render.call(this);this.group.clip(this.chart.clipRect)},setData:function(a,b){w.prototype.setData.call(this,a,!1);this.processData();this.generatePoints();q(b,!0)&&
-this.chart.redraw()},drawTracker:B&&B.drawTrackerPoint};k.gauge=u(k.line,B);o.boxplot=t(o.column,{fillColor:"#FFFFFF",lineWidth:1,medianWidth:2,states:{hover:{brightness:-0.3}},threshold:null,tooltip:{pointFormat:'<span style="color:{point.color}">\u25cf</span> <b> {series.name}</b><br/>Maximum: {point.high}<br/>Upper quartile: {point.q3}<br/>Median: {point.median}<br/>Lower quartile: {point.q1}<br/>Minimum: {point.low}<br/>'},whiskerLength:"50%",whiskerWidth:2});k.boxplot=u(k.column,{type:"boxplot",
-pointArrayMap:["low","q1","median","q3","high"],toYData:function(a){return[a.low,a.q1,a.median,a.q3,a.high]},pointValKey:"high",pointAttrToOptions:{fill:"fillColor",stroke:"color","stroke-width":"lineWidth"},drawDataLabels:r,translate:function(){var a=this.yAxis,b=this.pointArrayMap;k.column.prototype.translate.apply(this);s(this.points,function(c){s(b,function(b){c[b]!==null&&(c[b+"Plot"]=a.translate(c[b],0,1,0,1))})})},drawPoints:function(){var a=this,b=a.options,c=a.chart.renderer,d,g,e,j,l,i,
-f,h,n,k,m,H,I,o,t,r,v,u,w,x,B,A,y=a.doQuartiles!==!1,z,D=a.options.whiskerLength;s(a.points,function(p){n=p.graphic;B=p.shapeArgs;m={};o={};r={};A=p.color||a.color;if(p.plotY!==void 0)if(d=p.pointAttr[p.selected?"selected":""],v=B.width,u=C(B.x),w=u+v,x=E(v/2),g=C(y?p.q1Plot:p.lowPlot),e=C(y?p.q3Plot:p.lowPlot),j=C(p.highPlot),l=C(p.lowPlot),m.stroke=p.stemColor||b.stemColor||A,m["stroke-width"]=q(p.stemWidth,b.stemWidth,b.lineWidth),m.dashstyle=p.stemDashStyle||b.stemDashStyle,o.stroke=p.whiskerColor||
-b.whiskerColor||A,o["stroke-width"]=q(p.whiskerWidth,b.whiskerWidth,b.lineWidth),r.stroke=p.medianColor||b.medianColor||A,r["stroke-width"]=q(p.medianWidth,b.medianWidth,b.lineWidth),f=m["stroke-width"]%2/2,h=u+x+f,k=["M",h,e,"L",h,j,"M",h,g,"L",h,l],y&&(f=d["stroke-width"]%2/2,h=C(h)+f,g=C(g)+f,e=C(e)+f,u+=f,w+=f,H=["M",u,e,"L",u,g,"L",w,g,"L",w,e,"L",u,e,"z"]),D&&(f=o["stroke-width"]%2/2,j+=f,l+=f,z=/%$/.test(D)?x*parseFloat(D)/100:D/2,I=["M",h-z,j,"L",h+z,j,"M",h-z,l,"L",h+z,l]),f=r["stroke-width"]%
-2/2,i=E(p.medianPlot)+f,t=["M",u,i,"L",w,i],n)p.stem.animate({d:k}),D&&p.whiskers.animate({d:I}),y&&p.box.animate({d:H}),p.medianShape.animate({d:t});else{p.graphic=n=c.g().add(a.group);p.stem=c.path(k).attr(m).add(n);if(D)p.whiskers=c.path(I).attr(o).add(n);if(y)p.box=c.path(H).attr(d).add(n);p.medianShape=c.path(t).attr(r).add(n)}})},setStackedPoints:r});o.errorbar=t(o.boxplot,{color:"#000000",grouping:!1,linkedTo:":previous",tooltip:{pointFormat:'<span style="color:{point.color}">\u25cf</span> {series.name}: <b>{point.low}</b> - <b>{point.high}</b><br/>'},
-whiskerWidth:null});k.errorbar=u(k.boxplot,{type:"errorbar",pointArrayMap:["low","high"],toYData:function(a){return[a.low,a.high]},pointValKey:"high",doQuartiles:!1,drawDataLabels:k.arearange?k.arearange.prototype.drawDataLabels:r,getColumnMetrics:function(){return this.linkedParent&&this.linkedParent.columnMetrics||k.column.prototype.getColumnMetrics.call(this)}});o.waterfall=t(o.column,{lineWidth:1,lineColor:"#333",dashStyle:"dot",borderColor:"#333",dataLabels:{inside:!0},states:{hover:{lineWidthPlus:0}}});
-k.waterfall=u(k.column,{type:"waterfall",upColorProp:"fill",pointValKey:"y",translate:function(){var a=this.options,b=this.yAxis,c,d,g,e,j,l,i,f,h,n=q(a.minPointLength,5),m=a.threshold,o=a.stacking;k.column.prototype.translate.apply(this);this.minPointLengthOffset=0;i=f=m;d=this.points;for(c=0,a=d.length;c<a;c++){g=d[c];l=this.processedYData[c];e=g.shapeArgs;h=(j=o&&b.stacks[(this.negStacks&&l<m?"-":"")+this.stackKey])?j[g.x].points[this.index+","+c]:[0,l];if(g.isSum)g.y=l;else if(g.isIntermediateSum)g.y=
-l-f;j=M(i,i+g.y)+h[0];e.y=b.translate(j,0,1);if(g.isSum)e.y=b.translate(h[1],0,1),e.height=Math.min(b.translate(h[0],0,1),b.len)-e.y+this.minPointLengthOffset;else if(g.isIntermediateSum)e.y=b.translate(h[1],0,1),e.height=Math.min(b.translate(f,0,1),b.len)-e.y+this.minPointLengthOffset,f=h[1];else{if(i!==0)e.height=l>0?b.translate(i,0,1)-e.y:b.translate(i,0,1)-b.translate(i-l,0,1);i+=l}e.height<0&&(e.y+=e.height,e.height*=-1);g.plotY=e.y=E(e.y)-this.borderWidth%2/2;e.height=M(E(e.height),0.001);g.yBottom=
-e.y+e.height;if(e.height<=n)e.height=n,this.minPointLengthOffset+=n;e.y-=this.minPointLengthOffset;e=g.plotY+(g.negative?e.height:0)-this.minPointLengthOffset;this.chart.inverted?g.tooltipPos[0]=b.len-e:g.tooltipPos[1]=e}},processData:function(a){var b=this.yData,c=this.options.data,d,g=b.length,e,j,l,i,f,h;j=e=l=i=this.options.threshold||0;for(h=0;h<g;h++)f=b[h],d=c&&c[h]?c[h]:{},f==="sum"||d.isSum?b[h]=j:f==="intermediateSum"||d.isIntermediateSum?b[h]=e:(j+=f,e+=f),l=Math.min(j,l),i=Math.max(j,
-i);w.prototype.processData.call(this,a);this.dataMin=l;this.dataMax=i},toYData:function(a){return a.isSum?a.x===0?null:"sum":a.isIntermediateSum?a.x===0?null:"intermediateSum":a.y},getAttribs:function(){k.column.prototype.getAttribs.apply(this,arguments);var a=this,b=a.options,c=b.states,d=b.upColor||a.color,b=m.Color(d).brighten(0.1).get(),g=t(a.pointAttr),e=a.upColorProp;g[""][e]=d;g.hover[e]=c.hover.upColor||b;g.select[e]=c.select.upColor||d;s(a.points,function(e){if(!e.options.color)e.y>0?(e.pointAttr=
-g,e.color=d):e.pointAttr=a.pointAttr})},getGraphPath:function(){var a=this.data,b=a.length,c=E(this.options.lineWidth+this.borderWidth)%2/2,d=[],g,e,j;for(j=1;j<b;j++)e=a[j].shapeArgs,g=a[j-1].shapeArgs,e=["M",g.x+g.width,g.y+c,"L",e.x,g.y+c],a[j-1].y<0&&(e[2]+=g.height,e[5]+=g.height),d=d.concat(e);return d},getExtremes:r,drawGraph:w.prototype.drawGraph});o.polygon=t(o.scatter,{marker:{enabled:!1}});k.polygon=u(k.scatter,{type:"polygon",fillGraph:!0,getSegmentPath:function(a){return w.prototype.getSegmentPath.call(this,
-a).concat("z")},drawGraph:w.prototype.drawGraph,drawLegendSymbol:m.LegendSymbolMixin.drawRectangle});o.bubble=t(o.scatter,{dataLabels:{formatter:function(){return this.point.z},inside:!0,verticalAlign:"middle"},marker:{lineColor:null,lineWidth:1},minSize:8,maxSize:"20%",softThreshold:!1,states:{hover:{halo:{size:5}}},tooltip:{pointFormat:"({point.x}, {point.y}), Size: {point.z}"},turboThreshold:0,zThreshold:0,zoneAxis:"z"});B=u(G,{haloPath:function(){return G.prototype.haloPath.call(this,this.shapeArgs.r+
-this.series.options.states.hover.halo.size)},ttBelow:!1});k.bubble=u(k.scatter,{type:"bubble",pointClass:B,pointArrayMap:["y","z"],parallelArrays:["x","y","z"],trackerGroups:["group","dataLabelsGroup"],bubblePadding:!0,zoneAxis:"z",pointAttrToOptions:{stroke:"lineColor","stroke-width":"lineWidth",fill:"fillColor"},applyOpacity:function(a){var b=this.options.marker,c=q(b.fillOpacity,0.5),a=a||b.fillColor||this.color;c!==1&&(a=T(a).setOpacity(c).get("rgba"));return a},convertAttribs:function(){var a=
-w.prototype.convertAttribs.apply(this,arguments);a.fill=this.applyOpacity(a.fill);return a},getRadii:function(a,b,c,d){var g,e,j,l=this.zData,i=[],f=this.options,h=f.sizeBy!=="width",n=f.zThreshold,k=b-a;for(e=0,g=l.length;e<g;e++)j=l[e],f.sizeByAbsoluteValue&&j!==null&&(j=Math.abs(j-n),b=Math.max(b-n,Math.abs(a-n)),a=0),j===null?j=null:j<a?j=c/2-1:(j=k>0?(j-a)/k:0.5,h&&j>=0&&(j=Math.sqrt(j)),j=x.ceil(c+j*(d-c))/2),i.push(j);this.radii=i},animate:function(a){var b=this.options.animation;if(!a)s(this.points,
-function(a){var d=a.graphic,a=a.shapeArgs;d&&a&&(d.attr("r",1),d.animate({r:a.r},b))}),this.animate=null},translate:function(){var a,b=this.data,c,d,g=this.radii;k.scatter.prototype.translate.call(this);for(a=b.length;a--;)c=b[a],d=g?g[a]:0,typeof d==="number"&&d>=this.minPxSize/2?(c.shapeType="circle",c.shapeArgs={x:c.plotX,y:c.plotY,r:d},c.dlBox={x:c.plotX-d,y:c.plotY-d,width:2*d,height:2*d}):c.shapeArgs=c.plotY=c.dlBox=void 0},drawLegendSymbol:function(a,b){var c=this.chart.renderer,d=c.fontMetrics(a.itemStyle.fontSize).f/
-2;b.legendSymbol=c.circle(d,a.baseline-d,d).attr({zIndex:3}).add(b.legendGroup);b.legendSymbol.isMarker=!0},drawPoints:k.column.prototype.drawPoints,alignDataLabel:k.column.prototype.alignDataLabel,buildKDTree:r,applyZones:r});L.prototype.beforePadding=function(){var a=this,b=this.len,c=this.chart,d=0,g=b,e=this.isXAxis,j=e?"xData":"yData",l=this.min,i={},f=x.min(c.plotWidth,c.plotHeight),h=Number.MAX_VALUE,n=-Number.MAX_VALUE,k=this.max-l,m=b/k,o=[];s(this.series,function(b){var g=b.options;if(b.bubblePadding&&
-(b.visible||!c.options.chart.ignoreHiddenSeries))if(a.allowZoomOutside=!0,o.push(b),e)s(["minSize","maxSize"],function(a){var b=g[a],e=/%$/.test(b),b=A(b);i[a]=e?f*b/100:b}),b.minPxSize=i.minSize,b.maxPxSize=i.maxSize,b=b.zData,b.length&&(h=q(g.zMin,x.min(h,x.max(O(b),g.displayNegative===!1?g.zThreshold:-Number.MAX_VALUE))),n=q(g.zMax,x.max(n,P(b))))});s(o,function(a){var b=a[j],c=b.length,f;e&&a.getRadii(h,n,a.minPxSize,a.maxPxSize);if(k>0)for(;c--;)typeof b[c]==="number"&&(f=a.radii[c],d=Math.min((b[c]-
-l)*m-f,d),g=Math.max((b[c]-l)*m+f,g))});o.length&&k>0&&!this.isLog&&(g-=b,m*=(b+d-g)/b,s([["min","userMin",d],["max","userMax",g]],function(b){q(a.options[b[0]],a[b[1]])===void 0&&(a[b[0]]+=b[2]/m)}))};(function(){function a(a,b){var c=this.chart,d=this.options.animation,i=this.group,f=this.markerGroup,h=this.xAxis.center,n=c.plotLeft,k=c.plotTop;if(c.polar){if(c.renderer.isSVG)d===!0&&(d={}),b?(c={translateX:h[0]+n,translateY:h[1]+k,scaleX:0.001,scaleY:0.001},i.attr(c),f&&f.attr(c)):(c={translateX:n,
-translateY:k,scaleX:1,scaleY:1},i.animate(c,d),f&&f.animate(c,d),this.animate=null)}else a.call(this,b)}var b=w.prototype,c=R.prototype,d;b.searchPointByAngle=function(a){var b=this.chart,c=this.xAxis.pane.center;return this.searchKDTree({clientX:180+Math.atan2(a.chartX-c[0]-b.plotLeft,a.chartY-c[1]-b.plotTop)*(-180/Math.PI)})};v(b,"buildKDTree",function(a){if(this.chart.polar)this.kdByAngle?this.searchPoint=this.searchPointByAngle:this.kdDimensions=2;a.apply(this)});b.toXY=function(a){var b,c=this.chart,
-d=a.plotX;b=a.plotY;a.rectPlotX=d;a.rectPlotY=b;b=this.xAxis.postTranslate(a.plotX,this.yAxis.len-b);a.plotX=a.polarPlotX=b.x-c.plotLeft;a.plotY=a.polarPlotY=b.y-c.plotTop;this.kdByAngle?(c=(d/Math.PI*180+this.xAxis.pane.options.startAngle)%360,c<0&&(c+=360),a.clientX=c):a.clientX=a.plotX};k.spline&&v(k.spline.prototype,"getPointSpline",function(a,b,c,d){var i,f,h,n,k,m,o;if(this.chart.polar){i=c.plotX;f=c.plotY;a=b[d-1];h=b[d+1];this.connectEnds&&(a||(a=b[b.length-2]),h||(h=b[1]));if(a&&h)n=a.plotX,
-k=a.plotY,b=h.plotX,m=h.plotY,n=(1.5*i+n)/2.5,k=(1.5*f+k)/2.5,h=(1.5*i+b)/2.5,o=(1.5*f+m)/2.5,b=Math.sqrt(Math.pow(n-i,2)+Math.pow(k-f,2)),m=Math.sqrt(Math.pow(h-i,2)+Math.pow(o-f,2)),n=Math.atan2(k-f,n-i),k=Math.atan2(o-f,h-i),o=Math.PI/2+(n+k)/2,Math.abs(n-o)>Math.PI/2&&(o-=Math.PI),n=i+Math.cos(o)*b,k=f+Math.sin(o)*b,h=i+Math.cos(Math.PI+o)*m,o=f+Math.sin(Math.PI+o)*m,c.rightContX=h,c.rightContY=o;d?(c=["C",a.rightContX||a.plotX,a.rightContY||a.plotY,n||i,k||f,i,f],a.rightContX=a.rightContY=null):
-c=["M",i,f]}else c=a.call(this,b,c,d);return c});v(b,"translate",function(a){var b=this.chart;a.call(this);if(b.polar&&(this.kdByAngle=b.tooltip&&b.tooltip.shared,!this.preventPostTranslate)){a=this.points;for(b=a.length;b--;)this.toXY(a[b])}});v(b,"getGraphPath",function(a,b){var c=this;if(this.chart.polar){b=b||this.points;if(this.options.connectEnds!==!1&&b[0].y!==null)this.connectEnds=!0,b.splice(b.length,0,b[0]);s(b,function(a){a.polarPlotY===void 0&&c.toXY(a)})}return a.apply(this,[].slice.call(arguments,
-1))});v(b,"animate",a);if(k.column)d=k.column.prototype,v(d,"animate",a),v(d,"translate",function(a){var b=this.xAxis,c=this.yAxis.len,d=b.center,i=b.startAngleRad,f=this.chart.renderer,h,k;this.preventPostTranslate=!0;a.call(this);if(b.isRadial){b=this.points;for(k=b.length;k--;)h=b[k],a=h.barX+i,h.shapeType="path",h.shapeArgs={d:f.symbols.arc(d[0],d[1],c-h.plotY,null,{start:a,end:a+h.pointWidth,innerR:c-q(h.yBottom,c)})},this.toXY(h),h.tooltipPos=[h.plotX,h.plotY],h.ttBelow=h.plotY>d[1]}}),v(d,
-"alignDataLabel",function(a,c,d,l,i,f){if(this.chart.polar){a=c.rectPlotX/Math.PI*180;if(l.align===null)l.align=a>20&&a<160?"left":a>200&&a<340?"right":"center";if(l.verticalAlign===null)l.verticalAlign=a<45||a>315?"bottom":a>135&&a<225?"top":"middle";b.alignDataLabel.call(this,c,d,l,i,f)}else a.call(this,c,d,l,i,f)});v(c,"getCoordinates",function(a,b){var c=this.chart,d={xAxis:[],yAxis:[]};c.polar?s(c.axes,function(a){var f=a.isXAxis,g=a.center,k=b.chartX-g[0]-c.plotLeft,g=b.chartY-g[1]-c.plotTop;
-d[f?"xAxis":"yAxis"].push({axis:a,value:a.translate(f?Math.PI-Math.atan2(k,g):Math.sqrt(Math.pow(k,2)+Math.pow(g,2)),!0)})}):d=a.call(this,b);return d})})()});
-
 /*! nouislider - 8.3.0 - 2016-02-14 17:37:19 */
 
 !function(a){"function"==typeof define&&define.amd?define([],a):"object"==typeof exports?module.exports=a():window.noUiSlider=a()}(function(){"use strict";function a(a){return a.filter(function(a){return this[a]?!1:this[a]=!0},{})}function b(a,b){return Math.round(a/b)*b}function c(a){var b=a.getBoundingClientRect(),c=a.ownerDocument,d=c.documentElement,e=m();return/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)&&(e.x=0),{top:b.top+e.y-d.clientTop,left:b.left+e.x-d.clientLeft}}function d(a){return"number"==typeof a&&!isNaN(a)&&isFinite(a)}function e(a){var b=Math.pow(10,7);return Number((Math.round(a*b)/b).toFixed(7))}function f(a,b,c){j(a,b),setTimeout(function(){k(a,b)},c)}function g(a){return Math.max(Math.min(a,100),0)}function h(a){return Array.isArray(a)?a:[a]}function i(a){var b=a.split(".");return b.length>1?b[1].length:0}function j(a,b){a.classList?a.classList.add(b):a.className+=" "+b}function k(a,b){a.classList?a.classList.remove(b):a.className=a.className.replace(new RegExp("(^|\\b)"+b.split(" ").join("|")+"(\\b|$)","gi")," ")}function l(a,b){return a.classList?a.classList.contains(b):new RegExp("\\b"+b+"\\b").test(a.className)}function m(){var a=void 0!==window.pageXOffset,b="CSS1Compat"===(document.compatMode||""),c=a?window.pageXOffset:b?document.documentElement.scrollLeft:document.body.scrollLeft,d=a?window.pageYOffset:b?document.documentElement.scrollTop:document.body.scrollTop;return{x:c,y:d}}function n(a){a.stopPropagation()}function o(a){return function(b){return a+b}}function p(a,b){return 100/(b-a)}function q(a,b){return 100*b/(a[1]-a[0])}function r(a,b){return q(a,a[0]<0?b+Math.abs(a[0]):b-a[0])}function s(a,b){return b*(a[1]-a[0])/100+a[0]}function t(a,b){for(var c=1;a>=b[c];)c+=1;return c}function u(a,b,c){if(c>=a.slice(-1)[0])return 100;var d,e,f,g,h=t(c,a);return d=a[h-1],e=a[h],f=b[h-1],g=b[h],f+r([d,e],c)/p(f,g)}function v(a,b,c){if(c>=100)return a.slice(-1)[0];var d,e,f,g,h=t(c,b);return d=a[h-1],e=a[h],f=b[h-1],g=b[h],s([d,e],(c-f)*p(f,g))}function w(a,c,d,e){if(100===e)return e;var f,g,h=t(e,a);return d?(f=a[h-1],g=a[h],e-f>(g-f)/2?g:f):c[h-1]?a[h-1]+b(e-a[h-1],c[h-1]):e}function x(a,b,c){var e;if("number"==typeof b&&(b=[b]),"[object Array]"!==Object.prototype.toString.call(b))throw new Error("noUiSlider: 'range' contains invalid value.");if(e="min"===a?0:"max"===a?100:parseFloat(a),!d(e)||!d(b[0]))throw new Error("noUiSlider: 'range' value isn't numeric.");c.xPct.push(e),c.xVal.push(b[0]),e?c.xSteps.push(isNaN(b[1])?!1:b[1]):isNaN(b[1])||(c.xSteps[0]=b[1])}function y(a,b,c){return b?void(c.xSteps[a]=q([c.xVal[a],c.xVal[a+1]],b)/p(c.xPct[a],c.xPct[a+1])):!0}function z(a,b,c,d){this.xPct=[],this.xVal=[],this.xSteps=[d||!1],this.xNumSteps=[!1],this.snap=b,this.direction=c;var e,f=[];for(e in a)a.hasOwnProperty(e)&&f.push([a[e],e]);for(f.length&&"object"==typeof f[0][0]?f.sort(function(a,b){return a[0][0]-b[0][0]}):f.sort(function(a,b){return a[0]-b[0]}),e=0;e<f.length;e++)x(f[e][1],f[e][0],this);for(this.xNumSteps=this.xSteps.slice(0),e=0;e<this.xNumSteps.length;e++)y(e,this.xNumSteps[e],this)}function A(a,b){if(!d(b))throw new Error("noUiSlider: 'step' is not numeric.");a.singleStep=b}function B(a,b){if("object"!=typeof b||Array.isArray(b))throw new Error("noUiSlider: 'range' is not an object.");if(void 0===b.min||void 0===b.max)throw new Error("noUiSlider: Missing 'min' or 'max' in 'range'.");if(b.min===b.max)throw new Error("noUiSlider: 'range' 'min' and 'max' cannot be equal.");a.spectrum=new z(b,a.snap,a.dir,a.singleStep)}function C(a,b){if(b=h(b),!Array.isArray(b)||!b.length||b.length>2)throw new Error("noUiSlider: 'start' option is incorrect.");a.handles=b.length,a.start=b}function D(a,b){if(a.snap=b,"boolean"!=typeof b)throw new Error("noUiSlider: 'snap' option must be a boolean.")}function E(a,b){if(a.animate=b,"boolean"!=typeof b)throw new Error("noUiSlider: 'animate' option must be a boolean.")}function F(a,b){if("lower"===b&&1===a.handles)a.connect=1;else if("upper"===b&&1===a.handles)a.connect=2;else if(b===!0&&2===a.handles)a.connect=3;else{if(b!==!1)throw new Error("noUiSlider: 'connect' option doesn't match handle count.");a.connect=0}}function G(a,b){switch(b){case"horizontal":a.ort=0;break;case"vertical":a.ort=1;break;default:throw new Error("noUiSlider: 'orientation' option is invalid.")}}function H(a,b){if(!d(b))throw new Error("noUiSlider: 'margin' option must be numeric.");if(0!==b&&(a.margin=a.spectrum.getMargin(b),!a.margin))throw new Error("noUiSlider: 'margin' option is only supported on linear sliders.")}function I(a,b){if(!d(b))throw new Error("noUiSlider: 'limit' option must be numeric.");if(a.limit=a.spectrum.getMargin(b),!a.limit)throw new Error("noUiSlider: 'limit' option is only supported on linear sliders.")}function J(a,b){switch(b){case"ltr":a.dir=0;break;case"rtl":a.dir=1,a.connect=[0,2,1,3][a.connect];break;default:throw new Error("noUiSlider: 'direction' option was not recognized.")}}function K(a,b){if("string"!=typeof b)throw new Error("noUiSlider: 'behaviour' must be a string containing options.");var c=b.indexOf("tap")>=0,d=b.indexOf("drag")>=0,e=b.indexOf("fixed")>=0,f=b.indexOf("snap")>=0,g=b.indexOf("hover")>=0;if(d&&!a.connect)throw new Error("noUiSlider: 'drag' behaviour must be used with 'connect': true.");a.events={tap:c||f,drag:d,fixed:e,snap:f,hover:g}}function L(a,b){var c;if(b!==!1)if(b===!0)for(a.tooltips=[],c=0;c<a.handles;c++)a.tooltips.push(!0);else{if(a.tooltips=h(b),a.tooltips.length!==a.handles)throw new Error("noUiSlider: must pass a formatter for all handles.");a.tooltips.forEach(function(a){if("boolean"!=typeof a&&("object"!=typeof a||"function"!=typeof a.to))throw new Error("noUiSlider: 'tooltips' must be passed a formatter or 'false'.")})}}function M(a,b){if(a.format=b,"function"==typeof b.to&&"function"==typeof b.from)return!0;throw new Error("noUiSlider: 'format' requires 'to' and 'from' methods.")}function N(a,b){if(void 0!==b&&"string"!=typeof b)throw new Error("noUiSlider: 'cssPrefix' must be a string.");a.cssPrefix=b}function O(a){var b,c={margin:0,limit:0,animate:!0,format:T};b={step:{r:!1,t:A},start:{r:!0,t:C},connect:{r:!0,t:F},direction:{r:!0,t:J},snap:{r:!1,t:D},animate:{r:!1,t:E},range:{r:!0,t:B},orientation:{r:!1,t:G},margin:{r:!1,t:H},limit:{r:!1,t:I},behaviour:{r:!0,t:K},format:{r:!1,t:M},tooltips:{r:!1,t:L},cssPrefix:{r:!1,t:N}};var d={connect:!1,direction:"ltr",behaviour:"tap",orientation:"horizontal"};return Object.keys(b).forEach(function(e){if(void 0===a[e]&&void 0===d[e]){if(b[e].r)throw new Error("noUiSlider: '"+e+"' is required.");return!0}b[e].t(c,void 0===a[e]?d[e]:a[e])}),c.pips=a.pips,c.style=c.ort?"top":"left",c}function P(b,d){function e(a,b,c){var d=a+b[0],e=a+b[1];return c?(0>d&&(e+=Math.abs(d)),e>100&&(d-=e-100),[g(d),g(e)]):[d,e]}function p(a,b){a.preventDefault();var c,d,e=0===a.type.indexOf("touch"),f=0===a.type.indexOf("mouse"),g=0===a.type.indexOf("pointer"),h=a;return 0===a.type.indexOf("MSPointer")&&(g=!0),e&&(c=a.changedTouches[0].pageX,d=a.changedTouches[0].pageY),b=b||m(),(f||g)&&(c=a.clientX+b.x,d=a.clientY+b.y),h.pageOffset=b,h.points=[c,d],h.cursor=f||g,h}function q(a,b){var c=document.createElement("div"),d=document.createElement("div"),e=["-lower","-upper"];return a&&e.reverse(),j(d,da[3]),j(d,da[3]+e[b]),j(c,da[2]),c.appendChild(d),c}function r(a,b,c){switch(a){case 1:j(b,da[7]),j(c[0],da[6]);break;case 3:j(c[1],da[6]);case 2:j(c[0],da[7]);case 0:j(b,da[6])}}function s(a,b,c){var d,e=[];for(d=0;a>d;d+=1)e.push(c.appendChild(q(b,d)));return e}function t(a,b,c){j(c,da[0]),j(c,da[8+a]),j(c,da[4+b]);var d=document.createElement("div");return j(d,da[1]),c.appendChild(d),d}function u(a,b){if(!d.tooltips[b])return!1;var c=document.createElement("div");return c.className=da[18],a.firstChild.appendChild(c)}function v(){d.dir&&d.tooltips.reverse();var a=Y.map(u);d.dir&&(a.reverse(),d.tooltips.reverse()),U("update",function(b,c,e){a[c]&&(a[c].innerHTML=d.tooltips[c]===!0?b[c]:d.tooltips[c].to(e[c]))})}function w(a,b,c){if("range"===a||"steps"===a)return aa.xVal;if("count"===a){var d,e=100/(b-1),f=0;for(b=[];(d=f++*e)<=100;)b.push(d);a="positions"}return"positions"===a?b.map(function(a){return aa.fromStepping(c?aa.getStep(a):a)}):"values"===a?c?b.map(function(a){return aa.fromStepping(aa.getStep(aa.toStepping(a)))}):b:void 0}function x(b,c,d){function e(a,b){return(a+b).toFixed(7)/1}var f=aa.direction,g={},h=aa.xVal[0],i=aa.xVal[aa.xVal.length-1],j=!1,k=!1,l=0;return aa.direction=0,d=a(d.slice().sort(function(a,b){return a-b})),d[0]!==h&&(d.unshift(h),j=!0),d[d.length-1]!==i&&(d.push(i),k=!0),d.forEach(function(a,f){var h,i,m,n,o,p,q,r,s,t,u=a,v=d[f+1];if("steps"===c&&(h=aa.xNumSteps[f]),h||(h=v-u),u!==!1&&void 0!==v)for(i=u;v>=i;i=e(i,h)){for(n=aa.toStepping(i),o=n-l,r=o/b,s=Math.round(r),t=o/s,m=1;s>=m;m+=1)p=l+m*t,g[p.toFixed(5)]=["x",0];q=d.indexOf(i)>-1?1:"steps"===c?2:0,!f&&j&&(q=0),i===v&&k||(g[n.toFixed(5)]=[i,q]),l=n}}),aa.direction=f,g}function y(a,b,c){function e(a){return["-normal","-large","-sub"][a]}function f(a,b,c){return'class="'+b+" "+b+"-"+h+" "+b+e(c[1])+'" style="'+d.style+": "+a+'%"'}function g(a,d){aa.direction&&(a=100-a),d[1]=d[1]&&b?b(d[0],d[1]):d[1],k+="<div "+f(a,da[21],d)+"></div>",d[1]&&(k+="<div "+f(a,da[22],d)+">"+c.to(d[0])+"</div>")}var h=["horizontal","vertical"][d.ort],i=document.createElement("div"),k="";return j(i,da[20]),j(i,da[20]+"-"+h),Object.keys(a).forEach(function(b){g(b,a[b])}),i.innerHTML=k,i}function z(a){var b=a.mode,c=a.density||1,d=a.filter||!1,e=a.values||!1,f=a.stepped||!1,g=w(b,e,f),h=x(c,b,g),i=a.format||{to:Math.round};return $.appendChild(y(h,d,i))}function A(){var a=X.getBoundingClientRect(),b="offset"+["Width","Height"][d.ort];return 0===d.ort?a.width||X[b]:a.height||X[b]}function B(a,b,c){void 0!==b&&1!==d.handles&&(b=Math.abs(b-d.dir)),Object.keys(ca).forEach(function(d){var e=d.split(".")[0];a===e&&ca[d].forEach(function(a){a.call(Z,h(P()),b,h(C(Array.prototype.slice.call(ba))),c||!1,_)})})}function C(a){return 1===a.length?a[0]:d.dir?a.reverse():a}function D(a,b,c,e){var f=function(b){return $.hasAttribute("disabled")?!1:l($,da[14])?!1:(b=p(b,e.pageOffset),a===R.start&&void 0!==b.buttons&&b.buttons>1?!1:e.hover&&b.buttons?!1:(b.calcPoint=b.points[d.ort],void c(b,e)))},g=[];return a.split(" ").forEach(function(a){b.addEventListener(a,f,!1),g.push([a,f])}),g}function E(a,b){if(-1===navigator.appVersion.indexOf("MSIE 9")&&0===a.buttons&&0!==b.buttonsProperty)return F(a,b);var c,d,f=b.handles||Y,g=!1,h=100*(a.calcPoint-b.start)/b.baseSize,i=f[0]===Y[0]?0:1;if(c=e(h,b.positions,f.length>1),g=L(f[0],c[i],1===f.length),f.length>1){if(g=L(f[1],c[i?0:1],!1)||g)for(d=0;d<b.handles.length;d++)B("slide",d)}else g&&B("slide",i)}function F(a,b){var c=X.querySelector("."+da[15]),d=b.handles[0]===Y[0]?0:1;null!==c&&k(c,da[15]),a.cursor&&(document.body.style.cursor="",document.body.removeEventListener("selectstart",document.body.noUiListener));var e=document.documentElement;e.noUiListeners.forEach(function(a){e.removeEventListener(a[0],a[1])}),k($,da[12]),B("set",d),B("change",d),void 0!==b.handleNumber&&B("end",b.handleNumber)}function G(a,b){"mouseout"===a.type&&"HTML"===a.target.nodeName&&null===a.relatedTarget&&F(a,b)}function H(a,b){var c=document.documentElement;if(1===b.handles.length&&(j(b.handles[0].children[0],da[15]),b.handles[0].hasAttribute("disabled")))return!1;a.preventDefault(),a.stopPropagation();var d=D(R.move,c,E,{start:a.calcPoint,baseSize:A(),pageOffset:a.pageOffset,handles:b.handles,handleNumber:b.handleNumber,buttonsProperty:a.buttons,positions:[_[0],_[Y.length-1]]}),e=D(R.end,c,F,{handles:b.handles,handleNumber:b.handleNumber}),f=D("mouseout",c,G,{handles:b.handles,handleNumber:b.handleNumber});if(c.noUiListeners=d.concat(e,f),a.cursor){document.body.style.cursor=getComputedStyle(a.target).cursor,Y.length>1&&j($,da[12]);var g=function(){return!1};document.body.noUiListener=g,document.body.addEventListener("selectstart",g,!1)}void 0!==b.handleNumber&&B("start",b.handleNumber)}function I(a){var b,e,g=a.calcPoint,h=0;return a.stopPropagation(),Y.forEach(function(a){h+=c(a)[d.style]}),b=h/2>g||1===Y.length?0:1,Y[b].hasAttribute("disabled")&&(b=b?0:1),g-=c(X)[d.style],e=100*g/A(),d.events.snap||f($,da[14],300),Y[b].hasAttribute("disabled")?!1:(L(Y[b],e),B("slide",b,!0),B("set",b,!0),B("change",b,!0),void(d.events.snap&&H(a,{handles:[Y[b]]})))}function J(a){var b=a.calcPoint-c(X)[d.style],e=aa.getStep(100*b/A()),f=aa.fromStepping(e);Object.keys(ca).forEach(function(a){"hover"===a.split(".")[0]&&ca[a].forEach(function(a){a.call(Z,f)})})}function K(a){var b,c;if(!a.fixed)for(b=0;b<Y.length;b+=1)D(R.start,Y[b].children[0],H,{handles:[Y[b]],handleNumber:b});if(a.tap&&D(R.start,X,I,{handles:Y}),a.hover)for(D(R.move,X,J,{hover:!0}),b=0;b<Y.length;b+=1)["mousemove MSPointerMove pointermove"].forEach(function(a){Y[b].children[0].addEventListener(a,n,!1)});a.drag&&(c=[X.querySelector("."+da[7])],j(c[0],da[10]),a.fixed&&c.push(Y[c[0]===Y[0]?1:0].children[0]),c.forEach(function(a){D(R.start,a,H,{handles:Y})}))}function L(a,b,c){var e=a!==Y[0]?1:0,f=_[0]+d.margin,h=_[1]-d.margin,i=_[0]+d.limit,l=_[1]-d.limit;return Y.length>1&&(b=e?Math.max(b,f):Math.min(b,h)),c!==!1&&d.limit&&Y.length>1&&(b=e?Math.min(b,i):Math.max(b,l)),b=aa.getStep(b),b=g(parseFloat(b.toFixed(7))),b===_[e]?!1:(window.requestAnimationFrame?window.requestAnimationFrame(function(){a.style[d.style]=b+"%"}):a.style[d.style]=b+"%",a.previousSibling||(k(a,da[17]),b>50&&j(a,da[17])),_[e]=b,ba[e]=aa.fromStepping(b),B("update",e),!0)}function M(a,b){var c,e,f;for(d.limit&&(a+=1),c=0;a>c;c+=1)e=c%2,f=b[e],null!==f&&f!==!1&&("number"==typeof f&&(f=String(f)),f=d.format.from(f),(f===!1||isNaN(f)||L(Y[e],aa.toStepping(f),c===3-d.dir)===!1)&&B("update",e))}function N(a){var b,c,e=h(a);for(d.dir&&d.handles>1&&e.reverse(),d.animate&&-1!==_[0]&&f($,da[14],300),b=Y.length>1?3:1,1===e.length&&(b=1),M(b,e),c=0;c<Y.length;c++)null!==e[c]&&B("set",c)}function P(){var a,b=[];for(a=0;a<d.handles;a+=1)b[a]=d.format.to(ba[a]);return C(b)}function Q(){for(da.forEach(function(a){a&&k($,a)});$.firstChild;)$.removeChild($.firstChild);delete $.noUiSlider}function T(){var a=_.map(function(a,b){var c=aa.getApplicableStep(a),d=i(String(c[2])),e=ba[b],f=100===a?null:c[2],g=Number((e-c[2]).toFixed(d)),h=0===a?null:g>=c[1]?c[2]:c[0]||!1;return[h,f]});return C(a)}function U(a,b){ca[a]=ca[a]||[],ca[a].push(b),"update"===a.split(".")[0]&&Y.forEach(function(a,b){B("update",b)})}function V(a){var b=a.split(".")[0],c=a.substring(b.length);Object.keys(ca).forEach(function(a){var d=a.split(".")[0],e=a.substring(d.length);b&&b!==d||c&&c!==e||delete ca[a]})}function W(a){var b,c=P(),e=O({start:[0,0],margin:a.margin,limit:a.limit,step:a.step,range:a.range,animate:a.animate,snap:void 0===a.snap?d.snap:a.snap});for(["margin","limit","step","range","animate"].forEach(function(b){void 0!==a[b]&&(d[b]=a[b])}),e.spectrum.direction=aa.direction,aa=e.spectrum,_=[-1,-1],N(c),b=0;b<Y.length;b++)B("update",b)}var X,Y,Z,$=b,_=[-1,-1],aa=d.spectrum,ba=[],ca={},da=["target","base","origin","handle","horizontal","vertical","background","connect","ltr","rtl","draggable","","state-drag","","state-tap","active","","stacking","tooltip","","pips","marker","value"].map(o(d.cssPrefix||S));if($.noUiSlider)throw new Error("Slider was already initialized.");return X=t(d.dir,d.ort,$),Y=s(d.handles,d.dir,X),r(d.connect,$,Y),d.pips&&z(d.pips),d.tooltips&&v(),Z={destroy:Q,steps:T,on:U,off:V,get:P,set:N,updateOptions:W,options:d,target:$,pips:z},K(d.events),Z}function Q(a,b){if(!a.nodeName)throw new Error("noUiSlider.create requires a single element.");var c=O(b,a),d=P(a,c);return d.set(c.start),a.noUiSlider=d,d}var R=window.navigator.pointerEnabled?{start:"pointerdown",move:"pointermove",end:"pointerup"}:window.navigator.msPointerEnabled?{start:"MSPointerDown",move:"MSPointerMove",end:"MSPointerUp"}:{start:"mousedown touchstart",move:"mousemove touchmove",end:"mouseup touchend"},S="noUi-";z.prototype.getMargin=function(a){return 2===this.xPct.length?q(this.xVal,a):!1},z.prototype.toStepping=function(a){return a=u(this.xVal,this.xPct,a),this.direction&&(a=100-a),a},z.prototype.fromStepping=function(a){return this.direction&&(a=100-a),e(v(this.xVal,this.xPct,a))},z.prototype.getStep=function(a){return this.direction&&(a=100-a),a=w(this.xPct,this.xSteps,this.snap,a),this.direction&&(a=100-a),a},z.prototype.getApplicableStep=function(a){var b=t(a,this.xPct),c=100===a?2:1;return[this.xNumSteps[b-2],this.xVal[b-c],this.xNumSteps[b-c]]},z.prototype.convert=function(a){return this.getStep(this.toStepping(a))};var T={to:function(a){return void 0!==a&&a.toFixed(2)},from:Number};return{create:Q}});
@@ -1332,337 +1275,351 @@ Formula.FV = function (rate, periods, payment, value, type) {
 		return false;
 	}
 }());}());
-(function($,jQuery){
+(function ($, jQuery) {
 
-window.cachedLang = false;
+	window.cachedLang = false;
 
-window.getLanguage = function(){
-	var htmlLang = $('html').attr('lang'),
-		splLang,
-		winLang;
-	if(window.cachedLang){
-		return window.cachedLang;
-	}else if(htmlLang){
-		splLang = htmlLang.split("-")[0];
-		window.cachedLang = splLang;
-		return splLang;
-	}else{
-		winLang = window.lang||window.lg||window.language;
-		if(typeof winLang === "string"){
-			window.cachedLang = winLang;
-			return winLang;
-		}
-	}
-	window.cachedLang = 'en';
-	return window.cachedLang;
-};
-
-window.getSelectOption = function (optionsArray,value,prop) {
-	prop = prop || 'value';
-	if (typeof optionsArray === 'object' && optionsArray.length) {
-		optionsArray = optionsArray.filter(function(option){return option[prop]===value;});
-		if (optionsArray.length) return optionsArray[0];
-		// else return value;
-	}
-};
-
-window.getItemAtPath = function (path,scope) {
-	scope = scope || window;
-	if (path) {
-		path = path.split('.');
-		do {
-			if (scope[path[0]]!==undefined) scope = scope[path.shift()];
-			else break;
-		} while (path.length);
-
-		return scope;
-	}
-	return undefined;
-};
-
-// Backward compatible trim function
-window.trimString = function (x) {
-	return x.replace(/^\s+|\s+$/gm,'');
-};
-
-window.cleanValue = function (value){
-	if(typeof value === "string"){
-		value = value.replaceAll("\\$").replaceAll("%").replaceAll(",");
-	}
-	return value;
-};
-
-window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-bind-html-compile'])
-
-	.service("contentManager",function(){
-		var me = this,
-			 
-			originalContent = {}, // will never be transcluded
-			originalConfig = {}, // will never be transcluded
-			
-			locContent = {},
-
-			content = {},
-			config = {},
-
-			GENERAL = 'general',
-			CONTENT_MODEL = 'contentModel',
-			CONFIG_MODEL = 'configModel',
-
-			getLanguage = window.getLanguage,
-			getLanguage = getLanguage,
-			// getLanguage = getLanguage,
-
-			language = getLanguage();
-		///////////////////////////
-		// LOCAL general methods //
-		///////////////////////////
-		function getItemAtPath (path,scope) {
-			scope = scope || window;
-			if (path) {
-				path = path.split('.');
-				do {
-					scope = scope[path.shift()];
-				} while (path.length && scope !== undefined);
-
-				return scope;
+	window.getLanguage = function () {
+		var htmlLang = $('html').attr('lang'),
+			splLang,
+			winLang;
+		if (window.cachedLang) {
+			return window.cachedLang;
+		} else if (htmlLang) {
+			splLang = htmlLang.split("-")[0];
+			window.cachedLang = splLang;
+			return splLang;
+		} else {
+			winLang = window.lang || window.lg || window.language;
+			if (typeof winLang === "string") {
+				window.cachedLang = winLang;
+				return winLang;
 			}
-			return undefined;
 		}
-		// Go though a config and fetch the models to replace in config
-		function transcludeModels (config, scope, modelKey, deepCopy) {
-			config = config || {};
-			modelKey = modelKey || 'model';
-			var isNull = config === null, 
-				isObject = !isNull && typeof config === 'object',
-				isArray = isObject && config.length !== undefined,
-				key,
-				model,
-				prop,
-				value,
-				potentialPath,
-				i=0;
+		window.cachedLang = 'en';
+		return window.cachedLang;
+	};
 
-			if (isObject) {
-				if (deepCopy) {
+	window.getSelectOption = function (optionsArray, value, prop) {
+		prop = prop || 'value';
+		if (typeof optionsArray === 'object' && optionsArray.length) {
+			optionsArray = optionsArray.filter(function (option) {
+				return option[prop] === value;
+			});
+			if (optionsArray.length) return optionsArray[0];
+			// else return value;
+		}
+	};
 
-					if (isArray) { config = $.merge([],config); }
-					else { config = $.extend(true,{},config); }
+	window.getItemAtPath = function (path, scope) {
+		scope = scope || window;
+		if (path) {
+			path = path.split('.');
+			do {
+				if (scope[path[0]] !== undefined) scope = scope[path.shift()];
+				else break;
+			} while (path.length);
+
+			return scope;
+		}
+		return undefined;
+	};
+
+	// Backward compatible trim function
+	window.trimString = function (x) {
+		return x.replace(/^\s+|\s+$/gm, '');
+	};
+
+	window.cleanValue = function (value) {
+		if (typeof value === "string") {
+			value = value.replaceAll("\\$").replaceAll("%").replaceAll(",");
+		}
+		return value;
+	};
+
+	window.brCalc = angular.module('br-calc', ['ui.bootstrap', 'ngAnimate', 'angular-bind-html-compile'])
+
+		.service("contentManager", function () {
+			var me = this,
+
+				originalContent = {}, // will never be transcluded
+				originalConfig = {}, // will never be transcluded
+
+				locContent = {},
+
+				content = {},
+				config = {},
+
+				GENERAL = 'general',
+				CONTENT_MODEL = 'contentModel',
+				CONFIG_MODEL = 'configModel',
+
+				getLanguage = window.getLanguage,
+				getLanguage = getLanguage,
+				// getLanguage = getLanguage,
+
+				language = getLanguage();
+			///////////////////////////
+			// LOCAL general methods //
+			///////////////////////////
+			function getItemAtPath(path, scope) {
+				scope = scope || window;
+				if (path) {
+					path = path.split('.');
+					do {
+						scope = scope[path.shift()];
+					} while (path.length && scope !== undefined);
+
+					return scope;
 				}
-				for (key in config) {
-					value = config[key];
-					if (value!==null) {
-						if (typeof value==='object') { config[key] = transcludeModels(value,scope,modelKey,deepCopy); }
-						else if (key===modelKey) {
+				return undefined;
+			}
+			// Go though a config and fetch the models to replace in config
+			function transcludeModels(config, scope, modelKey, deepCopy) {
+				config = config || {};
+				modelKey = modelKey || 'model';
+				var isNull = config === null,
+					isObject = !isNull && typeof config === 'object',
+					isArray = isObject && config.length !== undefined,
+					key,
+					model,
+					prop,
+					value,
+					potentialPath,
+					i = 0;
 
-							value = value.split(',');
-							for (;i<value.length;i++) {
+				if (isObject) {
+					if (deepCopy) {
 
-								potentialPath = trimString(value[i]);
-								if (potentialPath.indexOf(':')!==-1) {
-									prop = potentialPath.split(':').shift();
-									potentialPath = potentialPath.split(':').pop();
-								}
-								else {
-									prop = false;
-								}
+						if (isArray) {
+							config = $.merge([], config);
+						} else {
+							config = $.extend(true, {}, config);
+						}
+					}
+					for (key in config) {
+						value = config[key];
+						if (value !== null) {
+							if (typeof value === 'object') {
+								config[key] = transcludeModels(value, scope, modelKey, deepCopy);
+							} else if (key === modelKey) {
 
-								model = getItemAtPath(potentialPath, scope);
+								value = value.split(',');
+								for (; i < value.length; i++) {
 
-								if (model!==undefined) {
-									if (typeof model==='object') {
-										transcludeModels(model,scope,modelKey,deepCopy);
-										if (prop) { config[prop] = $.extend({},model); }
-										else { config = $.extend(true,{},model,config); }
+									potentialPath = trimString(value[i]);
+									if (potentialPath.indexOf(':') !== -1) {
+										prop = potentialPath.split(':').shift();
+										potentialPath = potentialPath.split(':').pop();
+									} else {
+										prop = false;
 									}
-									else { config[prop||potentialPath.split('.').pop()] = model; }
+
+									model = getItemAtPath(potentialPath, scope);
+
+									if (model !== undefined) {
+										if (typeof model === 'object') {
+											transcludeModels(model, scope, modelKey, deepCopy);
+											if (prop) {
+												config[prop] = $.extend({}, model);
+											} else {
+												config = $.extend(true, {}, model, config);
+											}
+										} else {
+											config[prop || potentialPath.split('.').pop()] = model;
+										}
+									}
 								}
+								delete config[modelKey]; // cleanup
+								prop = undefined;
 							}
-							delete config[modelKey]; // cleanup
-							prop = undefined;
 						}
 					}
 				}
+				return config;
 			}
-			return config;
-		}
-		function getName (name) {
-			return typeof name === 'string' && name !== '' && name || GENERAL;
-		}
-		///////////////////////////
-		// LOCAL content methods //
-		///////////////////////////
-		function getLocalisedContent (contentObject,deepCopy) {
-			contentObject = contentObject || {};
-			if (deepCopy) { contentObject = $.extend(true,{},contentObject); }
-			return contentObject[language] || {};
-		}
 
-		// Should be used any time config is changed
-		// 	-> transclude config's contentModel with content.general (assuming content.general has already been transcluded at set)
-		// 	-> transclude config's configModel with itself
-		// 	-> transclude content.general contentConfig with its localized version
-		// 	-> for each level of content (excluding 'general'):
-		// 		-> transclude content's contentModel with its localized version
-		// 	-> transclude content's configModel with config
-		// function transcludeAllContent(name) {
-		function transcludeContent(name) {
-			if (name && name!==GENERAL) {
-				if (content[name]) {
-					transcludeModels( locContent[name], content||{}, CONTENT_MODEL );
-					transcludeModels($.extend(true, content[name], locContent[name]), config, CONFIG_MODEL);
+			function getName(name) {
+				return typeof name === 'string' && name !== '' && name || GENERAL;
+			}
+			///////////////////////////
+			// LOCAL content methods //
+			///////////////////////////
+			function getLocalisedContent(contentObject, deepCopy) {
+				contentObject = contentObject || {};
+				if (deepCopy) {
+					contentObject = $.extend(true, {}, contentObject);
 				}
+				return contentObject[language] || {};
 			}
-			else {
-				locContent.general = getLocalisedContent( originalContent.general, true );
-				$.extend(true,content,transcludeModels( locContent.general, content||{}, CONTENT_MODEL ));
 
-				for (name in locContent) {
-					if (name !== GENERAL) {
-						locContent[name] = getLocalisedContent( originalContent[name], true );
-						$.extend(true,content[name],transcludeModels( locContent[name], content||{}, CONTENT_MODEL ));
+			// Should be used any time config is changed
+			// 	-> transclude config's contentModel with content.general (assuming content.general has already been transcluded at set)
+			// 	-> transclude config's configModel with itself
+			// 	-> transclude content.general contentConfig with its localized version
+			// 	-> for each level of content (excluding 'general'):
+			// 		-> transclude content's contentModel with its localized version
+			// 	-> transclude content's configModel with config
+			// function transcludeAllContent(name) {
+			function transcludeContent(name) {
+				if (name && name !== GENERAL) {
+					if (content[name]) {
+						transcludeModels(locContent[name], content || {}, CONTENT_MODEL);
+						transcludeModels($.extend(true, content[name], locContent[name]), config, CONFIG_MODEL);
 					}
-				}
-				// CONFIG transclude all content's config
-				transcludeModels(content,config, CONFIG_MODEL);
-			}
-		}
-		/**
-		 * setContent (LOCAL)
-		 * 	Extracts the appropriate localized (language sensitive) part of the config and store it
-		 * 	Create a content entry using the localized content config
-		 * 	Transclude the new content
-		 * @param {object} contentObject Full content config, where the first layer refers to language description. Ex: {en:{...},fr:{...}}
-		 * @param {string} name          Name given to the content config.
-		 */
-		function setContent (name) {
-			// Get localised content AND create deep copy of originalContent
-			locContent[name] = getLocalisedContent( originalContent[name], true );
-			// New content entry
-			if (name!==GENERAL) {
-				if (content[name]===undefined) {
-					content[name] = $.extend(true,{},locContent[name]);
-				}
-				else {
-					$.extend(true,content[name],locContent[name]);
+				} else {
+					locContent.general = getLocalisedContent(originalContent.general, true);
+					$.extend(true, content, transcludeModels(locContent.general, content || {}, CONTENT_MODEL));
+
+					for (name in locContent) {
+						if (name !== GENERAL) {
+							locContent[name] = getLocalisedContent(originalContent[name], true);
+							$.extend(true, content[name], transcludeModels(locContent[name], content || {}, CONTENT_MODEL));
+						}
+					}
+					// CONFIG transclude all content's config
+					transcludeModels(content, config, CONFIG_MODEL);
 				}
 			}
-			else {
-				$.extend(true,content,locContent[name]);
+			/**
+			 * setContent (LOCAL)
+			 * 	Extracts the appropriate localized (language sensitive) part of the config and store it
+			 * 	Create a content entry using the localized content config
+			 * 	Transclude the new content
+			 * @param {object} contentObject Full content config, where the first layer refers to language description. Ex: {en:{...},fr:{...}}
+			 * @param {string} name          Name given to the content config.
+			 */
+			function setContent(name) {
+				// Get localised content AND create deep copy of originalContent
+				locContent[name] = getLocalisedContent(originalContent[name], true);
+				// New content entry
+				if (name !== GENERAL) {
+					if (content[name] === undefined) {
+						content[name] = $.extend(true, {}, locContent[name]);
+					} else {
+						$.extend(true, content[name], locContent[name]);
+					}
+				} else {
+					$.extend(true, content, locContent[name]);
+				}
+				// Transclude this content entry
+				transcludeContent(name);
+				transcludeConfig();
 			}
-			// Transclude this content entry
-			transcludeContent( name );
-			transcludeConfig();
-		}
-		/////////////////////////////
-		// INTERNAL config methods //
-		/////////////////////////////
-		function transcludeConfig () {
-			$.extend(true, config, getTranscludedConfig());
-		}
-		function getTranscludedConfig () {
-			var transcludedConfig = transcludeModels(originalConfig,content||{}, CONTENT_MODEL, true);
-			transcludeModels(transcludedConfig, $.extend(true,{},config,transcludedConfig), CONFIG_MODEL);
+			/////////////////////////////
+			// INTERNAL config methods //
+			/////////////////////////////
+			function transcludeConfig() {
+				$.extend(true, config, getTranscludedConfig());
+			}
 
-			return transcludedConfig;
-		}
-		////////////////////
-		// PUBLIC methods //
-		////////////////////
-		this.setContent = function (contentObject, name) {
-			// Provided object should at least have English language
-			if (contentObject&&contentObject.en) {
-				name = getName( name );
-				originalContent[name] = $.extend(true, originalContent[name]||{}, contentObject); // merge with existing object
-				setContent( name );
-			}
-			// me.setConfig();
-			return me;
-		};
-		this.setConfig = function (configObject) {
-			// config shouldn't be localised (possess language attributes)
-			$.extend(true, originalConfig, configObject || {}); // merge with existing object
-			transcludeConfig();
-			transcludeContent(); // Transclude ALL content
-			return me;
-		};
-		this.getContent = function (name) {
-			if (getName(name)!==GENERAL) {
-				return content[getName(name)];
-			}
-			return content;
-		};
-		this.getConfig = function (path,clone) {
+			function getTranscludedConfig() {
+				var transcludedConfig = transcludeModels(originalConfig, content || {}, CONTENT_MODEL, true);
+				transcludeModels(transcludedConfig, $.extend(true, {}, config, transcludedConfig), CONFIG_MODEL);
 
-			if (typeof path === 'boolean') {
-				clone = path;
-				path = undefined;
+				return transcludedConfig;
 			}
-			if (clone===true) {
-				return path && $.extend(true,{},getItemAtPath(path,config)) || $.extend(true,{},config);
-			}
-			else {
-				return path && getItemAtPath(path,config) || config;
-			}
-		};
-		// Gives out a clone of the originalConfig object in order to prevent changes to the configs by reference
-		this.getOriginalConfig = function () {
-			return $.extend(true,{},originalConfig);
-		};
-		this.getHighchartConfig = function (name) {
-			return config.highchart&&config.highchart[name]||{};
-		};
-	})
-////////////////
-// CONTROLLER //
-////////////////
-	.controller('br-calc', ['$scope','$location','tabData','contentManager','$uibModal',function($scope,$location,tabData,contentManager,$uibModal) {
-	 		var versionCaching = 'r='+new Date().getTime(); // Force clear cache of HTML partials
+			////////////////////
+			// PUBLIC methods //
+			////////////////////
+			this.setContent = function (contentObject, name) {
+				// Provided object should at least have English language
+				if (contentObject && contentObject.en) {
+					name = getName(name);
+					originalContent[name] = $.extend(true, originalContent[name] || {}, contentObject); // merge with existing object
+					setContent(name);
+				}
+				// me.setConfig();
+				return me;
+			};
+			this.setConfig = function (configObject) {
+				// config shouldn't be localised (possess language attributes)
+				$.extend(true, originalConfig, configObject || {}); // merge with existing object
+				transcludeConfig();
+				transcludeContent(); // Transclude ALL content
+				return me;
+			};
+			this.getContent = function (name) {
+				if (getName(name) !== GENERAL) {
+					return content[getName(name)];
+				}
+				return content;
+			};
+			this.getConfig = function (path, clone) {
 
-	 		var dispellAllFocus = function(e){
-		 			// data.ignore -> any other focusable elements we wouldn't like to prevent a focus to be transfered to
-		 			var ignore = e&&e.data&&e.data.ignore&&$(e.data.ignore) || $(''),
-		 				currentActiveField = e&&e.data&&e.data.originalEvent&&$(e.data.originalEvent.currentTarget) || $(e.currentTarget);
+				if (typeof path === 'boolean') {
+					clone = path;
+					path = undefined;
+				}
+				if (clone === true) {
+					return path && $.extend(true, {}, getItemAtPath(path, config)) || $.extend(true, {}, config);
+				} else {
+					return path && getItemAtPath(path, config) || config;
+				}
+			};
+			// Gives out a clone of the originalConfig object in order to prevent changes to the configs by reference
+			this.getOriginalConfig = function () {
+				return $.extend(true, {}, originalConfig);
+			};
+			this.getHighchartConfig = function (name) {
+				return config.highchart && config.highchart[name] || {};
+			};
+		})
+		////////////////
+		// CONTROLLER //
+		////////////////
+		.controller('br-calc', ['$scope', '$location', 'tabData', 'contentManager', '$uibModal', function ($scope, $location, tabData, contentManager, $uibModal) {
+			var versionCaching = 'r=' + new Date().getTime(); // Force clear cache of HTML partials
 
-		 			if (e.type!=='keydown'&&$(e.target).not(ignore).length===0) return;
-		 			currentActiveField.blur();
-		 			
-	 			},
-	 			focusOnNextField = function(e){
-	 				var self = $(e.currentTarget),
+			var dispellAllFocus = function (e) {
+					// data.ignore -> any other focusable elements we wouldn't like to prevent a focus to be transfered to
+					var ignore = e && e.data && e.data.ignore && $(e.data.ignore) || $(''),
+						currentActiveField = e && e.data && e.data.originalEvent && $(e.data.originalEvent.currentTarget) || $(e.currentTarget);
+
+					if (e.type !== 'keydown' && $(e.target).not(ignore).length === 0) return;
+					currentActiveField.blur();
+
+				},
+				focusOnNextField = function (e) {
+					var self = $(e.currentTarget),
 						body = $('body [ng-app="br-calc"]'),
 						focusable, next;
-					
+
 					focusable = body.find('input,select,textarea').filter(':visible');
-					next = focusable.eq(focusable.index(e.currentTarget)+1);
-					if (next.length) { next.focus(); }
-					else {
-						if (focusable.length!==1) { focusable.eq(0).focus(); }
-						else { self.blur(); }
+					next = focusable.eq(focusable.index(e.currentTarget) + 1);
+					if (next.length) {
+						next.focus();
+					} else {
+						if (focusable.length !== 1) {
+							focusable.eq(0).focus();
+						} else {
+							self.blur();
+						}
 					}
-	 			},
-	 			interceptEnterKey = function (callback) {
-	 				return function (e) {
+				},
+				interceptEnterKey = function (callback) {
+					return function (e) {
 						if (e.keyCode === 13 && e.which === 13) {
 							callback(e);
 							return false;
 						}
-	 				};
-	 			},
-	 			// Interdependant events to select input field texts
-	 			addSelectText = function (e) {
-	 				$(e.currentTarget).on('focus',selectText);
-	 			},
-	 			selectText = function (e) {
-	 				e.currentTarget.setSelectionRange(0,e.currentTarget.value.length);
-	 				$(e.currentTarget).on('blur',removeSelectText);
-	 			},
-	 			removeSelectText = function (e) {
-	 				$(e.currentTarget)
-	 					.off('focus',selectText)
-	 					.off('blur',removeSelectText);
-	 			};
-				
+					};
+				},
+				// Interdependant events to select input field texts
+				addSelectText = function (e) {
+					$(e.currentTarget).on('focus', selectText);
+				},
+				selectText = function (e) {
+					if (e.target && e.target.type === 'range') return;
+					e.currentTarget.setSelectionRange(0, e.currentTarget.value.length);
+					$(e.currentTarget).on('blur', removeSelectText);
+				},
+				removeSelectText = function (e) {
+					$(e.currentTarget)
+						.off('focus', selectText)
+						.off('blur', removeSelectText);
+				};
+
 			// $scope.openModal = function (templateUrl) {
 			// 	var modalInstance = $uibModal.open({
 			// 		animation: true,
@@ -1681,73 +1638,88 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			// };
 
 			$scope.tabData = tabData;
-
 			$scope.isMobile = window.BU && BU.detect.isMobileBrowser() || false;
 			$('body')
 				// Listen on popover close event
-				.on('click','[ng-app="br-calc"] .popover .close',function(e){
+				.on('click', '[ng-app="br-calc"] .popover .close', function (e) {
 					$(e.currentTarget).parents('.popover').popover('hide');
 				})
 
-				.on('click','[ng-app="br-calc"] button',function(e){ return false; })
-	
+				.on('click', '[ng-app="br-calc"] button', function (e) {
+					return false;
+				})
+
 				// ENTER key behaviour
 				.on('keydown', '[ng-app="br-calc"] input, [ng-app="br-calc"] select, [ng-app="br-calc"] textarea', interceptEnterKey(dispellAllFocus))
 				// .on('keydown', 'input, select, textarea', interceptEnterKey(focusOnNextField))
-	
+
 				// Mousedown while a field :focus automatically BLUR the field
-				.on('focus','[ng-app="br-calc"] input, [ng-app="br-calc"] select, [ng-app="br-calc"] textarea',function(e){
-					$('body').on('mousedown',{ignore:'input, select, option, textarea',originalEvent:e},dispellAllFocus);
+				.on('focus', '[ng-app="br-calc"] input, [ng-app="br-calc"] select, [ng-app="br-calc"] textarea', function (e) {
+					$('body').on('mousedown', {
+						ignore: 'input, select, option, textarea',
+						originalEvent: e
+					}, dispellAllFocus);
 				})
-				.on('focus','[ng-app="br-calc"] input',addSelectText)
-				.on('blur','[ng-app="br-calc"] input, [ng-app="br-calc"] select, [ng-app="br-calc"] textarea',function(){
-					$('body').off('mousedown',dispellAllFocus);
+				.on('focus', '[ng-app="br-calc"] input', addSelectText)
+				.on('blur', '[ng-app="br-calc"] input, [ng-app="br-calc"] select, [ng-app="br-calc"] textarea', function () {
+					$('body').off('mousedown', dispellAllFocus);
 				});
-	
+
 			// Close visible popovers and tooltip on resize
 			// This fixes resize and orientationchange positionning issues.
-			$(window).on('resize orientationchange',function (/*e*/) {
-			    $('[ng-app="br-calc"] [tooltip]+.tooltip:visible').tooltip('hide');
-			    $('[ng-app="br-calc"] [popover]+.popover:visible').popover('hide');
+			$(window).on('resize orientationchange', function ( /*e*/ ) {
+				var tooltip = $('[ng-app="br-calc"] [tooltip]+.tooltip:visible');
+				if(tooltip.length > 0){
+					$('[ng-app="br-calc"] [tooltip]+.tooltip:visible').tooltip('hide');
+					$('[ng-app="br-calc"] [popover]+.popover:visible').popover('hide');
+				}
 			});
 
 			$scope.module = {
-				investmentSelector : 'app/investmentSelector/investmentSelector.html?'+versionCaching,
-				affordabilityCalculator :'app/affordabilityCalculator/affordabilityCalculator.html?'+versionCaching,
+				investmentSelector: 'app/investmentSelector/investmentSelector.html?' + versionCaching,
+				affordabilityCalculator: 'app/affordabilityCalculator/affordabilityCalculator.html?' + versionCaching,
 
-				lineOfCreditCalculator :'app/lineOfCreditCalculator/lineOfCreditCalculator.html?'+versionCaching,
-				lineOfCreditCalculatorScenario :'app/lineOfCreditCalculator/scenario/lineOfCreditScenario.html?'+versionCaching,
-				lineOfCreditCalculatorScenarioDetails :'app/lineOfCreditCalculator/scenario/lineOfCreditScenarioDetails.html?'+versionCaching,
-				lineOfCreditCalculatorScenarioReport :'app/lineOfCreditCalculator/scenarioReport/lineOfCreditScenarioReport.html?'+versionCaching,
-	
-				retirementSavingsCalculator :'app/retirementSavingsCalculator/retirementSavingsCalculator.html?'+versionCaching,
-				retirementSavingsCalculatorScenario :'app/retirementSavingsCalculator/scenario/retirementSavingsScenario.html?'+versionCaching,
-				retirementSavingsCalculatorScenarioResults :'app/retirementSavingsCalculator/scenarioResults/retirementSavingsScenarioResults.html?'+versionCaching,
-				retirementSavingsCalculatorScenarioDetails :'app/retirementSavingsCalculator/scenario/retirementSavingsScenarioDetails.html?'+versionCaching,
-				retirementSavingsCalculatorScenarioReport :'app/retirementSavingsCalculator/scenarioReport/retirementSavingsScenarioReport.html?'+versionCaching,
-	
-				mortgagePaymentCalculator : 'app/mortgagePaymentCalculator/mortgagePaymentCalculator.html?'+versionCaching,
-				mortgagePaymentCalculatorScenario : 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenario.html?'+versionCaching,
-				mortgagePaymentCalculatorScenarioDetails : 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenarioDetails.html?'+versionCaching,
-				mortgagePaymentCalculatorScenarioResults : 'app/mortgagePaymentCalculator/scenarioResults/mortgagePaymentScenarioResults.html?'+versionCaching,
-				mortgagePaymentCalculatorScenarioReport : 'app/mortgagePaymentCalculator/scenarioReport/mortgagePaymentScenarioReport.html?'+versionCaching
+				lineOfCreditCalculator: 'app/lineOfCreditCalculator/lineOfCreditCalculator.html?' + versionCaching,
+				lineOfCreditCalculatorScenario: 'app/lineOfCreditCalculator/scenario/lineOfCreditScenario.html?' + versionCaching,
+				lineOfCreditCalculatorScenarioDetails: 'app/lineOfCreditCalculator/scenario/lineOfCreditScenarioDetails.html?' + versionCaching,
+				lineOfCreditCalculatorScenarioReport: 'app/lineOfCreditCalculator/scenarioReport/lineOfCreditScenarioReport.html?' + versionCaching,
+
+				retirementSavingsCalculator: 'app/retirementSavingsCalculator/retirementSavingsCalculator.html?' + versionCaching,
+				retirementSavingsCalculatorScenario: 'app/retirementSavingsCalculator/scenario/retirementSavingsScenario.html?' + versionCaching,
+				retirementSavingsCalculatorScenarioResults: 'app/retirementSavingsCalculator/scenarioResults/retirementSavingsScenarioResults.html?' + versionCaching,
+				retirementSavingsCalculatorScenarioDetails: 'app/retirementSavingsCalculator/scenario/retirementSavingsScenarioDetails.html?' + versionCaching,
+				retirementSavingsCalculatorScenarioReport: 'app/retirementSavingsCalculator/scenarioReport/retirementSavingsScenarioReport.html?' + versionCaching,
+
+				mortgagePaymentCalculator: 'app/mortgagePaymentCalculator/mortgagePaymentCalculator.html?' + versionCaching,
+				mortgagePaymentCalculatorScenario: 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenario.html?' + versionCaching,
+				mortgagePaymentCalculatorScenarioDetails: 'app/mortgagePaymentCalculator/scenario/mortgagePaymentScenarioDetails.html?' + versionCaching,
+				mortgagePaymentCalculatorScenarioResults: 'app/mortgagePaymentCalculator/scenarioResults/mortgagePaymentScenarioResults.html?' + versionCaching,
+				mortgagePaymentCalculatorScenarioReport: 'app/mortgagePaymentCalculator/scenarioReport/mortgagePaymentScenarioReport.html?' + versionCaching,
+
+
+				hisaCalculator: 'app/hisaCalculator/hisaCalculator.html?' + versionCaching,
+				hisaCalculatorScenario: 'app/hisaCalculator/scenario/hisaScenario.html?' + versionCaching,
+				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
+				hisaCalculatorScenarioReport: 'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?' + versionCaching,
+				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
 			contentManager.setConfig(defaultBRCalcDataConfig);
-	
+
 			$scope.content = contentManager.getContent();
 
 			$scope.config = contentManager.getConfig();
-	
-			$scope.round = function(value){
+
+			$scope.round = function (value) {
 				return Math.round(value);
 			};
-	
-			$scope.sortable = function (object){
-				var results = object?Object.keys($.extend({},object)):[],i=0;
-				for(;i<results.length;i++) {
-					results[i]=object[results[i]];
+
+			$scope.sortable = function (object) {
+				var results = object ? Object.keys($.extend({}, object)) : [],
+					i = 0;
+				for (; i < results.length; i++) {
+					results[i] = object[results[i]];
 				}
 				return results;
 			};
@@ -1757,449 +1729,557 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 			delete tempConfig.content;
 			tempConfig = $scope.getContent(tempConfig,$scope.content);
 			meridianDataConfig = $.extend(true,meridianDataConfig,tempConfig);*/
-	
+
 		}])
-////////////////
-// DIRECTIVES //
-////////////////
-///
-	// Modal
-	// 	Call a partial using bootstrap's modal
-	.directive("modal",function(){
-		var directiveDefinitionObject = {
-			restrict:'E',
-			scope:{
-				isOpen:'=',
-				name:'@',
-				header:'<',
-				close:'<'
-			},
-			transclude:true,
-			replace:true,
-			templateUrl:'app/partials/modal.html',
-			controller: function ($scope,$element,$attrs) {
-				$scope.isOpen = $scope.isOpen===true;
-				
-				var isChangeFromModal = false,
-					openModal = function () {
+		////////////////
+		// DIRECTIVES //
+		////////////////
+		///
+		// Modal
+		// 	Call a partial using bootstrap's modal
+		.directive("modal", function () {
+			var directiveDefinitionObject = {
+				restrict: 'E',
+				scope: {
+					isOpen: '=',
+					name: '@',
+					header: '<',
+					close: '<'
+				},
+				transclude: true,
+				replace: true,
+				templateUrl: 'app/partials/modal.html',
+				controller: function ($scope, $element, $attrs) {
+					$scope.isOpen = $scope.isOpen === true;
+
+					var isChangeFromModal = false,
+						openModal = function () {
 							$element.modal('show');
-					},
-					closeModal = function () {
-						$element.modal('hide');
-					};
+						},
+						closeModal = function () {
+							$element.modal('hide');
+						};
 
-				$element
-					.modal({show:false})
-					.on('show.bs.modal',function(){
-						$scope.isOpen = true;
-					})
-					.on('hide.bs.modal',function(){
-						$scope.isOpen = false;
-						$scope.$applyAsync();
-					});
-
-				$scope.$watch('isOpen',function(newValue,oldValue){					
-					if (newValue!==oldValue) {
-						if (isChangeFromModal===true) {
-							isChangeFromModal = false;
-						}
-						else {
-							if (oldValue===true) closeModal();
-							else openModal();
-						}
-					}
-				});
-			}
-		};
-		return directiveDefinitionObject;
-	})
-	// tooltip
-	// 	Init Bootstrap tooltip elements
-	// .directive("tooltip",function(){
-	// 	return {
-	// 		restrict:"A",
-	// 		link: function (scope,element/*,attrs*/) { element.tooltip(); /*console.log('Defined tooltip - directive')*/ }
-	// 	};
-	// })
-	// collapse
-	// 	Init Bootstrap collapse elements
-	// .directive("collapse",function(){
-	// 	return {
-	// 		restrict:"A",
-	// 		link: function (scope,element/*,attrs*/) { console.log('sdlfkhsldfsjkdf"');element.collapse(); }
-	// 	};
-	// })
-	// popover
-	// 	Init Bootstrap popover elements
-	.directive("popover",['$compile',function($compile){
-
-		return {
-			restrict:"E",
-			transclude:true,
-			replace: true,
-			controller: function ($scope,$element,$attrs,$transclude) { 
-				// console.log('$element.html()',$element.html(),$element);
-				// Replace <transclude-content> element with content inserted in meri-select
-				$transclude(function(clone, scope) {
-					if (clone.length) {
-						// console.log('clone.html()',clone.html());
-						$scope.popContent = clone.html();
-					}
-				});
-			},
-			compile: function compile(/*tElement, tAttrs*/) {		
-
-				return {
-					// Before Link compile
-					pre: function preLink(/*scope, elem, attrs, ctrl*/) { },
-					// After Link compile
-					// Attach events here
-					post: function postLink(scope, elem, attrs/*, ctrl*/) {
-						var content = scope.popContent || attrs.content || '';
-
-						elem.popover({
-							template:'<div class="popover"><div class="popover-content"></div><a href="javascript:void(0)" class="close">X</a></div>',
-							trigger:'click'
+					$element
+						.modal({
+							show: false
 						})
-						.on('hidden.bs.popover', function (e) {
-						   $(e.target).data("bs.popover").inState.click = false;
+						.on('show.bs.modal', function () {
+							$scope.isOpen = true;
+						})
+						.on('hide.bs.modal', function () {
+							$scope.isOpen = false;
+							$scope.$applyAsync();
 						});
-					}
-				};
-			},
-			template:'<a href="javascript:void(0)" class="br-icon" data-toggle="popover" data-placement="top" popover>&nbsp;</a>'
-		};
-	}])
-	// slider
-	.directive("slider",function(contentManager){
-		return {
-			restrict: 'A',
-			link: function(scope, ele, attr){	
-				var config,
-					configName,
-					slider,
-					update = function (number,event) {
-						number = number===undefined || isNaN(number) ? 0 : number;
-						setDataToScope(attr.slider,scope,stringToNumber(number));
-						if (!event || event==='change') {
-							slider.set(number);
-						}
-					},
-					generalUpdateMethod = function (eventType) {
-						return function(number){update(number,eventType);};
-					};
-				if(contentManager.getConfig().slider&&noUiSlider){
-					configName = attr.config || "";
-					config = contentManager.getConfig().slider[configName];
-					if(config){
 
-						config.start = getDataAtScope(attr.slider,scope) || (config.start!==undefined?config.start:undefined);
-						slider = noUiSlider.create(ele[0], config);
-
-						slider.on('change.meri', generalUpdateMethod('change'));
-						slider.on('update.meri', generalUpdateMethod('update'));
-						scope.$watch(attr.slider,function(value){
-							slider.off('.meri');
-							slider.set(value);
-							slider.on('change.meri', generalUpdateMethod('change'));
-							slider.on('update.meri', generalUpdateMethod('update'));
-						});
-					}
-				}
-			}
-		};
-	})
-
-	.directive("ngFlag",function($injector){
-		return {
-			restrict: 'A',
-			link: function(scope, ele, attr){
-				ele.on("click",function(){
-					var flagKey = attr.ngFlag,
-						flagValue = attr.ngFlagValue;
-
-					if(flagValue === "true"){
-						flagValue = true;
-					}else if(flagValue === "false"){
-						flagValue = false;
-					}
-					setDataToScope(flagKey,scope,flagValue,$injector);
-				});
-			}
-		};
-	})
-
-	.directive("boolean", function () {
-		return {
-			restrict: 'A',
-			require: 'ngModel',
-			link: function(scope, ele, attr, ctrl){
-
-				var formatter = function (value) {
-						return value?'true':'false';
-					},
-					parser = function (value/*,e*/) {
-						return value!=='false' && value!=='0';
-					};
-
-				ctrl.$formatters.unshift(formatter);
-				ctrl.$parsers.unshift(parser);
-			}
-		};
-	})
-	
-	.directive("number", function ($filter/*,$compile, $locale, $window*/) {
-		return {
-			restrict: 'A',
-			require: '?ngModel',
-			link: function(scope, ele, attr, ctrl){
-				if (attr.ngModel) {
-					var precision = parseFloat(attr.precision),
-						type = attr.number||'number',
-						percentModifier = 1,
-						filter,
-						parser,
-						formatter,
-						min,
-						max,
-						forceRange,
-						removeFormat,
-						applyFormat,
-						resolveDataPercent = function(value){return value/percentModifier;},
-						resolveViewPercent = function(value){return value*percentModifier;};
-
-					if (!$filter(type)) {
-						type = 'number';
-					}
-					else if (type === 'percent') {
-						percentModifier = 100;
-					}
-
-					filter = $filter(type);
-					
-					if(isNaN(precision)){
-						precision = undefined;
-					}
-
-					// Where formattedValue = 3.00%
-					// 	return: 3.00 (plainValue)
-					removeFormat = function (formattedValue) {
-						return $filter("naturalNumber")(formattedValue,precision);
-					};
-
-					// Where plainValue = 3.00 for 0.03 (3%)
-					// 	return: %3.00 (formattedValue)
-					applyFormat = function (plainValue) {
-						// remove anything NOT a number
-						plainValue = $filter('naturalNumber')(plainValue,precision);
-						plainValue = resolveDataPercent(plainValue);
-						return filter(plainValue,precision);
-					};
-
-					// Where value = modelValue 0.03 (for 3%)
-					ctrl.$render = function(value){
-						// console.log('RENDER');
-						// Take entered value and apply the format
-						value = value || ctrl.$modelValue;
-						// applyFormat() will divide by 100; filter('percent') already does *100
-						// But $formatters will only use applyFormat
-						value = resolveViewPercent(value);
-						ctrl.$viewValue = applyFormat(value);
-						ele.val(ctrl.$viewValue);
-					};
-
-					// Executes when model data changed and view must be updated
-					formatter = function (value) {
-						// console.log('FORMATTER');
-						return applyFormat(value);
-					};
-
-					parser = function (value) {
-						// console.log('PARSER');
-						value = cleanValue(value);
-						value = stringToNumber(value,precision);
-						value = resolveDataPercent(value);
-
-						// if meriValid is present, let it take care of min-max validation
-						if (!attr.meriValid) {
-							min = attr.min&&attr.min!=='' ? stringToNumber(attr.min,precision) : undefined;
-							max = attr.max&&attr.max!=='' ? stringToNumber(attr.max,precision) : undefined;
-							forceRange = attr.forceRange==="false"?false:true;
-
-							if (forceRange) {
-								if (min!==undefined) {
-									value = Math.max(min,value);
-								}
-								if (max!==undefined) {
-									value = Math.min(max,value);
-								}
+					$scope.$watch('isOpen', function (newValue, oldValue) {
+						if (newValue !== oldValue) {
+							if (isChangeFromModal === true) {
+								isChangeFromModal = false;
+							} else {
+								if (oldValue === true) closeModal();
+								else openModal();
 							}
 						}
-						return value;
+					});
+				}
+			};
+			return directiveDefinitionObject;
+		})
+		// tooltip
+		// 	Init Bootstrap tooltip elements
+		// .directive("tooltip",function(){
+		// 	return {
+		// 		restrict:"A",
+		// 		link: function (scope,element/*,attrs*/) { element.tooltip(); /*console.log('Defined tooltip - directive')*/ }
+		// 	};
+		// })
+		// collapse
+		// 	Init Bootstrap collapse elements
+		// .directive("collapse",function(){
+		// 	return {
+		// 		restrict:"A",
+		// 		link: function (scope,element/*,attrs*/) { console.log('sdlfkhsldfsjkdf"');element.collapse(); }
+		// 	};
+		// })
+		// popover
+		// 	Init Bootstrap popover elements
+		.directive("popover", ['$compile', function ($compile) {
+
+			return {
+				restrict: "E",
+				transclude: true,
+				replace: true,
+				controller: function ($scope, $element, $attrs, $transclude) {
+					// console.log('$element.html()',$element.html(),$element);
+					// Replace <transclude-content> element with content inserted in meri-select
+					$transclude(function (clone, scope) {
+						if (clone.length) {
+							// console.log('clone.html()',clone.html());
+							$scope.popContent = clone.html();
+						}
+					});
+				},
+				compile: function compile( /*tElement, tAttrs*/ ) {
+
+					return {
+						// Before Link compile
+						pre: function preLink( /*scope, elem, attrs, ctrl*/ ) {},
+						// After Link compile
+						// Attach events here
+						post: function postLink(scope, elem, attrs /*, ctrl*/ ) {
+							var content = scope.popContent || attrs.content || '';
+
+							elem.popover({
+									template: '<div class="popover"><div class="popover-content"></div><a href="javascript:void(0)" class="close">X</a></div>',
+									trigger: 'click'
+								})
+								.on('hidden.bs.popover', function (e) {
+									$(e.target).data("bs.popover").inState.click = false;
+								});
+						}
 					};
+				},
+				template: '<a href="javascript:void(0)" class="br-icon" data-toggle="popover" data-placement="top" popover>&nbsp;</a>'
+			};
+		}])
+		// slider
+		.directive("slider", function (contentManager) {
+			return {
+				restrict: 'A',
+				link: function (scope, ele, attr) {
+					var config,
+						configName,
+						slider,
+						update = function (number, event) {
+							number = number === undefined || isNaN(number) ? 0 : number;
+							setDataToScope(attr.slider, scope, stringToNumber(number));
+							if (!event || event === 'change') {
+								slider.set(number);
+							}
+						},
+						generalUpdateMethod = function (eventType) {
+							return function (number) {
+								update(number, eventType);
+							};
+						};
+					if (contentManager.getConfig().slider && noUiSlider) {
+						configName = attr.config || "";
+						config = contentManager.getConfig().slider[configName];
+						if (config) {
+
+							config.start = getDataAtScope(attr.slider, scope) || (config.start !== undefined ? config.start : undefined);
+							slider = noUiSlider.create(ele[0], config);
+
+							slider.on('change.meri', generalUpdateMethod('change'));
+							slider.on('update.meri', generalUpdateMethod('update'));
+							scope.$watch(attr.slider, function (value) {
+								slider.off('.meri');
+								slider.set(value);
+								slider.on('change.meri', generalUpdateMethod('change'));
+								slider.on('update.meri', generalUpdateMethod('update'));
+							});
+						}
+					}
+				}
+			};
+		})
+
+		.directive("ngFlag", function ($injector) {
+			return {
+				restrict: 'A',
+				link: function (scope, ele, attr) {
+					ele.on("click", function () {
+						var flagKey = attr.ngFlag,
+							flagValue = attr.ngFlagValue;
+
+						if (flagValue === "true") {
+							flagValue = true;
+						} else if (flagValue === "false") {
+							flagValue = false;
+						}
+						setDataToScope(flagKey, scope, flagValue, $injector);
+					});
+				}
+			};
+		})
+
+		.directive("boolean", function () {
+			return {
+				restrict: 'A',
+				require: 'ngModel',
+				link: function (scope, ele, attr, ctrl) {
+
+					var formatter = function (value) {
+							return value ? 'true' : 'false';
+						},
+						parser = function (value /*,e*/ ) {
+							return value !== 'false' && value !== '0';
+						};
 
 					ctrl.$formatters.unshift(formatter);
 					ctrl.$parsers.unshift(parser);
-
-					ele.on("focus",function(/*e*/){
-						// console.log('focus...');
-						// Get and modify model value before raw display
-						var value = resolveViewPercent(ctrl.$modelValue);
-						// Set new view value
-						ctrl.$setViewValue($filter("naturalNumber")(value,precision));
-						// Update field element display
-						ele.val(ctrl.$viewValue);
-					});
-
-					ele.on("blur",function(/*e*/){
-						// console.log('blur...');
-						// Set view value to formatted current view value
-						// !! WARNING This value hasn't gone through parsers or validation yet
-						ctrl.$setViewValue(applyFormat(ctrl.$viewValue));
-						// Update field element display
-						ele.val(ctrl.$viewValue);
-					});
 				}
-			}
-		};
-	})
+			};
+		})
 
-	/* Directive used on select html tag. It forces the select to keep their options values in string format but to save the selected value in number into the data object. */
-	/* For example : We used this directive on payment frequency select. The value of the monthly option is : "1".But we want to have 1 in the data. We also use this directive on the product and term select field. */
-	.directive("selectNumber", function (/*$filter,$locale, $window*/ ) {
-		
-		function parser (value) {
-			return stringToNumber(value);
-		}
-		function formatter (value) {
-			return value+"";
-		}
+		.directive("number", function ($filter /*,$compile, $locale, $window*/ ) {
+			return {
+				restrict: 'A',
+				require: '?ngModel',
+				link: function (scope, ele, attr, ctrl) {
+					if (attr.ngModel) {
+						var precision = parseFloat(attr.precision),
+							type = attr.number || 'number',
+							percentModifier = 1,
+							filter,
+							parser,
+							formatter,
+							min,
+							max,
+							forceRange,
+							removeFormat,
+							applyFormat,
+							resolveDataPercent = function (value) {
+								return value / percentModifier;
+							},
+							resolveViewPercent = function (value) {
+								return value * percentModifier;
+							};
 
-		return {
-			restrict: 'A',
-			require: 'ngModel',
-			link: function(scope, ele, attr, ctrl){
-				ctrl.$formatters.unshift(formatter);
-				ctrl.$parsers.unshift(parser);
-			}
-		};
-	})
-	/* Directive that permit to control the tabData service */
-	/* This directive should be put on a A html element */
-	/* The tabValue will */
-	.directive("tabDefaultValue", function (tabData) {
-		return {
-			restrict: 'A',
-			link: function(scope, ele, attr/*, ctrl*/){
-				var tabValue = attr.tabDefaultValue||"",
-					tabValueSp = tabValue.split(":"),
-					tabGroupName,
-					tabGroupValue;
+						if (!$filter(type)) {
+							type = 'number';
+						} else if (type === 'percent') {
+							percentModifier = 100;
+						}
 
-				if(tabValueSp.length==2){
-					tabGroupName = tabValueSp[0];
-					tabGroupValue = tabValueSp[1];
+						filter = $filter(type);
 
-					tabData.setCurrentTab(tabGroupName,tabGroupValue);
-				}
+						if (isNaN(precision)) {
+							precision = undefined;
+						}
 
-			}
-		};
-	})
-	/* Directive that permit to control the tabData service */
-	/* This directive should be put on a A html element */
-	/* the tab-group determine which group value will be set by clicking on this elem */
-	.directive("tabGroup", function (tabData) {
-		return {
-			restrict: 'A',
-			link: function(scope, ele, attr/*, ctrl*/){
-				var tabName = attr.href||attr.tabValue,
-					tabGroup = attr.tabGroup,
-					storedValue = getStoredData(tabGroup+'-tab');
+						// Where formattedValue = 3.00%
+						// 	return: 3.00 (plainValue)
+						removeFormat = function (formattedValue) {
+							return $filter("naturalNumber")(formattedValue, precision);
+						};
 
-				if(typeof tabGroup === "string" && typeof tabName === "string"){
-					tabName = tabName.replaceAll("#","");
-					if(attr.tabDefault && attr.tabDefault==="true"&&!storedValue||storedValue===tabName){
-						tabData.setCurrentTab(tabGroup,tabName);
+						// Where plainValue = 3.00 for 0.03 (3%)
+						// 	return: %3.00 (formattedValue)
+						applyFormat = function (plainValue) {
+							// remove anything NOT a number
+							plainValue = $filter('naturalNumber')(plainValue, precision);
+							plainValue = resolveDataPercent(plainValue);
+							return filter(plainValue, precision);
+						};
+
+						// Where value = modelValue 0.03 (for 3%)
+						ctrl.$render = function (value) {
+							// console.log('RENDER');
+							// Take entered value and apply the format
+							value = value || ctrl.$modelValue;
+							// applyFormat() will divide by 100; filter('percent') already does *100
+							// But $formatters will only use applyFormat
+							value = resolveViewPercent(value);
+							ctrl.$viewValue = applyFormat(value);
+							ele.val(ctrl.$viewValue);
+						};
+
+						// Executes when model data changed and view must be updated
+						formatter = function (value) {
+							// console.log('FORMATTER');
+							return applyFormat(value);
+						};
+
+						parser = function (value) {
+							// console.log('PARSER');
+							value = cleanValue(value);
+							value = stringToNumber(value, precision);
+							value = resolveDataPercent(value);
+
+							// if meriValid is present, let it take care of min-max validation
+							if (!attr.meriValid) {
+								min = attr.min && attr.min !== '' ? stringToNumber(attr.min, precision) : undefined;
+								max = attr.max && attr.max !== '' ? stringToNumber(attr.max, precision) : undefined;
+								forceRange = attr.forceRange === "false" ? false : true;
+
+								if (forceRange) {
+									if (min !== undefined) {
+										value = Math.max(min, value);
+									}
+									if (max !== undefined) {
+										value = Math.min(max, value);
+									}
+								}
+							}
+							return value;
+						};
+
+						ctrl.$formatters.unshift(formatter);
+						ctrl.$parsers.unshift(parser);
+
+						ele.on("focus", function ( /*e*/ ) {
+							// console.log('focus...');
+							// Get and modify model value before raw display
+							var value = resolveViewPercent(ctrl.$modelValue);
+							// Set new view value
+							ctrl.$setViewValue($filter("naturalNumber")(value, precision));
+							// Update field element display
+							ele.val(ctrl.$viewValue);
+						});
+
+						ele.on("blur", function ( /*e*/ ) {
+							// console.log('blur...');
+							// Set view value to formatted current view value
+							// !! WARNING This value hasn't gone through parsers or validation yet
+							ctrl.$setViewValue(applyFormat(ctrl.$viewValue));
+							// Update field element display
+							ele.val(ctrl.$viewValue);
+						});
 					}
 				}
-				
-				ele.on('click', function(e){
-					e.preventDefault();
-					e.stopPropagation();
+			};
+		})
 
-					tabData.setCurrentTab(attr.tabGroup,tabName);
-					scope.$apply();
-				});
+		/* Directive used on select html tag. It forces the select to keep their options values in string format but to save the selected value in number into the data object. */
+		/* For example : We used this directive on payment frequency select. The value of the monthly option is : "1".But we want to have 1 in the data. We also use this directive on the product and term select field. */
+		.directive("selectNumber", function ( /*$filter,$locale, $window*/ ) {
+
+			function parser(value) {
+				return stringToNumber(value);
 			}
-		};
-	})
-	/* Directive that permit to save the current element ngModel value into the localStorage */
-	/* The directive will also get back the value from the localStorage and inject it onto the ngModel */
-	.directive('ngStorage',function(){
-	    return {
-	        restrict: 'A',
-	        require: 'ngModel',
-	        link: function($scope, $element, $attrs/*, ngModel*/) {
-	            
-	            var ngModelStr = $attrs.ngModel,
-	                ngModelStrSplit = ngModelStr.split("."),
-	                x = 0,
-	                len = ngModelStrSplit.length,
-	                obj = $scope,
-	                last = len - 1,
-	                key;
 
-	            for(;x<len;x++){
-	                key = ngModelStrSplit[x];
+			function formatter(value) {
+				return value + "";
+			}
 
-	                if(x === last){
-	                    obj[key] = getStoredData($attrs.ngModel);
-	                }else{
-	                    if(obj[key]){
-	                        obj = obj[key];
-	                    }else{
-	                        obj = obj[key] = {};
-	                    }
-	                }
-	            }
+			return {
+				restrict: 'A',
+				require: 'ngModel',
+				link: function (scope, ele, attr, ctrl) {
+					ctrl.$formatters.unshift(formatter);
+					ctrl.$parsers.unshift(parser);
+				}
+			};
+		})
+		/* Directive that permit to control the tabData service */
+		/* This directive should be put on a A html element */
+		/* The tabValue will */
+		.directive("tabDefaultValue", function (tabData) {
+			return {
+				restrict: 'A',
+				link: function (scope, ele, attr /*, ctrl*/ ) {
+					var tabValue = attr.tabDefaultValue || "",
+						tabValueSp = tabValue.split(":"),
+						tabGroupName,
+						tabGroupValue;
 
-	            $scope.$watch($attrs.ngModel, function(value) {
-	                setStoredData($attrs.ngModel,value);
-	            });
-	            
-	        }
-	    };
-	})
+					if (tabValueSp.length == 2) {
+						tabGroupName = tabValueSp[0];
+						tabGroupValue = tabValueSp[1];
 
-	.directive('meriSelect',function($compile){
+						tabData.setCurrentTab(tabGroupName, tabGroupValue);
+					}
 
-		var directiveDefinitionObject = {
+				}
+			};
+		})
+		/* Directive that permit to control the tabData service */
+		/* This directive should be put on a A html element */
+		/* the tab-group determine which group value will be set by clicking on this elem */
+		.directive("tabGroup", function (tabData) {
+			return {
+				restrict: 'A',
+				link: function (scope, ele, attr /*, ctrl*/ ) {
+					var tabName = attr.href || attr.tabValue,
+						tabGroup = attr.tabGroup,
+						storedValue = getStoredData(tabGroup + '-tab');
+
+					if (typeof tabGroup === "string" && typeof tabName === "string") {
+						tabName = tabName.replaceAll("#", "");
+						if (attr.tabDefault && attr.tabDefault === "true" && !storedValue || storedValue === tabName) {
+							tabData.setCurrentTab(tabGroup, tabName);
+						}
+					}
+
+					ele.on('click', function (e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						tabData.setCurrentTab(attr.tabGroup, tabName);
+						scope.$apply();
+					});
+				}
+			};
+		})
+		/* Directive that permit to save the current element ngModel value into the localStorage */
+		/* The directive will also get back the value from the localStorage and inject it onto the ngModel */
+		.directive('ngStorage', function () {
+			return {
+				restrict: 'A',
+				require: 'ngModel',
+				link: function ($scope, $element, $attrs /*, ngModel*/ ) {
+
+					var ngModelStr = $attrs.ngModel,
+						ngModelStrSplit = ngModelStr.split("."),
+						x = 0,
+						len = ngModelStrSplit.length,
+						obj = $scope,
+						last = len - 1,
+						key;
+
+					for (; x < len; x++) {
+						key = ngModelStrSplit[x];
+
+						if (x === last) {
+							obj[key] = getStoredData($attrs.ngModel);
+						} else {
+							if (obj[key]) {
+								obj = obj[key];
+							} else {
+								obj = obj[key] = {};
+							}
+						}
+					}
+
+					$scope.$watch($attrs.ngModel, function (value) {
+						setStoredData($attrs.ngModel, value);
+					});
+
+				}
+			};
+		})
+
+		//Range Slider which accepts min,max,default value
+		.directive('meriRangeSlider', function ($rootScope) {
+			var tpl = "<div class='slider-cont form-group'>" +
+				"<div class='slider-container'><div class='slider-content'>" +
+				"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
+				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
+				"<span>{{displayMax||max}}<span></div></div>" +
+				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div></div>";
+
+			return {
+				restrict: 'E',
+				template: tpl,
+				scope: {
+					min: '=',
+					max: '=',
+					savingDuration:'=',
+					defaultVal: '=defaultVal',
+					step: '=',
+					sliderId: '=',
+					displayMin: '=',
+					displayMax: '=',
+					sliderTextId: '='
+				},
+				link: function ($scope, $elm) {
+					$elm.on('change', function () {
+						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
+						if(isInputValid(inputVal)){
+							updateSlider();
+						}else{
+							//add switch statement to handle other range slider's as well
+							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
+							updateSlider();
+						}
+					});
+					// change value from inputbox
+					$elm.on('keyup', function (event) {
+						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
+						var parentElem = $elm[0].children[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						if(isInputValid(inputVal)){
+							updateSlider(inputVal);
+							$(errElm).remove();
+							parentElem.classList.remove('error');
+						}else{
+							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
+							updateSlider();
+							if(errElm.length === 0){
+								var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
+								var span = document.createElement('div');
+								span.classList.add("error-message");
+								span.innerHTML = errorElem;
+								parentElem.appendChild(span);
+							}
+							parentElem.classList.add('error');
+						}	
+					});
+					// change value from inputbox
+					// $elm.on('blur', function (event) {
+					// 	var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
+					// 	document.getElementById($scope.sliderTextId).value = inputVal+'%';
+					// });
+
+					$scope.$on('resetSlider', function (e, slider) {
+						var sliderElm = $('#' + slider.sliderId)[0];
+						var outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
+						sliderElm.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
+							'color-stop(' + outputVal + ', #39709A), ' +
+							'color-stop(' + outputVal + ', #fff)' +
+							')';
+						if (slider.callback) {
+							slider.callback(slider.defaultVal);
+						}
+					});
+
+					function isInputValid(inputVal){
+						if((inputVal >= $scope.min) && (inputVal<= $scope.max)){
+							return true;
+						}
+						return false;
+					}
+					
+
+					function updateSlider(inputValue) {
+						var slider = $('#' + $scope.sliderId)[0];
+						var sliderValue = inputValue || slider.value;
+						var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
+							'color-stop(' + outputVal + ', #39709A), ' +
+							'color-stop(' + outputVal + ', #fff)' +
+							')';
+					}
+				},
+
+			};
+		})
+
+		.directive('meriSelect', function ($compile) {
+
+			var directiveDefinitionObject = {
 				restrict: 'E',
 				// transclude: true,
 				transclude: false,
 				scope: {
-					fieldSpecs:'<'
+					fieldSpecs: '<'
 				},
 				replace: true,
-				controller: function ($scope,$element,$attrs/*,$transclude*/) {
+				controller: function ($scope, $element, $attrs /*,$transclude*/ ) {
 
-					var excludeAttrTransfer = {fieldSpecs:true,fieldValidation:true,binding:true,label:true},
+					var excludeAttrTransfer = {
+							fieldSpecs: true,
+							fieldValidation: true,
+							binding: true,
+							label: true
+						},
 						addAttributes = [],
 						filterDirective,
 						binding = $attrs.binding,
 						fieldSpecs = $scope.fieldSpecs || {};
 
 
-// // Replace <transclude-content> element with content inserted in meri-select
-// $transclude(function(clone, scope) {
-// 	$element.find('transcluded-content').replaceWith(clone);
-// 	// transcludedContent = clone;
-// 	// transclusionScope = scope;
-// });
-					
+					// // Replace <transclude-content> element with content inserted in meri-select
+					// $transclude(function(clone, scope) {
+					// 	$element.find('transcluded-content').replaceWith(clone);
+					// 	// transcludedContent = clone;
+					// 	// transclusionScope = scope;
+					// });
+
 					$scope.options = fieldSpecs.options || [];
-					
+
 					$scope.label = fieldSpecs.label || '';
 
 					switch (fieldSpecs.directive) {
@@ -2216,52 +2296,66 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 							filterDirective = false;
 					}
 
-					addAttributes.push({attr: 'ng-model', value: binding });
+					addAttributes.push({
+						attr: 'ng-model',
+						value: binding
+					});
 
 					$scope.label = fieldSpecs.label || $attrs.label || "";
 
-					if (filterDirective) addAttributes.push({attr: filterDirective, value: fieldSpecs.directive });
-					if (fieldSpecs.precision !== undefined) addAttributes.push({attr: 'data-precision', value: fieldSpecs.precision });
+					if (filterDirective) addAttributes.push({
+						attr: filterDirective,
+						value: fieldSpecs.directive
+					});
+					if (fieldSpecs.precision !== undefined) addAttributes.push({
+						attr: 'data-precision',
+						value: fieldSpecs.precision
+					});
 					// if ($attrs.fieldValidation) addAttributes.push({attr: 'meri-valid', value: $attrs.fieldValidation });
-					if ($attrs.fieldValidation) addAttributes.push({attr: 'meri-form-valid', value: $attrs.fieldValidation });
+					if ($attrs.fieldValidation) addAttributes.push({
+						attr: 'meri-form-valid',
+						value: $attrs.fieldValidation
+					});
 
 					for (prop in $attrs.$attr) {
 						if (excludeAttrTransfer[prop] === undefined) {
-							addAttributes.push({attr: $attrs.$attr[prop], value: $attrs[prop] });
+							addAttributes.push({
+								attr: $attrs.$attr[prop],
+								value: $attrs[prop]
+							});
 						}
 					}
 
 					$scope.selectAttributes = addAttributes;
 				},
-				compile: function compile(/*tElement, tAttrs*/) {
-					
+				compile: function compile( /*tElement, tAttrs*/ ) {
+
 					return {
 						// Before Link compile
-						pre: function preLink(scope, elem/*, attrs, ctrl*/) {
+						pre: function preLink(scope, elem /*, attrs, ctrl*/ ) {
 							var i = 0,
 								len = scope.selectAttributes.length,
 								prop,
 								select = elem.find('select');
-							for (;i<len;i++) {
+							for (; i < len; i++) {
 								if (scope.selectAttributes[i].attr === 'class') {
 									select.addClass(scope.selectAttributes[i].value || '');
-								}
-								else {
+								} else {
 									select.attr(scope.selectAttributes[i].attr, scope.selectAttributes[i].value !== undefined ? scope.selectAttributes[i].value : '');
 								}
 							}
 
-							select.on('keyup',function(e){
+							select.on('keyup', function (e) {
 								var eKey = e.which || e.key,
 									selected = select.find("option:selected");
-								if ( (eKey === 38) || (eKey === 40) ) {
+								if ((eKey === 38) || (eKey === 40)) {
 									select.change();
 
 									// console.log('KEY UP, current now',selected.val());
 									return false;
 								}
 
-								
+
 							});
 
 							// select.on('keydown',function(e){
@@ -2274,1195 +2368,1278 @@ window.brCalc = angular.module('br-calc', ['ui.bootstrap','ngAnimate','angular-b
 							// // 		select.change();
 							// // 		return false;
 							// // 	}
-								
+
 							// 	// console.log('KEY DOWN, current, next',selected.val(),next.val());
 							// 	return false;
 							// });
 						},
 						// After Link compile
 						// Attach events here
-						post: function postLink(scope, elem/*, attrs, ctrl*/) {
+						post: function postLink(scope, elem /*, attrs, ctrl*/ ) {
 							$compile(elem.contents())(scope.$parent);
 						}
 					};
 				},
 
-				template: function(element,attr){
-					return '<div class="form-group">'+
-							'<label for="{{ name }}">{{ label }}</label>'+
-							'<select id="{{ name }}" class="form-control">'+
-								'<option ng-repeat="option in options" value="{{ option.value }}">{{ option.label }}</option>'+
-							'</select>'+
-// '<transcluded-content></transcluded-content>' +
-							'<span class="clearfix"></span>'+
+				template: function (element, attr) {
+					return '<div class="form-group">' +
+						'<label for="{{ name }}">{{ label }}</label>' +
+						'<select id="{{ name }}" class="form-control">' +
+						'<option ng-repeat="option in options" value="{{ option.value }}">{{ option.label }}</option>' +
+						'</select>' +
+						// '<transcluded-content></transcluded-content>' +
+						'<span class="clearfix"></span>' +
 						'</div>';
 				}
 			};
 
-		return directiveDefinitionObject;
-	})
+			return directiveDefinitionObject;
+		})
 
-	.directive('meriTooltip',function($compile){
-		var template = {
-				tooltip:'<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
-			}, 
-
-			directiveDefinitionObject = {
-				restrict: 'E',
-				transclude: false,
-				scope: {
-					parent:'=',
-					message:'='
-				},
-				replace: true,
-				controller: function ($scope,$element,$attrs,$interpolate) {
-					$scope.getMeriTooltipContent = function () {
-						if (typeof $scope.message.getMessage) {
-							return $interpolate($scope.message.getMessage())($scope.parent || $scope.$parent);
-						}
-						else if (typeof $scope.message === 'string') {
-							return $interpolate($scope.message)($scope.parent || $scope.$parent);
-						}
-						else {
-							return '';
-						}
-					};
-				},
-				compile: function compile(tElement, tAttrs) {
-					return {
-						// Before Link compile
-						pre: function preLink(/*scope, elem, attrs, ctrl*/) { },
-						// After Link compile
-						// Attach events here
-						post: function postLink(/*scope, elem, attrs, ctrl*/) { }
-					};
+		.directive('meriTooltipWithHeader', function ($compile) {
+			var template = {
+					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
 				},
 
-				template: function(element,attr){
-					return template.tooltip;
-				}
-			};
-
-		return directiveDefinitionObject;
-	})
-
-	.directive('meriInput',function($compile,$interpolate){
-
-		var template = {
-				meriTooltip:'<meri-tooltip parent="parent" message="tooltip"></meri-tooltip>',
-				// unbreakable:{open:'<span class="unbreakable">',close:'</span>'}
-				unbreakable:'<span class="unbreakable"></span>'
-			},
-
-			// 
-			directiveDefinitionObject = {
-				restrict: 'E',
-				// transclude: true,
-				transclude: false,
-				scope: {
-					fieldSpecs:'<',
-					value:'=binding'
-				},
-				replace: true,
-				controller: function ($scope,$element,$attrs/*,$transclude*/) {
-					var excludeAttrTransfer = {fieldSpecs:true,fieldValidation:true,binding:true,label:true}, 
-						inputAttributes = [],
-						filterDirective,
-						fieldSpecs = $scope.fieldSpecs || {},
-						binding = $attrs.binding,
-						prop;
-
-					$scope.parent = $scope.$parent;
-
-// // Replace <transclude-content> element with content inserted in meri-input
-// $transclude(function(clone, scope) {
-// 	$element.find('transcluded-content').replaceWith(clone);
-// 	// transcludedContent = clone;
-// 	// transclusionScope = scope;
-// });
-					
-					if ($attrs.fieldSpecs && $attrs.fieldSpecs!== '' && $attrs.fieldSpecs.split('.').length > 1) {
-						$scope.name = 'meri-' + $attrs.fieldSpecs.split('.').slice(1).join('-');
-					}
-					else {
-						$scope.name = 'meri-' + ($attrs.fieldSpecs || '');
-					}
-					
-					$scope.id = $scope.$parent.$eval($attrs.id) || $attrs.id || '';
-
-					switch (fieldSpecs.directive) {
-						case 'boolean':
-							filterDirective = 'boolean';
-							break;
-						case 'year':
-						case 'percent':
-						case 'currency':
-							$scope.filter = fieldSpecs.directive;
-							$scope.fieldType = 'number';
-							// CAN remove:
-							filterDirective = 'number';
-							break;
-						default:
-							filterDirective = false;
-					}
-
-
-
-					inputAttributes.push({attr: 'ng-model', value: binding });
-
-					$scope.binding = binding;
-					$scope.label = fieldSpecs.label || $attrs.label || "";
-
-					if (filterDirective) {
-						// CAN upgrade:
-						inputAttributes.push({attr: filterDirective, value: fieldSpecs.directive });
-					}
-					if (fieldSpecs.precision !== undefined) {
-						$scope.filterOption = fieldSpecs.precision;
-						// CAN remove:
-						inputAttributes.push({attr: 'data-precision', value: fieldSpecs.precision });
-					}
-					if ($attrs.fieldValidation) inputAttributes.push({attr: 'meri-form-valid', value: $attrs.fieldValidation });
-					if (fieldSpecs.tooltip) {
-
-						$scope.tooltip = customMessageFactory(fieldSpecs.tooltip);
-						// TEMPORARY!!!
-						// Create function to get a parse-safe string from $attrs.tooltipCustoms
-						if ($attrs.tooltipCustoms) {
-							$scope.tooltip.setCustom(JSON.parse($attrs.tooltipCustoms.split("'").join('"')));
-						}
-					}
-
-					for (prop in $attrs.$attr) {
-						if (excludeAttrTransfer[prop] === undefined) {
-							inputAttributes.push({attr: $attrs.$attr[prop], value: $attrs[prop] });
-						}
-					}
-
-					$scope.inputAttributes = inputAttributes;
-				},
-				compile: function compile(tElement, tAttrs) {
-					
-					return {
-						// Before Link compile
-						pre: function preLink(scope, elem/*, attrs, ctrl*/) {
-							var i = 0,
-								len = scope.inputAttributes.length,
-								prop,
-								input = elem.find('input'),
-								label = elem.find('label'),
-								labelText,
-								labelLastWord;
-							for (;i<len;i++) {
-								if (scope.inputAttributes[i].attr === 'class') {
-									input.addClass(scope.inputAttributes[i].value || '');
-									elem.removeClass(scope.inputAttributes[i].value || '');
-								}
-								else {
-									input.attr(scope.inputAttributes[i].attr, scope.inputAttributes[i].value !== undefined ? scope.inputAttributes[i].value : '');
-								}
+				directiveDefinitionObject = {
+					restrict: 'E',
+					transclude: false,
+					scope: {
+						parent: '=',
+						message: '='
+					},
+					replace: true,
+					controller: function ($scope, $element, $attrs, $interpolate) {
+						$scope.getMeriTooltipContent = function () {
+							if (typeof $scope.message === 'string') {
+								return $interpolate($scope.message)($scope.parent || $scope.$parent);
+							} else {
+								return '';
 							}
+						};
+					},
+					compile: function compile(tElement, tAttrs) {
+						return {
+							// Before Link compile
+							pre: function preLink( /*scope, elem, attrs, ctrl*/ ) {},
+							// After Link compile
+							// Attach events here
+							post: function postLink( /*scope, elem, attrs, ctrl*/ ) {}
+						};
+					},
 
-							if (scope.tooltip) {
-								labelText = scope.label.split(' ');
-								labelLastWord = labelText.pop();
+					template: function (element, attr) {
+						return template.tooltip;
+					}
+				};
 
+			return directiveDefinitionObject;
+		})
 
-								scope.label = labelText.join(' ') + ' ';
-								prop = $(template.unbreakable).text(labelLastWord).append($compile(template.meriTooltip)(scope));
-
-								labelText = label.text('{{ label }} ').append(prop);
-							}
-						},
-						// After Link compile
-						// Attach events here
-						post: function postLink(scope, elem/*, attrs, ctrl*/) {
-							$compile(elem.contents())(scope.$parent);
-						}
-					};
+		.directive('meriTooltip', function ($compile) {
+			var template = {
+					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
 				},
 
-				template: function(element,attr){
-					return '<div class="form-group">' +
-						'<label for="{{ id }}">{{ label }}</label>' +
-						'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
-						// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
-						// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
-						// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+
-						// '<span class="view-value" ng-if="filter===\'year\'">{{ value | year:filterOption }}</span>'+
-					'<span class="clearfix"></span>' +
-				'</div>';
-				}
-			};
+				directiveDefinitionObject = {
+					restrict: 'E',
+					transclude: false,
+					scope: {
+						parent: '=',
+						message: '='
+					},
+					replace: true,
+					controller: function ($scope, $element, $attrs, $interpolate) {
+						$scope.getMeriTooltipContent = function () {
+							if (typeof $scope.message.getMessage) {
+								return $interpolate($scope.message.getMessage())($scope.parent || $scope.$parent);
+							} else if (typeof $scope.message === 'string') {
+								return $interpolate($scope.message)($scope.parent || $scope.$parent);
+							} else {
+								return '';
+							}
+						};
+					},
+					compile: function compile(tElement, tAttrs) {
+						return {
+							// Before Link compile
+							pre: function preLink( /*scope, elem, attrs, ctrl*/ ) {},
+							// After Link compile
+							// Attach events here
+							post: function postLink( /*scope, elem, attrs, ctrl*/ ) {}
+						};
+					},
 
-		return directiveDefinitionObject;
-	})
+					template: function (element, attr) {
+						return template.tooltip;
+					}
+				};
 
-	.directive('chart',function(){
-		return {
-			restrict: 'E',
-			require: '?ngModel',
-			transclude: true,
-			scope: {
-				value: '=ngModel',
-				highchart: '=highchart'
-			},
-			link: function(scope, elem, attrs, ngModel){
-				if (!ngModel || !window.Highcharts) return;
+			return directiveDefinitionObject;
+		})
 
-				ngModel.$render = function(){
-               scope.value = ngModel.$modelValue;
+		.directive('meriInput', function ($compile, $interpolate) {
 
-               if (scope.value) {
+			var template = {
+					meriTooltip: '<meri-tooltip parent="parent" message="tooltip"></meri-tooltip>',
+					// unbreakable:{open:'<span class="unbreakable">',close:'</span>'}
+					unbreakable: '<span class="unbreakable"></span>'
+				},
 
-               	elem.highcharts(scope.value);
-               	
-               	if (attrs.highchart) {
-               		scope.highchart = elem.highcharts();
-               	}
+				// 
+				directiveDefinitionObject = {
+					restrict: 'E',
+					// transclude: true,
+					transclude: false,
+					scope: {
+						fieldSpecs: '<',
+						value: '=binding'
+					},
+					replace: true,
+					controller: function ($scope, $element, $attrs /*,$transclude*/ ) {
+						var excludeAttrTransfer = {
+								fieldSpecs: true,
+								fieldValidation: true,
+								binding: true,
+								label: true
+							},
+							inputAttributes = [],
+							filterDirective,
+							fieldSpecs = $scope.fieldSpecs || {},
+							binding = $attrs.binding,
+							prop;
 
-               	var count=0,
-               		countMax=10,
-               		tmFunc = function(){
-	               			++count;
-								if (elem.is(':visible')) {
-									if (count!==1) {
-										elem.highcharts().reflow();
-										elem.highcharts().redraw();
-									}
-								}
-								else if (count < countMax){
-									setTimeout(tmFunc,100);
-								}
-							};
-						tmFunc();
-               }
-            };
-			}
-		};
-	})
+						$scope.parent = $scope.$parent;
 
-	.directive("meriFormValid", function($compile) {
+						// // Replace <transclude-content> element with content inserted in meri-input
+						// $transclude(function(clone, scope) {
+						// 	$element.find('transcluded-content').replaceWith(clone);
+						// 	// transcludedContent = clone;
+						// 	// transclusionScope = scope;
+						// });
 
-		var validStr = 'validation',
-			directiveDefinitionObject = {
-				restrict:'A',
-				require:'?ngModel',
-				scope:true,
-
-				link:function (scope,elem,attrs,ngModelCtrl) {
-
-					var parentElem = elem.parents('.form-group'),
-						validator = function (value) { return value; },
-						errorElem,v;
-
-					v = scope.$parent.$eval(attrs.meriFormValid) || {} /*validationConfig[validStr][propName] = factoryValidation( specs )*/;
-
-					if (!parentElem.length) parentElem = elem.parent();
-					if (parentElem.length>1) parentElem = parentElem.eq(0);
-
-					if (v && typeof v.validate === 'function') {
-
-						// This will allow the validation object to trigger the ngModel validator
-						v.setModel(ngModelCtrl);
-
-						if (!parentElem.find('.error-message').length) parentElem.append('<span class="error-message"></span>');
-
-						errorElem = parentElem.find('.error-message');
-
-						// parentElem.append('<span class="error-message"></span>');
-
-						// errorElem = parentElem.find('.error-message');
-
-						if (elem[0].tagName === 'INPUT') {
-
-							validator = function (value) {
-								// console.log('validate value',value,ngModelCtrl.$modelValue,ngModelCtrl);
-								var valid;
-
-								if (v && typeof v.validate==='function') {
-
-									valid = v.validate(value);
-									if (valid!==true) {
-										// set error message
-										errorElem.text(valid.message);
-										$compile(errorElem.contents())(scope.$parent);
-										// Make error visible
-										parentElem.addClass('error');
-
-										value = valid.value;
-										// Update view value with validated value (will format value)
-										// Render function from "number" also updates $modelValue
-										ngModelCtrl.$viewValue = value;
-										ngModelCtrl.$render(value);
-										// ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-										// elem.val(ngModelCtrl.$viewValue);
-										// Commit view value to the actual model (and corrects any unsynchronised data between view/model)
-										// This step will recommit the value through the $parsers & $validators pipelines
-										ngModelCtrl.$commitViewValue();
-									}
-								}
-
-								// console.log('VALIDATOR value',value,ngModelCtrl.$pending);
-								return value;
-							};
-						}
-						
-						else if (elem[0].tagName === 'SELECT') {
-
-							validator = function (value) {
-								var valid;
-
-								if (v && typeof v.validate==='function') {
-									valid = v.validate(value);
-									if (valid!==true) {
-										
-										value = valid.value;
-										// Update view value with validated value (will format value)
-										// Render function from "number" also updates $modelValue
-										ngModelCtrl.$viewValue = value;
-										ngModelCtrl.$render(value);
-										elem.val(ngModelCtrl.$viewValue);
-										elem.find('option[value="'+value+'"]').eq(0).prop('selected',true);
-										ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-										// Commit view value to the actual model (and corrects any unsynchronised data between view/model)
-										// This step will recommit the value through the $parsers & $validators pipelines
-										ngModelCtrl.$commitViewValue();
-
-										// set error message
-										errorElem.text(valid.message);
-										$compile(errorElem.contents())(scope.$parent);
-										// Make error visible
-										parentElem.addClass('error');
-									}
-								}
-								return value;
-							};
+						if ($attrs.fieldSpecs && $attrs.fieldSpecs !== '' && $attrs.fieldSpecs.split('.').length > 1) {
+							$scope.name = 'meri-' + $attrs.fieldSpecs.split('.').slice(1).join('-');
+						} else {
+							$scope.name = 'meri-' + ($attrs.fieldSpecs || '');
 						}
 
-						ngModelCtrl.$validators.meriValid = validator;
+						$scope.id = $scope.$parent.$eval($attrs.id) || $attrs.id || '';
 
-						// Errors are always removed from element onBlur
-						// Event order:
-						// 	focus
-						// 	blur
-						// 	parsers
-						// 	validators
-						// If errors remain, validator will reset error
-						elem.on('blur',function(/*event*/){
-							parentElem.removeClass('error');
-							errorElem.text('');
+						switch (fieldSpecs.directive) {
+							case 'boolean':
+								filterDirective = 'boolean';
+								break;
+							case 'year':
+							case 'percent':
+							case 'currency':
+								$scope.filter = fieldSpecs.directive;
+								$scope.fieldType = 'number';
+								// CAN remove:
+								filterDirective = 'number';
+								break;
+							default:
+								filterDirective = false;
+						}
+
+
+
+						inputAttributes.push({
+							attr: 'ng-model',
+							value: binding
 						});
+
+						$scope.binding = binding;
+						$scope.label = fieldSpecs.label || $attrs.label || "";
+
+						if (filterDirective) {
+							// CAN upgrade:
+							inputAttributes.push({
+								attr: filterDirective,
+								value: fieldSpecs.directive
+							});
+						}
+						if (fieldSpecs.precision !== undefined) {
+							$scope.filterOption = fieldSpecs.precision;
+							// CAN remove:
+							inputAttributes.push({
+								attr: 'data-precision',
+								value: fieldSpecs.precision
+							});
+						}
+						if ($attrs.fieldValidation) inputAttributes.push({
+							attr: 'meri-form-valid',
+							value: $attrs.fieldValidation
+						});
+						if (fieldSpecs.tooltip) {
+
+							$scope.tooltip = customMessageFactory(fieldSpecs.tooltip);
+							// TEMPORARY!!!
+							// Create function to get a parse-safe string from $attrs.tooltipCustoms
+							if ($attrs.tooltipCustoms) {
+								$scope.tooltip.setCustom(JSON.parse($attrs.tooltipCustoms.split("'").join('"')));
+							}
+						}
+
+						for (prop in $attrs.$attr) {
+							if (excludeAttrTransfer[prop] === undefined) {
+								inputAttributes.push({
+									attr: $attrs.$attr[prop],
+									value: $attrs[prop]
+								});
+							}
+						}
+
+						$scope.inputAttributes = inputAttributes;
+					},
+					compile: function compile(tElement, tAttrs) {
+
+						return {
+							// Before Link compile
+							pre: function preLink(scope, elem /*, attrs, ctrl*/ ) {
+								var i = 0,
+									len = scope.inputAttributes.length,
+									prop,
+									input = elem.find('input'),
+									label = elem.find('label'),
+									labelText,
+									labelLastWord;
+								for (; i < len; i++) {
+									if (scope.inputAttributes[i].attr === 'class') {
+										input.addClass(scope.inputAttributes[i].value || '');
+										elem.removeClass(scope.inputAttributes[i].value || '');
+									} else {
+										input.attr(scope.inputAttributes[i].attr, scope.inputAttributes[i].value !== undefined ? scope.inputAttributes[i].value : '');
+									}
+								}
+
+								if (scope.tooltip) {
+									labelText = scope.label.split(' ');
+									labelLastWord = labelText.pop();
+
+
+									scope.label = labelText.join(' ') + ' ';
+									prop = $(template.unbreakable).text(labelLastWord).append($compile(template.meriTooltip)(scope));
+
+									labelText = label.text('{{ label }} ').append(prop);
+								}
+							},
+							// After Link compile
+							// Attach events here
+							post: function postLink(scope, elem /*, attrs, ctrl*/ ) {
+								$compile(elem.contents())(scope.$parent);
+							}
+						};
+					},
+
+					template: function (element, attr) {
+						return '<div class="form-group">' +
+							'<label for="{{ id }}">{{ label }}</label>' +
+							'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
+							// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+
+							// '<span class="view-value" ng-if="filter===\'year\'">{{ value | year:filterOption }}</span>'+
+							'<span class="clearfix"></span>' +
+							'</div>';
 					}
-				}
-			};
-		return directiveDefinitionObject;
-	})
-	
-/////////////
-// FILTERS //
-/////////////
-	// html
-	// 	Allow ng-bind-html to render html tags
-	// 	To enable render expression, use bind-html-compile directive (plug-in)
-	.filter('html',['$sce',/*'$compile',*/ function ($sce/*,$compile*/) {
+				};
 
-		return function (text) {
-			return $sce.trustAsHtml(text);
-		};
-	}])
-	// number
-	// 	Filter to convert a displayed value into numeral string
-	.filter('number', function() {
-	  return function(val,precision,round,natural) {
-			var hasPrecision,
-				roundFct = Formula.ROUND/*,
-				indexStart,
-		  		len,
-		  		supposeLen*/;
-			if (typeof precision === "string") {
-				precision = stringToNumber(precision);
-			}
-			hasPrecision = typeof precision === "number";
-			val = stringToNumber(val);
-			round = stringToNumber(round);
+			return directiveDefinitionObject;
+		})
 
-			if(round<0){
-				roundFct = Formula.ROUNDDOWN;
-			}else if(round>0){
-				roundFct = Formula.ROUNDUP;
-			}
-
-			if(hasPrecision){
-
-				val = roundFct(val,precision);
-
-				if(!natural){
-					// WARNING toLocaleString() is not compatible with IE9
-					// val = val.toLocaleString(getLanguage());
-					val = formatGeneral(val,precision,getLanguage());
-				}
-			}
-			return val+"";
-		};
-	})
-
-	.filter('naturalNumber',function($filter) {
-		return function(val,precision,round) {
-			val = $filter('number')(val,precision,round,true);
-			return val;
-		};
-	})
-	// percent
-	// 	Filter to convert a displayed value into numeral percentage string
-	.filter('percent', function($filter) {
-	  return function(val,precision,round) {
-	  	val = stringToNumber(val);
-	  	val *=100;
-	  	val = $filter('number')(val,precision,round);
-	    return val+"%";
-	  };
-	})
-	//year
-	.filter('year', function($filter) {
-	  return function(val,precision,round) {
-	  	var lg = getLanguage(),
-	  		word;
-
-	  	if(lg === 'en'){
-	  		word = 'year';
-	  	}else if(lg === 'fr'){
-	  		word = 'an';
-	  	}
-
-	  	if(word){
-	  		val = $filter('number')(val,precision,round);
-	  		val = val + " "+ plurializeWordWithNumber(word,val);
-	  	}
-
-	    return val;
-	  };
-	})
-	.filter('month',function($filter){
-		return function(val,precision,round) {
-
-	    	var lg = getLanguage(),
-		  		word;
-
-		  	if(lg === 'en'){
-		  		word = 'month';
-		  	}else if(lg === 'fr'){
-		  		word = 'mois';
-		  	}
-
-		  	if(word){
-			  	val = val * 365.25 / (365.25/12);
-				val = $filter('number')(val,precision,round);
-		  		val = val + " "+ (lg!=='fr'?plurializeWordWithNumber(word,val):word);
-		  	}
-		    return val;
-	    };
-	})
-	.filter('day',function($filter){
-		return function(val,precision,round) {
-
-	    	var lg = getLanguage(),
-		  		word;
-
-		  	if(lg === 'en'){
-		  		word = 'day';
-		  	}else if(lg === 'fr'){
-		  		word = 'jour';
-		  	}
-
-		  	if(word){
-			  	val = val*365.25;
-				val = $filter('number')(val,precision,round);
-		  		val = val + " "+ plurializeWordWithNumber(word,val);
-		  	}
-		    return val;
-	    };
-	})
-	.filter("moreThanAYear",function($filter){
-		return function(val,precision,round) {
-	  	
-	  	val = $filter('number')(val,precision,round);
-
-	  	if(val < 1){
-	  		return "< "+$filter('year')(1,precision,round);
-	  	}
-	    return $filter('year')(val,precision,round);
-	  };
-	})
-	//currency
-	.filter('currency', function($filter) {
-	  return function(val,precision,round) {
-	  	var lg = getLanguage();
-	  	val = $filter('number')(val,precision,round);
-
-	  	if(lg === 'en'){
-	  		val = "$"+val;
-	  	}else if(lg === 'fr'){
-	  		val = val+"$";
-	  	}
-	    return val;
-
-	  };
-	})
-/////////////
-// SERVICE //
-/////////////
-
-	.service("tabData",function(){
-		var data = {
-				tabList:{
-
-				}
-			};
-
-		this.setCurrentTab = function(tabGroupName,tabName){
-			if(typeof tabGroupName === "string" && typeof tabName === "string"){
-				tabName = tabName.replaceAll("#","");
-				data.tabList[tabGroupName] = tabName;
-				setStoredData(tabGroupName+'-tab',tabName);
-				var tabGroupElem = $('[ng-app="br-calc"] [tab-group='+tabGroupName+']'),
-					currentTabGroupElem = tabGroupElem.filter("[href='#"+tabName+"']"),
-					otherTabGroupElem = tabGroupElem.not(currentTabGroupElem);
-
-				currentTabGroupElem.addClass('br-selected');
-				otherTabGroupElem.removeClass('br-selected');
-			}
-		};
-
-		this.getCurrentTab = function(tabGroupName){
-			return data.tabList[tabGroupName];
-		};
-	})
-	// TODO: Remove validation responsibility from scenarios
-	// TODO: Replace all older meri input with NEW optimised meri-input
-	.service("scenarios",['contentManager',function(contentManager){
-
-		var me = this,
-			// appScenariosConfig = contentManager.getConfig('scenarios',true);
-			appScenariosConfig = contentManager.getConfig('scenarios');
-
-		this.scenarios = {
-			model:{
-
-				data:{
-					scenarios:[],
-					scenarioModel:{
-						data:{},
-						results:{},
-						validation: {},
-
-						validate: validateScenario
-					}
+		.directive('chart', function () {
+			return {
+				restrict: 'E',
+				require: '?ngModel',
+				transclude: true,
+				scope: {
+					value: '=ngModel',
+					highchart: '=highchart'
 				},
+				link: function (scope, elem, attrs, ngModel) {
+					if (!ngModel || !window.Highcharts) return;
+					var isChartHISA = elem.hasClass('chartHISA');
+					if (isChartHISA) {
+						//window.Highcharts.wrap(window.Highcharts.Tooltip.prototype, 'hide', function (defaultCallback) {});
+						/**
+						 * Override the reset function, we don't need to hide the tooltips and crosshairs.
+						 */
+						window.Highcharts.Pointer.prototype.reset = function () {
+							return undefined;
+						};
+					}
 
-				results:{},
+					ngModel.$render = function () {
+						scope.value = ngModel.$modelValue;
 
-				validation: {},
+						if (scope.value) {
 
-				getScenario:getScenario
-			}
-		};
+							elem.highcharts(scope.value);
 
-		this.getScenario = function(name,index){
-			return me.getScenarios(name).getScenario(index);
-		};
+							if (attrs.highchart) {
+								scope.highchart = elem.highcharts();
+							}
 
-		this.getScenarios = function (name) {
+							var count = 0,
+								countMax = 10,
+								tmFunc = function () {
+									++count;
+									if (elem.is(':visible')) {
+										if (count !== 1) {
+											elem.highcharts().reflow();
+											elem.highcharts().redraw();
+										}
+									} else if (count < countMax) {
+										setTimeout(tmFunc, 100);
+									}
+								};
+							tmFunc();
+						}
+					};
+				}
+			};
+		})
 
-			var scenarioFamily = name&&me.scenarios[name];
-			if (!scenarioFamily) {
-				if (name!==undefined&&name!=='') {
+		.directive("meriFormValid", function ($compile) {
 
-					if (!me.scenarios[name]&&appScenariosConfig[name]) {
-						// scenarioFamily = me.scenarios[name] = $.extend(true,{},me.scenarios.model,appScenariosConfig[name]);
-						scenarioFamily = me.scenarios[name] = $.extend(true,appScenariosConfig[name],me.scenarios.model);
-						createDefaultValidation(scenarioFamily);
+			var validStr = 'validation',
+				directiveDefinitionObject = {
+					restrict: 'A',
+					require: '?ngModel',
+					scope: true,
+
+					link: function (scope, elem, attrs, ngModelCtrl) {
+
+						var parentElem = elem.parents('.form-group'),
+							validator = function (value) {
+								return value;
+							},
+							errorElem, v;
+
+						v = scope.$parent.$eval(attrs.meriFormValid) || {} /*validationConfig[validStr][propName] = factoryValidation( specs )*/ ;
+
+						if (!parentElem.length) parentElem = elem.parent();
+						if (parentElem.length > 1) parentElem = parentElem.eq(0);
+
+						if (v && typeof v.validate === 'function') {
+
+							// This will allow the validation object to trigger the ngModel validator
+							v.setModel(ngModelCtrl);
+
+							if (!parentElem.find('.error-message').length) parentElem.append('<span class="error-message"></span>');
+
+							errorElem = parentElem.find('.error-message');
+
+							// parentElem.append('<span class="error-message"></span>');
+
+							// errorElem = parentElem.find('.error-message');
+
+							if (elem[0].tagName === 'INPUT') {
+
+								validator = function (value) {
+									// console.log('validate value',value,ngModelCtrl.$modelValue,ngModelCtrl);
+									var valid;
+
+									if (v && typeof v.validate === 'function') {
+
+										valid = v.validate(value);
+										if (valid !== true) {
+											// set error message
+											errorElem.text(valid.message);
+											$compile(errorElem.contents())(scope.$parent);
+											// Make error visible
+											parentElem.addClass('error');
+
+											value = valid.value;
+											// Update view value with validated value (will format value)
+											// Render function from "number" also updates $modelValue
+											ngModelCtrl.$viewValue = value;
+											ngModelCtrl.$render(value);
+											// ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+											// elem.val(ngModelCtrl.$viewValue);
+											// Commit view value to the actual model (and corrects any unsynchronised data between view/model)
+											// This step will recommit the value through the $parsers & $validators pipelines
+											ngModelCtrl.$commitViewValue();
+										}
+									}
+
+									// console.log('VALIDATOR value',value,ngModelCtrl.$pending);
+									return value;
+								};
+							} else if (elem[0].tagName === 'SELECT') {
+
+								validator = function (value) {
+									var valid;
+
+									if (v && typeof v.validate === 'function') {
+										valid = v.validate(value);
+										if (valid !== true) {
+
+											value = valid.value;
+											// Update view value with validated value (will format value)
+											// Render function from "number" also updates $modelValue
+											ngModelCtrl.$viewValue = value;
+											ngModelCtrl.$render(value);
+											elem.val(ngModelCtrl.$viewValue);
+											elem.find('option[value="' + value + '"]').eq(0).prop('selected', true);
+											ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+											// Commit view value to the actual model (and corrects any unsynchronised data between view/model)
+											// This step will recommit the value through the $parsers & $validators pipelines
+											ngModelCtrl.$commitViewValue();
+
+											// set error message
+											errorElem.text(valid.message);
+											$compile(errorElem.contents())(scope.$parent);
+											// Make error visible
+											parentElem.addClass('error');
+										}
+									}
+									return value;
+								};
+							}
+
+							ngModelCtrl.$validators.meriValid = validator;
+
+							// Errors are always removed from element onBlur
+							// Event order:
+							// 	focus
+							// 	blur
+							// 	parsers
+							// 	validators
+							// If errors remain, validator will reset error
+							elem.on('blur', function ( /*event*/ ) {
+								parentElem.removeClass('error');
+								errorElem.text('');
+							});
+						}
+					}
+				};
+			return directiveDefinitionObject;
+		})
+
+		/////////////
+		// FILTERS //
+		/////////////
+		// html
+		// 	Allow ng-bind-html to render html tags
+		// 	To enable render expression, use bind-html-compile directive (plug-in)
+		.filter('html', ['$sce', /*'$compile',*/ function ($sce /*,$compile*/ ) {
+
+			return function (text) {
+				return $sce.trustAsHtml(text);
+			};
+		}])
+		// number
+		// 	Filter to convert a displayed value into numeral string
+		.filter('number', function () {
+			return function (val, precision, round, natural) {
+				var hasPrecision,
+					roundFct = Formula.ROUND
+				/*,
+								indexStart,
+						  		len,
+						  		supposeLen*/
+				;
+				if (typeof precision === "string") {
+					precision = stringToNumber(precision);
+				}
+				hasPrecision = typeof precision === "number";
+				val = stringToNumber(val);
+				round = stringToNumber(round);
+
+				if (round < 0) {
+					roundFct = Formula.ROUNDDOWN;
+				} else if (round > 0) {
+					roundFct = Formula.ROUNDUP;
+				}
+
+				if (hasPrecision) {
+
+					val = roundFct(val, precision);
+
+					if (!natural) {
+						// WARNING toLocaleString() is not compatible with IE9
+						// val = val.toLocaleString(getLanguage());
+						val = formatGeneral(val, precision, getLanguage());
 					}
 				}
-			}
-			scenarioFamily = me.scenarios[name] = scenarioFamily ||  $.extend(true,{},me.scenarios.model);
-			return scenarioFamily;
-		};
-
-		// Internal methods
-		// This => reference to the element from which it is called
-		function getScenario (index){
-			var scenario = this.data.scenarios[index];
-			if(!scenario){
-				scenario = this.data.scenarios[index] = newScenario(this.data.scenarioModel);
-				scenario.data.index = index;
-			}
-			return scenario;
-		}
-		function newScenario (model, overridingModel) {
-
-			var scenario = $.extend(true,{},model||{},overridingModel||{});
-			createDefaultValidation(scenario);
-
-			scenario.resetScenario = getDefaultResetFunction(scenario);
-
-			return scenario;
-		}
-		function getDefaultResetFunction (defaultModel) {
-			var defaultScenario = $.extend(true,{},defaultModel);
-			return function() {
-				$.extend(true,this,defaultScenario);
+				return val + "";
 			};
-		}
-		function resetScenario (){
+		})
 
-			var scenario = this.data.scenarios[index];
-			if(scenario){
-				scenario = this.data.scenarios[index] = newScenario(this.data.scenarios[index],this.data.scenarioModel);
-				scenario.data.index = index;
-			}
-			return scenario;
-		}
-		
-		function createDefaultValidation (scenario) {
-			var prop;
-			// Remains for now in order to be backward compatible.
-			// REMOVE when other cals config is modified
-			for (prop in scenario.validation) {
-				scenario.validation[prop] = factoryValidation(scenario.validation[prop]);
-				// scenario.validation[prop].setValue(scenario.data[prop]);
-			}
-		}
+		.filter('naturalNumber', function ($filter) {
+			return function (val, precision, round) {
+				val = $filter('number')(val, precision, round, true);
+				return val;
+			};
+		})
+		// percent
+		// 	Filter to convert a displayed value into numeral percentage string
+		.filter('percent', function ($filter) {
+			return function (val, precision, round) {
+				val = stringToNumber(val);
+				val *= 100;
+				val = $filter('number')(val, precision, round);
+				return val + "%";
+			};
+		})
+		//year
+		.filter('year', function ($filter) {
+			return function (val, precision, round) {
+				var lg = getLanguage(),
+					word;
 
-		function validateScenario () {
-			var prop;
-			for (prop in this.validation) {
-				this.validation[prop].triggerValidation();
-			}
-		}
-	}]);
+				if (lg === 'en') {
+					word = 'year';
+				} else if (lg === 'fr') {
+					word = 'an';
+				}
 
-// {
-// 	currentAge:'sce.data.currentAge',
-// 	8:88,
-// 	'lala':97,
-// 	"yup":[2,4,'trevor',"another"],
-// 	last:{
-// 		currentAge:'sce.data.currentAge',
-// 		8:88,
-// 		'lala':97,
-// 		"yup":[2,4,'trevor',"another"]
-// 	}
-// }
-// 
-// var TESTING = "{currentAge:'sce.data.currentAge',8:88,'lala':97,\"yup\":[2,4,'trevor',\"another\"],last:{currentAge:'sce.data.currentAge',8:88,'lala':97,\"yup\":[2,4,'trevor',\"another\"]}}";
+				if (word) {
+					val = $filter('number')(val, precision, round);
+					val = val + " " + plurializeWordWithNumber(word, val);
+				}
 
-// function getParseFriendlyString (str,recurrent) {
-// 	var parseFriendlyStr='',
-// 		allSplit = str.split(':'),
-// 		i=0,
-// 		allLen=allSplit.length,
-// 		isProp=true,
-// 		// isValue=false,
-// 		isOpenQuote=false;
+				return val;
+			};
+		})
+		.filter('month', function ($filter) {
+			return function (val, precision, round) {
 
-// 	for (;i<allLen;i++) {
+				var lg = getLanguage(),
+					word;
 
-// 	}
+				if (lg === 'en') {
+					word = 'month';
+				} else if (lg === 'fr') {
+					word = 'mois';
+				}
 
-// 	if (!recurrent) {
-// 		parseFriendlyStr = '"' + parseFriendlyStr + '"';
-// 	}
+				if (word) {
+					val = val * 365.25 / (365.25 / 12);
+					val = $filter('number')(val, precision, round);
+					val = val + " " + (lg !== 'fr' ? plurializeWordWithNumber(word, val) : word);
+				}
+				return val;
+			};
+		})
+		.filter('day', function ($filter) {
+			return function (val, precision, round) {
 
-// 	return parseFriendlyStr;
-// }
+				var lg = getLanguage(),
+					word;
 
-// console.log(getParseFriendlyString(TESTING));
+				if (lg === 'en') {
+					word = 'day';
+				} else if (lg === 'fr') {
+					word = 'jour';
+				}
 
-function customMessageFactory (options) {
-	var me = typeof options === 'string' ? {message:options} : options || {},
-		renderedMessage = me.message || '';
+				if (word) {
+					val = val * 365.25;
+					val = $filter('number')(val, precision, round);
+					val = val + " " + plurializeWordWithNumber(word, val);
+				}
+				return val;
+			};
+		})
+		.filter("moreThanAYear", function ($filter) {
+			return function (val, precision, round) {
 
-	me.message = renderedMessage;
-	me.custom = me.custom || {};
+				val = $filter('number')(val, precision, round);
 
-	function generateMessage () {
-		var m = me.message,prop;
-		for (prop in me.custom) {
-			if (m.indexOf('['+prop+']')!==-1) m = m.split('['+prop+']').join(me.custom[prop]);
-		}
-		return m;
-	}
+				if (val < 1) {
+					return "< " + $filter('year')(1, precision, round);
+				}
+				return $filter('year')(val, precision, round);
+			};
+		})
+		//currency
+		.filter('currency', function ($filter) {
+			return function (val, precision, round) {
+				var lg = getLanguage();
+				val = $filter('number')(val, precision, round);
 
-	function updateRenderedMessage () {
-		renderedMessage = generateMessage();
-	}
+				if (lg === 'en') {
+					val = "$" + val;
+				} else if (lg === 'fr') {
+					val = val + "$";
+				}
+				return val;
 
-	function updateCustoms (customs) {
-		customs = typeof customs === 'object' && customs !== null && customs || {};
-		$.extend(true,me.custom,customs);
-	}
+			};
+		})
+		/////////////
+		// SERVICE //
+		/////////////
 
-	return {
-		getMessage : function () {
-			return renderedMessage;
-		},
-		setCustom : function (options) {
-			updateCustoms(options);
-			updateRenderedMessage();
-			return this;
-		}
-	};
-}
+		.service("tabData", function () {
+			var data = {
+				tabList: {
 
+				}
+			};
 
-var factoryValidation = function (c) {
-	// Even undefined validation config should get a validation object, as a blank slate for future setup
-	var validationConfig = $.extend(true,{ rules: [] }, c || {}),
-		defaultIsValid = true,
-		currentValue,
-		rulesDictionnary = {
-			readjust: {
-				name: 'readjust',
-				validate : function (value,validationObject) {
-					var bustMin = validationObject.min!==undefined && value<validationObject.min,
-						bustMax = validationObject.max!==undefined && value>validationObject.max;
-					if (bustMin || bustMax) {
-						if (bustMin) this.correctedValue = validationObject.min;
-						if (bustMax) this.correctedValue = validationObject.max;
+			this.setCurrentTab = function (tabGroupName, tabName) {
+				if (typeof tabGroupName === "string" && typeof tabName === "string") {
+					tabName = tabName.replaceAll("#", "");
+					data.tabList[tabGroupName] = tabName;
+					setStoredData(tabGroupName + '-tab', tabName);
+					var tabGroupElem = $('[ng-app="br-calc"] [tab-group=' + tabGroupName + ']'),
+						currentTabGroupElem = tabGroupElem.filter("[href='#" + tabName + "']"),
+						otherTabGroupElem = tabGroupElem.not(currentTabGroupElem);
+
+					currentTabGroupElem.addClass('br-selected');
+					otherTabGroupElem.removeClass('br-selected');
+				}
+			};
+
+			this.getCurrentTab = function (tabGroupName) {
+				return data.tabList[tabGroupName];
+			};
+		})
+		// TODO: Remove validation responsibility from scenarios
+		// TODO: Replace all older meri input with NEW optimised meri-input
+		.service("scenarios", ['contentManager', function (contentManager) {
+
+			var me = this,
+				// appScenariosConfig = contentManager.getConfig('scenarios',true);
+				appScenariosConfig = contentManager.getConfig('scenarios');
+
+			this.scenarios = {
+				model: {
+
+					data: {
+						scenarios: [],
+						scenarioModel: {
+							data: {},
+							results: {},
+							validation: {},
+
+							validate: validateScenario
+						}
+					},
+
+					results: {},
+
+					validation: {},
+
+					getScenario: getScenario
+				}
+			};
+
+			this.getScenario = function (name, index) {
+				return me.getScenarios(name).getScenario(index);
+			};
+
+			this.getScenarios = function (name) {
+
+				var scenarioFamily = name && me.scenarios[name];
+				if (!scenarioFamily) {
+					if (name !== undefined && name !== '') {
+
+						if (!me.scenarios[name] && appScenariosConfig[name]) {
+							// scenarioFamily = me.scenarios[name] = $.extend(true,{},me.scenarios.model,appScenariosConfig[name]);
+							scenarioFamily = me.scenarios[name] = $.extend(true, appScenariosConfig[name], me.scenarios.model);
+							createDefaultValidation(scenarioFamily);
+						}
 					}
+				}
+				scenarioFamily = me.scenarios[name] = scenarioFamily || $.extend(true, {}, me.scenarios.model);
+				return scenarioFamily;
+			};
 
-					return !(bustMin || bustMax);
-				},
-				message : '{{ content.errors.readjust }}'
-			},
-			default: {
-				name: 'default',
-				validate:function () { return defaultIsValid; },
-				message:'{{ content.errors.default }}',
-				priority:0 // 0 = no rule priority, 1 = highest priority, 2 = lower priority, etc.
+			// Internal methods
+			// This => reference to the element from which it is called
+			function getScenario(index) {
+				var scenario = this.data.scenarios[index];
+				if (!scenario) {
+					scenario = this.data.scenarios[index] = newScenario(this.data.scenarioModel);
+					scenario.data.index = index;
+				}
+				return scenario;
 			}
-		},
-		ngModelCtrl; // needed in order to programatically trigger ngModel validator
 
-	function generateError (value, validationObject) {
+			function newScenario(model, overridingModel) {
+
+				var scenario = $.extend(true, {}, model || {}, overridingModel || {});
+				createDefaultValidation(scenario);
+
+				scenario.resetScenario = getDefaultResetFunction(scenario);
+
+				return scenario;
+			}
+
+			function getDefaultResetFunction(defaultModel) {
+				var defaultScenario = $.extend(true, {}, defaultModel);
+				return function () {
+					$.extend(true, this, defaultScenario);
+				};
+			}
+
+			function resetScenario() {
+
+				var scenario = this.data.scenarios[index];
+				if (scenario) {
+					scenario = this.data.scenarios[index] = newScenario(this.data.scenarios[index], this.data.scenarioModel);
+					scenario.data.index = index;
+				}
+				return scenario;
+			}
+
+			function createDefaultValidation(scenario) {
+				var prop;
+				// Remains for now in order to be backward compatible.
+				// REMOVE when other cals config is modified
+				for (prop in scenario.validation) {
+					scenario.validation[prop] = factoryValidation(scenario.validation[prop]);
+					// scenario.validation[prop].setValue(scenario.data[prop]);
+				}
+			}
+
+			function validateScenario() {
+				var prop;
+				for (prop in this.validation) {
+					this.validation[prop].triggerValidation();
+				}
+			}
+		}]);
+
+	// {
+	// 	currentAge:'sce.data.currentAge',
+	// 	8:88,
+	// 	'lala':97,
+	// 	"yup":[2,4,'trevor',"another"],
+	// 	last:{
+	// 		currentAge:'sce.data.currentAge',
+	// 		8:88,
+	// 		'lala':97,
+	// 		"yup":[2,4,'trevor',"another"]
+	// 	}
+	// }
+	// 
+	// var TESTING = "{currentAge:'sce.data.currentAge',8:88,'lala':97,\"yup\":[2,4,'trevor',\"another\"],last:{currentAge:'sce.data.currentAge',8:88,'lala':97,\"yup\":[2,4,'trevor',\"another\"]}}";
+
+	// function getParseFriendlyString (str,recurrent) {
+	// 	var parseFriendlyStr='',
+	// 		allSplit = str.split(':'),
+	// 		i=0,
+	// 		allLen=allSplit.length,
+	// 		isProp=true,
+	// 		// isValue=false,
+	// 		isOpenQuote=false;
+
+	// 	for (;i<allLen;i++) {
+
+	// 	}
+
+	// 	if (!recurrent) {
+	// 		parseFriendlyStr = '"' + parseFriendlyStr + '"';
+	// 	}
+
+	// 	return parseFriendlyStr;
+	// }
+
+	// console.log(getParseFriendlyString(TESTING));
+
+	function customMessageFactory(options) {
+		var me = typeof options === 'string' ? {
+				message: options
+			} : options || {},
+			renderedMessage = me.message || '';
+
+		me.message = renderedMessage;
+		me.custom = me.custom || {};
+
+		function generateMessage() {
+			var m = me.message,
+				prop;
+			for (prop in me.custom) {
+				if (m.indexOf('[' + prop + ']') !== -1) m = m.split('[' + prop + ']').join(me.custom[prop]);
+			}
+			return m;
+		}
+
+		function updateRenderedMessage() {
+			renderedMessage = generateMessage();
+		}
+
+		function updateCustoms(customs) {
+			customs = typeof customs === 'object' && customs !== null && customs || {};
+			$.extend(true, me.custom, customs);
+		}
+
 		return {
-			name: validationObject.currentRule.name,
-			message: customizeMessage(validationObject,validationObject.currentRule),
-			value: currentValue
-		};
-	}
-
-	function customizeMessage (validationObject, rule) {
-		var message = rule.message,
-			customize = rule.customize,
-			key,
-			prop;
-
-		if (customize) {
-			for (prop in customize) {
-				key = '['+prop+']';
-				message = message.split(key).join(getItemAtPath(customize[prop],validationObject)+'');
-			}
-		}
-		return message;
-	}
-
-	// Validate and set default values
-	function validateRulesConfig () {
-
-		var i=0,
-			len=validationConfig.rules&&validationConfig.rules.length||0,
-			rule,
-			dictRule;
-
-		if (!len && c.validation!==false) {
-			// When setting validation rules, if no rule is set AND validation=false not specified,
-			// assume default validation readjust
-			// validationConfig.rules.push('readjust');
-			validationConfig.rules.push(rulesDictionnary.readjust);
-			len = 1;
-		}
-		else if (c.validation===false) {
-			validationConfig.rules.push(rulesDictionnary.default);
-			len = 1;
-		}
-
-		for(;i<len;i++) {
-			rule = validationConfig.rules[i];
-
-			dictRule = rulesDictionnary[rule.name||''];
-			// Validate function && name
-			if (typeof rule === 'string' && rulesDictionnary[rule]) {
-				rule = validationConfig.rules[i] = rulesDictionnary[rule];
-			}
-			else if (typeof rule.validate === 'string' && rulesDictionnary[rule.validate]) {
-				if (rule.name===undefined) {
-					rule.name = rulesDictionnary[rule.validate].name;
-				}
-				if (rule.priority===undefined) {
-					rule.priority = rulesDictionnary[rule.validate].priority || rulesDictionnary.default.priority;
-				}
-				if (rule.message===undefined) {
-					rule.message = rulesDictionnary[rule.validate].message || rulesDictionnary.default.message;
-				}
-				rule.validate = rulesDictionnary[rule.validate].validate;
-			}
-			else if (!rule.validate || typeof rule.validate !== 'function') {
-				rule.validate = dictRule&&dictRule.validate || rulesDictionnary.default.validate;
-			}
-			// Priority
-			if (rule.priority===undefined) {
-				rule.priority = rulesDictionnary.default.priority;
-			}
-			else if (typeof rule.priority !== 'number') {
-				if (typeof rule.priority !== 'string') {
-					rule.priority = rulesDictionnary.default.priority;
-				}
-				else {
-					rule.priority = stringToNumber(rule.priority);
-				}
-			}
-			// Message
-			if (rule.message === undefined) {
-				rule.message = dictRule&&dictRule.message || rulesDictionnary.default.message;
-			}
-			else {
-				rule.message = rule.message + '';
-			}
-			// Autocorrect
-			if (rule.autocorrect===undefined) {
-				rule.autocorrect = true;
-			}
-		}
-	}
-
-	// Validation filters
-	function organiseByPriority () {
-		validationConfig.rules = validationConfig.rules.sort(function(a,b){ return (a.priority||9999999)-(b.priority||9999999); });
-	}
-	function removeRule (name) {
-		validationConfig.rules = validationConfig.rules.filter(function(a){ return a.name!==name; });
-	}
-	function getRuleByName (name) {
-		return validationConfig.rules.filter(function(a){ return a.name===name; })[0];
-	}
-
-	// Refresh
-	function refresh () {
-		validateRulesConfig();
-		organiseByPriority();
-	}
-
-	function setModel (modelCtrl) {
-		if (modelCtrl && modelCtrl.$setDirty) {
-			ngModelCtrl = modelCtrl;
-		}
-	}
-
-	function setValue (value) {
-		currentValue = value;
-	}
-
-	function addRule (rule) {
-		var i=0;
-		if (rule&&rule.name) {
-			for (;i<validationConfig.rules.length;i++) {
-				if (validationConfig.rules[i].name===rule.name) {
-					$.extend(true,validationConfig.rules[i],rule);
-					return;
-				}
-			}
-		}
-		validationConfig.rules.push(rule);
-	}
-
-	refresh();
-
-	return {
-		triggerValidation:function () {
-			if (ngModelCtrl && ngModelCtrl.$validate && currentValue !== undefined) {
-
-				// Because validating an unchanged field "invalidates" the value from angular's point of view,
-				// modelValue sent back to the data is "undefined".
-				// In order to prevent this, ng-model-options allowInvalid must be set to "true".
-				// meri-input elements are set to support this.
-				if (ngModelCtrl.$options === null || ngModelCtrl.$options === undefined) {
-					ngModelCtrl.$options = {};
-				}
-				if (!ngModelCtrl.$options.allowInvalid) ngModelCtrl.$options.allowInvalid = true;
-
-				ngModelCtrl.$validate();
-			}
-			return this;
-		},
-
-		setModel: function (modelCtrl) {
-			setModel(modelCtrl);
-			return this;
-		},
-
-		setValue: function (value) {
-			setValue(value);
-			return this;
-		},
-
-		set: function (propName, value, revalidate) {
-			propName = propName!==undefined && propName!=='rules' && propName+'' || '';
-			validationConfig[propName] = value;
-			if (revalidate===true) {
-				return this.validate(currentValue);
-			}
-			else {
+			getMessage: function () {
+				return renderedMessage;
+			},
+			setCustom: function (options) {
+				updateCustoms(options);
+				updateRenderedMessage();
 				return this;
 			}
-		},
+		};
+	}
 
-		validate: function(value) {
-			// console.log('validate', value, validationConfig.rules);
+
+	var factoryValidation = function (c) {
+		// Even undefined validation config should get a validation object, as a blank slate for future setup
+		var validationConfig = $.extend(true, {
+				rules: []
+			}, c || {}),
+			defaultIsValid = true,
+			currentValue,
+			rulesDictionnary = {
+				readjust: {
+					name: 'readjust',
+					validate: function (value, validationObject) {
+						var bustMin = validationObject.min !== undefined && value < validationObject.min,
+							bustMax = validationObject.max !== undefined && value > validationObject.max;
+						if (bustMin || bustMax) {
+							if (bustMin) this.correctedValue = validationObject.min;
+							if (bustMax) this.correctedValue = validationObject.max;
+						}
+
+						return !(bustMin || bustMax);
+					},
+					message: '{{ content.errors.readjust }}'
+				},
+				default: {
+					name: 'default',
+					validate: function () {
+						return defaultIsValid;
+					},
+					message: '{{ content.errors.default }}',
+					priority: 0 // 0 = no rule priority, 1 = highest priority, 2 = lower priority, etc.
+				}
+			},
+			ngModelCtrl; // needed in order to programatically trigger ngModel validator
+
+		function generateError(value, validationObject) {
+			return {
+				name: validationObject.currentRule.name,
+				message: customizeMessage(validationObject, validationObject.currentRule),
+				value: currentValue
+			};
+		}
+
+		function customizeMessage(validationObject, rule) {
+			var message = rule.message,
+				customize = rule.customize,
+				key,
+				prop;
+
+			if (customize) {
+				for (prop in customize) {
+					key = '[' + prop + ']';
+					message = message.split(key).join(getItemAtPath(customize[prop], validationObject) + '');
+				}
+			}
+			return message;
+		}
+
+		// Validate and set default values
+		function validateRulesConfig() {
+
 			var i = 0,
-				len = validationConfig.rules.length,
+				len = validationConfig.rules && validationConfig.rules.length || 0,
 				rule,
-				isValid = true,
-				reducedValidationConfig;
+				dictRule;
 
-			this.setValue(value);
+			if (!len && c.validation !== false) {
+				// When setting validation rules, if no rule is set AND validation=false not specified,
+				// assume default validation readjust
+				// validationConfig.rules.push('readjust');
+				validationConfig.rules.push(rulesDictionnary.readjust);
+				len = 1;
+			} else if (c.validation === false) {
+				validationConfig.rules.push(rulesDictionnary.default);
+				len = 1;
+			}
 
-			for (;i<len;i++){
+			for (; i < len; i++) {
 				rule = validationConfig.rules[i];
-				reducedValidationConfig = $.extend(true,{},validationConfig,{currentRule:rule});
-				// Autocorrect state is set to the whole validation object
-				reducedValidationConfig.autocorrect = rule.autocorrect;
 
-				isValid = rule.validate(currentValue, reducedValidationConfig);
-				if (isValid!==true) {
-					if (rule.autocorrect) setValue(rule.correctedValue!==undefined ? rule.correctedValue : value);
-					isValid = generateError(currentValue,reducedValidationConfig);
+				dictRule = rulesDictionnary[rule.name || ''];
+				// Validate function && name
+				if (typeof rule === 'string' && rulesDictionnary[rule]) {
+					rule = validationConfig.rules[i] = rulesDictionnary[rule];
+				} else if (typeof rule.validate === 'string' && rulesDictionnary[rule.validate]) {
+					if (rule.name === undefined) {
+						rule.name = rulesDictionnary[rule.validate].name;
+					}
+					if (rule.priority === undefined) {
+						rule.priority = rulesDictionnary[rule.validate].priority || rulesDictionnary.default.priority;
+					}
+					if (rule.message === undefined) {
+						rule.message = rulesDictionnary[rule.validate].message || rulesDictionnary.default.message;
+					}
+					rule.validate = rulesDictionnary[rule.validate].validate;
+				} else if (!rule.validate || typeof rule.validate !== 'function') {
+					rule.validate = dictRule && dictRule.validate || rulesDictionnary.default.validate;
+				}
+				// Priority
+				if (rule.priority === undefined) {
+					rule.priority = rulesDictionnary.default.priority;
+				} else if (typeof rule.priority !== 'number') {
+					if (typeof rule.priority !== 'string') {
+						rule.priority = rulesDictionnary.default.priority;
+					} else {
+						rule.priority = stringToNumber(rule.priority);
+					}
+				}
+				// Message
+				if (rule.message === undefined) {
+					rule.message = dictRule && dictRule.message || rulesDictionnary.default.message;
+				} else {
+					rule.message = rule.message + '';
+				}
+				// Autocorrect
+				if (rule.autocorrect === undefined) {
+					rule.autocorrect = true;
+				}
+			}
+		}
+
+		// Validation filters
+		function organiseByPriority() {
+			validationConfig.rules = validationConfig.rules.sort(function (a, b) {
+				return (a.priority || 9999999) - (b.priority || 9999999);
+			});
+		}
+
+		function removeRule(name) {
+			validationConfig.rules = validationConfig.rules.filter(function (a) {
+				return a.name !== name;
+			});
+		}
+
+		function getRuleByName(name) {
+			return validationConfig.rules.filter(function (a) {
+				return a.name === name;
+			})[0];
+		}
+
+		// Refresh
+		function refresh() {
+			validateRulesConfig();
+			organiseByPriority();
+		}
+
+		function setModel(modelCtrl) {
+			if (modelCtrl && modelCtrl.$setDirty) {
+				ngModelCtrl = modelCtrl;
+			}
+		}
+
+		function setValue(value) {
+			currentValue = value;
+		}
+
+		function addRule(rule) {
+			var i = 0;
+			if (rule && rule.name) {
+				for (; i < validationConfig.rules.length; i++) {
+					if (validationConfig.rules[i].name === rule.name) {
+						$.extend(true, validationConfig.rules[i], rule);
+						return;
+					}
+				}
+			}
+			validationConfig.rules.push(rule);
+		}
+
+		refresh();
+
+		return {
+			triggerValidation: function () {
+				if (ngModelCtrl && ngModelCtrl.$validate && currentValue !== undefined) {
+
+					// Because validating an unchanged field "invalidates" the value from angular's point of view,
+					// modelValue sent back to the data is "undefined".
+					// In order to prevent this, ng-model-options allowInvalid must be set to "true".
+					// meri-input elements are set to support this.
+					if (ngModelCtrl.$options === null || ngModelCtrl.$options === undefined) {
+						ngModelCtrl.$options = {};
+					}
+					if (!ngModelCtrl.$options.allowInvalid) ngModelCtrl.$options.allowInvalid = true;
+
+					ngModelCtrl.$validate();
+				}
+				return this;
+			},
+
+			setModel: function (modelCtrl) {
+				setModel(modelCtrl);
+				return this;
+			},
+
+			setValue: function (value) {
+				setValue(value);
+				return this;
+			},
+
+			set: function (propName, value, revalidate) {
+				propName = propName !== undefined && propName !== 'rules' && propName + '' || '';
+				validationConfig[propName] = value;
+				if (revalidate === true) {
+					return this.validate(currentValue);
+				} else {
+					return this;
+				}
+			},
+
+			validate: function (value) {
+				// console.log('validate', value, validationConfig.rules);
+				var i = 0,
+					len = validationConfig.rules.length,
+					rule,
+					isValid = true,
+					reducedValidationConfig;
+
+				this.setValue(value);
+
+				for (; i < len; i++) {
+					rule = validationConfig.rules[i];
+					reducedValidationConfig = $.extend(true, {}, validationConfig, {
+						currentRule: rule
+					});
+					// Autocorrect state is set to the whole validation object
+					reducedValidationConfig.autocorrect = rule.autocorrect;
+
+					isValid = rule.validate(currentValue, reducedValidationConfig);
+					if (isValid !== true) {
+						if (rule.autocorrect) setValue(rule.correctedValue !== undefined ? rule.correctedValue : value);
+						isValid = generateError(currentValue, reducedValidationConfig);
+						break;
+					}
+				}
+				return isValid;
+			},
+
+			addRule: function (rule) {
+				// console.log('addRule',rule);
+				addRule(rule);
+				refresh();
+				// console.log('after addRule',validationConfig.rules);
+				return this;
+			},
+
+			removeRule: function (name) {
+				if (name && typeof name === 'string' && name !== '') removeRule(name);
+				return this;
+			},
+
+			refresh: function () {
+				refresh();
+				return this;
+			},
+
+			hasRule: function (name) {
+				return name !== undefined && getRuleByName(name).length || false;
+			},
+
+			// get : function (prop) {
+			// 	return validationConfig[prop];
+			// },
+
+			trace: function () {
+				console.log('DEBUG VALIDATOR', rulesDictionnary.readjust.rand);
+				console.log('validationConfig', $.extend(true, {}, validationConfig));
+				console.log('rules', $.extend(true, {}, validationConfig).rules);
+				console.log('END DEBUG VALIDATOR', currentValue);
+
+				return rulesDictionnary.readjust.rand;
+			}
+		};
+	};
+
+	window.getChangedPropertyName = function (oldData, newData) {
+		var prop,
+			changedValueProp;
+		for (prop in newData) {
+			if (typeof newData[prop] === 'object' && typeof oldData[prop] === 'object') {
+				changedValueProp = getChangedPropertyName(oldData[prop], newData[prop]);
+				if (typeof changedValueProp === 'string') return changedValueProp;
+			} else if (oldData[prop] === undefined || oldData[prop] !== newData[prop]) {
+				return prop;
+			}
+		}
+		return false;
+	};
+
+	window.formatGeneral = function (v, p, lang) {
+		p = p >> 0;
+		var s1 = '',
+			s2 = '',
+			nbr = String.fromCharCode(160),
+			t = lang == 'fr' ? nbr : ',',
+			c = lang == 'fr' ? ',' : '.';
+
+		v = isNaN(v = parseFloat("" + v)) ? 0 : v;
+		v = v.toFixed(p !== undefined ? p : 2).split('.');
+		v[0] = v[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1' + t);
+
+		return (s1 || '') + v.join(c) + (s2 || '');
+	};
+
+	window.plurializeWordWithNumber = function (word, num) {
+		var lg = getLanguage();
+		num = typeof num !== 'number' ? stringToNumber(num) : num;
+		if (lg === 'fr' && num > 1) word = word + "s";
+		else if (lg === 'en' && num !== 1) word = word + "s";
+		return word;
+	};
+
+	window.setStoredData = function (key, val) {
+		if (window.localStorage) window.localStorage.setItem(key, val);
+	};
+
+	window.getStoredData = function (key) {
+		return window.localStorage && window.localStorage.getItem(key);
+	};
+
+	/* Extension od the string class */
+	/* Method that replace all the found string by another one */
+	// String.prototype.replaceAll = function (find, replace) {
+	//     var str = this;
+	//     return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;'), 'g'), replace);
+	// };
+
+	String.prototype.replaceAll = function (search, replacement) {
+		var target = this;
+		replacement = replacement || "";
+		return target.replace(new RegExp(search, 'g'), replacement);
+	};
+
+	String.prototype.toCamelCase = function (str) {
+		return (str || this)
+			.replaceAll("-", " ")
+			.replaceAll("_", " ")
+			.replace(/\s(.)/g, function ($1) {
+				return $1.toUpperCase();
+			})
+			.replace(/\s/g, '')
+			.replace(/^(.)/, function ($1) {
+				return $1.toLowerCase();
+			});
+	};
+
+	window.getCurrentPrefix = function (url) {
+		var prefix = url.split('/');
+		if (prefix.length > 1) {
+			prefix.pop();
+		}
+		prefix = prefix.join('/').split('\\');
+		if (prefix.length > 1) {
+			prefix.pop();
+		}
+		prefix = prefix.join('\\');
+		return prefix;
+	};
+
+	window.stringToStringNumber = function (value) {
+		if (typeof value === "string") {
+			value = value.replaceAll("%", "");
+			value = value.replaceAll("$", "");
+			value = value.replaceAll(" ", "");
+		}
+		return value;
+	};
+
+	/* Method that convert a string into a valid number */
+	window.stringToNumber = function (value) {
+		var parsed = parseFloat(value);
+		if (!isNaN(parsed)) {
+			if (typeof value === 'string') {
+				value = parseFloat(value.split(',').join(''));
+			} else {
+				value = parsed;
+			}
+		} else {
+			value = 0;
+		}
+		return value;
+	};
+
+	/* Filter method to use with arrays */
+	window.onlyUnique = function (value, index, self) {
+		return self.indexOf(value) === index;
+	};
+
+	window.getDataAtScope = function (ngModel, scope) {
+		var ngModelSplitted,
+			len,
+			count = 0,
+			obj = scope,
+			key,
+			isLast,
+			value;
+
+		ngModel = ngModel || "";
+		if (ngModel) {
+			ngModelSplitted = ngModel.split(".");
+			len = ngModelSplitted.length;
+			for (; count < len; count++) {
+				isLast = count + 1 === len;
+				key = ngModelSplitted[count];
+				if (isLast && obj) {
+					value = obj[key];
 					break;
 				}
-			}
-			return isValid;
-		},
-
-		addRule: function (rule) {
-			// console.log('addRule',rule);
-			addRule(rule);
-			refresh();
-			// console.log('after addRule',validationConfig.rules);
-			return this;
-		},
-
-		removeRule: function (name) {
-			if (name && typeof name === 'string' && name !== '') removeRule(name);
-			return this;
-		},
-
-		refresh: function() {
-			refresh();
-			return this;
-		},
-
-		hasRule: function (name) {
-			return name!==undefined && getRuleByName(name).length || false;
-		},
-
-		// get : function (prop) {
-		// 	return validationConfig[prop];
-		// },
-
-		trace:function(){
-			console.log('DEBUG VALIDATOR',rulesDictionnary.readjust.rand);
-			console.log('validationConfig',$.extend(true,{},validationConfig) );
-			console.log('rules',$.extend(true,{},validationConfig).rules );
-			console.log('END DEBUG VALIDATOR',currentValue);
-
-			return rulesDictionnary.readjust.rand;
-		}
-	};
-};
-
-window.getChangedPropertyName = function  (oldData,newData) {
-	var prop,
-		changedValueProp;
-	for (prop in newData) {
-		if (typeof newData[prop] === 'object' && typeof oldData[prop] === 'object') {
-			changedValueProp = getChangedPropertyName(oldData[prop],newData[prop]);
-			if (typeof changedValueProp === 'string') return changedValueProp;
-		}
-		else if (oldData[prop] === undefined || oldData[prop]!==newData[prop]) {
-			return prop;
-		}
-	}
-	return false;
-};
-
-window.formatGeneral = function  (v,p,lang) {
-	p=p>>0;
-	var s1='',s2='',nbr=String.fromCharCode(160),
-		t=lang=='fr'?nbr:',',
-		c=lang=='fr'?',':'.';
-
-	v=isNaN(v=parseFloat(""+v))?0:v;
-	v=v.toFixed(p!==undefined?p:2).split('.');
-	v[0]=v[0].replace(/(\d)(?=(\d{3})+\b)/g,'$1'+t);
-
-	return (s1||'')+v.join(c)+(s2||'');
-};
-
-window.plurializeWordWithNumber = function (word,num){
-	var lg = getLanguage();
-	num = typeof num !== 'number' ? stringToNumber(num) : num;
-	if(lg === 'fr' && num > 1) word = word+"s";
-	else if(lg === 'en' && num !== 1) word = word+"s";
-	return word;
-};
-
-window.setStoredData = function (key,val) {
-  if (window.localStorage) window.localStorage.setItem(key, val);
-};
-
-window.getStoredData = function (key) {
-    return window.localStorage && window.localStorage.getItem(key);
-};
-
-/* Extension od the string class */
-/* Method that replace all the found string by another one */
-// String.prototype.replaceAll = function (find, replace) {
-//     var str = this;
-//     return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;'), 'g'), replace);
-// };
-
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    replacement = replacement||"";
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
-
-String.prototype.toCamelCase = function(str) {
-    return (str||this)
-    	.replaceAll("-"," ")
-    	.replaceAll("_"," ")
-        .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
-        .replace(/\s/g, '')
-        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
-};
-
-window.getCurrentPrefix = function  (url) {
-	var prefix = url.split('/');
-	if (prefix.length > 1) {
-		prefix.pop();
-	}
-	prefix = prefix.join('/').split('\\');
-	if (prefix.length > 1) {
-		prefix.pop();
-	}
-	prefix = prefix.join('\\');
-	return prefix;
-};
-
-window.stringToStringNumber = function (value) {
-	if(typeof value === "string"){
-		value = value.replaceAll("%","");
-		value = value.replaceAll("$","");
-		value = value.replaceAll(" ","");
-	}
-	return value;
-};
-
-/* Method that convert a string into a valid number */
-window.stringToNumber = function (value) {
-	var parsed = parseFloat(value);
-	if (!isNaN(parsed)) {
-		if (typeof value === 'string') {
-			value = parseFloat(value.split(',').join(''));
-		}
-		else {
-			value = parsed;
-		}
-	}
-	else {
-		value = 0;
-	}	
-	return value;
-};
-
-/* Filter method to use with arrays */
-window.onlyUnique = function (value,index,self) {
-	return self.indexOf(value) === index;
-};
-
-window.getDataAtScope = function  (ngModel,scope){
-	var ngModelSplitted,
-		len,
-		count=0,
-		obj = scope,
-		key,
-		isLast,
-		value;
-	
-	ngModel = ngModel ||"";
-	if(ngModel){
-		ngModelSplitted = ngModel.split(".");
-		len = ngModelSplitted.length;
-		for(;count<len;count++){
-			isLast = count+1===len;
-			key = ngModelSplitted[count];
-			if(isLast&&obj){
-				value = obj[key];
-				break;
-			}
-			if(obj){
-				obj = obj[key];
-			}	
-		}
-	}
-	return value;
-};
-
-window.setDataToScope = function (ngModel,scope,value,$injector){
-	var ngModelSplitted,
-		len,
-		count=0,
-		obj = scope,
-		key,
-		isLast,
-		prev,
-		service;
-
-	ngModel = ngModel ||"";
-	if(ngModel){
-
-		ngModelSplitted = ngModel.split(".");
-		len = ngModelSplitted.length;
-		if($injector){
-			service = $injector.get(ngModelSplitted[0]);
-			if(service){
-				obj = service;
-				count++;
-			}
-		}
-
-		for(;count<len;count++){
-
-			isLast = count+1===len;
-			key = ngModelSplitted[count];
-
-			if(isLast&&obj){
-
-				obj[key] = value;
-
-				if (!scope.$$phase){
-					scope.$apply();
+				if (obj) {
+					obj = obj[key];
 				}
 			}
-			if(obj){
-				obj = obj[key] || {};
-			}
-			prev = key;
 		}
-	}
-};
-})($cmsj,$cmsj);
+		return value;
+	};
+
+	window.setDataToScope = function (ngModel, scope, value, $injector) {
+		var ngModelSplitted,
+			len,
+			count = 0,
+			obj = scope,
+			key,
+			isLast,
+			prev,
+			service;
+
+		ngModel = ngModel || "";
+		if (ngModel) {
+
+			ngModelSplitted = ngModel.split(".");
+			len = ngModelSplitted.length;
+			if ($injector) {
+				service = $injector.get(ngModelSplitted[0]);
+				if (service) {
+					obj = service;
+					count++;
+				}
+			}
+
+			for (; count < len; count++) {
+
+				isLast = count + 1 === len;
+				key = ngModelSplitted[count];
+
+				if (isLast && obj) {
+
+					obj[key] = value;
+
+					if (!scope.$$phase) {
+						scope.$apply();
+					}
+				}
+				if (obj) {
+					obj = obj[key] || {};
+				}
+				prev = key;
+			}
+		}
+	};
+})($cmsj, $cmsj);
 (function($,jQuery){
 
 brCalc.controller('investmentSelector', function($scope, $filter, contentManager) {

@@ -27,7 +27,8 @@ var isProd = true,
 			/* Include Angular plugin */
 			'src/vendors/**/angular-*js',
 			'src/vendors/**/ui-bootstrap-tpls-*js',
-			'src/vendors/**/highcharts-*js',
+			//'src/vendors/**/highcharts.*js',
+			//'src/vendors/**/highcharts-*js',
 			'src/vendors/**/nouislider*.js',
 
 			/* Bluerush vendors */
