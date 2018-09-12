@@ -2177,7 +2177,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						if(isInputValid(inputVal)){
 							updateSlider();
 						}else{
-							//add switch statement to handle other range slider's as well
 							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
 							updateSlider();
 						}
@@ -2389,46 +2388,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						'</div>';
 				}
 			};
-
-			return directiveDefinitionObject;
-		})
-
-		.directive('meriTooltipWithHeader', function ($compile) {
-			var template = {
-					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
-				},
-
-				directiveDefinitionObject = {
-					restrict: 'E',
-					transclude: false,
-					scope: {
-						parent: '=',
-						message: '='
-					},
-					replace: true,
-					controller: function ($scope, $element, $attrs, $interpolate) {
-						$scope.getMeriTooltipContent = function () {
-							if (typeof $scope.message === 'string') {
-								return $interpolate($scope.message)($scope.parent || $scope.$parent);
-							} else {
-								return '';
-							}
-						};
-					},
-					compile: function compile(tElement, tAttrs) {
-						return {
-							// Before Link compile
-							pre: function preLink( /*scope, elem, attrs, ctrl*/ ) {},
-							// After Link compile
-							// Attach events here
-							post: function postLink( /*scope, elem, attrs, ctrl*/ ) {}
-						};
-					},
-
-					template: function (element, attr) {
-						return template.tooltip;
-					}
-				};
 
 			return directiveDefinitionObject;
 		})
@@ -4121,15 +4080,6 @@ brCalc.controller('mortgagePaymentScenarioCtrl', function($scope,scenarios,$attr
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
-brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenarios,$attrs) {
-	var scenario = scenarios.getScenario('mortgagePaymentData',$attrs.scenarioIndex);
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
 brCalc.controller('mortgagePaymentScenarioReportCtrl', function($scope,scenarios,$attrs,$filter,contentManager) {
 	var me = this,
 		scenariosData = scenarios.getScenarios('mortgagePaymentData');
@@ -4208,6 +4158,15 @@ brCalc.controller('mortgagePaymentScenarioReportCtrl', function($scope,scenarios
 		me.results.compareGraphConfig = config;
 	}
 
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenarios,$attrs) {
+	var scenario = scenarios.getScenario('mortgagePaymentData',$attrs.scenarioIndex);
+
+	this.data = scenario.data;
+	this.data.scenarioIndex = $attrs.scenarioIndex;
+	this.results = scenario.results;
 });
 })($cmsj,$cmsj);
 (function($,jQuery){

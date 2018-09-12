@@ -63,14 +63,14 @@
 				</div>
 
 				<div ng-if="collapse.debitTransfer &&
-						hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,sce.data.sliderDebitTransfer.defaultValue,0,2)"
+						hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,sce.data.sliderDebitTransferDefVal,0,0)"
 						class="sub-heading">
 						{{hisa.content.debitTransferDefaultContent}}
 				</div>
 				<div ng-if="collapse.debitTransfer &&
-						!hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,sce.data.sliderDebitTransfer.defaultValue,0,2)"
+						!hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,sce.data.sliderDebitTransferDefVal,0,0)"
 						class="sub-heading">
-						{{sce.data.numberOfMonthlyDebitTransactions}} monthly transactions at ${{sce.data.sliderDebitTransfer.defaultValue}} each
+						{{sce.data.numberOfMonthlyDebitTransactions}} monthly transactions at ${{sce.data.sliderDebitTransferDefVal}} each
 				</div>
 			</div>
 		</button>
@@ -111,14 +111,14 @@
 				</div>
 				
 				<div ng-if="collapse.depositTransfer &&
-						hideDynamiclbl(sce.data.monthlyCreditsPay,sce.data.sliderDepositTransfer.defaultValue,0,0)"
+						hideDynamiclbl(sce.data.monthlyCreditsPay,sce.data.sliderDepositTransferDefVal,0,0)"
 						class="sub-heading">
 					{{hisa.content.depositTransferDefaultContent}}
 				</div>
 				<div ng-if="collapse.depositTransfer &&
-						!hideDynamiclbl(sce.data.monthlyCreditsPay,sce.data.sliderDepositTransfer.defaultValue,0,0)"
+						!hideDynamiclbl(sce.data.monthlyCreditsPay,sce.data.sliderDepositTransferDefVal,0,0)"
 						class="sub-heading">
-						{{sce.data.sliderDepositTransfer.defaultValue}}% of {{sce.data.monthlyCreditsPay | currency: '$' : 2}} monthly
+						{{sce.data.sliderDepositTransferDefVal}}% of {{sce.data.monthlyCreditsPay | currency: '$' : 2}} monthly
 				</div>
 			</div>
 		</button>

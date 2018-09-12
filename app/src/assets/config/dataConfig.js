@@ -509,10 +509,6 @@ window.defaultBRCalcDataConfig = {
 				contentModel: 'label:hisaContent.depositTransfer.monthlyCreditsPay'
 			},
 			sliderSavingDuration: {
-				defaultValue: 6,
-				min: 1,
-				max: 24,
-				step: 1,
 				label: 'savings_slider',
 				textId: 'savings_text'
 			},
@@ -521,13 +517,7 @@ window.defaultBRCalcDataConfig = {
 				textId: 'debitTransfer_text'
 			},
 			sliderDepositTransfer: {
-				defaultValue: 0,
-				min: 0,
-				max: 100,
-				step: 1,
 				label: 'depositTransfer_slider',
-				displayMin: '0%',
-				displayMax: '100%',
 				textId: 'depositTransfer_text'
 			}
 
@@ -878,6 +868,7 @@ window.defaultBRCalcDataConfig = {
 				scenarios: [],
 				scenarioModel: {
 					data: {
+						showBoostFeature: false,
 						boostSavingsEnabled: false,
 						totalSavings: 0,
 						initialDepositAmount: 20000,
@@ -889,7 +880,7 @@ window.defaultBRCalcDataConfig = {
 						extraPaymentAmount: 0,
 						monthlyCreditsPay: 0,
 						numberOfMonthlyDebitTransactions: 0,
-						sliderDebitTransferDefVal:2,
+						sliderDebitTransferDefVal:0,
 						sliderDepositTransferDefVal:0,
 						sliderSavingDurationMonthly: {
 							defaultValue: 6,
@@ -909,7 +900,7 @@ window.defaultBRCalcDataConfig = {
 						},
 
 						sliderDebitTransfer: {
-							defaultValue: 2,
+							defaultValue: 0,
 							min: 0,
 							max: 5,
 							step: 1,
@@ -928,7 +919,6 @@ window.defaultBRCalcDataConfig = {
 							displayMax: '100%',
 							textId: 'depositTransfer_text'
 						},
-						showBoostFeature: true,
 						boostSavings: {
 							boostSavingsPercentage: 3,
 							boostMonths: 4
@@ -1600,8 +1590,8 @@ window.defaultBRCalcDataConfig = {
 					}
 				},
 				type: 'areaspline',
-				marginTop: 100,
-				height: 500
+				marginTop: 80,
+				height: 480
 			},
 			legend: {
 				enabled: false
@@ -1626,12 +1616,13 @@ window.defaultBRCalcDataConfig = {
 				borderRadius: 1,
 				borderWidth: 0,
 				shared: true,
+				shadow: false,
 				useHTML: true,
 				valuePrefix: '$',
 				//outside: true,
 				positioner: function () {
 					return {
-						x: 10,
+						x: 30,
 						y: 10
 					};
 				},

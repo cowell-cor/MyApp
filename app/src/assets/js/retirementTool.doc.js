@@ -2177,7 +2177,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						if(isInputValid(inputVal)){
 							updateSlider();
 						}else{
-							//add switch statement to handle other range slider's as well
 							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
 							updateSlider();
 						}
@@ -2389,46 +2388,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						'</div>';
 				}
 			};
-
-			return directiveDefinitionObject;
-		})
-
-		.directive('meriTooltipWithHeader', function ($compile) {
-			var template = {
-					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
-				},
-
-				directiveDefinitionObject = {
-					restrict: 'E',
-					transclude: false,
-					scope: {
-						parent: '=',
-						message: '='
-					},
-					replace: true,
-					controller: function ($scope, $element, $attrs, $interpolate) {
-						$scope.getMeriTooltipContent = function () {
-							if (typeof $scope.message === 'string') {
-								return $interpolate($scope.message)($scope.parent || $scope.$parent);
-							} else {
-								return '';
-							}
-						};
-					},
-					compile: function compile(tElement, tAttrs) {
-						return {
-							// Before Link compile
-							pre: function preLink( /*scope, elem, attrs, ctrl*/ ) {},
-							// After Link compile
-							// Attach events here
-							post: function postLink( /*scope, elem, attrs, ctrl*/ ) {}
-						};
-					},
-
-					template: function (element, attr) {
-						return template.tooltip;
-					}
-				};
 
 			return directiveDefinitionObject;
 		})
@@ -4138,16 +4097,6 @@ brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenar
 	});
 })($cmsj,$cmsj);
 (function($,jQuery){
-brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","scenarios",function($scope,$attrs,scenarios) {
-	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
-		me = this;
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-}]);
-})($cmsj,$cmsj);
-(function($,jQuery){
 brCalc.controller('retirementSavingsScenarioResultsCtrl', function($scope,$attrs,scenarios, $location) {
 	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
 		me = this;
@@ -4156,4 +4105,14 @@ brCalc.controller('retirementSavingsScenarioResultsCtrl', function($scope,$attrs
 	this.data.scenarioIndex = $attrs.scenarioIndex;
 	this.results = scenario.results;
 });
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","scenarios",function($scope,$attrs,scenarios) {
+	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
+		me = this;
+
+	this.data = scenario.data;
+	this.data.scenarioIndex = $attrs.scenarioIndex;
+	this.results = scenario.results;
+}]);
 })($cmsj,$cmsj);

@@ -187,6 +187,7 @@
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('debit'),
+				stack:0,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -219,6 +220,7 @@
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('deposit'),
+				stack:1,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -251,6 +253,7 @@
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('savings'),
+				stack:2,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -352,12 +355,15 @@
 				output;
 			switch (type) {
 				case 'savings':
+					series.push(me.data.initialDepositAmount);
 					output = calc(me.data.initialDepositAmount, me.data.monthlyDepositAmount, me.data.value);
 					break;
 				case 'debit':
+					series.push(me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal);
 					output = calc(0, (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal), me.data.value);
 					break;
 				case 'deposit':
+					series.push((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 					output = calc(0, ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay), me.data.value);
 					break;
 			}
@@ -371,7 +377,7 @@
 		}
 
 		function getCategories() {
-			var categories = [],
+			var categories = [0],
 				label = me.data.savingDuration === 'monthly' ? ' month' : ' year';
 
 			for (var i = 1; i <= me.data.value; i++) {
@@ -512,10 +518,10 @@
 
 		$scope.resetDebitTransfer = function () {
 			$scope.sce.data.numberOfMonthlyDebitTransactions = 0;
-			$scope.sce.data.sliderDebitTransferDefVal = 2;
+			$scope.sce.data.sliderDebitTransferDefVal = 0;
 			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'debitTransfer_slider',
-				defaultVal: 2,
+				defaultVal: 0,
 				min: 0,
 				max: 5
 			});

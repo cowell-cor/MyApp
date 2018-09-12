@@ -2177,7 +2177,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						if(isInputValid(inputVal)){
 							updateSlider();
 						}else{
-							//add switch statement to handle other range slider's as well
 							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
 							updateSlider();
 						}
@@ -2389,46 +2388,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						'</div>';
 				}
 			};
-
-			return directiveDefinitionObject;
-		})
-
-		.directive('meriTooltipWithHeader', function ($compile) {
-			var template = {
-					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
-				},
-
-				directiveDefinitionObject = {
-					restrict: 'E',
-					transclude: false,
-					scope: {
-						parent: '=',
-						message: '='
-					},
-					replace: true,
-					controller: function ($scope, $element, $attrs, $interpolate) {
-						$scope.getMeriTooltipContent = function () {
-							if (typeof $scope.message === 'string') {
-								return $interpolate($scope.message)($scope.parent || $scope.$parent);
-							} else {
-								return '';
-							}
-						};
-					},
-					compile: function compile(tElement, tAttrs) {
-						return {
-							// Before Link compile
-							pre: function preLink( /*scope, elem, attrs, ctrl*/ ) {},
-							// After Link compile
-							// Attach events here
-							post: function postLink( /*scope, elem, attrs, ctrl*/ ) {}
-						};
-					},
-
-					template: function (element, attr) {
-						return template.tooltip;
-					}
-				};
 
 			return directiveDefinitionObject;
 		})
@@ -3797,7 +3756,20 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		function initChart() {
 			me.results.chartHISA = (function () {
-				var config = contentManager.getHighchartConfig('chartHISA');
+				var config = contentManager.getHighchartConfig('chartHISA'),
+				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
+				config.series = [];
+
+				//isDebit > 0 && (config.series[0].data = getSeries('debit'));
+				isDebit > 0 && (config.series.unshift(getDebitSeries()));
+				//isDeposit > 0 && (config.series[1].data = getSeries('deposit'));
+				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
+
+				config.series.push(getSavingsSeries());
+
+				config.xAxis.categories = getCategories();
+
 				// Tooltip formatting
 				config.tooltip.formatter = function () {
 					var sum = 0,
@@ -3805,35 +3777,159 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					$.each(this.points, function () {
 						sum += this.y;
 					});
+					console.log(this.points);
 					s = '<span style="font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
 					$.each(this.points, function () {
+						//if(this.series && this.series.length > 0)
 						s += '<div><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
-						sum += this.y;
+						
 					});
 					return s + '</div>';
 				};
-	
-				config.series[0].data = getSeries('debit');
-				config.series[1].data = getSeries('deposit');
-				config.series[2].data = getSeries('savings');
 
-				config.xAxis.categories = getCategories();
 				return config;
 			})();
+		}
+		function getDebitSeries(){
+			return {
+				name: 'Debit Transfers',
+				color: '#E68823',
+				"marker": {
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: getSeries('debit'),
+				stack:0,
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index];
+							xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
+							
+							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
+						},
+					}
+				}
+			};
+		}
+		function getDepositSeries(){
+			return {
+				name: 'Deposit Transfers',
+				color: '#A8B402',
+				"marker": {
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: getSeries('deposit'),
+				stack:1,
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index];
+							xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
+							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
+						},
+					}
+				}
+			};
+		}
+
+		function getSavingsSeries(){
+			return {
+				name: 'High Interest',
+				color: '#39709A',
+				"marker": {
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: getSeries('savings'),
+				stack:2,
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index];
+								xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
+								if (index !== firstIdx || index !== lastIdx) {
+									xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
+								}
+						},
+					}
+				}
+			};
 		}
 
 		function updateChart(newData, oldData, scope) {
 			var changedDataName = getChangedPropertyName(oldData, newData);
-			if (changedDataName === 'savingDuration') {
-				$scope.setDefaultVal(newData.savingDuration);
-			}
+			// if (changedDataName === 'savingDuration') {
+			// 	$scope.setDefaultVal(newData.savingDuration);
+			// }
 
-			var config = angular.extend({}, me.results.chartHISA);
+			var config = angular.extend({}, me.results.chartHISA),
+				isDebit  = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 		
-			config.series[0].data = getSeries('debit');
-			config.series[1].data = getSeries('deposit');
-			config.series[2].data = getSeries('savings');
+				// isDebit > 0 && (config.series[0].data = getSeries('debit'));
+				// isDeposit > 0 && (config.series[1].data = getSeries('deposit'));
+				config.series = [];
+				//isDebit > 0 && (config.series[0].data = getSeries('debit'));
+				isDebit > 0 && (config.series.unshift(getDebitSeries()));
+				//isDeposit > 0 && (config.series[1].data = getSeries('deposit'));
+				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 
+				config.series.push(getSavingsSeries());
+				//config.series[2].data = getSeries('savings');
+
+			
+			// Tooltip formatting
+			config.tooltip.formatter = function () {
+				var sum = 0,
+					s;
+				$.each(this.points, function () {
+					sum += this.y;
+				});
+				
+				s = '<span style="font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
+				$.each(this.points, function () {
+					if(this.series && this.series.length > 0)
+					s += '<div><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					
+				});
+				return s + '</div>';
+			};
+			
 			config.xAxis.categories = getCategories();
 			me.results.chartHISA = config;
 
@@ -3868,17 +3964,17 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		};
 
 		function getSeries(type) {
-			var series = [],
+			var series = [me.data.initialDepositAmount],
 				output;
 			switch (type) {
 				case 'savings':
 					output = calc(me.data.initialDepositAmount, me.data.monthlyDepositAmount, me.data.value);
 					break;
 				case 'debit':
-					output = calc(0, (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransfer.defaultValue), me.data.value);
+					output = calc(0, (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal), me.data.value);
 					break;
 				case 'deposit':
-					output = calc(0, ((me.data.sliderDepositTransfer.defaultValue / 100) * me.data.monthlyCreditsPay), me.data.value);
+					output = calc(0, ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay), me.data.value);
 					break;
 			}
 
@@ -3891,7 +3987,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		}
 
 		function getCategories() {
-			var categories = [],
+			var categories = [0],
 				label = me.data.savingDuration === 'monthly' ? ' month' : ' year';
 
 			for (var i = 1; i <= me.data.value; i++) {
@@ -3990,7 +4086,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		}
 
 		function setTableResults() {
-			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransfer.defaultValue) + ((me.data.sliderDepositTransfer.defaultValue / 100) * me.data.monthlyCreditsPay);
+			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);
 		}
 
@@ -4032,10 +4128,10 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		$scope.resetDebitTransfer = function () {
 			$scope.sce.data.numberOfMonthlyDebitTransactions = 0;
-			$scope.sce.data.sliderDebitTransfer.defaultValue = 2;
+			$scope.sce.data.sliderDebitTransferDefVal = 0;
 			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'debitTransfer_slider',
-				defaultVal: 2,
+				defaultVal: 0,
 				min: 0,
 				max: 5
 			});
@@ -4047,7 +4143,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		$scope.resetDepositTransfer = function () {
 			$scope.sce.data.monthlyCreditsPay = 0;
-			$scope.sce.data.sliderDepositTransfer.defaultValue = 0;
+			$scope.sce.data.sliderDepositTransferDefVal = 0;
 			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'depositTransfer_slider',
 				defaultVal: 0,
