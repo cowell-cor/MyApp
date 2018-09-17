@@ -47,6 +47,15 @@
         }
       }
     }
+   .table{
+     tbody{
+       tr{
+         td{
+          padding: 6px;
+         }
+       }
+     }
+   }
   }
   &-hisa-form {
     .scenario {
@@ -213,6 +222,12 @@
     }
     .boost-savings-tbl1 {
       border: 1px solid #39709a;
+      .boostAmt{
+        color: #606060;	
+        font-family: Arial;	
+        font-size: 36px;	
+        line-height: 42px;
+      }
       thead {
         background-color: #39709a;
         color: #ffffff;
