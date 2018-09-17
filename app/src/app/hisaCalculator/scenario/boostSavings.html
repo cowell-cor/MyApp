@@ -15,7 +15,7 @@
 					<tbody>
 						<tr>
 							<td>
-								<div class="vl-line">
+								<div  ng-class="{'vl-line': sce.data.boostSavingsEnabled}" >
 									<span>
 										{{hisa.content.boostSavings.boostToggle}}
 									</span>
@@ -30,7 +30,7 @@
 									</span>
 								</div>
 							</td>
-							<td>im empty</td>
+							<td ng-if="sce.data.boostSavingsEnabled">{{sce.data.boostSavingsAmt}}</td>
 						</tr>
 					</tbody>
 				</table>

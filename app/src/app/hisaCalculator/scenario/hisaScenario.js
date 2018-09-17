@@ -24,24 +24,12 @@
 			depositTransfer: true
 		};
 		//tooltip content
-		$scope.savingsTooltip = $sce.trustAsHtml('<div style="padding:15px;text-align:left;font-family: Arial;">' +
-			'<div style="font-size:14px;font-weight:bold;line-height:16px;">Grow your nest egg</div>' +
-			'<div style="font-size:12px;line-height:14px;margin-top:5px">Whatever balance you start with, watch your savings grow even faster when' +
-			' combining the benefits of Auto-Save with your chequing account and a high interest savings account.' +
-			'<div>' +
-			'</div>');
+		
+		$scope.savingsTooltip = $sce.trustAsHtml(this.content.savingsOptions.tooltipContent);
 
-		$scope.debitTooltip = $sce.trustAsHtml('<div style="padding:15px;text-align:left;font-family: Arial;">' +
-			'<div style="font-size:14px;font-weight:bold;line-height:16px;">Start saving every time you use your debit card</div>' +
-			'<div style="font-size:12px;line-height:14px;margin-top:5px">For each transaction you make you can have $1 to $5 automatically transferred into your high interest savings account.' +
-			'<div>' +
-			'</div>');
+		$scope.debitTooltip = $sce.trustAsHtml(this.content.debitTransfer.tooltipContent);
 
-		$scope.depositTooltip = $sce.trustAsHtml('<div style="padding:15px;text-align:left;font-family: Arial;">' +
-			'<div style="font-size:14px;font-weight:bold;line-height:16px;">Save even more when you make direct deposits</div>' +
-			'<div style="font-size:12px;line-height:14px;margin-top:5px">Each time a credit is deposited into your account (for example, your pay is electronically deposited), you can automatically transfer a percentage to your high interest savings account.' +
-			'<div>' +
-			'</div>');
+		$scope.depositTooltip = $sce.trustAsHtml(this.content.depositTransfer.tooltipContent);
 
 		// default value for open account link
 		$scope.openAcctLnk = "#link1";
@@ -145,37 +133,50 @@
 			me.results.chartHISA = (function () {
 				var config = contentManager.getHighchartConfig('chartHISA'),
 				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
-				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
+				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
+				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
 				config.series = [];
-
-				//isDebit > 0 && (config.series[0].data = getSeries('debit'));
+				
 				isDebit > 0 && (config.series.unshift(getDebitSeries()));
-				//isDeposit > 0 && (config.series[1].data = getSeries('deposit'));
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
-
-				config.series.push(getSavingsSeries());
+				isSavings > 0 && config.series.push(getSavingsSeries());
 
 				config.xAxis.categories = getCategories();
 
-				// Tooltip formatting
-				config.tooltip.formatter = function () {
-					var sum = 0,
-						s;
-					$.each(this.points, function () {
-						sum += this.y;
-					});
-					
-					s = '<span style="font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
-					$.each(this.points, function () {
-						if(this.series && this.series.length > 0)
-						s += '<div><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
-						
-					});
-					return s + '</div>';
-				};
-
 				return config;
 			})();
+		}
+		function updateChart() {
+			var config = angular.extend({}, me.results.chartHISA),
+				isDebit  = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
+				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
+				
+				config.series = [];
+				
+				isDebit > 0 && (config.series.unshift(getDebitSeries()));
+				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
+				isSavings > 0 && config.series.push(getSavingsSeries());
+
+			// Tooltip formatting
+			config.tooltip.formatter = function () {
+				var sum = 0,
+					s;
+				$.each(this.points, function () {
+					sum += this.y;
+				});
+				
+				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;"></span></span>After ' + this.x + ', you will have saved:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
+				$.each(this.points, function () {
+					s += '<div ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+				});
+				return s + '</div>';
+			};
+			
+			config.xAxis.categories = getCategories();
+			me.results.chartHISA = config;
+
+			setTableResults();
 		}
 		function getDebitSeries(){
 			return {
@@ -242,7 +243,6 @@
 				}
 			};
 		}
-
 		function getSavingsSeries(){
 			return {
 				name: 'High Interest',
@@ -278,50 +278,7 @@
 			};
 		}
 
-		function updateChart(newData, oldData, scope) {
-			var changedDataName = getChangedPropertyName(oldData, newData);
-			// if (changedDataName === 'savingDuration') {
-			// 	$scope.setDefaultVal(newData.savingDuration);
-			// }
-
-			var config = angular.extend({}, me.results.chartHISA),
-				isDebit  = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
-				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 		
-				// isDebit > 0 && (config.series[0].data = getSeries('debit'));
-				// isDeposit > 0 && (config.series[1].data = getSeries('deposit'));
-				config.series = [];
-				//isDebit > 0 && (config.series[0].data = getSeries('debit'));
-				isDebit > 0 && (config.series.unshift(getDebitSeries()));
-				//isDeposit > 0 && (config.series[1].data = getSeries('deposit'));
-				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
-
-				config.series.push(getSavingsSeries());
-				//config.series[2].data = getSeries('savings');
-
-			
-			// Tooltip formatting
-			config.tooltip.formatter = function () {
-				var sum = 0,
-					s;
-				$.each(this.points, function () {
-					sum += this.y;
-				});
-				
-				s = '<span style="font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
-				$.each(this.points, function () {
-					if(this.series && this.series.length > 0)
-					s += '<div><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
-					
-				});
-				return s + '</div>';
-			};
-			
-			config.xAxis.categories = getCategories();
-			me.results.chartHISA = config;
-
-			setTableResults();
-		}
 
 		//hide boost Savings
 		$scope.isBoostSavings = false;
@@ -377,8 +334,9 @@
 		}
 
 		function getCategories() {
-			var categories = [0],
-				label = me.data.savingDuration === 'monthly' ? ' month' : ' year';
+			var label = me.data.savingDuration === 'monthly' ? ' month' : ' year',
+			firstCategory = '0 '+ label;
+			categories = [0];
 
 			for (var i = 1; i <= me.data.value; i++) {
 				if (i === 1) {
@@ -391,22 +349,29 @@
 		}
 
 		function calc(prevTotal, deposit, count) {
-			var arrOfObj = [];
-			switch (me.data.savingDuration) {
+			var arrOfObj = [],
+			isBoostEnabled = me.data.boostSavingsEnabled,
+			savingDurationType = me.data.savingDuration;
+			me.data.boostSavingsAmt = 0;
+			switch (savingDurationType) {
 				case 'monthly':
-					arrOfObj = calculateMonthly(prevTotal, deposit, count);
+					arrOfObj = calculateMonthly(prevTotal, deposit, count,isBoostEnabled);
+					if(isBoostEnabled){
+						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count,savingDurationType, arrOfObj),2);
+					}
 					break;
 				case 'annually':
-					arrOfObj = calculateYearly(prevTotal, deposit, count);
+					arrOfObj = calculateYearly(prevTotal, deposit, count,isBoostEnabled);
+					if(isBoostEnabled){
+						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count,savingDurationType, arrOfObj),2);
+					}
 					break;
 			}
 			return arrOfObj;
 		}
 
-		function calculateMonthly(prevTotal, deposit, count) {
-			var arrOfObj = [],
-				isBoostEnabled = me.data.boostSavingsEnabled;
-
+		function calculateMonthly(prevTotal, deposit, count, isBoostEnabled) {
+			var arrOfObj = [];
 			for (var i = 1; i <= count; i++) {
 				var obj = {
 						interest: 0,
@@ -431,11 +396,10 @@
 			return arrOfObj;
 		}
 
-		function calculateYearly(prevTotal, deposit, count) {
+		function calculateYearly(prevTotal, deposit, count, isBoostEnabled) {
 			var monthLen,
 				arrOfObjMonthly = [],
-				arrOfObjYearly = [],
-				isBoostEnabled = me.data.boostSavingsEnabled;
+				arrOfObjYearly = [];
 
 			for (var j = 1; j <= count; j++) {
 				prevTotal = (j === 1 ? (prevTotal) : arrOfObjYearly[j - 2].total);
@@ -471,10 +435,24 @@
 				objYear.year = j;
 				arrOfObjYearly.push(objYear);
 			}
+	
 			me.data.totalSavings = arrOfObjYearly.length > 0 && arrOfObjYearly[arrOfObjYearly.length - 1].total;
 			return arrOfObjYearly;
 		}
 
+		function updateBoost (prevTotal, deposit, count, savingsDurationType, objWithBoost){
+			var objWithoutBoost,
+				boostDiffAmt;
+			switch (savingsDurationType) {
+				case 'monthly':
+					objWithoutBoost = calculateMonthly(prevTotal, deposit, count,false);
+					break;
+				case 'annually':
+					objWithoutBoost = calculateYearly(prevTotal, deposit, count,false);
+					break;
+			}
+			return boostDiffAmt = (objWithBoost.length > 0 && objWithBoost[objWithBoost.length - 1].total) - (objWithoutBoost.length > 0 && objWithoutBoost[objWithoutBoost.length - 1].total);
+		}
 		function setTableResults() {
 			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);

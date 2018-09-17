@@ -868,9 +868,10 @@ window.defaultBRCalcDataConfig = {
 				scenarios: [],
 				scenarioModel: {
 					data: {
-						showBoostFeature: false,
+						showBoostFeature: true,
 						boostSavingsEnabled: false,
 						totalSavings: 0,
+						boostSavingsAmt:0,
 						initialDepositAmount: 20000,
 						monthlyDepositAmount:0,
 						savingDuration: 'monthly',
@@ -1590,8 +1591,8 @@ window.defaultBRCalcDataConfig = {
 					}
 				},
 				type: 'areaspline',
-				marginTop: 80,
-				height: 480
+				marginTop: 100,
+				height: 500
 			},
 			legend: {
 				enabled: false
@@ -1629,7 +1630,8 @@ window.defaultBRCalcDataConfig = {
 				crosshairs: [{
 					width: 1,
 					color: 'white',
-					zIndex: 20
+					zIndex: 20,
+					height: 480
 				}]
 			},
 			plotOptions: {

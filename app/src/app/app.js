@@ -935,6 +935,7 @@
 					// 	document.getElementById($scope.sliderTextId).value = inputVal+'%';
 					// });
 
+
 					$scope.$on('resetSlider', function (e, slider) {
 						var sliderElm = $('#' + slider.sliderId)[0];
 						var outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
@@ -1284,6 +1285,7 @@
 									prop,
 									input = elem.find('input'),
 									label = elem.find('label'),
+									ariaLabelVal = "Enter " + label,
 									labelText,
 									labelLastWord;
 								for (; i < len; i++) {
@@ -1301,6 +1303,7 @@
 
 
 									scope.label = labelText.join(' ') + ' ';
+									scope.ariaLabelVal = ariaLabelVal;
 									prop = $(template.unbreakable).text(labelLastWord).append($compile(template.meriTooltip)(scope));
 
 									labelText = label.text('{{ label }} ').append(prop);
@@ -1317,7 +1320,7 @@
 					template: function (element, attr) {
 						return '<div class="form-group">' +
 							'<label for="{{ id }}">{{ label }}</label>' +
-							'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							'<input aria-label="ariaLabelVal" id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
 							// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+
