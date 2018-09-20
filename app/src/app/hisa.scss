@@ -29,6 +29,11 @@
           overflow-y: auto;
           margin-bottom: 27px;
         }
+        @media(max-width: 579px){
+          .tbl-overflow{
+            max-height: 390px;
+          }
+        }
       }
       .btn-charts {
         width: 30%;
@@ -43,6 +48,7 @@
           span {
             padding: 5px;
             z-index: 999999;
+            width: 280px;
           }
         }
       }
@@ -53,6 +59,11 @@
          td{
           padding: 6px;
          }
+         @media(max-width: 579px){
+          td{
+            padding: 5px;
+           }
+        }
        }
      }
    }
@@ -160,9 +171,19 @@
         align-items: center;
         justify-content: space-around;
       }
+      @media(max-width: 991px){
+        &-container {
+          width: 100%;
+        }
+      }
       &-content {
         width: 65%;
         margin-top: 17px;
+      }
+      @media(max-width: 991px){
+        &-content {
+          width: 75%;
+        }
       }
       &-label {
         display: flex;
@@ -174,6 +195,12 @@
         align-items: center;
         justify-content: space-between;
         margin-bottom: 8px;
+      }
+      @media(max-width: 991px){
+        &-text {
+          width: 20%;
+          margin-left: 5%;
+        }
       }
       &-text {
         width: 30%;

@@ -24,7 +24,7 @@
 			depositTransfer: true
 		};
 		//tooltip content
-		
+
 		$scope.savingsTooltip = $sce.trustAsHtml(this.content.savingsOptions.tooltipContent);
 
 		$scope.debitTooltip = $sce.trustAsHtml(this.content.debitTransfer.tooltipContent);
@@ -132,11 +132,11 @@
 		function initChart() {
 			me.results.chartHISA = (function () {
 				var config = contentManager.getHighchartConfig('chartHISA'),
-				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
-				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
-				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
+					isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+					isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
+					isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
 				config.series = [];
-				
+
 				isDebit > 0 && (config.series.unshift(getDebitSeries()));
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 				isSavings > 0 && config.series.push(getSavingsSeries());
@@ -146,17 +146,18 @@
 				return config;
 			})();
 		}
+
 		function updateChart() {
 			var config = angular.extend({}, me.results.chartHISA),
-				isDebit  = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
 				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
 				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
-				
-				config.series = [];
-				
-				isDebit > 0 && (config.series.unshift(getDebitSeries()));
-				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
-				isSavings > 0 && config.series.push(getSavingsSeries());
+
+			config.series = [];
+
+			isDebit > 0 && (config.series.unshift(getDebitSeries()));
+			isDeposit > 0 && (config.series.unshift(getDepositSeries()));
+			isSavings > 0 && config.series.push(getSavingsSeries());
 
 			// Tooltip formatting
 			config.tooltip.formatter = function () {
@@ -165,20 +166,21 @@
 				$.each(this.points, function () {
 					sum += this.y;
 				});
-				
-				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:42px">' + $filter('currency')(sum, 2) + '</span><div>';
+
+				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="display:flex" ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
 				return s + '</div>';
 			};
-			
+
 			config.xAxis.categories = getCategories();
 			me.results.chartHISA = config;
 
 			setTableResults();
 		}
-		function getDebitSeries(){
+
+		function getDebitSeries() {
 			return {
 				name: 'Debit Transfers',
 				color: '#E68823',
@@ -188,7 +190,7 @@
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('debit'),
-				stack:0,
+				stack: 0,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -203,15 +205,16 @@
 								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-							
+							if (index === firstIdx || index === lastIdx) return;
+
 							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
 						},
 					}
 				}
 			};
 		}
-		function getDepositSeries(){
+
+		function getDepositSeries() {
 			return {
 				name: 'Deposit Transfers',
 				color: '#A8B402',
@@ -221,7 +224,7 @@
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('deposit'),
-				stack:1,
+				stack: 1,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -236,14 +239,15 @@
 								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
+							if (index === firstIdx || index === lastIdx) return;
 							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
 						},
 					}
 				}
 			};
 		}
-		function getSavingsSeries(){
+
+		function getSavingsSeries() {
 			return {
 				name: 'High Interest',
 				color: '#39709A',
@@ -253,14 +257,14 @@
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('savings'),
-				stack:2,
+				stack: 2,
 				point: {
 					events: {
 						mouseOver: function () {
 							var xAxis = this.series.chart.xAxis[0],
 								index = this.index,
 								category = this.series.xAxis.options.categories[index];
-								xAxis.labelGroup.element.children[index].innerHTML = category;
+							xAxis.labelGroup.element.children[index].innerHTML = category;
 						},
 						mouseOut: function () {
 							var xAxis = this.series.chart.xAxis[0],
@@ -268,17 +272,17 @@
 								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-								if (index !== firstIdx || index !== lastIdx) {
-									xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
-								}
+							if (index === firstIdx || index === lastIdx) return;
+							if (index !== firstIdx || index !== lastIdx) {
+								xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
+							}
 						},
 					}
 				}
 			};
 		}
 
-		
+
 
 		//hide boost Savings
 		$scope.isBoostSavings = false;
@@ -335,7 +339,7 @@
 
 		function getCategories() {
 			var label = me.data.savingDuration === 'monthly' ? ' month' : ' year',
-			firstCategory = '0 '+ label;
+				firstCategory = '0 ' + label;
 			categories = [0];
 
 			for (var i = 1; i <= me.data.value; i++) {
@@ -350,20 +354,20 @@
 
 		function calc(prevTotal, deposit, count) {
 			var arrOfObj = [],
-			isBoostEnabled = me.data.boostSavingsEnabled,
-			savingDurationType = me.data.savingDuration;
+				isBoostEnabled = me.data.boostSavingsEnabled,
+				savingDurationType = me.data.savingDuration;
 			me.data.boostSavingsAmt = 0;
 			switch (savingDurationType) {
 				case 'monthly':
-					arrOfObj = calculateMonthly(prevTotal, deposit, count,isBoostEnabled);
-					if(isBoostEnabled){
-						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count,savingDurationType, arrOfObj),2);
+					arrOfObj = calculateMonthly(prevTotal, deposit, count, isBoostEnabled);
+					if (isBoostEnabled) {
+						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count, savingDurationType, arrOfObj), 2);
 					}
 					break;
 				case 'annually':
-					arrOfObj = calculateYearly(prevTotal, deposit, count,isBoostEnabled);
-					if(isBoostEnabled){
-						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count,savingDurationType, arrOfObj),2);
+					arrOfObj = calculateYearly(prevTotal, deposit, count, isBoostEnabled);
+					if (isBoostEnabled) {
+						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count, savingDurationType, arrOfObj), 2);
 					}
 					break;
 			}
@@ -435,24 +439,25 @@
 				objYear.year = j;
 				arrOfObjYearly.push(objYear);
 			}
-	
+
 			me.data.totalSavings = arrOfObjYearly.length > 0 && arrOfObjYearly[arrOfObjYearly.length - 1].total;
 			return arrOfObjYearly;
 		}
 
-		function updateBoost (prevTotal, deposit, count, savingsDurationType, objWithBoost){
+		function updateBoost(prevTotal, deposit, count, savingsDurationType, objWithBoost) {
 			var objWithoutBoost,
 				boostDiffAmt;
 			switch (savingsDurationType) {
 				case 'monthly':
-					objWithoutBoost = calculateMonthly(prevTotal, deposit, count,false);
+					objWithoutBoost = calculateMonthly(prevTotal, deposit, count, false);
 					break;
 				case 'annually':
-					objWithoutBoost = calculateYearly(prevTotal, deposit, count,false);
+					objWithoutBoost = calculateYearly(prevTotal, deposit, count, false);
 					break;
 			}
 			return boostDiffAmt = (objWithBoost.length > 0 && objWithBoost[objWithBoost.length - 1].total) - (objWithoutBoost.length > 0 && objWithoutBoost[objWithoutBoost.length - 1].total);
 		}
+
 		function setTableResults() {
 			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);

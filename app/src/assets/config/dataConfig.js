@@ -1592,7 +1592,10 @@ window.defaultBRCalcDataConfig = {
 				},
 				type: 'areaspline',
 				marginTop: 100,
-				height: 500
+				height: 500,
+				style: {
+					fontFamily: 'Arial Regular'
+				}
 			},
 			legend: {
 				enabled: false
