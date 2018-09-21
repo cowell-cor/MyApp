@@ -3782,9 +3782,9 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					sum += this.y;
 				});
 				
-				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;"></span></span>After ' + this.x + ', you will have saved:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
+				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:42px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
 				return s + '</div>';
 			};

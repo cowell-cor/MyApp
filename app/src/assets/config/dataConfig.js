@@ -1590,8 +1590,7 @@ window.defaultBRCalcDataConfig = {
 						});
 					}
 				},
-				type: 'areaspline',
-				marginTop: 100,
+				type: 'area',
 				height: 500
 			},
 			legend: {
@@ -1605,11 +1604,17 @@ window.defaultBRCalcDataConfig = {
 					align: 'center',
 					autoRotation: [0],
 					padding:3,
+					style:{
+						backgroundColor:"white",
+						color:"white"
+					},
 				},
-				//crosshair:{"width": 1, color: 'black','z-index':20},
 				allowDecimals: false
 			},
 			yAxis: {
+				minPadding: 0, 
+                maxPadding: 0,  
+				minRange : 0.1,
 				visible: false
 			},
 			tooltip: {
@@ -1620,7 +1625,6 @@ window.defaultBRCalcDataConfig = {
 				shadow: false,
 				useHTML: true,
 				valuePrefix: '$',
-				//outside: true,
 				positioner: function () {
 					return {
 						x: 30,
@@ -1630,14 +1634,14 @@ window.defaultBRCalcDataConfig = {
 				crosshairs: [{
 					width: 1,
 					color: 'white',
-					zIndex: 20,
-					height: 480
+					zIndex: 3
 				}]
 			},
 			plotOptions: {
 				area: {
 					stacking: 'normal',
-					lineColor: '#666666',
+					//lineColor: '#666666',
+					lineWidth: 1,
 					marker: {
 						enabled: false,
 						symbol: 'circle',
@@ -1650,6 +1654,7 @@ window.defaultBRCalcDataConfig = {
 					}
 				},
 				series: {
+					fillOpacity: 1,
 					marker: {
 						enabled: false
 					},

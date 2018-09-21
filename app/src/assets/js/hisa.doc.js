@@ -3757,6 +3757,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 				isSavings > 0 && config.series.push(getSavingsSeries());
 
+				//config.yAxis.min =  isDebit + isDeposit + isSavings;
 				config.xAxis.categories = getCategories();
 
 				return config;
@@ -3774,6 +3775,8 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 				isSavings > 0 && config.series.push(getSavingsSeries());
 
+				isDebit === 0 && isDeposit === 0 && isSavings === 0 && config.series.push(getDefaultSeries());
+
 			// Tooltip formatting
 			config.tooltip.formatter = function () {
 				var sum = 0,
@@ -3782,13 +3785,15 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					sum += this.y;
 				});
 				
-				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;"></span></span>After ' + this.x + ', you will have saved:</span><br/><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-weight: bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:20px">' + $filter('currency')(sum, 2) + '</span><div>';
+				s = '<div><span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:42px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-weight: bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="z-index:0;"><span style="z-index:0;clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
-				return s + '</div>';
+				return s + '</div></div>';
 			};
-			
+			//config.yAxis.min =  isDebit + isDeposit + isSavings;
+			config.yAxis.min =  me.data.initialDepositAmount;
+			console.log(config.yAxis.min);
 			config.xAxis.categories = getCategories();
 			me.results.chartHISA = config;
 
@@ -3798,13 +3803,12 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 			return {
 				name: 'Debit Transfers',
 				color: '#E68823',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
+				marker: {
+					symbol: 'circle',
+					fillColor: '#FFFFFF',
+					lineColor: '#FFFFFF'
 				},
 				data: getSeries('debit'),
-				stack:0,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -3837,7 +3841,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('deposit'),
-				stack:1,
+				//stack:1,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -3869,7 +3873,41 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('savings'),
-				stack:2,
+				//stack:2,
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index];
+								xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+								if (index === firstIdx || index === lastIdx) return;
+								if (index !== firstIdx || index !== lastIdx) {
+									xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
+								}
+						},
+					}
+				}
+			};
+		}
+		function getDefaultSeries(){
+			return {
+				name: 'High Interest',
+				color: '#39709A',
+				"marker": {
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: getSeries('defaultSet'),
+				//stack:2,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -3939,12 +3977,16 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					series.push((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 					output = calc(0, ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay), me.data.value);
 					break;
+				case 'defaultSet':
+					output = calc(0, 0, me.data.value);
+					break;
 			}
 
 			//Generate series
 			$.each(output, function (idx, obj) {
 				series.push(obj.total);
 			});
+			console.log(series);
 			return series;
 
 		}
