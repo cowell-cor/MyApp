@@ -1,7 +1,7 @@
 <form class="br-hisa-form">
 	<div class="scenario" ng-cloak>
 
-		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }} collapsed">
+		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }} collapsed" aria-expanded="{{!collapse.savings}}">
 			<span class="glyphicon glyphicon-chevron-down icon-scenario"></span>
 			<div class="collapse-header">
 				<div class="header">
@@ -44,7 +44,8 @@
 				max="sce.data.savingDuration ==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
 				step="sce.data.sliderSavingDuration.step"
 				default-val="sce.data.value"
-				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly">
+				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly"
+				max-len="sce.data.sliderSavingDurationMonthly.maxlength">
 			</meri-range-slider>
 			<meri-select 
 				field-specs="hisa.specs.meridianSavingsAccount" 
@@ -54,7 +55,7 @@
 		</div>
 		<label class="auto-save {{collapse.savings?'auto-save-col':''}}">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
 
-		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }} collapsed">
+		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }} collapsed" aria-expanded="{{!collapse.debitTransfer}}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			<div class="collapse-header">
 				<div class="header">
@@ -96,13 +97,14 @@
 				step="sce.data.sliderDebitTransfer.step"
 				default-val="sce.data.sliderDebitTransferDefVal"
 				display-min="sce.data.sliderDebitTransfer.displayMin"
-				display-max="sce.data.sliderDebitTransfer.displayMax">
+				display-max="sce.data.sliderDebitTransfer.displayMax"
+				max-len="sce.data.sliderDebitTransfer.maxlength">
 			</meri-range-slider>
 			<div class="clear clearDeposit">
 				<button ng-click="resetDebitTransfer()">{{ hisa.content.debitTransfer.clear }}</button>
 			</div>
 		</div>	
-		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }} collapsed">
+		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }} collapsed" aria-expanded="{{!collapse.depositTransfer}}">
 			<span class="glyphicon glyphicon-chevron-down"></span>
 			<div class="collapse-header">
 				<div class="header">
@@ -140,7 +142,8 @@
 				step="sce.data.sliderDepositTransfer.step"
 				default-val="sce.data.sliderDepositTransferDefVal"
 				display-min="sce.data.sliderDepositTransfer.displayMin"
-			    display-max="sce.data.sliderDepositTransfer.displayMax">
+				display-max="sce.data.sliderDepositTransfer.displayMax"
+				max-len="sce.data.sliderDepositTransfer.maxlength">
 			</meri-range-slider>
 			<div class="clear clearTransfer">
 				<button ng-click="resetDepositTransfer()">{{ hisa.content.depositTransfer.clear }}</button>

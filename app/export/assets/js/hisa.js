@@ -2152,10 +2152,10 @@ Formula.FV = function (rate, periods, payment, value, type) {
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
 				"<div class='slider-container'><div class='slider-content'>" +
-				"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
+				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2169,58 +2169,65 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					sliderId: '=',
 					displayMin: '=',
 					displayMax: '=',
-					sliderTextId: '='
+					sliderTextId: '=',
+					maxLen:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
-						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
-						if(isInputValid(inputVal)){
-							updateSlider();
-						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
-							updateSlider();
-						}
+						handleEvents();
 					});
+
 					// change value from inputbox
 					$elm.on('keyup', function (event) {
-						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
-						var parentElem = $elm[0].children[0];
-						var errElm = parentElem.getElementsByClassName('error-message');
-						if(isInputValid(inputVal)){
-							updateSlider(inputVal);
-							$(errElm).remove();
-							parentElem.classList.remove('error');
-						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
-							updateSlider();
-							if(errElm.length === 0){
-								var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
-								var span = document.createElement('div');
-								span.classList.add("error-message");
-								span.innerHTML = errorElem;
-								parentElem.appendChild(span);
-							}
-							parentElem.classList.add('error');
-						}	
+						handleEvents();
 					});
-					// change value from inputbox
-					// $elm.on('blur', function (event) {
-					// 	var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
-					// 	document.getElementById($scope.sliderTextId).value = inputVal+'%';
-					// });
-
-
+					
 					$scope.$on('resetSlider', function (e, slider) {
-						var sliderElm = $('#' + slider.sliderId)[0];
-						var outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
+						var sliderElm = $('#' + slider.sliderId)[0],
+							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
 						sliderElm.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
+						if(slider.isError)	removeError();
 						if (slider.callback) {
 							slider.callback(slider.defaultVal);
 						}
 					});
+
+					function handleEvents(){
+						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
+							isMin = inputVal <= $scope.min ? true : false;
+						inputVal = isNaN(inputVal) ? 1 : inputVal;
+						if(isInputValid(inputVal)){
+							updateSlider(inputVal);
+							removeError();
+						}else{
+							$rootScope.$broadcast('setDefaultVal', $scope.sliderId, isMin);
+							updateSlider(inputVal, isInputValid(inputVal));
+							addError();
+						}
+					}
+
+					function addError(){
+						var parentElem = $elm[0].children[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						if(errElm.length === 0){
+							var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
+							var span = document.createElement('div');
+							span.classList.add("error-message");
+							span.innerHTML = errorElem;
+							parentElem.appendChild(span);
+						}
+						parentElem.classList.add('error');
+					}
+
+					function removeError(){
+						var parentElem = $elm[0].children[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						$(errElm).remove();
+						parentElem.classList.remove('error');
+					}
 
 					function isInputValid(inputVal){
 						if((inputVal >= $scope.min) && (inputVal<= $scope.max)){
@@ -2229,17 +2236,16 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						return false;
 					}
 					
-
-					function updateSlider(inputValue) {
+					function updateSlider(inputValue, isInputValid) {
 						var slider = $('#' + $scope.sliderId)[0];
-						var sliderValue = inputValue || slider.value;
+						var sliderValue = isInputValid ? inputValue : slider.value;
 						var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
 						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
 					}
-				},
+				}
 
 			};
 		})
@@ -2380,8 +2386,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 				template: function (element, attr) {
 					return '<div class="form-group">' +
-						'<label for="{{ name }}">{{ label }}</label>' +
-						'<select id="{{ name }}" class="form-control">' +
+						'<label for="{{ label }}">{{ label }}</label>' +
+						'<select id="{{ label }}" class="form-control">' +
 						'<option ng-repeat="option in options" value="{{ option.value }}">{{ option.label }}</option>' +
 						'</select>' +
 						// '<transcluded-content></transcluded-content>' +
@@ -2474,7 +2480,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						// 	// transcludedContent = clone;
 						// 	// transclusionScope = scope;
 						// });
-
 						if ($attrs.fieldSpecs && $attrs.fieldSpecs !== '' && $attrs.fieldSpecs.split('.').length > 1) {
 							$scope.name = 'meri-' + $attrs.fieldSpecs.split('.').slice(1).join('-');
 						} else {
@@ -2503,7 +2508,11 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 						inputAttributes.push({
 							attr: 'ng-model',
-							value: binding
+							value: binding,
+						});
+
+						inputAttributes.push({
+							attr: 'aria-label'
 						});
 
 						$scope.binding = binding;
@@ -2559,7 +2568,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 									prop,
 									input = elem.find('input'),
 									label = elem.find('label'),
-									ariaLabelVal = "Enter " + label,
 									labelText,
 									labelLastWord;
 								for (; i < len; i++) {
@@ -2570,6 +2578,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 										input.attr(scope.inputAttributes[i].attr, scope.inputAttributes[i].value !== undefined ? scope.inputAttributes[i].value : '');
 									}
 								}
+								input.attr('aria-label','Enter '+scope.fieldSpecs.label);
+								//console.log(input)
 
 								if (scope.tooltip) {
 									labelText = scope.label.split(' ');
@@ -2577,7 +2587,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 
 									scope.label = labelText.join(' ') + ' ';
-									scope.ariaLabelVal = ariaLabelVal;
 									prop = $(template.unbreakable).text(labelLastWord).append($compile(template.meriTooltip)(scope));
 
 									labelText = label.text('{{ label }} ').append(prop);
@@ -2594,7 +2603,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					template: function (element, attr) {
 						return '<div class="form-group">' +
 							'<label for="{{ id }}">{{ label }}</label>' +
-							'<input aria-label="ariaLabelVal" id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
 							// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+
@@ -3640,7 +3649,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 			depositTransfer: true
 		};
 		//tooltip content
-		
+
 		$scope.savingsTooltip = $sce.trustAsHtml(this.content.savingsOptions.tooltipContent);
 
 		$scope.debitTooltip = $sce.trustAsHtml(this.content.debitTransfer.tooltipContent);
@@ -3649,50 +3658,18 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		// default value for open account link
 		$scope.openAcctLnk = "#link1";
-		/**
-		 * Reset the value of savings slider based on monthly or anually
-		 * @param {monthly/annually} type 
-		 */
-		$scope.setDefaultVal = function (type) {
-			switch (type) {
-				case 'monthly':
-					me.data.value = 6;
-					//trigger the event to updated the slider color bar
-					$rootScope.$broadcast('resetSlider', {
-						sliderId: 'savings_slider',
-						defaultVal: me.data.value,
-						min: 0,
-						max: 24,
-						callback: function (val) {
-							me.data.value = val;
-						}
-					});
-					break;
-				case 'annually':
-					me.data.value = 25;
-					$rootScope.$broadcast('resetSlider', {
-						sliderId: 'savings_slider',
-						defaultVal: me.data.value,
-						min: 0,
-						max: 40,
-						callback: function (val) {
-							me.data.value = val;
-						}
-					});
-					break;
-			}
-		};
+		
 		//capture the change event from slider to update default value in scope
-		$rootScope.$on('setDefaultVal', function (e, sliderId) {
+		$rootScope.$on('setDefaultVal', function (e, sliderId, isMin) {
 			switch (sliderId) {
 				case 'savings_slider':
-					$scope.setDefaultVal(me.data.savingDuration);
+					$scope.setDefaultVal(me.data.savingDuration, isMin);
 					break;
 				case 'debitTransfer_slider':
-					$scope.resetDebitTransfer();
+					$scope.resetDebitTransfer(isMin);
 					break;
 				case 'depositTransfer_slider':
-					$scope.resetDepositTransfer();
+					$scope.resetDepositTransfer(isMin);
 					break;
 			}
 			$scope.$apply();
@@ -3748,31 +3725,35 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		function initChart() {
 			me.results.chartHISA = (function () {
 				var config = contentManager.getHighchartConfig('chartHISA'),
-				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
-				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
-				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
+					isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+					isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
+					isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
 				config.series = [];
-				
+
 				isDebit > 0 && (config.series.unshift(getDebitSeries()));
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 				isSavings > 0 && config.series.push(getSavingsSeries());
 
+				//config.yAxis.min =  isDebit + isDeposit + isSavings;
 				config.xAxis.categories = getCategories();
 
 				return config;
 			})();
 		}
+
 		function updateChart() {
 			var config = angular.extend({}, me.results.chartHISA),
-				isDebit  = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
+				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
 				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
 				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
-				
-				config.series = [];
-				
-				isDebit > 0 && (config.series.unshift(getDebitSeries()));
-				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
-				isSavings > 0 && config.series.push(getSavingsSeries());
+
+			config.series = [];
+
+			isDebit > 0 && (config.series.unshift(getDebitSeries()));
+			isDeposit > 0 && (config.series.unshift(getDepositSeries()));
+			isSavings > 0 && config.series.push(getSavingsSeries());
+
+				isDebit === 0 && isDeposit === 0 && isSavings === 0 && config.series.push(getDefaultSeries());
 
 			// Tooltip formatting
 			config.tooltip.formatter = function () {
@@ -3781,30 +3762,32 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				$.each(this.points, function () {
 					sum += this.y;
 				});
-				
-				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:42px">' + $filter('currency')(sum, 2) + '</span><div>';
+
+				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="display:flex" ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
-				return s + '</div>';
+				return s + '</div></div>';
 			};
-			
+
+			//config.yAxis.min =  isDebit + isDeposit + isSavings;
+			config.yAxis.min =  me.data.initialDepositAmount + me.data.initialDepositAmount /1000 ;
 			config.xAxis.categories = getCategories();
 			me.results.chartHISA = config;
 
 			setTableResults();
 		}
-		function getDebitSeries(){
+
+		function getDebitSeries() {
 			return {
 				name: 'Debit Transfers',
 				color: '#E68823',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
+				marker: {
+					symbol: 'circle',
+					fillColor: '#FFFFFF',
+					lineColor: '#FFFFFF'
 				},
 				data: getSeries('debit'),
-				stack:0,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -3819,15 +3802,16 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-							
+							if (index === firstIdx || index === lastIdx) return;
+
 							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
 						},
 					}
 				}
 			};
 		}
-		function getDepositSeries(){
+
+		function getDepositSeries() {
 			return {
 				name: 'Deposit Transfers',
 				color: '#A8B402',
@@ -3837,7 +3821,6 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('deposit'),
-				stack:1,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -3852,14 +3835,15 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
 								firstIdx = 0,
 								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
+							if (index === firstIdx || index === lastIdx) return;
 							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
 						},
 					}
 				}
 			};
 		}
-		function getSavingsSeries(){
+
+		function getSavingsSeries() {
 			return {
 				name: 'High Interest',
 				color: '#39709A',
@@ -3869,7 +3853,6 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					"lineColor": "#FFFFFF"
 				},
 				data: getSeries('savings'),
-				stack:2,
 				point: {
 					events: {
 						mouseOver: function () {
@@ -3893,8 +3876,42 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				}
 			};
 		}
-
 		
+		function getDefaultSeries(){
+			return {
+				name: 'High Interest',
+				color: '#39709A',
+				"marker": {
+					"symbol": "circle",
+					"fillColor": '#FFFFFF',
+					"lineColor": "#FFFFFF"
+				},
+				data: getSeries('defaultSet'),
+				point: {
+					events: {
+						mouseOver: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								category = this.series.xAxis.options.categories[index];
+							xAxis.labelGroup.element.children[index].innerHTML = category;
+						},
+						mouseOut: function () {
+							var xAxis = this.series.chart.xAxis[0],
+								index = this.index,
+								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
+								firstIdx = 0,
+								lastIdx = length - 1;
+							if (index === firstIdx || index === lastIdx) return;
+							if (index !== firstIdx || index !== lastIdx) {
+								xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
+							}
+						},
+					}
+				}
+			};
+		}
+
+
 
 		//hide boost Savings
 		$scope.isBoostSavings = false;
@@ -3939,6 +3956,9 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					series.push((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 					output = calc(0, ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay), me.data.value);
 					break;
+				case 'defaultSet':
+					output = calc(0, 0, me.data.value);
+					break;
 			}
 
 			//Generate series
@@ -3951,7 +3971,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		function getCategories() {
 			var label = me.data.savingDuration === 'monthly' ? ' month' : ' year',
-			firstCategory = '0 '+ label;
+				firstCategory = '0 ' + label;
 			categories = [0];
 
 			for (var i = 1; i <= me.data.value; i++) {
@@ -3966,27 +3986,27 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		function calc(prevTotal, deposit, count) {
 			var arrOfObj = [],
-			isBoostEnabled = me.data.boostSavingsEnabled,
-			savingDurationType = me.data.savingDuration;
+				isBoostEnabled = me.data.boostSavingsEnabled,
+				savingDurationType = me.data.savingDuration;
 			me.data.boostSavingsAmt = 0;
 			switch (savingDurationType) {
 				case 'monthly':
-					arrOfObj = calculateMonthly(prevTotal, deposit, count,isBoostEnabled);
-					if(isBoostEnabled){
-						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count,savingDurationType, arrOfObj),2);
+					arrOfObj = calculateMonthly(prevTotal, deposit, count, isBoostEnabled, true);
+					if (isBoostEnabled) {
+						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count, savingDurationType, arrOfObj), 2);
 					}
 					break;
 				case 'annually':
-					arrOfObj = calculateYearly(prevTotal, deposit, count,isBoostEnabled);
-					if(isBoostEnabled){
-						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count,savingDurationType, arrOfObj),2);
+					arrOfObj = calculateYearly(prevTotal, deposit, count, isBoostEnabled, true);
+					if (isBoostEnabled) {
+						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count, savingDurationType, arrOfObj), 2);
 					}
 					break;
 			}
 			return arrOfObj;
 		}
 
-		function calculateMonthly(prevTotal, deposit, count, isBoostEnabled) {
+		function calculateMonthly(prevTotal, deposit, count, isBoostEnabled, isUpdateHeader) {
 			var arrOfObj = [];
 			for (var i = 1; i <= count; i++) {
 				var obj = {
@@ -4008,11 +4028,11 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObj[i - 2].interest);
 				arrOfObj.push(obj);
 			}
-			me.data.totalSavings = arrOfObj.length > 0 && arrOfObj[arrOfObj.length - 1].total;
+			isUpdateHeader && (me.data.totalSavings = arrOfObj.length > 0 && arrOfObj[arrOfObj.length - 1].total);
 			return arrOfObj;
 		}
 
-		function calculateYearly(prevTotal, deposit, count, isBoostEnabled) {
+		function calculateYearly(prevTotal, deposit, count, isBoostEnabled, isUpdateHeader) {
 			var monthLen,
 				arrOfObjMonthly = [],
 				arrOfObjYearly = [];
@@ -4051,24 +4071,26 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				objYear.year = j;
 				arrOfObjYearly.push(objYear);
 			}
-	
-			me.data.totalSavings = arrOfObjYearly.length > 0 && arrOfObjYearly[arrOfObjYearly.length - 1].total;
+
+			isUpdateHeader && (me.data.totalSavings = arrOfObjYearly.length > 0 && arrOfObjYearly[arrOfObjYearly.length - 1].total);
 			return arrOfObjYearly;
 		}
 
-		function updateBoost (prevTotal, deposit, count, savingsDurationType, objWithBoost){
+		function updateBoost(prevTotal, deposit, count, savingsDurationType, objWithBoost) {
 			var objWithoutBoost,
 				boostDiffAmt;
 			switch (savingsDurationType) {
 				case 'monthly':
-					objWithoutBoost = calculateMonthly(prevTotal, deposit, count,false);
+					objWithoutBoost = calculateMonthly(prevTotal, deposit, count, false, false);
 					break;
 				case 'annually':
-					objWithoutBoost = calculateYearly(prevTotal, deposit, count,false);
+					objWithoutBoost = calculateYearly(prevTotal, deposit, count, false, false);
 					break;
 			}
-			return boostDiffAmt = (objWithBoost.length > 0 && objWithBoost[objWithBoost.length - 1].total) - (objWithoutBoost.length > 0 && objWithoutBoost[objWithoutBoost.length - 1].total);
+			boostDiffAmt = (objWithBoost.length > 0 && objWithBoost[objWithBoost.length - 1].total) - (objWithoutBoost.length > 0 && objWithoutBoost[objWithoutBoost.length - 1].total);
+			return boostDiffAmt;
 		}
+
 		function setTableResults() {
 			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);
@@ -4106,18 +4128,79 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 			//extract rate
 			return $filter('currency')(me.data.initialDepositAmount, 2) + ' for ' + displayDuration + ' at ' + '1.40%';
 		};
+
+		/**
+		 * Reset the value of savings slider based on monthly or anually
+		 * @param {monthly/annually} type 
+		 */
+		$scope.setDefaultVal = function (type, isMin) {
+			switch (type) {
+				case 'monthly':
+					if(isMin === true){
+						me.data.value = 1;
+					}else if (isMin === false){
+						me.data.value = 24;
+					}else {
+						me.data.value = 6;
+					}
+					
+					//trigger the event to updated the slider color bar
+					$rootScope.$broadcast('resetSlider', {
+						sliderId: 'savings_slider',
+						defaultVal: me.data.value,
+						min: 0,
+						max: 24,
+						callback: function (val) {
+							me.data.value = val;
+						}
+					});
+					break;
+				case 'annually':
+					if(isMin === true){
+						me.data.value = 1;
+					}else if (isMin === false){
+						me.data.value = 40;
+					}else {
+						me.data.value = 25;
+					}
+					$rootScope.$broadcast('resetSlider', {
+						sliderId: 'savings_slider',
+						defaultVal: me.data.value,
+						min: 0,
+						max: 40,
+						callback: function (val) {
+							me.data.value = val;
+						}
+					});
+					break;
+			}
+		};
 		/**
 		 * Function: resetDepositTransfer
 		 */
 
-		$scope.resetDebitTransfer = function () {
-			$scope.sce.data.numberOfMonthlyDebitTransactions = 0;
-			$scope.sce.data.sliderDebitTransferDefVal = 0;
+		$scope.resetDebitTransfer = function (isMin) {
+			if(isMin === true){
+				me.data.numberOfMonthlyDebitTransactions = 0;
+				me.data.sliderDebitTransferDefVal = 0;
+			}else if (isMin === false){
+				me.data.numberOfMonthlyDebitTransactions = 5;
+				me.data.sliderDebitTransferDefVal = 5;
+			}else {
+				me.data.numberOfMonthlyDebitTransactions = 0;
+				me.data.sliderDebitTransferDefVal = 0;
+			}
+			
 			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'debitTransfer_slider',
-				defaultVal: 0,
+				defaultVal: me.data.sliderDebitTransferDefVal,
 				min: 0,
-				max: 5
+				max: 5,
+				isError: isMin === undefined && false,
+				callback: function (val) {
+					console.log(val);
+					me.data.sliderDebitTransferDefVal = val;
+				}
 			});
 		};
 
@@ -4125,14 +4208,27 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		 * Function: resetDepositTransfer
 		 */
 
-		$scope.resetDepositTransfer = function () {
-			$scope.sce.data.monthlyCreditsPay = 0;
-			$scope.sce.data.sliderDepositTransferDefVal = 0;
+		$scope.resetDepositTransfer = function (isMin) {
+			if(isMin === true){
+				me.data.monthlyCreditsPay = 0;
+				me.data.sliderDepositTransferDefVal = 0;
+			}else if (isMin === false){
+				me.data.monthlyCreditsPay = 0;
+				me.data.sliderDepositTransferDefVal = 100;
+			}else {
+				me.data.monthlyCreditsPay = 0;
+				me.data.sliderDepositTransferDefVal = 0;
+			}
+			
 			$rootScope.$broadcast('resetSlider', {
 				sliderId: 'depositTransfer_slider',
-				defaultVal: 0,
+				defaultVal: me.data.sliderDepositTransferDefVal,
 				min: 0,
-				max: 100
+				max: 100,
+				isError: isMin === undefined && false,
+				callback: function (val) {
+					me.data.sliderDepositTransferDefVal = val;
+				}
 			});
 		};
 		/**

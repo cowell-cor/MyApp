@@ -888,6 +888,7 @@ window.defaultBRCalcDataConfig = {
 							min: 1,
 							max: 24,
 							step: 1,
+							maxlength: 2,
 							label: 'savings_slider',
 							textId: 'savings_text'
 						},
@@ -896,6 +897,7 @@ window.defaultBRCalcDataConfig = {
 							min: 1,
 							max: 40,
 							step: 1,
+							maxlength: 2,
 							label: 'savings_slider',
 							textId: 'savings_text'
 						},
@@ -905,6 +907,7 @@ window.defaultBRCalcDataConfig = {
 							min: 0,
 							max: 5,
 							step: 1,
+							maxlength: 1,
 							label: 'debitTransfer_slider',
 							displayMin: '$0',
 							displayMax: '$5',
@@ -915,6 +918,7 @@ window.defaultBRCalcDataConfig = {
 							min: 0,
 							max: 100,
 							step: 1,
+							maxlength: 3,
 							label: 'depositTransfer_slider',
 							displayMin: '0%',
 							displayMax: '100%',
@@ -1542,6 +1546,7 @@ window.defaultBRCalcDataConfig = {
 			//colors: ['#3b6e98', '#e68923', '#3b6e98'],
 			title: '',
 			chart: {
+				description: 'Most commonly used desktop screen reader',
 				events: {
 					load: function () {
 						var s = this.series;
@@ -1590,9 +1595,12 @@ window.defaultBRCalcDataConfig = {
 						});
 					}
 				},
-				type: 'areaspline',
+				type: 'area',
 				marginTop: 100,
-				height: 500
+				height: 500,
+				style: {
+					fontFamily: 'Arial Regular'
+				}
 			},
 			legend: {
 				enabled: false
@@ -1605,11 +1613,17 @@ window.defaultBRCalcDataConfig = {
 					align: 'center',
 					autoRotation: [0],
 					padding:3,
+					style:{
+						backgroundColor:"white",
+						//color:"white"
+					},
 				},
-				//crosshair:{"width": 1, color: 'black','z-index':20},
 				allowDecimals: false
 			},
 			yAxis: {
+				minPadding: 0, 
+                maxPadding: 0,  
+				minRange : 0.1,
 				visible: false
 			},
 			tooltip: {
@@ -1620,7 +1634,6 @@ window.defaultBRCalcDataConfig = {
 				shadow: false,
 				useHTML: true,
 				valuePrefix: '$',
-				//outside: true,
 				positioner: function () {
 					return {
 						x: 30,
@@ -1630,14 +1643,14 @@ window.defaultBRCalcDataConfig = {
 				crosshairs: [{
 					width: 1,
 					color: 'white',
-					zIndex: 20,
-					height: 480
+					zIndex: 3
 				}]
 			},
 			plotOptions: {
 				area: {
 					stacking: 'normal',
-					lineColor: '#666666',
+					//lineColor: '#666666',
+					lineWidth: 1,
 					marker: {
 						enabled: false,
 						symbol: 'circle',
@@ -1650,6 +1663,7 @@ window.defaultBRCalcDataConfig = {
 					}
 				},
 				series: {
+					fillOpacity: 1,
 					marker: {
 						enabled: false
 					},

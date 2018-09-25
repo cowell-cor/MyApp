@@ -2152,10 +2152,10 @@ Formula.FV = function (rate, periods, payment, value, type) {
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
 				"<div class='slider-container'><div class='slider-content'>" +
-				"<input id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
+				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2169,58 +2169,65 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					sliderId: '=',
 					displayMin: '=',
 					displayMax: '=',
-					sliderTextId: '='
+					sliderTextId: '=',
+					maxLen:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
-						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
-						if(isInputValid(inputVal)){
-							updateSlider();
-						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
-							updateSlider();
-						}
+						handleEvents();
 					});
+
 					// change value from inputbox
 					$elm.on('keyup', function (event) {
-						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
-						var parentElem = $elm[0].children[0];
-						var errElm = parentElem.getElementsByClassName('error-message');
-						if(isInputValid(inputVal)){
-							updateSlider(inputVal);
-							$(errElm).remove();
-							parentElem.classList.remove('error');
-						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.sliderId);
-							updateSlider();
-							if(errElm.length === 0){
-								var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
-								var span = document.createElement('div');
-								span.classList.add("error-message");
-								span.innerHTML = errorElem;
-								parentElem.appendChild(span);
-							}
-							parentElem.classList.add('error');
-						}	
+						handleEvents();
 					});
-					// change value from inputbox
-					// $elm.on('blur', function (event) {
-					// 	var inputVal = parseInt(document.getElementById($scope.sliderTextId).value);
-					// 	document.getElementById($scope.sliderTextId).value = inputVal+'%';
-					// });
-
-
+					
 					$scope.$on('resetSlider', function (e, slider) {
-						var sliderElm = $('#' + slider.sliderId)[0];
-						var outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
+						var sliderElm = $('#' + slider.sliderId)[0],
+							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
 						sliderElm.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
+						if(slider.isError)	removeError();
 						if (slider.callback) {
 							slider.callback(slider.defaultVal);
 						}
 					});
+
+					function handleEvents(){
+						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
+							isMin = inputVal <= $scope.min ? true : false;
+						inputVal = isNaN(inputVal) ? 1 : inputVal;
+						if(isInputValid(inputVal)){
+							updateSlider(inputVal);
+							removeError();
+						}else{
+							$rootScope.$broadcast('setDefaultVal', $scope.sliderId, isMin);
+							updateSlider(inputVal, isInputValid(inputVal));
+							addError();
+						}
+					}
+
+					function addError(){
+						var parentElem = $elm[0].children[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						if(errElm.length === 0){
+							var errorElem = '<span>Value entered has been adjusted to the minimum or maximum value allowed.</span>';
+							var span = document.createElement('div');
+							span.classList.add("error-message");
+							span.innerHTML = errorElem;
+							parentElem.appendChild(span);
+						}
+						parentElem.classList.add('error');
+					}
+
+					function removeError(){
+						var parentElem = $elm[0].children[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						$(errElm).remove();
+						parentElem.classList.remove('error');
+					}
 
 					function isInputValid(inputVal){
 						if((inputVal >= $scope.min) && (inputVal<= $scope.max)){
@@ -2229,17 +2236,16 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						return false;
 					}
 					
-
-					function updateSlider(inputValue) {
+					function updateSlider(inputValue, isInputValid) {
 						var slider = $('#' + $scope.sliderId)[0];
-						var sliderValue = inputValue || slider.value;
+						var sliderValue = isInputValid ? inputValue : slider.value;
 						var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
 						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
 					}
-				},
+				}
 
 			};
 		})
@@ -2380,8 +2386,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 				template: function (element, attr) {
 					return '<div class="form-group">' +
-						'<label for="{{ name }}">{{ label }}</label>' +
-						'<select id="{{ name }}" class="form-control">' +
+						'<label for="{{ label }}">{{ label }}</label>' +
+						'<select id="{{ label }}" class="form-control">' +
 						'<option ng-repeat="option in options" value="{{ option.value }}">{{ option.label }}</option>' +
 						'</select>' +
 						// '<transcluded-content></transcluded-content>' +
@@ -2474,7 +2480,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						// 	// transcludedContent = clone;
 						// 	// transclusionScope = scope;
 						// });
-
 						if ($attrs.fieldSpecs && $attrs.fieldSpecs !== '' && $attrs.fieldSpecs.split('.').length > 1) {
 							$scope.name = 'meri-' + $attrs.fieldSpecs.split('.').slice(1).join('-');
 						} else {
@@ -2503,7 +2508,11 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 						inputAttributes.push({
 							attr: 'ng-model',
-							value: binding
+							value: binding,
+						});
+
+						inputAttributes.push({
+							attr: 'aria-label'
 						});
 
 						$scope.binding = binding;
@@ -2559,7 +2568,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 									prop,
 									input = elem.find('input'),
 									label = elem.find('label'),
-									ariaLabelVal = "Enter " + label,
 									labelText,
 									labelLastWord;
 								for (; i < len; i++) {
@@ -2570,6 +2578,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 										input.attr(scope.inputAttributes[i].attr, scope.inputAttributes[i].value !== undefined ? scope.inputAttributes[i].value : '');
 									}
 								}
+								input.attr('aria-label','Enter '+scope.fieldSpecs.label);
+								//console.log(input)
 
 								if (scope.tooltip) {
 									labelText = scope.label.split(' ');
@@ -2577,7 +2587,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 
 									scope.label = labelText.join(' ') + ' ';
-									scope.ariaLabelVal = ariaLabelVal;
 									prop = $(template.unbreakable).text(labelLastWord).append($compile(template.meriTooltip)(scope));
 
 									labelText = label.text('{{ label }} ').append(prop);
@@ -2594,7 +2603,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					template: function (element, attr) {
 						return '<div class="form-group">' +
 							'<label for="{{ id }}">{{ label }}</label>' +
-							'<input aria-label="ariaLabelVal" id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
 							// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+
