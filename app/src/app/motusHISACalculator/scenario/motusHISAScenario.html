@@ -1,0 +1,153 @@
+<form class="br-hisa-form">
+	<div class="scenario" ng-cloak>
+
+		<button ng-click="collapse.savings = !collapse.savings" class="collapse-button align-left {{ collapse.savings ? '' : ' active' }} collapsed" aria-expanded="{{!collapse.savings}}">
+			<span class="glyphicon icon-scenario {{ collapse.savings ? 'glyphicon-plus' : 'glyphicon-minus' }}"></span>
+			<div class="collapse-header">
+				<div class="header">
+					{{ hisa.content.savingsHeader }}
+					<a href="javascript:void(0)" uib-tooltip-html="savingsTooltip" class="tooltip-icon br-icon">&nbsp;</a>
+				</div>
+
+				<div ng-if="collapse.savings" class="sub-heading">
+					{{getSavingsHeader()}}
+				</div>
+			</div>
+		</button>
+		<div uib-collapse="collapse.savings">
+			<meri-input 
+				id="'initialDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex"
+				data-binding="sce.data.initialDepositAmount"
+				field-specs="hisa.specs['initialDepositAmount' + sce.results.suffix]"
+				field-validation="sce.validation.initialDepositAmount">
+			</meri-input>
+
+			<meri-input
+				id="'monthlyDepositAmount' + sce.results.suffix + '_' + sce.data.scenarioIndex" 
+				data-binding="sce.data.monthlyDepositAmount"
+				field-specs="hisa.specs['monthlyDepositAmount' + sce.results.suffix]"
+				field-validation="sce.validation.monthlyDepositAmount">
+			</meri-input>
+	
+			<meri-select 
+				field-specs="hisa.specs.savingDuration"
+				data-binding="sce.data.savingDuration"
+				class="savingsSelect">
+			</meri-select>
+			
+			<meri-range-slider 
+				ng-init="setDefaultVal(sce.data.savingDuration)"
+				saving-duration="sce.data.savingDuration"
+				slider-id="hisa.specs.sliderSavingDuration.label"
+				slider-text-id="hisa.specs.sliderSavingDuration.textId" 
+				min="sce.data.savingDuration ==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
+				max="sce.data.savingDuration ==='monthly' ? sce.data.sliderSavingDurationMonthly.max : sce.data.sliderSavingDurationYearly.max"
+				step="sce.data.sliderSavingDuration.step"
+				default-val="sce.data.value"
+				field-validation="sce.data.savingDuration==='monthly' ? sce.validation.sliderSavingDurationMonthly : sce.validation.sliderSavingDurationYearly"
+				max-len="sce.data.sliderSavingDurationMonthly.maxlength">
+			</meri-range-slider>
+			<meri-select 
+				field-specs="hisa.specs.meridianSavingsAccount" 
+				data-binding="sce.data.savingsAccountType" 
+				class="merdianSavings">
+			</meri-select>
+		</div>
+		<label class="auto-save {{collapse.savings?'auto-save-col':''}}">{{hisa.content.savingsOptions.autoSaveOptions}}</label>
+
+		<button ng-click="collapse.debitTransfer = !collapse.debitTransfer" class="collapse-button align-left {{ collapse.debitTransfer ? '' : ' active' }} collapsed" aria-expanded="{{!collapse.debitTransfer}}">
+			<span class="glyphicon {{ collapse.debitTransfer ? 'glyphicon-plus' : 'glyphicon-minus' }}"></span>
+			<div class="collapse-header">
+				<div class="header">
+					{{ hisa.content.debitTransferHeader }}
+					<a href="javascript:void(0)" uib-tooltip-html="debitTooltip" class="tooltip-icon br-icon">&nbsp;</a>
+				</div>
+
+				<div ng-if="collapse.debitTransfer &&
+						hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,sce.data.sliderDebitTransferDefVal,0,0)"
+						class="sub-heading">
+						{{hisa.content.debitTransferDefaultContent}}
+				</div>
+				<div ng-if="collapse.debitTransfer &&
+						!hideDynamiclbl(sce.data.numberOfMonthlyDebitTransactions,sce.data.sliderDebitTransferDefVal,0,0)"
+						class="sub-heading">
+						{{sce.data.numberOfMonthlyDebitTransactions}} monthly transactions at ${{sce.data.sliderDebitTransferDefVal}} each
+				</div>
+			</div>
+		</button>
+
+		<div uib-collapse="collapse.debitTransfer">
+
+			<meri-input
+				id="numberOfMonthlyDebitTransactions" 
+				class="numMonthlyTrx"
+				data-binding="sce.data.numberOfMonthlyDebitTransactions"
+				field-specs="hisa.specs.numberOfMonthlyDebitTransactions" 
+				ng-model="sce.data.numberOfMonthlyDebitTransactions" 
+				field-validation="sce.validation.debitTransactions">
+			</meri-input>
+
+			<label class="stdSpacing">{{hisa.content.debitTransfer.amountToDepositPerTransaction}}</label>
+			
+			<meri-range-slider
+				slider-id="hisa.specs.sliderDebitTransfer.label"
+				slider-text-id="hisa.specs.sliderDebitTransfer.textId"
+				min="sce.data.sliderDebitTransfer.min"
+				max="sce.data.sliderDebitTransfer.max"
+				step="sce.data.sliderDebitTransfer.step"
+				default-val="sce.data.sliderDebitTransferDefVal"
+				display-min="sce.data.sliderDebitTransfer.displayMin"
+				display-max="sce.data.sliderDebitTransfer.displayMax"
+				max-len="sce.data.sliderDebitTransfer.maxlength">
+			</meri-range-slider>
+			<div class="clear clearDeposit">
+				<button ng-click="resetDebitTransfer()">{{ hisa.content.debitTransfer.clear }}</button>
+			</div>
+		</div>	
+		<button ng-click="collapse.depositTransfer = !collapse.depositTransfer" class="collapse-button align-left {{ collapse.depositTransfer ? '' : ' active' }} collapsed" aria-expanded="{{!collapse.depositTransfer}}">
+			<span class="glyphicon {{ collapse.depositTransfer ? 'glyphicon-plus' : 'glyphicon-minus' }}"></span>
+			<div class="collapse-header">
+				<div class="header">
+					{{ hisa.content.depositTransferHeader }}
+					<a href="javascript:void(0)" uib-tooltip-html="depositTooltip" class="tooltip-icon br-icon">&nbsp;</a>
+				</div>
+				
+				<div ng-if="collapse.depositTransfer &&
+						hideDynamiclbl(sce.data.monthlyCreditsPay,sce.data.sliderDepositTransferDefVal,0,0)"
+						class="sub-heading">
+					{{hisa.content.depositTransferDefaultContent}}
+				</div>
+				<div ng-if="collapse.depositTransfer &&
+						!hideDynamiclbl(sce.data.monthlyCreditsPay,sce.data.sliderDepositTransferDefVal,0,0)"
+						class="sub-heading">
+						{{sce.data.sliderDepositTransferDefVal}}% of {{sce.data.monthlyCreditsPay | currency: '$' : 2}} monthly
+				</div>
+			</div>
+		</button>
+		<div uib-collapse="collapse.depositTransfer">
+			<meri-input
+				id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"
+				class="monCreditPay"
+				data-binding="sce.data.monthlyCreditsPay"
+				field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]"
+				ng-model="sce.data.monthlyCreditsPay"
+				field-validation="sce.validation.monthlyCreditsPay">>
+			</meri-input>
+			<label class="stdSpacing">{{hisa.content.depositTransfer.percentageToTransferPerPay}}</label>
+			<meri-range-slider 
+				slider-id="hisa.specs.sliderDepositTransfer.label"
+				slider-text-id="hisa.specs.sliderDepositTransfer.textId"
+				min="sce.data.sliderDepositTransfer.min"
+				max="sce.data.sliderDepositTransfer.max"
+				step="sce.data.sliderDepositTransfer.step"
+				default-val="sce.data.sliderDepositTransferDefVal"
+				display-min="sce.data.sliderDepositTransfer.displayMin"
+				display-max="sce.data.sliderDepositTransfer.displayMax"
+				max-len="sce.data.sliderDepositTransfer.maxlength">
+			</meri-range-slider>
+			<div class="clear clearTransfer">
+				<button ng-click="resetDepositTransfer()">{{ hisa.content.depositTransfer.clear }}</button>
+			</div>
+		</div>
+	</div>
+</form>

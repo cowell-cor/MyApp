@@ -1353,194 +1353,6 @@ window.defaultBRCalcDataConfig = {
 	},
 
 	highchart: {
-
-		chartLOC: {
-			contentModel: 'charts.chartLOC',
-			chart: {
-				type: 'column'
-			},
-			credits: {
-				enabled: false
-			},
-			xAxis: {
-				crosshair: true
-			},
-			yAxis: {
-				min: 0
-			},
-			tooltip: {
-				shared: true,
-				useHTML: true
-			},
-			plotOptions: {
-				column: {
-					pointPadding: 0.2,
-					borderWidth: 0
-				}
-			},
-			series: [{
-				name: 'Balance',
-				color: '#4f324c'
-			}]
-		},
-
-		chartRSC: {
-			contentModel: 'charts.chartRSC',
-			colors: ['#3b6e98', '#e68923', '#3b6e98'],
-			chart: {
-				type: 'column'
-			},
-			credits: {
-				enabled: false
-			},
-			xAxis: {
-				crosshair: true,
-				categories: []
-			},
-			yAxis: {
-				title: {
-					// align:'high',
-					// offset:-100,
-					// rotation:0,
-					// y:-20,
-					// x:-100,
-					// style:{
-					// 	textAlign:'left'
-					// }
-				}
-			},
-			tooltip: {
-				shared: true,
-				useHTML: true
-			},
-			plotOptions: {
-				column: {
-					grouping: false,
-					shadow: false,
-					// stacking: 'normal',
-					pointPadding: 0,
-					pointPlacement: 0,
-					borderWidth: 0
-				}
-			},
-			series: []
-		},
-
-		chartMPC: {
-			contentModel: 'charts.chartMPC',
-			colors: ['#e68923', '#a8b400', '#4f324c', '#7facc2', '#515350', '#856f8e', '#266685'],
-			chart: {
-				type: 'column'
-			},
-			credits: {
-				enabled: false
-			},
-			xAxis: {
-				crosshair: true
-			},
-			yAxis: {
-				min: 0
-			},
-			tooltip: {
-				shared: true,
-				useHTML: true
-			},
-			plotOptions: {
-				column: {
-					pointPadding: 0.2,
-					borderWidth: 0
-				}
-			},
-			series: []
-		},
-
-		chartCompareMPC: {
-			contentModel: 'charts.chartCompareMPC',
-			chart: {
-				type: 'column'
-			},
-			credits: {
-				enabled: false
-			},
-			xAxis: {
-				crosshair: true
-			},
-			yAxis: {
-				min: 0
-			},
-			tooltip: {
-				shared: true,
-				useHTML: true
-			},
-			plotOptions: {
-				column: {
-					pointPadding: 0,
-					borderWidth: 0
-				}
-			},
-			series: []
-		},
-
-		affordability: {
-			contentModel: 'charts.affordability',
-			chart: {
-				plotBackgroundColor: null,
-				plotBorderWidth: null,
-				plotShadow: false,
-				type: 'pie'
-			},
-			title: {
-				text: ''
-			},
-			tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-			},
-			credits: {
-				enabled: false
-			},
-			plotOptions: {
-				pie: {
-					allowPointSelect: true,
-					cursor: 'pointer',
-					dataLabels: {
-						enabled: false
-					},
-					showInLegend: true
-				}
-			},
-			legend: {
-				layout: 'vertical',
-				itemMarginBottom: 0,
-				verticalAlign: 'middle',
-				labelFormat: '',
-				enabled: false
-			},
-			series: [{
-				name: 'Proportion',
-				colorByPoint: true,
-				data: [{
-					dataKey: "results.totalMonthlyMortgageYouCanAfford", //will determine which entry of the data to us as the y
-					contentKey: "affGraphMortgagePayment", //will determine which entry of the content to us as the name
-					color: '#a8b400'
-				}, {
-					dataKey: "data.heatingCosts",
-					contentKey: "affGraphHeat",
-					color: '#faa620'
-				}, {
-					dataKey: "data.propertyTaxes",
-					contentKey: "affGraphPropertyTaxes",
-					color: '#4f324c'
-				}, {
-					dataKey: "data.condoFees",
-					contentKey: "affGraphCondoFees",
-					color: '#39709a'
-				}, {
-					dataKey: "data.totalOtherDebt",
-					contentKey: "affGraphTotalOtherDebt",
-					color: '#39709a'
-				}]
-			}]
-		},
 		chartHISA: {
 			contentModel: 'charts.chartHISA',
 			//colors: ['#3b6e98', '#e68923', '#3b6e98'],
@@ -1627,9 +1439,10 @@ window.defaultBRCalcDataConfig = {
 				visible: false
 			},
 			tooltip: {
-				backgroundColor: '#F5F5F5',
+				backgroundColor: '#FFFFFF',
 				borderRadius: 1,
-				borderWidth: 0,
+				borderWidth: 1,
+				borderColor: '#fff',
 				shared: true,
 				shadow: false,
 				useHTML: true,
@@ -1649,12 +1462,12 @@ window.defaultBRCalcDataConfig = {
 			plotOptions: {
 				area: {
 					stacking: 'normal',
-					//lineColor: '#666666',
-					lineWidth: 1,
+					lineWidth: 2,
 					marker: {
 						enabled: false,
 						symbol: 'circle',
 						radius: 4,
+						lineColor:'#FFFFFF',
 						states: {
 							hover: {
 								enabled: true

@@ -1697,8 +1697,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				hisaCalculator: 'app/hisaCalculator/hisaCalculator.html?' + versionCaching,
 				hisaCalculatorScenario: 'app/hisaCalculator/scenario/hisaScenario.html?' + versionCaching,
 				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
-				hisaCalculatorScenarioReport: 'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?' + versionCaching,
-				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
+				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -2174,12 +2173,12 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
-						handleEvents();
+						handleEvents('change');
 					});
 
 					// change value from inputbox
 					$elm.on('keyup', function (event) {
-						handleEvents();
+						handleEvents('blur');
 					});
 					
 					$scope.$on('resetSlider', function (e, slider) {
@@ -2197,15 +2196,20 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 					function handleEvents(){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
-							isMin = inputVal <= $scope.min ? true : false;
-						inputVal = isNaN(inputVal) ? 1 : inputVal;
+						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
+						
 						if(isInputValid(inputVal)){
 							updateSlider(inputVal);
 							removeError();
 						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.sliderId, isMin);
-							updateSlider(inputVal, isInputValid(inputVal));
-							addError();
+							updateSlider(inputVal);
+							if(eventName === 'change' ){
+								$rootScope.$broadcast('setDefaultVal', $scope.sliderId, isMin);
+								addError();
+								var slider = $('#' + $scope.sliderId)[0];
+								slider.max = $scope.max;
+								slider.min = $scope.min;
+							} 
 						}
 					}
 
@@ -2236,10 +2240,15 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						return false;
 					}
 					
-					function updateSlider(inputValue, isInputValid) {
+					function updateSlider(inputValue) {
 						var slider = $('#' + $scope.sliderId)[0];
-						var sliderValue = isInputValid ? inputValue : slider.value;
-						var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+						slider.max = $scope.max;
+						slider.min = $scope.min;
+						
+						if(isNaN(inputValue)){
+							slider.max = slider.min = inputValue = 0;	
+						}
+						var outputVal = ((inputValue - $scope.min) / ($scope.max - $scope.min));
 						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +
@@ -3765,7 +3774,7 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div style="display:flex" ><span style="clear: both;float:left;height:13px;width:17px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="display:flex" ><span style="clear: both;float:left;height:13px;width:30px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
 				return s + '</div></div>';
 			};

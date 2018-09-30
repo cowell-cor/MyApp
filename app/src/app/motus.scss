@@ -1,0 +1,829 @@
+
+.br-calc {
+	@import '../vendors/css/bootstrap.min';
+}
+
+@font-face {
+	font-family: 'Glyphicons Halflings';
+	src: url("../fonts/glyphicons-halflings-regular.eot");
+	src: url("../fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/glyphicons-halflings-regular.woff2") format("woff2"),
+		url("../fonts/glyphicons-halflings-regular.woff") format("woff"),
+		url("../fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+		url("../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+}
+
+@import '../vendors/css/nouislider.min'; 
+
+/* GLOBALS */
+$colMeriBg : #fff;
+$colMeriBlue: #3b6e98;
+$colMeriLightBlue: #d7e1ed;
+$colMeriOrange: #e68923;
+
+$colMeriWarning:#DC8633;
+
+$colDarkBlue: #4a6896;
+
+$meriFormColor: #00D1AF;
+
+$padding:10px;
+
+/* Slider globals */
+$colSliderUnselected:$colMeriLightBlue;
+$colSliderSelected:$colMeriBlue;
+$colSliderHandle:$colMeriOrange;
+$sliderHeight:10px;
+$sliderHandleRadius:50%;
+$sliderHandleHeight:20px;
+$sliderHandleWidth:$sliderHandleHeight;
+
+
+/* MIXIN */
+@mixin border-radius($radius) {
+	-webkit-background-clip: padding-box;
+	-webkit-border-radius: $radius;
+	-moz-background-clip: padding-box;
+	-moz-border-radius: $radius;
+	border-radius: $radius;
+	background-clip: padding-box;
+}
+@mixin box-shadow($radius) {
+	-webkit-box-shadow: $radius;
+	-moz-box-shadow: $radius;
+	box-shadow: $radius;
+}
+
+@mixin transition($property) {
+	-webkit-transition: $property 300ms ease-out;
+	-moz-transition: $property 300ms ease-out;
+	-o-transition: $property 300ms ease-out;
+	transition: $property 300ms ease-out;
+}
+
+@mixin transform($property) {
+	-webkit-transform: $property;
+	-moz-transform: $property;
+	-o-transform: $property;
+	transform: $property;
+}
+
+/* MEDIA QUERY SIZES */
+$bootstrap-lg-min :1200px;
+$bootstrap-md-max :$bootstrap-lg-min - 1;
+$bootstrap-md-min :992px;
+$bootstrap-sm-max :$bootstrap-md-min - 1;
+$bootstrap-sm-min :768px;
+$bootstrap-xs-max :$bootstrap-sm-min - 1;
+$bootstrap-xs-min :320px;
+$bootstrap-xs-middle-max :480px;
+$bootstrap-xs-middle-min :$bootstrap-xs-middle-max - 1;
+
+/* Override no-ui-slider styles */
+
+.noUi-target.noUi-connect,
+.noUi-target,
+.noUi-connect,
+.noUi-background,
+.noUi-handle {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.noUi-target,
+.noUi-handle {
+	border:none;
+}
+.noUi-handle::before,
+.noUi-handle::after {
+	display:none;
+}
+.noUi-horizontal .noUi-handle {
+	height:$sliderHandleHeight;
+	width:$sliderHandleWidth;
+	left:$sliderHandleWidth/2 * -1;
+	top:($sliderHeight - $sliderHandleHeight) / 2;
+}
+.noUi-handle {
+	background-color:$colSliderHandle;
+	@include border-radius($sliderHandleRadius);
+}
+.noUi-connect {
+	background-color:$colSliderSelected;
+}
+.noUi-background {
+	background-color:$colSliderUnselected;
+}
+.noUi-horizontal {
+	height:$sliderHeight;
+}
+/* END override no-ui-slider */ 
+
+.br-button {
+	height:30px;
+	line-height:30px;
+	padding:0 15px;
+	font-size: 15px;
+	min-width:150px;
+	text-align:center;
+	@extend .default-border-radius;
+
+	&.disabled {
+		background-color:#ccc;
+		cursor:default;
+	}
+
+	&.br-smaller-button {
+		height:25px;
+		line-height:25px;
+	}
+}
+
+.br-left {
+	float:left;
+}
+.br-right {
+	float:right;
+}
+.br-icon {
+	display:inline-block;
+	background-repeat:no-repeat;
+	background-color:transparent;
+	background-size:contain;
+}
+
+.br-full-width {
+	width:100%;
+}
+.br-calc {
+	.br-right-arrow-icon,
+	.br-left-arrow-icon {
+		display:inline-block;
+		width:100%;
+		height:100%;
+		position:relative;
+		&::after {
+			content:"";
+			display:block;
+			position:absolute;
+			top: round((30px - 15px) / 2);
+			width:15px;
+			height:15px;
+			background-image:url(../img/right-arrow.svg);
+			background-repeat:no-repeat;
+			background-size:contain;
+		}
+	}
+
+	.br-left-arrow-icon::after {
+		left:0;
+		background-image:url(../img/left-arrow.svg);
+	}
+	.br-right-arrow-icon::after {
+		right:0;
+	}
+	.br-right-arrow-icon {
+		padding-right:20px;
+	}
+	.br-left-arrow-icon {
+		padding-left:20px;
+	}
+
+	.br-bright-button,
+	.br-dull-button {
+		display:inline-block;
+	}
+	.br-bright-button {
+		color:#fff;
+		background-color:$colMeriOrange;
+	}
+	a.br-bright-button:hover,
+	a.br-bright-button:focus {
+		color:#fff;
+	}
+	.br-dull-button {
+		color:$colMeriBlue;
+		background-color:$colMeriLightBlue;
+	}
+	a.br-dull-button:hover,
+	a.br-dull-button:focus {
+		color:$colMeriBlue;
+	}
+}
+
+#br-ist-calc,
+.br-calc {
+
+	.default-border-radius {
+		@include border-radius(5px);
+	}
+
+	.noselect {
+	  -webkit-touch-callout: none;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
+
+	.defaultcursor {
+		cursor:default;
+	}
+
+	.br-bold {
+		font-weight: bold;
+	}
+
+	.align-content-middle {
+		&::before {
+			content:"";
+			display:inline-block;
+			vertical-align: middle;
+			height:100%;
+		}
+	}
+}
+
+.br-calc {
+	/*width:100%;*/
+	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 16px;
+	color: $meriFormColor;
+	font-weight: 200;
+
+	padding:$padding*2;
+	
+	[tooltip],
+	[uib-tooltip],
+	[popover],
+	[data-toggle="popover"],
+	[data-toggle="tooltip"] {
+		width:$padding*1.5;
+		height:$padding*1.5;
+		background-image:url(../img/tooltip.svg);
+		margin:0 $padding;
+		vertical-align: middle;
+		outline:none;
+	}
+
+	a[data-toggle="tooltip"],
+	a[uib-tooltip] {
+		&,
+		&:hover {
+			text-decoration:none;
+		}
+	}
+
+	.popover,
+	.tooltip    {
+		padding:$padding*2;
+		background-color:$colDarkBlue;
+		color:#fff;
+		text-align:center;
+		display:inline-block;
+		max-width:none;
+		@extend .default-border-radius;
+
+		& .close {
+			display:block;
+			position:absolute;
+			top:0;
+			right:0;
+			color:#fff;
+			opacity:1;
+			font-size:13px;
+			padding:$padding;
+		}
+	}
+
+	/*[role="tooltip"] {*/
+	.tooltip {
+		padding:0;
+		background-color:transparent;
+
+		.tooltip-inner {
+			background-color: $meriFormColor;
+		}
+		.tooltip-arrow {
+			display:none;
+		}
+	}
+
+	.unbreakable {
+		white-space: nowrap;
+	}
+
+	.collapse-button {
+		display:block;
+		width:100%;
+		background-color:#fff;
+		border: 1px solid #fff;
+		@include border-radius(4px);
+		padding:0 10px;
+		margin:10px 0;
+		
+		line-height: 40px;
+		/* height: 40px;
+		overflow:hidden;
+		white-space: nowrap; */
+
+		& > .glyphicon {
+			line-height: inherit;
+			margin-right:5px;
+		}
+
+		& > .glyphicon-chevron-down {
+			@include transform(rotate(-90deg));
+			@include transition(transform);
+
+			-webkit-transition-duration: 100ms;
+			-moz-transition-duration: 100ms;
+			-o-transition-duration: 100ms;
+			transition-duration: 100ms;
+		}
+
+		&.active > .glyphicon-chevron-down {
+			@include transform(rotate(0deg));
+		}
+
+	}
+
+	.list-inline {
+		margin-left:0;
+	}
+
+	.align-right {
+		text-align:right;
+	}
+
+	.align-left {
+		text-align:left;
+	}
+
+	.container{ max-width: 980px;  }
+
+	.header-color-secondary { color: #3f3f3f;}
+	.header-large { 
+		font-size: 36px;
+		color: #00D1AF;
+		font-weight: bold
+	}
+
+	nav {
+		ul li {
+			font-weight: bold;
+			font-size: 13px;
+
+			a {
+				color: #0d2441;
+				/*padding: 5px 10px;*/
+				margin: 5px 10px;
+				padding: 2px 5px;
+				&:hover,
+				&:focus{
+					text-decoration: none;
+					border-bottom: 2px solid #a8b400;
+				}
+			}
+
+			&.active a,
+			&.active a{
+				text-decoration: none;
+				border-bottom: 2px solid #a8b400;
+			}
+		}
+	}
+
+	.tabContent{
+		padding: 30px 0;
+	}
+
+	.leftColumn {
+		h2 { font-size: 25px; font-weight: 600; line-height: 30px; }
+		h4 { color: #3f3f3f; font-weight: 600; margin-top: 30px; }
+		label { 
+			font-weight: 200;
+			color: #414042;	
+			font-family: "Sofia Pro";	
+			font-size: 16px;	
+			font-weight: bold;	
+			line-height: 21px;
+		}
+		
+		label.btn-radio { 
+			width: 100%;
+			border 
+			.btn {
+				border: 1px solid $meriFormColor; 
+				color: $meriFormColor;
+			}
+		}
+
+		input,
+		select,
+		.br-input {
+			text-align:right;
+		}
+
+		.toggle-radio{
+			width: 100%;
+			border: 1px solid $meriFormColor; 
+			@include border-radius(4px);
+
+			label {
+				margin: 0;
+				padding: 0;
+				width: 50%;
+
+				.btn{
+					@include border-radius(4px);
+					border: 0;
+				}
+
+				&.isDisabled span {
+					color:#aaa;
+				}
+
+				&.isDisabled .btn:hover,
+				&.isDisabled .btn:focus {
+					color:#aaa;
+					background-color:transparent;
+					border-color:$meriFormColor;
+					cursor:default;
+				}
+
+				&.isDisabled .btn:active {
+					background-image:none;
+					-webkit-box-shadow:none;
+					box-shadow:none
+				}
+
+				input[disabled],
+				input[disabled]+.btn:hover {
+					cursor:default;
+				}
+
+			}
+		}
+
+		.form-group {
+
+			padding:7px;
+
+			.error-message {
+				display:none;
+			}
+
+			&.error {
+				padding:5px; /* adjust padding for borders */
+				border:solid 2px $colMeriWarning;
+				@include border-radius(5px);
+
+				input,select,
+				.error-message {
+					color:$colMeriWarning;
+				}
+				input,select {
+					font-weight:bold;
+				}
+				.error-message {
+					display:inline-block;
+					margin-top:5px;
+				}
+			}
+		}
+
+		.form-control{ 
+			color: #414042;
+			font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid $meriFormColor;
+            border-radius: 0;
+            box-shadow: none;
+            &:focus{
+                outline: none;
+                box-shadow: none;
+            }
+            
+		}
+
+		.input-group .btn{ /* padding: 6.5px 6px;  */border-color: $meriFormColor; color: $meriFormColor; }
+
+		.br-paymentFrequencySlider{margin-left: 10px; margin-top:40px; }
+
+		input[type="radio"]{display:none; border:0;}
+		input[type="radio"]:checked + .btn{background: #3b6e98; color:#fff;}
+
+	}
+
+	.table-result {
+		background: $meriFormColor;
+		color: #fff;
+		border-color: #faa620;
+
+		th { color: #faa620; font-weight: 300; vertical-align: middle;}
+
+		& > tbody > tr > td,
+		& > tbody > tr > th,
+		& > tfoot > tr > td,
+		& > tfoot > tr > th,
+		& > thead > tr > td,
+		& > thead > tr > th{
+			padding: 15px 5px;
+			text-align: center;
+			border-color: #faa620;
+			vertical-align: middle;
+			min-width: 100px;
+		}
+
+	}
+
+	.actions{
+		text-align: center;
+		padding:30px 0;
+
+		& > * {
+			margin:5px 0;
+		}
+	}
+
+	.disclaimer{
+		margin-top: 30px;
+		color: #999999;
+		font-size: 12px;
+	} 
+
+	.tabContent{
+		padding: 30px 0 20px;
+	}
+
+	.no-margin-bottom{ margin-bottom:0; }
+	.vertical-border-right{ border-right: 1px solid #444444; }
+
+	.nav-tabs>li{
+
+		width: 50%;
+
+		&>a{
+			text-transform: uppercase;
+			text-align: center;
+			background: #f0f0f0;
+			color: #555;
+			padding-top:15px;
+			padding-bottom:15px;
+
+			&:hover{ background: #ddd; }
+		}
+
+		&.active a{
+			background: #fff;
+		}
+	}
+
+	.btn{
+		.glyphicon.floated{
+			position:absolute;
+			top:50%;
+			left:0;
+			@include transform(translate(0, -50%));
+		}
+
+		.toggleExtraPayements {
+			position:relative;
+			white-space: normal;
+			padding-left:10px;
+		}
+	}
+
+	.text-uppercase{ text-transform: uppercase;}
+	.border-orange{border-bottom: 5px solid #e68922;}
+	.border-purple{border-bottom: 5px solid #50324c;}
+	.border-green{border-bottom: 5px solid #a9b400;}
+
+
+	.border-bottom{
+		border-bottom-style:solid;
+		border-bottom-width:5px;
+	}
+
+	.scenarioDetails{margin:20px 0;}
+
+	.compare {
+
+		.bordered{ 
+			border-right: 1px solid #cccccc;
+			border-left: 1px solid #cccccc;
+			margin-left:-1px;
+			margin-bottom:30px;
+			&:first-child{ border-left: 1px solid #cccccc; }
+		}
+		.scenario{
+			background: #f5f5f5;
+			padding: 10px 15px 20px;
+		}
+
+		.form-control,
+		label,
+		.br-label,
+		.br-input { 
+			width:50%;
+			margin-bottom:0;
+			display:inline-block;
+			vertical-align: middle;
+		}
+		label,
+		.br-label {
+			padding-right:5px;
+		}
+		input,
+		.br-input {
+			padding-left:5px;
+		}
+		label.br-full-width,
+		.br-label.br-full-width {
+			width:100%;
+		}
+		.btn-block { font-size:13px; }
+	}
+
+	chart {
+		display:block;
+		position:relative;
+		width:100%;
+		.highcharts-container {
+			width:100% !important; height:100% !important;
+		}
+	}
+}
+
+/* Graph */
+.chart-legend{
+	margin-top: 120px;
+
+	.legend-item{
+		list-style-type: none;
+		display: block;
+		width: 100%;
+		float: left;
+		margin-top: 5px;
+		margin-bottom: 5px;
+
+		&:first-child{
+			margin-top: 0px;
+		}
+
+		&:last-child{
+			margin-bottom: 0px;
+		}
+
+		.pastil{
+			width:24px;
+			height:20px;
+			@include border-radius(7px);
+			display: block;
+			margin-right: 5px;
+		}
+
+		span{
+			float:left;
+			font-size: 14px;
+			line-height: 20px;
+		}
+
+		span:last-child{
+			float: right;
+		}
+		
+	}
+
+	hr{
+		display: block;
+	    margin-top: 0.5em;
+	    margin-bottom: 0.5em;
+	    margin-left: auto;
+	    margin-right: auto;
+	    border-style: inset;
+	    border-width: 1px;
+	    width: 100%;
+	    float: left;
+	}
+}
+
+/* HELVETICA OVERIDE - crash problem in IE9-10 for those who have the fonts */
+[ng-app="br-calc"] {
+	&,
+	.tooltip,
+	.popover {
+		font-family:arial,sans-serif;
+	}
+}
+
+.clearfix{clear:both;}
+
+
+@media (min-width: $bootstrap-sm-min){
+
+}
+
+@media (min-width: $bootstrap-lg-min) {
+
+}
+
+
+/*@media (max-width: 479px) {*/
+@media (max-width:$bootstrap-xs-middle-min) {
+  
+}
+
+/*@media (min-width: 480px) and (max-width: 767px) {*/
+@media (min-width: $bootstrap-xs-middle-max) and (max-width: $bootstrap-xs-max) {
+  
+}
+
+/*@media (max-width: 767px) {*/
+@media (max-width:$bootstrap-xs-max) {
+	.mobile-br {
+		display:block;
+	}
+
+	.br-button {
+		width:100%;
+	}
+
+	.br-right-arrow-icon,
+	.br-left-arrow-icon {
+		width:auto;
+	}
+	.br-left-arrow-icon::after {
+		margin-left:(15px + $padding) * -1;
+	}
+	.br-right-arrow-icon::after {
+		margin-right:(15px + $padding) * -1;
+	}
+
+	.br-calc {
+		padding:$padding*2 0;
+	}
+}
+
+/*@media (min-width: 768px) and (max-width: 991px) {*/
+@media (min-width: $bootstrap-sm-min){
+	
+}
+
+@media (min-width: $bootstrap-sm-min) and (max-width: $bootstrap-sm-max) {
+
+}
+
+/*@media (min-width: 992px) and (max-width: 1199px) {*/
+@media (min-width: $bootstrap-md-min) and (max-width: $bootstrap-md-max) {
+	
+}
+/*@media (min-width: 1200px) {*/
+@media (min-width: $bootstrap-lg-min) {
+	
+}
+
+/* angular css */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+	background-color:red !important;
+}
+
+/*range slider css*/
+.slider {
+	position: relative;
+	text-align: left;
+	height: 0.6em;
+	border: 1px solid #00D1AF;	
+	border-radius: 40px;
+  }
+  
+  .slider .handle {
+	position: absolute;
+	z-index: 2;
+	width: 2em;
+	height: 2em;
+	border: 1px solid #00D1AF;	
+	background-color: #87AFBF;	
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+	border-radius: 50%;
+	}
+
+  
+  .handle {
+	top: -0.7em;
+	margin-left: -1.2em;
+  }
+  
+  .slider .range {
+	position: absolute;
+	z-index: 1;
+	display: block;
+	font-size: .7em;
+	border-radius: 40px;	
+	background-color: #00D1AF;
+	top: 0;
+	height: 100%;
+  }

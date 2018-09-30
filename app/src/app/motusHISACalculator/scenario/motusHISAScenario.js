@@ -1,5 +1,5 @@
 (function ($, jQuery) {
-	brCalc.controller('hisaScenarioCtrl', function ($scope, $attrs, scenarios, $filter, contentManager, $rootScope, $sce) {
+	brCalc.controller('motusHISAScenarioCtrl', function ($scope, $attrs, scenarios, $filter, contentManager, $rootScope, $sce) {
 		var me = this,
 			hisa = scenarios.getScenarios('hisaData'),
 			scenario = hisa.getScenario($attrs.scenarioIndex);
@@ -138,11 +138,11 @@
 					sum += this.y;
 				});
 
-				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
+				s = '<div style="border: 1px solid #dadada;padding: 17px 20px;"><span style="font-family:Arial Regular;font-size:16px;color:#414042;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div style="display:flex" ><span style="clear: both;float:left;height:13px;width:30px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="display:flex" ><span style="clear: both; border-radius: 50%;float:left;height:13px;width:32px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;margin-right: 20px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
-				return s + '</div></div>';
+				return s + '</div></div></div>';
 			};
 
 			//config.yAxis.min =  isDebit + isDeposit + isSavings;
@@ -156,7 +156,7 @@
 		function getDebitSeries() {
 			return {
 				name: 'Debit Transfers',
-				color: '#E68823',
+				color: '#C1C1C1',
 				marker: {
 					symbol: 'circle',
 					fillColor: '#FFFFFF',
@@ -189,7 +189,7 @@
 		function getDepositSeries() {
 			return {
 				name: 'Deposit Transfers',
-				color: '#A8B402',
+				color: '#414143',
 				"marker": {
 					"symbol": "circle",
 					"fillColor": '#FFFFFF',
@@ -221,7 +221,7 @@
 		function getSavingsSeries() {
 			return {
 				name: 'High Interest',
-				color: '#39709A',
+				color: '#00D1AF',
 				"marker": {
 					"symbol": "circle",
 					"fillColor": '#FFFFFF',
@@ -255,7 +255,7 @@
 		function getDefaultSeries(){
 			return {
 				name: 'High Interest',
-				color: '#39709A',
+				color: '#00D1AF',
 				"marker": {
 					"symbol": "circle",
 					"fillColor": '#FFFFFF',

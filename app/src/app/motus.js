@@ -423,7 +423,12 @@
 				hisaCalculator: 'app/hisaCalculator/hisaCalculator.html?' + versionCaching,
 				hisaCalculatorScenario: 'app/hisaCalculator/scenario/hisaScenario.html?' + versionCaching,
 				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
-				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching
+				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
+
+				motusHISACalculator: 'app/motusHISACalculator/motusHISACalculator.html?' + versionCaching,
+				motusHISAaCalculatorScenario: 'app/motusHISACalculator/scenario/motusHISAScenario.html?' + versionCaching,
+				motusHISAaCalculatorScenarioResults: 'app/motusHISACalculator/scenario/motusHISAScenarioResults.html?' + versionCaching,
+				motusHISABoostSavings: 'app/motusHISACalculator/scenario/boostSavings.html?' + versionCaching,
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -911,7 +916,7 @@
 						var sliderElm = $('#' + slider.sliderId)[0],
 							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
 						sliderElm.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
-							'color-stop(' + outputVal + ', #39709A), ' +
+							'color-stop(' + outputVal + ', #06816E), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
 						if(slider.isError)	removeError();
@@ -920,10 +925,9 @@
 						}
 					});
 
-					function handleEvents(){
+					function handleEvents(eventName){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
-						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
-						
+							isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
 						if(isInputValid(inputVal)){
 							updateSlider(inputVal);
 							removeError();
@@ -936,6 +940,7 @@
 								slider.max = $scope.max;
 								slider.min = $scope.min;
 							} 
+							
 						}
 					}
 
@@ -974,9 +979,10 @@
 						if(isNaN(inputValue)){
 							slider.max = slider.min = inputValue = 0;	
 						}
+
 						var outputVal = ((inputValue - $scope.min) / ($scope.max - $scope.min));
 						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
-							'color-stop(' + outputVal + ', #39709A), ' +
+							'color-stop(' + outputVal + ', #06816E), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
 					}
@@ -1416,6 +1422,7 @@
 
 						var parentElem = elem.parents('.form-group'),
 							validator = function (value) {
+								console.log(value);
 								return value;
 							},
 							errorElem, v;
@@ -1458,6 +1465,7 @@
 											// Update view value with validated value (will format value)
 											// Render function from "number" also updates $modelValue
 											ngModelCtrl.$viewValue = value;
+											//ngModelCtrl.$modelValue = value;
 											ngModelCtrl.$render(value);
 											// ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
 											// elem.val(ngModelCtrl.$viewValue);
@@ -1466,7 +1474,7 @@
 											ngModelCtrl.$commitViewValue();
 										}
 									}
-
+									console.log(value);
 									// console.log('VALIDATOR value',value,ngModelCtrl.$pending);
 									return value;
 								};

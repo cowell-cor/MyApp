@@ -1697,8 +1697,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				hisaCalculator: 'app/hisaCalculator/hisaCalculator.html?' + versionCaching,
 				hisaCalculatorScenario: 'app/hisaCalculator/scenario/hisaScenario.html?' + versionCaching,
 				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
-				hisaCalculatorScenarioReport: 'app/hisaCalculator/scenarioReport/hisaScenarioReport.html?' + versionCaching,
-				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
+				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -2174,12 +2173,12 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
-						handleEvents();
+						handleEvents('change');
 					});
 
 					// change value from inputbox
 					$elm.on('keyup', function (event) {
-						handleEvents();
+						handleEvents('blur');
 					});
 					
 					$scope.$on('resetSlider', function (e, slider) {
@@ -2197,15 +2196,20 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 					function handleEvents(){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
-							isMin = inputVal <= $scope.min ? true : false;
-						inputVal = isNaN(inputVal) ? 1 : inputVal;
+						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
+						
 						if(isInputValid(inputVal)){
 							updateSlider(inputVal);
 							removeError();
 						}else{
-							$rootScope.$broadcast('setDefaultVal', $scope.sliderId, isMin);
-							updateSlider(inputVal, isInputValid(inputVal));
-							addError();
+							updateSlider(inputVal);
+							if(eventName === 'change' ){
+								$rootScope.$broadcast('setDefaultVal', $scope.sliderId, isMin);
+								addError();
+								var slider = $('#' + $scope.sliderId)[0];
+								slider.max = $scope.max;
+								slider.min = $scope.min;
+							} 
 						}
 					}
 
@@ -2236,10 +2240,15 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						return false;
 					}
 					
-					function updateSlider(inputValue, isInputValid) {
+					function updateSlider(inputValue) {
 						var slider = $('#' + $scope.sliderId)[0];
-						var sliderValue = isInputValid ? inputValue : slider.value;
-						var outputVal = ((sliderValue - $scope.min) / ($scope.max - $scope.min));
+						slider.max = $scope.max;
+						slider.min = $scope.min;
+						
+						if(isNaN(inputValue)){
+							slider.max = slider.min = inputValue = 0;	
+						}
+						var outputVal = ((inputValue - $scope.min) / ($scope.max - $scope.min));
 						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
 							'color-stop(' + outputVal + ', #39709A), ' +
 							'color-stop(' + outputVal + ', #fff)' +

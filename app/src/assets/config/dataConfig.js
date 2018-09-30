@@ -1654,7 +1654,7 @@ window.defaultBRCalcDataConfig = {
 					marker: {
 						enabled: false,
 						symbol: 'circle',
-						radius: 2,
+						radius: 4,
 						states: {
 							hover: {
 								enabled: true
