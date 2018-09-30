@@ -16,9 +16,7 @@
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance:none;
-          background-image: url(../img/down-arrow.svg);
-          background-repeat: no-repeat;
-         // background-position: right;
+          background: transparent url(../img/down-arrow.svg) no-repeat right top;
         }
 
         .merdianSavings {
@@ -30,9 +28,7 @@
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance:none;
-          background-image: url(../img/down-arrow.svg);
-          background-repeat: no-repeat;
-          //background-position: right;
+          background: transparent url(../img/down-arrow.svg) no-repeat right top;
         }
       }
     }
@@ -243,7 +239,11 @@
         align-items: center;
         justify-content: space-around;
       }
-
+      @media(max-width: 991px){
+        &-container {
+          width: 100%;
+        }
+      }
       &-content {
         width: 65%;
         margin-top: 17px;
