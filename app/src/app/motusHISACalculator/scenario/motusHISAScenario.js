@@ -138,9 +138,9 @@
 					sum += this.y;
 				});
 
-				s = '<div style="border: 1px solid #dadada;padding: 17px 20px;"><span style="font-family:Arial Regular;font-size:16px;color:#414042;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
+				s = '<div style="border: 1px solid #dadada;padding: 10px 17px;"><span style="font-family:Arial Regular;font-size:16px;color:#414042;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:25px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div style="display:flex" ><span style="clear: both; border-radius: 50%;float:left;height:13px;width:32px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;margin-right: 20px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="display:flex" ><span style="clear: both; border-radius: 50%;float:left;height:13px;width:32px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
 				return s + '</div></div></div>';
 			};
