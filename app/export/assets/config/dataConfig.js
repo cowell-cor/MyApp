@@ -928,6 +928,12 @@ window.defaultBRCalcDataConfig = {
 							boostSavingsPercentage: 3,
 							boostMonths: 4
 						},
+						rateOfInterestValues: {
+							savings: "0.0012",
+							tfsa: "0.0012",
+							rsp : "0.0012",
+						},
+						boostRateOfInterest:"0.0025",
 					},
 
 					results: {

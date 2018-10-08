@@ -2154,7 +2154,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input aria-label='{{label}}' id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2169,7 +2169,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					displayMin: '=',
 					displayMax: '=',
 					sliderTextId: '=',
-					maxLen:'='
+					maxLen:'=',
+					label:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
@@ -2194,7 +2195,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						}
 					});
 
-					function handleEvents(){
+					function handleEvents(eventName){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
 						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
 						
@@ -4101,15 +4102,6 @@ brCalc.controller('mortgagePaymentScenarioCtrl', function($scope,scenarios,$attr
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
-brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenarios,$attrs) {
-	var scenario = scenarios.getScenario('mortgagePaymentData',$attrs.scenarioIndex);
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
 brCalc.controller('mortgagePaymentScenarioReportCtrl', function($scope,scenarios,$attrs,$filter,contentManager) {
 	var me = this,
 		scenariosData = scenarios.getScenarios('mortgagePaymentData');
@@ -4188,6 +4180,15 @@ brCalc.controller('mortgagePaymentScenarioReportCtrl', function($scope,scenarios
 		me.results.compareGraphConfig = config;
 	}
 
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenarios,$attrs) {
+	var scenario = scenarios.getScenario('mortgagePaymentData',$attrs.scenarioIndex);
+
+	this.data = scenario.data;
+	this.data.scenarioIndex = $attrs.scenarioIndex;
+	this.results = scenario.results;
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
@@ -4380,20 +4381,20 @@ brCalc.controller('lineOfCreditScenarioCtrl', function($scope,$attrs,scenarios,$
 	});
 })($cmsj,$cmsj);
 (function($,jQuery){
+brCalc.controller('lineOfCreditScenarioReportCtrl', function($scope,scenarios,$attrs,$filter) {
+	var me = this,
+		scenariosData = scenarios.getScenarios('lineOfCreditData');
+	this.scenarios = scenariosData.data.scenarios;
+	this.results = scenariosData.results;
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
 brCalc.controller('lineOfCreditScenarioResultsCtrl', function($scope,$attrs,scenarios) {
 	var scenario = scenarios.getScenario('lineOfCreditData',$attrs.scenarioIndex);
 
 	this.data = scenario.data;
 	this.data.scenarioIndex = $attrs.scenarioIndex;
 	this.results = scenario.results;
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('lineOfCreditScenarioReportCtrl', function($scope,scenarios,$attrs,$filter) {
-	var me = this,
-		scenariosData = scenarios.getScenarios('lineOfCreditData');
-	this.scenarios = scenariosData.data.scenarios;
-	this.results = scenariosData.results;
 });
 })($cmsj,$cmsj);
 (function($,jQuery){

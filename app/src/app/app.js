@@ -880,7 +880,7 @@
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input aria-label='{{label}}' id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -895,7 +895,8 @@
 					displayMin: '=',
 					displayMax: '=',
 					sliderTextId: '=',
-					maxLen:'='
+					maxLen:'=',
+					label:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
@@ -920,7 +921,7 @@
 						}
 					});
 
-					function handleEvents(){
+					function handleEvents(eventName){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
 						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
 						

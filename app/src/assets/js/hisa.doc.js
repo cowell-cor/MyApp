@@ -2154,7 +2154,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input aria-label='{{label}}' id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2169,7 +2169,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					displayMin: '=',
 					displayMax: '=',
 					sliderTextId: '=',
-					maxLen:'='
+					maxLen:'=',
+					label:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
@@ -2194,7 +2195,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						}
 					});
 
-					function handleEvents(){
+					function handleEvents(eventName){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
 						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
 						
@@ -3639,11 +3640,14 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 			scenario = hisa.getScenario($attrs.scenarioIndex);
 		// Set the content for the tool (language-dependant content found in config)
 		this.content = contentManager.setContent(hisaContent || {}, 'hisaContent').getContent('hisaContent');
-
+	
 		//////////////////////////////
 		// View accessible variable //
 		//////////////////////////////
 		me.data = scenario.data;
+		
+		me.data.boostRateOfInterest = parseFloat(me.data.boostRateOfInterest);
+
 		this.data.scenarioIndex = $attrs.scenarioIndex;
 
 		this.results = scenario.results;
@@ -3690,7 +3694,6 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
-		//setResults();
 
 		/////////////
 		// Watches //
@@ -3700,36 +3703,48 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 			$scope.setDefaultVal(newValue);
 		});
 
-		// TO DO : uncomment when original links are provided by ALISA
-		//create dynamic value for open account link based on the savings
-		// $scope.$watch("sce.data.savingsAccountType", function (newValue) {
-		// 	switch (newValue) {
-		// 		case '1':
-		// 			$rootScope.$broadcast('openAccountLink', '#link1');
-		// 			break;
-		// 		case '2':
-		// 			$rootScope.$broadcast('openAccountLink', '#link2');
-		// 			break;
-		// 		case '3':
-		// 			$rootScope.$broadcast('openAccountLink', '#link3');
-		// 			break;
-		// 	}
-		// });
+		$scope.$watch("sce.data.initialDepositAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.initialDepositAmount = 0;
+			}else {
+				me.data.initialDepositAmount = newValue;
+			}
+		});
+		$scope.$watch("sce.data.monthlyDepositAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.monthlyDepositAmount = 0;
+			}else {
+				me.data.monthlyDepositAmount = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.numberOfMonthlyDebitTransactions", function (newValue) {
+			if(newValue < 0){
+				me.data.numberOfMonthlyDebitTransactions = 0;
+			}else {
+				me.data.numberOfMonthlyDebitTransactions = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.monthlyCreditsPay", function (newValue) {
+			if(newValue < 0){
+				me.data.monthlyCreditsPay = 0;
+			}else {
+				me.data.monthlyCreditsPay = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.savingsAccountType", function (newValue) {
+			setRateOfInterest(parseInt(newValue));
+		});
 
 		$scope.$watchCollection("sce.data", updateChart, true);
+
 		//////////////////////////////
-		// FIN FONCTIONS DE CALCULS //
+		// CALCULATOR FUNCTIONALITY //
 		//////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-		$rootScope.$on('openAccountLink', function (event, link) {
-			$scope.openActLink = link;
-		});
-
-		///////////////////////////////
-		// Before watches initiation //
-		///////////////////////////////
 
 		function initChart() {
 			me.results.chartHISA = (function () {
@@ -3743,7 +3758,6 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 				isSavings > 0 && config.series.push(getSavingsSeries());
 
-				//config.yAxis.min =  isDebit + isDeposit + isSavings;
 				config.xAxis.categories = getCategories();
 
 				return config;
@@ -4030,9 +4044,9 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 				previousTotal = (i === 1 ? (prevTotal + deposit) : arrOfObj[i - 2].total + deposit);
 				//if boost is true
 				if (isBoostEnabled && i < 5) {
-					obj.total = (previousTotal) * (1 + (0.0012 + 0.0025));
+					obj.total = (previousTotal) * (1 + (me.data.rateOfInterest + me.data.boostRateOfInterest));
 				} else {
-					obj.total = (previousTotal) * (0.0012 + 1);
+					obj.total = (previousTotal) * (me.data.rateOfInterest + 1);
 				}
 				obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObj[i - 2].interest);
 				arrOfObj.push(obj);
@@ -4061,9 +4075,9 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 					obj.deposit = (i === 1 ? (prevTotal + deposit) : deposit);
 					previousTotal = (i === 1 ? (prevTotal + deposit) : arrOfObjMonthly[i - 2].total + deposit);
 					if (isBoostEnabled && j === 1 && i < 5) {
-						obj.total = (previousTotal) * (1 + (0.0012 + 0.0025));
+						obj.total = (previousTotal) * (1 + (me.data.rateOfInterest + me.data.boostRateOfInterest));
 					} else {
-						obj.total = (previousTotal) * (0.0012 + 1);
+						obj.total = (previousTotal) * (me.data.rateOfInterest + 1);
 					}
 					obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObjMonthly[i - 2].interest);
 					arrOfObjMonthly.push(obj);
@@ -4100,6 +4114,25 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 			return boostDiffAmt;
 		}
 
+		
+		function setRateOfInterest(type){
+			var rateOfInterest = me.data.rateOfInterestValues;
+			switch(type){
+				//savings
+				case 1:
+					me.data.rateOfInterest = parseFloat(rateOfInterest.savings);
+				break;
+				//TFSA
+				case 2:
+					me.data.rateOfInterest = parseFloat(rateOfInterest.tfsa);
+					break;
+				//RSP
+				case 3:
+					me.data.rateOfInterest = parseFloat(rateOfInterest.rsp);
+					break;
+			}
+		}
+
 		function setTableResults() {
 			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);
@@ -4109,28 +4142,6 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 		 * Function: getSavingsHeader
 		 */
 		$scope.getSavingsHeader = function () {
-			var savingsType = me.data.savingDuration === 'monthly' ? 'month' : 'year',
-				savingsDurationNumber = me.data.value,
-				displayDuration = savingsDurationNumber > 1 ? savingsDurationNumber + ' ' + savingsType + 's' : savingsDurationNumber + ' ' + savingsType;
-			//extract rate
-			return $filter('currency')(me.data.initialDepositAmount, 2) + ' for ' + displayDuration + ' at ' + '1.40%';
-		};
-
-		/** TO DO
-		 * Function: getSavingsHeader
-		 */
-		$scope.getDebitHeader = function () {
-			var savingsType = me.data.savingDuration === 'monthly' ? 'month' : 'year',
-				savingsDurationNumber = me.data.value,
-				displayDuration = savingsDurationNumber > 1 ? savingsDurationNumber + ' ' + savingsType + 's' : savingsDurationNumber + ' ' + savingsType;
-			//extract rate
-			return $filter('currency')(me.data.initialDepositAmount, 2) + ' monthly transactions ' + displayDuration + ' at ' + '1.40%';
-		};
-
-		/** TO DO
-		 * Function: getSavingsHeader
-		 */
-		$scope.getDepositHeader = function () {
 			var savingsType = me.data.savingDuration === 'monthly' ? 'month' : 'year',
 				savingsDurationNumber = me.data.value,
 				displayDuration = savingsDurationNumber > 1 ? savingsDurationNumber + ' ' + savingsType + 's' : savingsDurationNumber + ' ' + savingsType;

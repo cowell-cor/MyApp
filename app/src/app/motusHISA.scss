@@ -17,6 +17,7 @@
           -moz-appearance: none;
           appearance:none;
           background: transparent url(../img/down-arrow.svg) no-repeat right top;
+          background-size:300px 300px;
         }
 
         .merdianSavings {
@@ -29,6 +30,8 @@
           -moz-appearance: none;
           appearance:none;
           background: transparent url(../img/down-arrow.svg) no-repeat right top;
+          background-position: center;
+          background-size:300px 300px;
         }
       }
     }

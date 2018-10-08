@@ -2159,7 +2159,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input id='{{sliderTextId}}' aria-label='{{label}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2174,7 +2174,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					displayMin: '=',
 					displayMax: '=',
 					sliderTextId: '=',
-					maxLen:'='
+					maxLen:'=',
+					label:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
@@ -2185,7 +2186,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					$elm.on('keyup', function (event) {
 						handleEvents('blur');
 					});
-					
+					console.log($scope.label)
 					$scope.$on('resetSlider', function (e, slider) {
 						var sliderElm = $('#' + slider.sliderId)[0],
 							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
@@ -2696,7 +2697,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 						var parentElem = elem.parents('.form-group'),
 							validator = function (value) {
-								console.log(value);
 								return value;
 							},
 							errorElem, v;
@@ -2748,7 +2748,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 											ngModelCtrl.$commitViewValue();
 										}
 									}
-									console.log(value);
+
 									// console.log('VALIDATOR value',value,ngModelCtrl.$pending);
 									return value;
 								};
@@ -3652,6 +3652,7 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 		// View accessible variable //
 		//////////////////////////////
 		me.data = scenario.data;
+		me.data.boostRateOfInterest = parseFloat(me.data.boostRateOfInterest);
 		this.data.scenarioIndex = $attrs.scenarioIndex;
 
 		this.results = scenario.results;
@@ -3698,7 +3699,6 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 		// Before watches initiation //
 		///////////////////////////////
 		initChart();
-		//setResults();
 
 		/////////////
 		// Watches //
@@ -3707,33 +3707,49 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 		$scope.$watch("sce.data.savingDuration", function (newValue) {
 			$scope.setDefaultVal(newValue);
 		});
+		$scope.$watch("sce.data.initialDepositAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.initialDepositAmount = 0;
+			}else {
+				me.data.initialDepositAmount = newValue;
+			}
+		});
+		$scope.$watch("sce.data.monthlyDepositAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.monthlyDepositAmount = 0;
+			}else {
+				me.data.monthlyDepositAmount = newValue;
+			}
+		});
 
-		// TO DO : uncomment when original links are provided by ALISA
-		//create dynamic value for open account link based on the savings
-		// $scope.$watch("sce.data.savingsAccountType", function (newValue) {
-		// 	switch (newValue) {
-		// 		case '1':
-		// 			$rootScope.$broadcast('openAccountLink', '#link1');
-		// 			break;
-		// 		case '2':
-		// 			$rootScope.$broadcast('openAccountLink', '#link2');
-		// 			break;
-		// 		case '3':
-		// 			$rootScope.$broadcast('openAccountLink', '#link3');
-		// 			break;
-		// 	}
-		// });
+		$scope.$watch("sce.data.numberOfMonthlyDebitTransactions", function (newValue) {
+			if(newValue < 0){
+				me.data.numberOfMonthlyDebitTransactions = 0;
+			}else {
+				me.data.numberOfMonthlyDebitTransactions = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.monthlyCreditsPay", function (newValue) {
+			if(newValue < 0){
+				me.data.monthlyCreditsPay = 0;
+			}else {
+				me.data.monthlyCreditsPay = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.savingsAccountType", function (newValue) {
+			setRateOfInterest(parseInt(newValue));
+		});
+
 
 		$scope.$watchCollection("sce.data", updateChart, true);
 		//////////////////////////////
-		// FIN FONCTIONS DE CALCULS //
+		// CALCULATOR FUNCTIONALITY  //
 		//////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-		$rootScope.$on('openAccountLink', function (event, link) {
-			$scope.openActLink = link;
-		});
 
 		///////////////////////////////
 		// Before watches initiation //
@@ -3751,7 +3767,6 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
 				isSavings > 0 && config.series.push(getSavingsSeries());
 
-				//config.yAxis.min =  isDebit + isDeposit + isSavings;
 				config.xAxis.categories = getCategories();
 
 				return config;
@@ -3780,9 +3795,9 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 					sum += this.y;
 				});
 
-				s = '<div style="border: 1px solid #dadada;padding: 17px 20px;"><span style="font-family:Arial Regular;font-size:16px;color:#414042;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
+				s = '<div style="border: 1px solid #dadada;padding: 10px 17px;"><span style="font-family:Arial Regular;font-size:16px;color:#414042;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:25px">' + $filter('currency')(sum, 2) + '</span><div>';
 				$.each(this.points, function () {
-					s += '<div style="display:flex" ><span style="clear: both; border-radius: 50%;float:left;height:13px;width:32px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;margin-right: 20px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
+					s += '<div style="display:flex" ><span style="clear: both; border-radius: 50%;float:left;height:13px;width:32px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px"> ' + $filter('currency')(this.y, 2) + '</span></div>';
 				});
 				return s + '</div></div></div>';
 			};
@@ -3928,8 +3943,7 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 			};
 		}
 
-
-
+		
 		//hide boost Savings
 		$scope.isBoostSavings = false;
 		/**
@@ -4038,9 +4052,9 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 				previousTotal = (i === 1 ? (prevTotal + deposit) : arrOfObj[i - 2].total + deposit);
 				//if boost is true
 				if (isBoostEnabled && i < 5) {
-					obj.total = (previousTotal) * (1 + (0.0012 + 0.0025));
+					obj.total = (previousTotal) * (1 + (me.data.rateOfInterest + me.data.boostRateOfInterest));
 				} else {
-					obj.total = (previousTotal) * (0.0012 + 1);
+					obj.total = (previousTotal) * (me.data.rateOfInterest + 1);
 				}
 				obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObj[i - 2].interest);
 				arrOfObj.push(obj);
@@ -4069,9 +4083,9 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 					obj.deposit = (i === 1 ? (prevTotal + deposit) : deposit);
 					previousTotal = (i === 1 ? (prevTotal + deposit) : arrOfObjMonthly[i - 2].total + deposit);
 					if (isBoostEnabled && j === 1 && i < 5) {
-						obj.total = (previousTotal) * (1 + (0.0012 + 0.0025));
+						obj.total = (previousTotal) * (1 + (me.data.rateOfInterest + me.data.boostRateOfInterest));
 					} else {
-						obj.total = (previousTotal) * (0.0012 + 1);
+						obj.total = (previousTotal) * (me.data.rateOfInterest + 1);
 					}
 					obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObjMonthly[i - 2].interest);
 					arrOfObjMonthly.push(obj);
@@ -4108,6 +4122,24 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 			return boostDiffAmt;
 		}
 
+		function setRateOfInterest(type){
+			var rateOfInterest = me.data.rateOfInterestValues;
+			switch(type){
+				//savings
+				case 1:
+					me.data.rateOfInterest = parseFloat(rateOfInterest.savings);
+				break;
+				//TFSA
+				case 2:
+					me.data.rateOfInterest = parseFloat(rateOfInterest.tfsa);
+					break;
+				//RSP
+				case 3:
+					me.data.rateOfInterest = parseFloat(rateOfInterest.rsp);
+					break;
+			}
+		}
+
 		function setTableResults() {
 			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
 			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);
@@ -4124,27 +4156,6 @@ brCalc.controller('motusHISACalculatorCtrl', function($scope, scenarios, content
 			return $filter('currency')(me.data.initialDepositAmount, 2) + ' for ' + displayDuration + ' at ' + '1.40%';
 		};
 
-		/** TO DO
-		 * Function: getSavingsHeader
-		 */
-		$scope.getDebitHeader = function () {
-			var savingsType = me.data.savingDuration === 'monthly' ? 'month' : 'year',
-				savingsDurationNumber = me.data.value,
-				displayDuration = savingsDurationNumber > 1 ? savingsDurationNumber + ' ' + savingsType + 's' : savingsDurationNumber + ' ' + savingsType;
-			//extract rate
-			return $filter('currency')(me.data.initialDepositAmount, 2) + ' monthly transactions ' + displayDuration + ' at ' + '1.40%';
-		};
-
-		/** TO DO
-		 * Function: getSavingsHeader
-		 */
-		$scope.getDepositHeader = function () {
-			var savingsType = me.data.savingDuration === 'monthly' ? 'month' : 'year',
-				savingsDurationNumber = me.data.value,
-				displayDuration = savingsDurationNumber > 1 ? savingsDurationNumber + ' ' + savingsType + 's' : savingsDurationNumber + ' ' + savingsType;
-			//extract rate
-			return $filter('currency')(me.data.initialDepositAmount, 2) + ' for ' + displayDuration + ' at ' + '1.40%';
-		};
 
 		/**
 		 * Reset the value of savings slider based on monthly or anually

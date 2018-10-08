@@ -38,6 +38,7 @@
 			<meri-range-slider 
 				ng-init="setDefaultVal(sce.data.savingDuration)"
 				saving-duration="sce.data.savingDuration"
+				label="hisa.content.savingsOptions.label"
 				slider-id="hisa.specs.sliderSavingDuration.label"
 				slider-text-id="hisa.specs.sliderSavingDuration.textId" 
 				min="sce.data.savingDuration ==='monthly' ? sce.data.sliderSavingDurationMonthly.min : sce.data.sliderSavingDurationYearly.min"
@@ -80,7 +81,6 @@
 
 			<meri-input
 				id="numberOfMonthlyDebitTransactions" 
-				class="numMonthlyTrx"
 				data-binding="sce.data.numberOfMonthlyDebitTransactions"
 				field-specs="hisa.specs.numberOfMonthlyDebitTransactions" 
 				ng-model="sce.data.numberOfMonthlyDebitTransactions" 
@@ -92,6 +92,7 @@
 			<meri-range-slider
 				slider-id="hisa.specs.sliderDebitTransfer.label"
 				slider-text-id="hisa.specs.sliderDebitTransfer.textId"
+				label="hisa.content.debitTransfer.amountToDepositPerTransactionlabel"
 				min="sce.data.sliderDebitTransfer.min"
 				max="sce.data.sliderDebitTransfer.max"
 				step="sce.data.sliderDebitTransfer.step"
@@ -127,7 +128,6 @@
 		<div uib-collapse="collapse.depositTransfer">
 			<meri-input
 				id="'monthlyCreditsPay' + sce.results.suffix + '_' + sce.data.scenarioIndex"
-				class="monCreditPay"
 				data-binding="sce.data.monthlyCreditsPay"
 				field-specs="hisa.specs['monthlyCreditsPay' + sce.results.suffix]"
 				ng-model="sce.data.monthlyCreditsPay"
@@ -137,6 +137,7 @@
 			<meri-range-slider 
 				slider-id="hisa.specs.sliderDepositTransfer.label"
 				slider-text-id="hisa.specs.sliderDepositTransfer.textId"
+				label="hisa.content.depositTransfer.monthlyCreditsPayLabel"
 				min="sce.data.sliderDepositTransfer.min"
 				max="sce.data.sliderDepositTransfer.max"
 				step="sce.data.sliderDepositTransfer.step"

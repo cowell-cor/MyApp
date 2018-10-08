@@ -885,7 +885,7 @@
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input id='{{sliderTextId}}' aria-label='{{label}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -900,7 +900,8 @@
 					displayMin: '=',
 					displayMax: '=',
 					sliderTextId: '=',
-					maxLen:'='
+					maxLen:'=',
+					label:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
@@ -911,7 +912,7 @@
 					$elm.on('keyup', function (event) {
 						handleEvents('blur');
 					});
-					
+					console.log($scope.label)
 					$scope.$on('resetSlider', function (e, slider) {
 						var sliderElm = $('#' + slider.sliderId)[0],
 							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
@@ -1422,7 +1423,6 @@
 
 						var parentElem = elem.parents('.form-group'),
 							validator = function (value) {
-								console.log(value);
 								return value;
 							},
 							errorElem, v;
@@ -1474,7 +1474,7 @@
 											ngModelCtrl.$commitViewValue();
 										}
 									}
-									console.log(value);
+
 									// console.log('VALIDATOR value',value,ngModelCtrl.$pending);
 									return value;
 								};

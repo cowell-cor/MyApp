@@ -40,7 +40,7 @@
 					<tbody>
 						<th>
 						<td class="btn-account" ng-class="{'boost-spl-padding':!sce.data.showBoostFeature}">
-							<a href="{{openActLink}}">{{hisa.content.openYourAccount}}</a>
+							<a href="{{hisa.content.openYourAccountLink}}" target="_blank">{{hisa.content.openYourAccount}}</a>
 						</td>
 						</th>
 					</tbody>
@@ -62,8 +62,7 @@
 						<tr>
 							<td class="disclaimer-text" ng-if="isBoostSavings && sce.data.showBoostFeature" ng-bind-html="hisa.content.disclaimer.boostSelectedPara | html">
 							</td>
-							<td class="disclaimer-text" ng-if="isBoostSavings && !sce.data.showBoostFeature">
-								{{hisa.content.disclaimer.boostNotSelected}}
+							<td class="disclaimer-text" ng-if="isBoostSavings && !sce.data.showBoostFeature" ng-bind-html="hisa.content.disclaimer.boostNotSelected | html">
 							</td>
 						</tr>
 					</tbody>

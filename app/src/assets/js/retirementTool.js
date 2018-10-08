@@ -2154,7 +2154,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input aria-label='{{label}}' id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2169,7 +2169,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					displayMin: '=',
 					displayMax: '=',
 					sliderTextId: '=',
-					maxLen:'='
+					maxLen:'=',
+					label:'='
 				},
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
@@ -2194,7 +2195,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						}
 					});
 
-					function handleEvents(){
+					function handleEvents(eventName){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
 						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
 						
@@ -3638,6 +3639,26 @@ brCalc.controller('retirementSavingsCalculatorCtrl', function($scope, scenarios,
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
+brCalc.controller('retirementSavingsScenarioResultsCtrl', function($scope,$attrs,scenarios, $location) {
+	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
+		me = this;
+
+	this.data = scenario.data;
+	this.data.scenarioIndex = $attrs.scenarioIndex;
+	this.results = scenario.results;
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","scenarios",function($scope,$attrs,scenarios) {
+	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
+		me = this;
+
+	this.data = scenario.data;
+	this.data.scenarioIndex = $attrs.scenarioIndex;
+	this.results = scenario.results;
+}]);
+})($cmsj,$cmsj);
+(function($,jQuery){
 brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
 		var me = this,
 			retirementSavingsData = scenarios.getScenarios('retirementSavingsData'),
@@ -4116,24 +4137,4 @@ brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenar
 			me.results.chartRSC = config;
 		}
 	});
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsScenarioResultsCtrl', function($scope,$attrs,scenarios, $location) {
-	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
-		me = this;
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","scenarios",function($scope,$attrs,scenarios) {
-	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
-		me = this;
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-}]);
 })($cmsj,$cmsj);
