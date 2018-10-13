@@ -1,0 +1,12 @@
+<div ng-controller="prePaymentCalculatorCtrl as prePayment" class="container-fluid">
+	<div class="row" ng-controller="prePaymentScenarioCtrl as sce">
+		<div class="col-md-4">
+			<div class="leftColumn">
+				<div ng-include="module.prePaymentCalculatorScenario" data-scenario-index="0"></div>
+			</div>
+		</div>
+		<div>
+			<div class="col-md-8" ng-include="module.prePaymentCalculatorScenarioResults"></div>
+		</div>
+	</div>
+</div>

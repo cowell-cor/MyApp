@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Prepayment Calculator</title>
+
+	<!-- Temporary styling for demonstration purposes only -->
+	<style>
+		.br-calc {
+			max-width: 980px;
+			margin:0 auto;
+			border:1px solid #838383;
+			-webkit-background-clip: padding-box;
+			-webkit-border-radius: 5px;
+			-moz-background-clip: padding-box;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background-clip: padding-box;
+		}
+	</style>
+
+	<!-- inject:css -->
+	<link rel="stylesheet" href="assets/css/prePayment.doc.css?1539296664954">
+	<!-- endinject -->
+</head>
+<!-- Important!! -->
+<!-- ng-jq attribute on body element to have angular use other variable for jQuery -->
+<body ng-jq="$cmsj">
+
+	<div id="" ng-app="br-calc" ng-controller="br-calc as app" ng-include="module.prePaymentCalculator" class="br-calc"></div>
+
+
+	<!-- jQuery version 1.9.1 -->
+		<script type="text/javascript" src="vendors/js/jquery-3.3.1.min.js?1464967859795"></script>
+	<!-- Important!! -->
+	
+	<!-- Temporary jQuery noConflict variable $cmsj -->
+	
+	<!-- Replace in production with read noConflict assignment. -->
+		<script type="text/javascript" src="assets/js/jquery-cmsj-no-conflict.js?1464967859795"></script>
+
+		<script type="text/javascript" src="vendors/js/angular.min.js?1464967859795"></script>
+
+	<!-- Unmerged config files for Edits -->
+		<script type="text/javascript" src="assets/config/dataConfig.js?1464967859795"></script>
+		<script type="text/javascript" src="assets/config/prePaymentConfig.js?1464967859795"></script>
+	<!-- END config -->
+
+	<!-- inject:js -->
+	<script type="text/javascript" src="assets/js/no-conflict-wrap-start.js?1539296664489"></script>
+	<script type="text/javascript" src="vendors/js/bootstrap.min.js?1539296664489"></script>
+	<script type="text/javascript" src="assets/js/no-conflict-wrap-end.js?1539296664489"></script>
+	<script type="text/javascript" src="vendors/js/angular-animate.min.js?1539296664489"></script>
+	<script type="text/javascript" src="vendors/js/angular-bind-html-compile.min.js?1539296664489"></script>
+	<script type="text/javascript" src="vendors/js/angular-sanitize.min.js?1539296664489"></script>
+	<script type="text/javascript" src="vendors/js/ui-bootstrap-tpls-2.1.3.min.js?1539296664489"></script>
+	<script type="text/javascript" src="vendors/js/formula.js?1539296664490"></script>
+	<script type="text/javascript" src="vendors/js/blueUtils.js?1539296664490"></script>
+	<script type="text/javascript" src="app/app.js?1539296664490"></script>
+	<script type="text/javascript" src="app/prePaymentCalculator/prePaymentCalculator.js?1539296664490"></script>
+	<script type="text/javascript" src="app/prePaymentCalculator/scenario/prePaymentScenario.js?1539296664490"></script>
+	<!-- endinject -->
+</body>
+</html>

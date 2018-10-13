@@ -70,6 +70,21 @@ c.event,c.classes,c.options)}return function(a){if(a.from&&a.to){var b=d(a.from)
 
 !function(a){"use strict";var b=a.module("angular-bind-html-compile",[]);b.directive("bindHtmlCompile",["$compile",function(a){return{restrict:"A",link:function(b,c,d){b.$watch(function(){return b.$eval(d.bindHtmlCompile)},function(e){c.html(e&&e.toString());var f=b;d.bindHtmlScope&&(f=b.$eval(d.bindHtmlScope)),a(c.contents())(f)})}}}])}(window.angular);
 /*
+ AngularJS v1.5.3
+ (c) 2010-2016 Google, Inc. http://angularjs.org
+ License: MIT
+*/
+(function(A,e,B){'use strict';function C(a){var c=[];v(c,e.noop).chars(a);return c.join("")}function h(a,c){var b={},d=a.split(","),l;for(l=0;l<d.length;l++)b[c?e.lowercase(d[l]):d[l]]=!0;return b}function D(a,c){null===a||a===B?a="":"string"!==typeof a&&(a=""+a);g.innerHTML=a;var b=5;do{if(0===b)throw w("uinput");b--;11>=document.documentMode&&n(g);a=g.innerHTML;g.innerHTML=a}while(a!==g.innerHTML);for(b=g.firstChild;b;){switch(b.nodeType){case 1:c.start(b.nodeName.toLowerCase(),E(b.attributes));
+    break;case 3:c.chars(b.textContent)}var d;if(!(d=b.firstChild)&&(1==b.nodeType&&c.end(b.nodeName.toLowerCase()),d=b.nextSibling,!d))for(;null==d;){b=b.parentNode;if(b===g)break;d=b.nextSibling;1==b.nodeType&&c.end(b.nodeName.toLowerCase())}b=d}for(;b=g.firstChild;)g.removeChild(b)}function E(a){for(var c={},b=0,d=a.length;b<d;b++){var l=a[b];c[l.name]=l.value}return c}function x(a){return a.replace(/&/g,"&amp;").replace(F,function(a){var b=a.charCodeAt(0);a=a.charCodeAt(1);return"&#"+(1024*(b-55296)+
+    (a-56320)+65536)+";"}).replace(G,function(a){return"&#"+a.charCodeAt(0)+";"}).replace(/</g,"&lt;").replace(/>/g,"&gt;")}function v(a,c){var b=!1,d=e.bind(a,a.push);return{start:function(a,f){a=e.lowercase(a);!b&&H[a]&&(b=a);b||!0!==t[a]||(d("<"),d(a),e.forEach(f,function(b,f){var g=e.lowercase(f),h="img"===a&&"src"===g||"background"===g;!0!==I[g]||!0===y[g]&&!c(b,h)||(d(" "),d(f),d('="'),d(x(b)),d('"'))}),d(">"))},end:function(a){a=e.lowercase(a);b||!0!==t[a]||!0===z[a]||(d("</"),d(a),d(">"));a==
+    b&&(b=!1)},chars:function(a){b||d(x(a))}}}function n(a){if(a.nodeType===Node.ELEMENT_NODE)for(var c=a.attributes,b=0,d=c.length;b<d;b++){var e=c[b],f=e.name.toLowerCase();if("xmlns:ns1"===f||0===f.indexOf("ns1:"))a.removeAttributeNode(e),b--,d--}(c=a.firstChild)&&n(c);(c=a.nextSibling)&&n(c)}var w=e.$$minErr("$sanitize"),F=/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,G=/([^\#-~ |!])/g,z=h("area,br,col,hr,img,wbr"),q=h("colgroup,dd,dt,li,p,tbody,td,tfoot,th,thead,tr"),k=h("rp,rt"),u=e.extend({},k,q),q=e.extend({},
+    q,h("address,article,aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5,h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,section,table,ul")),k=e.extend({},k,h("a,abbr,acronym,b,bdi,bdo,big,br,cite,code,del,dfn,em,font,i,img,ins,kbd,label,map,mark,q,ruby,rp,rt,s,samp,small,span,strike,strong,sub,sup,time,tt,u,var")),J=h("circle,defs,desc,ellipse,font-face,font-face-name,font-face-src,g,glyph,hkern,image,linearGradient,line,marker,metadata,missing-glyph,mpath,path,polygon,polyline,radialGradient,rect,stop,svg,switch,text,title,tspan"),
+    H=h("script,style"),t=e.extend({},z,q,k,u),y=h("background,cite,href,longdesc,src,xlink:href"),u=h("abbr,align,alt,axis,bgcolor,border,cellpadding,cellspacing,class,clear,color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,scope,scrolling,shape,size,span,start,summary,tabindex,target,title,type,valign,value,vspace,width"),k=h("accent-height,accumulate,additive,alphabetic,arabic-form,ascent,baseProfile,bbox,begin,by,calcMode,cap-height,class,color,color-rendering,content,cx,cy,d,dx,dy,descent,display,dur,end,fill,fill-rule,font-family,font-size,font-stretch,font-style,font-variant,font-weight,from,fx,fy,g1,g2,glyph-name,gradientUnits,hanging,height,horiz-adv-x,horiz-origin-x,ideographic,k,keyPoints,keySplines,keyTimes,lang,marker-end,marker-mid,marker-start,markerHeight,markerUnits,markerWidth,mathematical,max,min,offset,opacity,orient,origin,overline-position,overline-thickness,panose-1,path,pathLength,points,preserveAspectRatio,r,refX,refY,repeatCount,repeatDur,requiredExtensions,requiredFeatures,restart,rotate,rx,ry,slope,stemh,stemv,stop-color,stop-opacity,strikethrough-position,strikethrough-thickness,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,systemLanguage,target,text-anchor,to,transform,type,u1,u2,underline-position,underline-thickness,unicode,unicode-range,units-per-em,values,version,viewBox,visibility,width,widths,x,x-height,x1,x2,xlink:actuate,xlink:arcrole,xlink:role,xlink:show,xlink:title,xlink:type,xml:base,xml:lang,xml:space,xmlns,xmlns:xlink,y,y1,y2,zoomAndPan",
+    !0),I=e.extend({},y,k,u),g;(function(a){if(a.document&&a.document.implementation)a=a.document.implementation.createHTMLDocument("inert");else throw w("noinert");var c=(a.documentElement||a.getDocumentElement()).getElementsByTagName("body");1===c.length?g=c[0]:(c=a.createElement("html"),g=a.createElement("body"),c.appendChild(g),a.appendChild(c))})(A);e.module("ngSanitize",[]).provider("$sanitize",function(){var a=!1;this.$get=["$$sanitizeUri",function(c){a&&e.extend(t,J);return function(a){var d=
+    [];D(a,v(d,function(a,b){return!/^unsafe:/.test(c(a,b))}));return d.join("")}}];this.enableSvg=function(c){return e.isDefined(c)?(a=c,this):a}});e.module("ngSanitize").filter("linky",["$sanitize",function(a){var c=/((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,b=/^mailto:/i,d=e.$$minErr("linky"),g=e.isString;return function(f,h,m){function k(a){a&&p.push(C(a))}function q(a,b){var c;p.push("<a ");e.isFunction(m)&&(m=m(a));if(e.isObject(m))for(c in m)p.push(c+
+    '="'+m[c]+'" ');else m={};!e.isDefined(h)||"target"in m||p.push('target="',h,'" ');p.push('href="',a.replace(/"/g,"&quot;"),'">');k(b);p.push("</a>")}if(null==f||""===f)return f;if(!g(f))throw d("notstring",f);for(var r=f,p=[],s,n;f=r.match(c);)s=f[0],f[2]||f[4]||(s=(f[3]?"http://":"mailto:")+s),n=f.index,k(r.substr(0,n)),q(s,f[0].replace(b,"")),r=r.substring(n+f[0].length);k(r);return a(p.join(""))}}])})(window,window.angular);
+    //# sourceMappingURL=angular-sanitize.min.js.map
+/*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
@@ -1697,7 +1712,11 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				hisaCalculator: 'app/hisaCalculator/hisaCalculator.html?' + versionCaching,
 				hisaCalculatorScenario: 'app/hisaCalculator/scenario/hisaScenario.html?' + versionCaching,
 				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
-				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching
+				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
+
+				prePaymentCalculator: 'app/prePaymentCalculator/prepaymentCalculator.html?' + versionCaching,
+				prePaymentCalculatorScenario: 'app/prePaymentCalculator/scenario/prePaymentScenario.html?' + versionCaching,
+				prePaymentCalculatorScenarioResults: 'app/prePaymentCalculator/scenario/prePaymentScenarioResults.html?' + versionCaching
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -3619,34 +3638,33 @@ Formula.FV = function (rate, periods, payment, value, type) {
 	};
 })($cmsj, $cmsj);
 (function($,jQuery){
-brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManager) {
+brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, contentManager) {
 	var me = this;
 	// Set the content for the tool (language-dependant content found in config)
-	this.content = contentManager.setContent(hisaContent || {},'hisaContent').getContent('hisaContent');
+	//this.content = contentManager.setContent(prePaymentContent || {},'prePaymentContent').getContent('prePaymentContent');
 	// Get the scenarios reference, including data, results and validation objects
-	this.hisaData = scenarios.getScenarios('hisaData');
+	//this.prePaymentData = scenarios.getScenarios('prePaymentData');
 	// Get the fieldspecs from the config
 	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
-	this.specs = contentManager.getConfig('fieldspecs.hisa');
+	//this.specs = contentManager.getConfig('fieldspecs.prePayment');
 	
-	this.validation = this.hisaData.validation;
+	//this.validation = this.prePaymentData.validation;
 
 });
 })($cmsj,$cmsj);
 (function ($, jQuery) {
-	brCalc.controller('hisaScenarioCtrl', function ($scope, $attrs, scenarios, $filter, contentManager, $rootScope, $sce) {
+	brCalc.controller('prePaymentScenarioCtrl', function ($scope, $attrs, scenarios, $filter, contentManager) {
 		var me = this,
-			hisa = scenarios.getScenarios('hisaData'),
-			scenario = hisa.getScenario($attrs.scenarioIndex);
+			prePayment = scenarios.getScenarios('prePaymentData'),
+			scenario = prePayment.getScenario($attrs.scenarioIndex);
 		// Set the content for the tool (language-dependant content found in config)
-		this.content = contentManager.setContent(hisaContent || {}, 'hisaContent').getContent('hisaContent');
-	
+		this.content = contentManager.setContent(prePaymentContent || {}, 'prePaymentContent').getContent('prePaymentContent');
+		this.specs = contentManager.getConfig('fieldspecs.prePayment');
+
 		//////////////////////////////
 		// View accessible variable //
 		//////////////////////////////
 		me.data = scenario.data;
-		
-		me.data.boostRateOfInterest = parseFloat(me.data.boostRateOfInterest);
 
 		this.data.scenarioIndex = $attrs.scenarioIndex;
 
@@ -3654,610 +3672,115 @@ brCalc.controller('hisaCalculatorCtrl', function($scope, scenarios, contentManag
 
 		this.validation = scenario.validation;
 
-		// set default value for savings slider
-		//me.data.value = 6;
-		$scope.collapse = {
-			savings: false,
-			debitTransfer: true,
-			depositTransfer: true
+		$scope.today = function () {
+			$scope.dt = new Date();
 		};
-		//tooltip content
+		$scope.today();
 
-		$scope.savingsTooltip = $sce.trustAsHtml(this.content.savingsOptions.tooltipContent);
-
-		$scope.debitTooltip = $sce.trustAsHtml(this.content.debitTransfer.tooltipContent);
-
-		$scope.depositTooltip = $sce.trustAsHtml(this.content.depositTransfer.tooltipContent);
-
-		// default value for open account link
-		$scope.openAcctLnk = "#link1";
-		
-		//capture the change event from slider to update default value in scope
-		$rootScope.$on('setDefaultVal', function (e, sliderId, isMin) {
-			switch (sliderId) {
-				case 'savings_slider':
-					$scope.setDefaultVal(me.data.savingDuration, isMin);
-					break;
-				case 'debitTransfer_slider':
-					$scope.resetDebitTransfer(isMin);
-					break;
-				case 'depositTransfer_slider':
-					$scope.resetDepositTransfer(isMin);
-					break;
-			}
-			$scope.$apply();
-		});
-
-
-
-		///////////////////////////////
-		// Before watches initiation //
-		///////////////////////////////
-		initChart();
-
-		/////////////
-		// Watches //
-		/////////////
-
-		$scope.$watch("sce.data.savingDuration", function (newValue) {
-			$scope.setDefaultVal(newValue);
-		});
-
-		$scope.$watch("sce.data.initialDepositAmount", function (newValue) {
-			if(newValue < 0){
-				me.data.initialDepositAmount = 0;
-			}else {
-				me.data.initialDepositAmount = newValue;
-			}
-		});
-		$scope.$watch("sce.data.monthlyDepositAmount", function (newValue) {
-			if(newValue < 0){
-				me.data.monthlyDepositAmount = 0;
-			}else {
-				me.data.monthlyDepositAmount = newValue;
-			}
-		});
-
-		$scope.$watch("sce.data.numberOfMonthlyDebitTransactions", function (newValue) {
-			if(newValue < 0){
-				me.data.numberOfMonthlyDebitTransactions = 0;
-			}else {
-				me.data.numberOfMonthlyDebitTransactions = newValue;
-			}
-		});
-
-		$scope.$watch("sce.data.monthlyCreditsPay", function (newValue) {
-			if(newValue < 0){
-				me.data.monthlyCreditsPay = 0;
-			}else {
-				me.data.monthlyCreditsPay = newValue;
-			}
-		});
-
-		$scope.$watch("sce.data.savingsAccountType", function (newValue) {
-			setRateOfInterest(parseInt(newValue));
-		});
-
-		$scope.$watchCollection("sce.data", updateChart, true);
-
-		//////////////////////////////
-		// CALCULATOR FUNCTIONALITY //
-		//////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-		function initChart() {
-			me.results.chartHISA = (function () {
-				var config = contentManager.getHighchartConfig('chartHISA'),
-					isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
-					isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
-					isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
-				config.series = [];
-
-				isDebit > 0 && (config.series.unshift(getDebitSeries()));
-				isDeposit > 0 && (config.series.unshift(getDepositSeries()));
-				isSavings > 0 && config.series.push(getSavingsSeries());
-
-				config.xAxis.categories = getCategories();
-
-				return config;
-			})();
-		}
-
-		function updateChart() {
-			var config = angular.extend({}, me.results.chartHISA),
-				isDebit = me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal,
-				isDeposit = ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay),
-				isSavings = (me.data.initialDepositAmount + me.data.monthlyDepositAmount);
-
-			config.series = [];
-
-			isDebit > 0 && (config.series.unshift(getDebitSeries()));
-			isDeposit > 0 && (config.series.unshift(getDepositSeries()));
-			isSavings > 0 && config.series.push(getSavingsSeries());
-
-				isDebit === 0 && isDeposit === 0 && isSavings === 0 && config.series.push(getDefaultSeries());
-
-			// Tooltip formatting
-			config.tooltip.formatter = function () {
-				var sum = 0,
-					s;
-				$.each(this.points, function () {
-					sum += this.y;
-				});
-
-				s = '<span style="font-family:Arial Regular;font-size:16px;color:#39709A;line-height: 21px;">After ' + this.x + ', you will have saved:</span><br/><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;">Total Savings </span><span style="font-family: Arial Bold;font-size:18px;color:#3F3F3F;line-height: 21px;margin-left:22px">' + $filter('currency')(sum, 2) + '</span><div>';
-				$.each(this.points, function () {
-					s += '<div style="display:flex" ><span style="clear: both;float:left;height:13px;width:30px;background-color:' + this.series.color + ';margin: 4px 5px;padding:0"></span><span style="float:left;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0">' + this.series.name + '</span><span  style="float:right;font-size:14px;color:#3F3F3F;font-family: Arial Bold;line-height:21px;padding:0;margin-right: 7px;"> ' + $filter('currency')(this.y, 2) + '</span></div>';
-				});
-				return s + '</div></div>';
-			};
-
-			//config.yAxis.min =  isDebit + isDeposit + isSavings;
-			config.yAxis.min =  me.data.initialDepositAmount + me.data.initialDepositAmount /1000 ;
-			config.xAxis.categories = getCategories();
-			me.results.chartHISA = config;
-
-			setTableResults();
-		}
-
-		function getDebitSeries() {
-			return {
-				name: 'Debit Transfers',
-				color: '#E68823',
-				marker: {
-					symbol: 'circle',
-					fillColor: '#FFFFFF',
-					lineColor: '#FFFFFF'
-				},
-				data: getSeries('debit'),
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index]
-							xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-							if (index === firstIdx || index === lastIdx) return;
-
-							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
-						},
-					}
-				}
-			};
-		}
-
-		function getDepositSeries() {
-			return {
-				name: 'Deposit Transfers',
-				color: '#A8B402',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
-				},
-				data: getSeries('deposit'),
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index];
-							xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-							if (index === firstIdx || index === lastIdx) return;
-							xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
-						},
-					}
-				}
-			};
-		}
-
-		function getSavingsSeries() {
-			return {
-				name: 'High Interest',
-				color: '#39709A',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
-				},
-				data: getSeries('savings'),
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index];
-								xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-								if (index === firstIdx || index === lastIdx) return;
-								if (index !== firstIdx || index !== lastIdx) {
-									xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
-								}
-						},
-					}
-				}
-			};
-		}
-		
-		function getDefaultSeries(){
-			return {
-				name: 'High Interest',
-				color: '#39709A',
-				"marker": {
-					"symbol": "circle",
-					"fillColor": '#FFFFFF',
-					"lineColor": "#FFFFFF"
-				},
-				data: getSeries('defaultSet'),
-				point: {
-					events: {
-						mouseOver: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								category = this.series.xAxis.options.categories[index];
-							xAxis.labelGroup.element.children[index].innerHTML = category;
-						},
-						mouseOut: function () {
-							var xAxis = this.series.chart.xAxis[0],
-								index = this.index,
-								length = xAxis.labelGroup && xAxis.labelGroup.element.children.length,
-								firstIdx = 0,
-								lastIdx = length - 1;
-							if (index === firstIdx || index === lastIdx) return;
-							if (index !== firstIdx || index !== lastIdx) {
-								xAxis.labelGroup && (xAxis.labelGroup.element.children[index].innerHTML = '');
-							}
-						},
-					}
-				}
-			};
-		}
-
-
-
-		//hide boost Savings
-		$scope.isBoostSavings = false;
-		/**
-		 * Function to show or hide disclaimer text
-		 */
-		$scope.showDisclaimer = function () {
-			$scope.isBoostSavings = !$scope.isBoostSavings;
-		};
-		/**
-		 * Show chart or table based onthe selection
-		 * default, chart is always shown
-		 */
-		$scope.isChartOpen = true;
-		$scope.isTableOpen = false;
-		$scope.toggleChart = function (val) {
-			switch (val) {
-				case 'table':
-					$scope.isTableOpen = true;
-					$scope.isChartOpen = !$scope.isTableOpen;
-					break;
-				case 'graph':
-					$scope.isTableOpen = false;
-					$scope.isChartOpen = !$scope.isTableOpen;
-					break;
-			}
+		$scope.clear = function () {
+			$scope.dt = null;
 		};
 
-		function getSeries(type) {
-			var series = [],
-				output;
-			switch (type) {
-				case 'savings':
-					series.push(me.data.initialDepositAmount);
-					output = calc(me.data.initialDepositAmount, me.data.monthlyDepositAmount, me.data.value);
-					break;
-				case 'debit':
-					series.push(me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal);
-					output = calc(0, (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal), me.data.value);
-					break;
-				case 'deposit':
-					series.push((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
-					output = calc(0, ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay), me.data.value);
-					break;
-				case 'defaultSet':
-					output = calc(0, 0, me.data.value);
-					break;
-			}
-
-			//Generate series
-			$.each(output, function (idx, obj) {
-				series.push(obj.total);
-			});
-			return series;
-
-		}
-
-		function getCategories() {
-			var label = me.data.savingDuration === 'monthly' ? ' month' : ' year',
-				firstCategory = '0 ' + label;
-			categories = [0];
-
-			for (var i = 1; i <= me.data.value; i++) {
-				if (i === 1) {
-					categories.push(i + label);
-				} else {
-					categories.push(i + label + 's');
-				}
-			}
-			return categories;
-		}
-
-		function calc(prevTotal, deposit, count) {
-			var arrOfObj = [],
-				isBoostEnabled = me.data.boostSavingsEnabled,
-				savingDurationType = me.data.savingDuration;
-			me.data.boostSavingsAmt = 0;
-			switch (savingDurationType) {
-				case 'monthly':
-					arrOfObj = calculateMonthly(prevTotal, deposit, count, isBoostEnabled, true);
-					if (isBoostEnabled) {
-						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count, savingDurationType, arrOfObj), 2);
-					}
-					break;
-				case 'annually':
-					arrOfObj = calculateYearly(prevTotal, deposit, count, isBoostEnabled, true);
-					if (isBoostEnabled) {
-						me.data.boostSavingsAmt = $filter('currency')(updateBoost(prevTotal, deposit, count, savingDurationType, arrOfObj), 2);
-					}
-					break;
-			}
-			return arrOfObj;
-		}
-
-		function calculateMonthly(prevTotal, deposit, count, isBoostEnabled, isUpdateHeader) {
-			var arrOfObj = [];
-			for (var i = 1; i <= count; i++) {
-				var obj = {
-						interest: 0,
-						month: i,
-						deposit: deposit,
-						total: 0
-					},
-					previousTotal;
-
-				obj.deposit = (i === 1 ? (prevTotal + deposit) : deposit);
-				previousTotal = (i === 1 ? (prevTotal + deposit) : arrOfObj[i - 2].total + deposit);
-				//if boost is true
-				if (isBoostEnabled && i < 5) {
-					obj.total = (previousTotal) * (1 + (me.data.rateOfInterest + me.data.boostRateOfInterest));
-				} else {
-					obj.total = (previousTotal) * (me.data.rateOfInterest + 1);
-				}
-				obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObj[i - 2].interest);
-				arrOfObj.push(obj);
-			}
-			isUpdateHeader && (me.data.totalSavings = arrOfObj.length > 0 && arrOfObj[arrOfObj.length - 1].total);
-			return arrOfObj;
-		}
-
-		function calculateYearly(prevTotal, deposit, count, isBoostEnabled, isUpdateHeader) {
-			var monthLen,
-				arrOfObjMonthly = [],
-				arrOfObjYearly = [];
-
-			for (var j = 1; j <= count; j++) {
-				prevTotal = (j === 1 ? (prevTotal) : arrOfObjYearly[j - 2].total);
-				arrOfObjMonthly = [];
-				for (var i = 1; i <= 12; i++) {
-					var obj = {
-							interest: 0,
-							month: i,
-							deposit: deposit,
-							total: 0
-						},
-						previousTotal;
-
-					obj.deposit = (i === 1 ? (prevTotal + deposit) : deposit);
-					previousTotal = (i === 1 ? (prevTotal + deposit) : arrOfObjMonthly[i - 2].total + deposit);
-					if (isBoostEnabled && j === 1 && i < 5) {
-						obj.total = (previousTotal) * (1 + (me.data.rateOfInterest + me.data.boostRateOfInterest));
-					} else {
-						obj.total = (previousTotal) * (me.data.rateOfInterest + 1);
-					}
-					obj.interest = (i === 1 ? obj.total - previousTotal : obj.total - previousTotal + arrOfObjMonthly[i - 2].interest);
-					arrOfObjMonthly.push(obj);
-				}
-				monthLen = arrOfObjMonthly.length;
-				var objYear = {
-					interest: 0,
-					deposit: deposit,
-					total: 0
-				};
-				objYear.interest = j === 1 ? arrOfObjMonthly[monthLen - 1].interest : arrOfObjYearly[j - 2].interest + arrOfObjMonthly[monthLen - 1].interest;
-				objYear.deposit = arrOfObjMonthly[monthLen - 1].deposit;
-				objYear.total = arrOfObjMonthly[monthLen - 1].total;
-				objYear.year = j;
-				arrOfObjYearly.push(objYear);
-			}
-
-			isUpdateHeader && (me.data.totalSavings = arrOfObjYearly.length > 0 && arrOfObjYearly[arrOfObjYearly.length - 1].total);
-			return arrOfObjYearly;
-		}
-
-		function updateBoost(prevTotal, deposit, count, savingsDurationType, objWithBoost) {
-			var objWithoutBoost,
-				boostDiffAmt;
-			switch (savingsDurationType) {
-				case 'monthly':
-					objWithoutBoost = calculateMonthly(prevTotal, deposit, count, false, false);
-					break;
-				case 'annually':
-					objWithoutBoost = calculateYearly(prevTotal, deposit, count, false, false);
-					break;
-			}
-			boostDiffAmt = (objWithBoost.length > 0 && objWithBoost[objWithBoost.length - 1].total) - (objWithoutBoost.length > 0 && objWithoutBoost[objWithoutBoost.length - 1].total);
-			return boostDiffAmt;
-		}
-
-		
-		function setRateOfInterest(type){
-			var rateOfInterest = me.data.rateOfInterestValues;
-			switch(type){
-				//savings
-				case 1:
-					me.data.rateOfInterest = parseFloat(rateOfInterest.savings);
-				break;
-				//TFSA
-				case 2:
-					me.data.rateOfInterest = parseFloat(rateOfInterest.tfsa);
-					break;
-				//RSP
-				case 3:
-					me.data.rateOfInterest = parseFloat(rateOfInterest.rsp);
-					break;
-			}
-		}
-
-		function setTableResults() {
-			var totalDeposit = me.data.monthlyDepositAmount + (me.data.numberOfMonthlyDebitTransactions * me.data.sliderDebitTransferDefVal) + ((me.data.sliderDepositTransferDefVal / 100) * me.data.monthlyCreditsPay);
-			me.results.resultsBySavingDuration = calc(me.data.initialDepositAmount, totalDeposit, me.data.value);
-		}
-
-		/**
-		 * Function: getSavingsHeader
-		 */
-		$scope.getSavingsHeader = function () {
-			var savingsType = me.data.savingDuration === 'monthly' ? 'month' : 'year',
-				savingsDurationNumber = me.data.value,
-				displayDuration = savingsDurationNumber > 1 ? savingsDurationNumber + ' ' + savingsType + 's' : savingsDurationNumber + ' ' + savingsType;
-			//extract rate
-			return $filter('currency')(me.data.initialDepositAmount, 2) + ' for ' + displayDuration + ' at ' + '1.40%';
+		$scope.inlineOptions = {
+			customClass: getDayClass,
+			minDate: new Date(),
+			showWeeks: true
 		};
 
-		/**
-		 * Reset the value of savings slider based on monthly or anually
-		 * @param {monthly/annually} type 
-		 */
-		$scope.setDefaultVal = function (type, isMin) {
-			switch (type) {
-				case 'monthly':
-					if(isMin === true){
-						me.data.value = 1;
-					}else if (isMin === false){
-						me.data.value = 24;
-					}else {
-						me.data.value = 6;
+		$scope.dateOptions = {
+			dateDisabled: disabled,
+			formatYear: 'yy',
+			maxDate: new Date(2020, 5, 22),
+			minDate: new Date(),
+			startingDay: 1
+		};
+
+		// Disable weekend selection
+		function disabled(data) {
+			var date = data.date,
+				mode = data.mode;
+			return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+		}
+
+		$scope.toggleMin = function () {
+			$scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+			$scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+		};
+
+		$scope.toggleMin();
+
+		$scope.open1 = function () {
+			$scope.popup1.opened = true;
+		};
+
+		$scope.open2 = function () {
+			$scope.popup2.opened = true;
+		};
+
+		$scope.setDate = function (year, month, day) {
+			$scope.dt = new Date(year, month, day);
+		};
+
+		$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+		$scope.format = $scope.formats[0];
+		$scope.altInputFormats = ['M!/d!/yyyy'];
+
+		$scope.popup1 = {
+			opened: false
+		};
+
+		$scope.popup2 = {
+			opened: false
+		};
+
+		var tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		var afterTomorrow = new Date();
+		afterTomorrow.setDate(tomorrow.getDate() + 1);
+		$scope.events = [{
+				date: tomorrow,
+				status: 'full'
+			},
+			{
+				date: afterTomorrow,
+				status: 'partially'
+			}
+		];
+
+		function getDayClass(data) {
+			var date = data.date,
+				mode = data.mode;
+			if (mode === 'day') {
+				var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+				for (var i = 0; i < $scope.events.length; i++) {
+					var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+					if (dayToCheck === currentDay) {
+						return $scope.events[i].status;
 					}
-					
-					//trigger the event to updated the slider color bar
-					$rootScope.$broadcast('resetSlider', {
-						sliderId: 'savings_slider',
-						defaultVal: me.data.value,
-						min: 0,
-						max: 24,
-						callback: function (val) {
-							me.data.value = val;
-						}
-					});
-					break;
-				case 'annually':
-					if(isMin === true){
-						me.data.value = 1;
-					}else if (isMin === false){
-						me.data.value = 40;
-					}else {
-						me.data.value = 25;
-					}
-					$rootScope.$broadcast('resetSlider', {
-						sliderId: 'savings_slider',
-						defaultVal: me.data.value,
-						min: 0,
-						max: 40,
-						callback: function (val) {
-							me.data.value = val;
-						}
-					});
-					break;
-			}
-		};
-		/**
-		 * Function: resetDepositTransfer
-		 */
-
-		$scope.resetDebitTransfer = function (isMin) {
-			if(isMin === true){
-				me.data.numberOfMonthlyDebitTransactions = 0;
-				me.data.sliderDebitTransferDefVal = 0;
-			}else if (isMin === false){
-				me.data.numberOfMonthlyDebitTransactions = 5;
-				me.data.sliderDebitTransferDefVal = 5;
-			}else {
-				me.data.numberOfMonthlyDebitTransactions = 0;
-				me.data.sliderDebitTransferDefVal = 0;
-			}
-			
-			$rootScope.$broadcast('resetSlider', {
-				sliderId: 'debitTransfer_slider',
-				defaultVal: me.data.sliderDebitTransferDefVal,
-				min: 0,
-				max: 5,
-				isError: isMin === undefined && false,
-				callback: function (val) {
-					console.log(val);
-					me.data.sliderDebitTransferDefVal = val;
 				}
-			});
-		};
-
-		/**
-		 * Function: resetDepositTransfer
-		 */
-
-		$scope.resetDepositTransfer = function (isMin) {
-			if(isMin === true){
-				me.data.monthlyCreditsPay = 0;
-				me.data.sliderDepositTransferDefVal = 0;
-			}else if (isMin === false){
-				me.data.monthlyCreditsPay = 0;
-				me.data.sliderDepositTransferDefVal = 100;
-			}else {
-				me.data.monthlyCreditsPay = 0;
-				me.data.sliderDepositTransferDefVal = 0;
 			}
-			
-			$rootScope.$broadcast('resetSlider', {
-				sliderId: 'depositTransfer_slider',
-				defaultVal: me.data.sliderDepositTransferDefVal,
-				min: 0,
-				max: 100,
-				isError: isMin === undefined && false,
-				callback: function (val) {
-					me.data.sliderDepositTransferDefVal = val;
-				}
-			});
-		};
-		/**
-		 * Function: hideDynamiclbl
-		 * compares the current value with default values and return the flag
-		 */
 
-		$scope.hideDynamiclbl = function (txtVal, sliderVal, txtDef, sliderDef) {
-			return txtVal === txtDef && sliderVal === sliderDef;
-		};
+			return '';
+		}
+
+		// TOP: 3 months interest penalty
+		// =(B18*B7)/4
+		// (Prepayment Subjected to Penality * sce.data.interestRate)/4
+
+		// 1. Penalty free payment
+		//sce.data.borrowAmount * Annual priviledge payment percentage
+
+		// 2. Prepayment Subjected to Penality
+		//=IF(B3=B4,B4+B5,B4-B16+B5)
+		// if(sce.data.remainingAmount === sce.data.prePaymentAmount) sce.data.prePaymentAmount + sce.data.lumpSumAmount 
+		// else sce.data.prePaymentAmount - Penalty free payment + sce.data.lumpSumAmount 
+
+
+
+
+
+
 	});
 })($cmsj, $cmsj);

@@ -1,0 +1,30 @@
+<div class="mainColumn prepayment-results">
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<div class="text-center">
+				<h3 class="hisa-header">{{ sce.content.prePaymenRIghttHeader }}</h3>
+				<span class="header-large header-color-secondary">{{ getEstimatedPrepaymentPenalty(sce.data.mortgageType) | currency:2 }}</span>
+				<br/>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row results">
+		<div class="calculation blue">{{sce.content.results.penaltyFreePayment}}</div>
+		<div class="calculation white">{{ (sce.data.borrowAmount * sce.data.annualPaymentPercentage) | currency:2 }}</div>
+		<div class="calculation blue">{{sce.content.results.prepaymentSubjectToPenalty}}</div>
+		<div class="calculation white">{{ getPrepaymentSubjectToPenalty() | currency:2 }}</div>
+		<div class="calculation blue">{{sce.content.results.currentIntRate}}</div>
+		<div class="calculation white">{{ sce.data.interestRateSimilarTerm | percent:2 }}</div>
+	</div>
+	<div class="actions">
+		<a href="{{sce.content.btns.findSpecialistLink}}" class="btn btn-success" target="_blank">{{sce.content.btns.findSpecialist}}</a>
+		<a href="{{sce.content.btns.applyOnlineLink}}" class="btn btn-warning" target="_blank">{{sce.content.btns.applyOnline}}</a>
+	</div>
+	
+	<div class="link-disclaimer" ng-click="isDisclaimer = !isDisclaimer">
+		{{isDisclaimer ? 'Hide disclaimer' : 'Show disclaimer'}}
+		<div ng-if="isDisclaimer" class="disclaimer ng-binding" ng-bind-html="sce.content.disclaimer | html"></div>
+	</div>
+	
+</div>
