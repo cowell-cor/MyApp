@@ -3672,11 +3672,67 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 
 		this.validation = scenario.validation;
 
+		$scope.$watch("sce.data.remainingAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.remainingAmount = 0;
+			}else {
+				me.data.remainingAmount = newValue;
+			}
+		});
+		$scope.$watch("sce.data.prePaymentAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.prePaymentAmount = 0;
+			}else {
+				me.data.prePaymentAmount = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.lumpSumAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.lumpSumAmount = 0;
+			}else {
+				me.data.lumpSumAmount = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.borrowAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.borrowAmount = 0;
+			}else {
+				me.data.borrowAmount = newValue;
+			}
+		});	
+		$scope.$watch("sce.data.interestRate", function (newValue) {
+			if(newValue < 0){
+				me.data.interestRate = 0;
+			}else {
+				me.data.interestRate = newValue;
+			}
+		});
+
+		$scope.$watch("sce.data.originalDiscountRate", function (newValue) {
+			if(newValue < 0){
+				me.data.originalDiscountRate = 0;
+			}else {
+				me.data.originalDiscountRate = newValue;
+			}
+		});
+
+		
+
+		$scope.$watchCollection("sce.data", updateCalculations, true);
+
+		function updateCalculations(newData,oldData){
+			var changedDataName = getChangedPropertyName(oldData,newData);
+			console.log(changedDataName);
+			$scope.getEstimatedPrepaymentPenalty(me.data.mortgageType);
+		}
+
 		$scope.getPrepaymentSubjectToPenalty = function(){
 			if(me.data.remainingAmount === me.data.prePaymentAmount){
 				return me.data.prePaymentAmount + me.data.lumpSumAmount;
 			}else{	
-				return me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount
+				return me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount;
 			}
 		}
 
@@ -3688,11 +3744,13 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 			var amount;
 			switch(type){
 				case 'Fixed':
-					amount = 0;
+					var threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
+					amount = Math.max(calulateInterestRateDeferential(), threeMonthPenalty);
+					//amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
 				break;
 				case 'Variable':
 					//=(B18*B7)/4
-					amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
+					amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRateSimilarTerm ) / 4;
 				break;
 			}
 			return amount;
@@ -3701,7 +3759,7 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 		function calulateInterestRateDeferential(){
 			var amount;
 			// =(((B7-(B9-B10))*B18)*B15)/12
-				(me.data.interestRate - (me.data.interestRateSimilarTerm - (me.data.originalDiscount / 100 ))) 
+			amount = (((me.data.interestRate - (parseFloat(me.data.interestRateSimilarTerm) - (me.data.originalDiscountRate / 100))) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
 			return amount;
 		}
 

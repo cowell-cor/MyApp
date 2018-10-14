@@ -1,4 +1,4 @@
-<h2 class="text-center" bind-html-compile="sce.content.prePaymentHeader "></h2>
+<h2 class="text-center">{{sce.content.prePaymentHeader}}</h2>
 <form name="prePayment_{{sce.data.scenarioIndex}}">
 	<div class="scenario">
 		<meri-input field-specs="sce.specs.borrowAmount" data-binding="sce.data.borrowAmount" field-validation="sce.validation.borrowAmount"></meri-input>
@@ -12,9 +12,9 @@
 
 		<a class="link" href="{{sce.content.scenarioInputs.viewAllRatesLink}}" target="_blank">{{sce.content.scenarioInputs.viewAllRates}}</a>
 
-		<meri-input field-specs="sce.specs.maturityDate" data-binding="sce.data.maturityDate" field-validation="sce.validation.maturityDate"></meri-input>
+		<meri-input field-specs="sce.specs.maturityDate" data-binding="sce.data.maturityDate" field-validation="sce.validation.maturityDate" ng-disabled="sce.data.mortgageType === 'Variable'"></meri-input>
 
-		<meri-input field-specs="sce.specs.originalDiscount" data-binding="sce.data.originalDiscount" field-validation="sce.validation.originalDiscount"></meri-input>
+		<meri-input field-specs="sce.specs.originalDiscount" data-binding="sce.data.originalDiscountRate" field-validation="sce.validation.originalDiscountRate" ng-disabled="sce.data.mortgageType === 'Variable'"></meri-input>
 
 	</div>
 </form>

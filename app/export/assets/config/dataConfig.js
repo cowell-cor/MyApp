@@ -1060,6 +1060,14 @@ window.defaultBRCalcDataConfig = {
 						lumpSumAmount: {
 							min: 0,
 							max: 999999999.99
+						},
+						interestRate: {
+							min: 0,
+							max: 100
+						},
+						originalDiscountRate: {
+							min: 0,
+							max: 100
 						}
 					},
 					results: {}

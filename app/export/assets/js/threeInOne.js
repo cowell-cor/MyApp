@@ -4121,6 +4121,15 @@ brCalc.controller('mortgagePaymentScenarioCtrl', function($scope,scenarios,$attr
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
+brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenarios,$attrs) {
+	var scenario = scenarios.getScenario('mortgagePaymentData',$attrs.scenarioIndex);
+
+	this.data = scenario.data;
+	this.data.scenarioIndex = $attrs.scenarioIndex;
+	this.results = scenario.results;
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
 brCalc.controller('mortgagePaymentScenarioReportCtrl', function($scope,scenarios,$attrs,$filter,contentManager) {
 	var me = this,
 		scenariosData = scenarios.getScenarios('mortgagePaymentData');
@@ -4199,15 +4208,6 @@ brCalc.controller('mortgagePaymentScenarioReportCtrl', function($scope,scenarios
 		me.results.compareGraphConfig = config;
 	}
 
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('mortgagePaymentScenarioResultsCtrl', function($scope,scenarios,$attrs) {
-	var scenario = scenarios.getScenario('mortgagePaymentData',$attrs.scenarioIndex);
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
 });
 })($cmsj,$cmsj);
 (function($,jQuery){
