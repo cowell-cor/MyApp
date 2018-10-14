@@ -46,8 +46,29 @@
         }
         @media (max-width: 991px){
             .results{
-                border : 1px solid red;
+                width: 100%;
+                margin-left: -10px;
+                .blue{
+                    width: 100%;
+                }
+                .white{
+                    text-align: center;
+                    width: 100%;
+                }
             }
+        }
+        /* Extra Small Devices, Phones */ 
+        @media (max-width : 480px) {
+                .actions{
+                    .btn{
+                        display: block;
+                        width: 50%;
+                        margin: 0 auto; 
+                    }
+                    .apply{
+                        margin-top:15px;
+                    }
+                }
         }
     }
 }
