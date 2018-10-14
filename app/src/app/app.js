@@ -423,7 +423,11 @@
 				hisaCalculator: 'app/hisaCalculator/hisaCalculator.html?' + versionCaching,
 				hisaCalculatorScenario: 'app/hisaCalculator/scenario/hisaScenario.html?' + versionCaching,
 				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
-				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching
+				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
+
+				prePaymentCalculator: 'app/prePaymentCalculator/prepaymentCalculator.html?' + versionCaching,
+				prePaymentCalculatorScenario: 'app/prePaymentCalculator/scenario/prePaymentScenario.html?' + versionCaching,
+				prePaymentCalculatorScenarioResults: 'app/prePaymentCalculator/scenario/prePaymentScenarioResults.html?' + versionCaching
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);

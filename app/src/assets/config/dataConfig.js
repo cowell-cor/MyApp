@@ -49,6 +49,11 @@ var defaultBRCalcDataContent = {
 					savings: 'Savings (1.40%)',
 					tfsa: 'Tax-free Savings (1.40%)',
 					rsp: 'RSP (1.40%)'
+				},
+
+				mortgageType:{
+					fixed: 'Fixed',
+					variable: 'Variable'
 				}
 			},
 
@@ -522,6 +527,43 @@ window.defaultBRCalcDataConfig = {
 			}
 
 		},
+		prePayment:{
+			borrowAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.borrowAmount'
+			},
+			remainingAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.remainingAmount'
+			},
+			prePaymentAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.prePaymentAmount'
+			},
+			lumpSumAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.lumpSumAmount'
+			},
+			mortgageType: {
+				configModel: 'select.mortgageType',
+				contentModel: 'label:prePaymentContent.scenarioInputs.mortgageType',
+			},
+			maturityDate:{
+				contentModel: 'label:prePaymentContent.scenarioInputs.maturityDate',
+				directive: 'date'
+			},
+			interestRate: {
+				configModel: 'input.percent2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.interestRate'
+			},
+			originalDiscount: {
+				configModel: 'input.percent2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.originalDiscount',
+				tooltip: {
+					contentModel: 'message:prePaymentContent.tooltip.originalDiscount'
+				}
+			},
+		}
 	},
 
 	scenarios: {
@@ -984,7 +1026,47 @@ window.defaultBRCalcDataConfig = {
 				}
 			},
 			results: {}
-		}
+		},
+		prePaymentData: {
+			data: {
+				scenarios: [],
+				scenarioModel: {
+					data: {
+						borrowAmount: 250000,
+						remainingAmount: 0,
+						prePaymentAmount: 0,
+						lumpSumAmount: 0,
+						mortgageType:"Fixed",
+						interestRate: 0,
+						maturityDate:null,
+						originalDiscountRate: 0,
+						annualPaymentPercentage: '0.2',
+						interestRateSimilarTerm: '.02'
+					},
+
+					validation: {
+						borrowAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						remainingAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						prePaymentAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						lumpSumAmount: {
+							min: 0,
+							max: 999999999.99
+						}
+					},
+					results: {}
+				}
+			},
+			results: {}
+		},
 	},
 
 	validation: {
@@ -1090,7 +1172,11 @@ window.defaultBRCalcDataConfig = {
 			WEEKLY: 'weekly',
 			ACCELERATED_BI_WEEKLY: 'acceleratedBiWeekly',
 			ACCELERATED_WEEKLY: 'acceleratedWeekly',
-			ANNUALLY: 'annually'
+			ANNUALLY: 'annually',
+		},
+		mortgageType:{
+			FIXED: 'Fixed',
+			VARIABLE: 'Variable'
 		}
 	},
 	select: {
@@ -1355,6 +1441,25 @@ window.defaultBRCalcDataConfig = {
 					configModel: 'select.meridianSavingsAccountOptions.rsp'
 				}
 			]
+		},
+		mortgageTypeOptions: {
+			fixed: {
+				contentModel: 'label:select.mortgageType.fixed',
+				//contentModel: 'label:select.meridianSavingsAccount.savings',
+				configModel: 'value:globals.mortgageType.FIXED'
+			},
+			variable: {
+				contentModel: 'label:select.mortgageType.variable',
+				configModel: 'value:globals.mortgageType.VARIABLE'
+			}
+		},
+		mortgageType:{
+			options: [{
+				configModel: 'select.mortgageTypeOptions.fixed'
+			},
+			{
+				configModel: 'select.mortgageTypeOptions.variable'
+			}]
 		}
 	},
 
