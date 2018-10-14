@@ -2201,7 +2201,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					$elm.on('keyup', function (event) {
 						handleEvents('blur');
 					});
-					console.log($scope.label)
+					
 					$scope.$on('resetSlider', function (e, slider) {
 						var sliderElm = $('#' + slider.sliderId)[0],
 							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));

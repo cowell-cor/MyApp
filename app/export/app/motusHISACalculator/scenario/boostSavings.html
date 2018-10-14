@@ -1,0 +1,73 @@
+<div class="form-group" style="padding:0 7px">
+	<div class="row br-boost-row">
+		<div class="col-xs-12">
+			<div>
+				<table class="boost-savings-tbl1" ng-show="{{sce.data.showBoostFeature}}">
+					<thead>
+						<tr>
+							<th colspan="2">
+								Boost your savings by an additional {{ sce.data.boostSavings.boostSavingsPercentage }}%.
+								<div class="sub-heading">Get an additional {{ sce.data.boostSavings.boostSavingsPercentage }}% for the first {{
+									sce.data.boostSavings.boostMonths
+									}} months when you open your account.</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div class="vl-line">
+									<span>
+										{{hisa.content.boostSavings.boostToggle}}
+									</span>
+									<span class="toggle">
+										<label class="switch">
+											<input type="checkbox" ng-checked="sce.data.boostSavingsEnabled" ng-model="sce.data.boostSavingsEnabled"
+											 ng-change="!sce.data.boostSavingsEnabled">
+											<span class="slider round"></span>
+										</label>
+									</span>
+								</div>
+							</td>
+							<td class="boostAmt">
+								<span class="boostAmt" ng-if="sce.data.boostSavingsEnabled">{{sce.data.boostSavingsAmt}}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<table class="boost-savings-tbl2  ng-class="{'boost-savings-tbl2-margin': sce.data.showBoostFeature}"">
+					<tbody>
+						<th>
+						<td class="btn-account" ng-class="{'boost-spl-padding':!sce.data.showBoostFeature}">
+							<a href="{{hisa.content.openYourAccountLink}}" target="_blank">{{hisa.content.openYourAccount}}</a>
+						</td>
+						</th>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<table class="boost-savings-tbl3">
+					<tbody>
+						<tr>
+							<td>
+								<span class="lnk-disclaimer" ng-click="showDisclaimer()" ng-if="!isBoostSavings">
+									{{hisa.content.disclaimer.show}}
+								</span>
+								<span class="lnk-disclaimer" ng-click="showDisclaimer()" ng-if="isBoostSavings">
+									{{hisa.content.disclaimer.hide}}
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="disclaimer-text" ng-if="isBoostSavings && sce.data.showBoostFeature" ng-bind-html="hisa.content.disclaimer.boostSelectedPara | html">
+							</td>
+							<td class="disclaimer-text" ng-if="isBoostSavings && !sce.data.showBoostFeature" ng-bind-html="hisa.content.disclaimer.boostNotSelected | html">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
