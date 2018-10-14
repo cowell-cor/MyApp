@@ -51,3 +51,21 @@
         }
     }
 }
+
+//calender control
+input[type="date"]::-webkit-inner-spin-button {
+    opacity: 0
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background: url(../img/calendar.png) center/80% no-repeat;
+    color: rgba(0, 0, 0, 0);
+    opacity: 0.5
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    background: url(../img/calendar.png) center/80% no-repeat;
+    opacity: 0.8
+  }
+  
+  input[type="date"]::-webkit-clear-button {
+    display: none;
+  }

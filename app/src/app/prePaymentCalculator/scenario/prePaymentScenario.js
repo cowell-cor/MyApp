@@ -77,10 +77,28 @@
 		// if(sce.data.remainingAmount === sce.data.prePaymentAmount) sce.data.prePaymentAmount + sce.data.lumpSumAmount 
 		// else sce.data.prePaymentAmount - Penalty free payment + sce.data.lumpSumAmount 
 
+		//minimum calender value
+		function getCurrentDate(date){
+			var dd = date.getDate();
+			var mm = date.getMonth()+1; //January is 0!
+			var yyyy = date.getFullYear();
 
+			if(dd<10) {
+				dd = '0'+dd
+			} 
 
+			if(mm<10) {
+				mm = '0'+mm
+			} 
 
-
-
+			return (yyyy+ '-' + mm+ '-' + dd);
+		}
+		//get current date in given foramt
+		var currentDate = new Date();
+		$scope.minDate = getCurrentDate(currentDate);
+		//add 5 year to current date
+		var a5FromNow = currentDate;
+		a5FromNow.setFullYear(a5FromNow.getFullYear() + 5);
+		$scope.maxDate = getCurrentDate(a5FromNow);
 	});
 })($cmsj, $cmsj);

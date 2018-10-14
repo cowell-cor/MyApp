@@ -877,6 +877,35 @@
 			};
 		})
 
+		//input type=date, with calender
+		.directive('meriDate', function ($compile, $interpolate) {
+				directiveDefinitionObject = {
+					restrict: 'E',
+					// transclude: true,
+					transclude: false,
+					scope: {
+						fieldSpecs: '<',
+						min: '=',
+						max: '=',
+						label: '='
+					},
+					replace: true,
+					controller: function ($scope, $element, $attrs /*,$transclude*/ ) {
+						$scope.maturityDate = {
+							value: new Date(),
+						  };
+					},
+					template: function (element, attr) {
+						return "<div class='form-group'>" +
+							'<label for="{{ id }}">{{ label }}</label>' +
+							"<input id='{{ id }}'   ng-model='maturityDate.value' min='{{min}}' max='{{max}}' class='form-control' type='date' />" +
+							'</div>';
+					}
+				};
+
+			return directiveDefinitionObject;
+		})
+
 		//Range Slider which accepts min,max,default value
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
