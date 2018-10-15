@@ -1040,6 +1040,7 @@ window.defaultBRCalcDataConfig = {
 						interestRate: 0,
 						maturityDate:null,
 						originalDiscountRate: 0,
+						prepaymentSubjectToPenalty: 0,
 						annualPaymentPercentage: '0.2',
 						interestRateSimilarTerm: '.02'
 					},

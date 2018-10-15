@@ -1,5 +1,5 @@
 (function ($, jQuery) {
-	brCalc.controller('prePaymentScenarioCtrl', function ($scope, $attrs, scenarios, $filter, contentManager) {
+	brCalc.controller('prePaymentScenarioCtrl', function ($scope, $rootScope, $attrs, scenarios, $filter, contentManager) {
 		var me = this,
 			prePayment = scenarios.getScenarios('prePaymentData'),
 			scenario = prePayment.getScenario($attrs.scenarioIndex);
@@ -17,6 +17,11 @@
 		this.results = scenario.results;
 
 		this.validation = scenario.validation;
+
+		//capture the change event from calendar to update default value in scope
+		$rootScope.$on('setMaturityDate', function (e, value) {
+			me.data.maturityDate = value;
+		});
 
 		$scope.$watch("sce.data.remainingAmount", function (newValue) {
 			if(newValue < 0){
@@ -64,63 +69,69 @@
 			}
 		});
 
-		
-
 		$scope.$watchCollection("sce.data", updateCalculations, true);
 
-		function updateCalculations(newData,oldData){
-			var changedDataName = getChangedPropertyName(oldData,newData);
-			console.log(changedDataName);
+		function updateCalculations(){
 			$scope.getEstimatedPrepaymentPenalty(me.data.mortgageType);
 		}
 
 		$scope.getPrepaymentSubjectToPenalty = function(){
+			var amount = 0;
 			if(me.data.remainingAmount === me.data.prePaymentAmount){
-				return me.data.prePaymentAmount + me.data.lumpSumAmount;
+				amount =  me.data.prePaymentAmount + me.data.lumpSumAmount;
 			}else{	
-				return me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount;
+				amount = me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount;
 			}
-		}
+			me.data.prepaymentSubjectToPenalty = amount;
+			return amount;
+		};
 
 		$scope.getPenaltyFreePayment = function(){
 
-		}
+		};
 
 		$scope.getEstimatedPrepaymentPenalty = function(type){
 			var amount;
 			switch(type){
 				case 'Fixed':
-					var threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
-					amount = Math.max(calulateInterestRateDeferential(), threeMonthPenalty);
-					//amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
+					var threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4,
+					result = calulateInterestRateDeferential();
+					amount = (result === -0 ? threeMonthPenalty : Math.max(result, threeMonthPenalty));
 				break;
 				case 'Variable':
 					//=(B18*B7)/4
 					amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRateSimilarTerm ) / 4;
 				break;
 			}
-			return amount;
+			return (amount >= 0 ? amount : -amount);
+			//return amount;
+		};
+
+		$scope.getPrepaymentSubjectToPenaltyAmount = function(){
+			var amount = $scope.getPrepaymentSubjectToPenalty();
+			return (amount >= 0 ? amount : -amount);
 		}
 
 		function calulateInterestRateDeferential(){
 			var amount;
 			// =(((B7-(B9-B10))*B18)*B15)/12
-			amount = (((me.data.interestRate - (parseFloat(me.data.interestRateSimilarTerm) - (me.data.originalDiscountRate / 100))) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
+			amount = (((me.data.interestRate - (parseFloat(me.data.interestRateSimilarTerm) - me.data.originalDiscountRate)) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
 			return amount;
 		}
 
-		function getMonthCount(todayDate, maturityDate){
-			// TO DO - Fetch maturity Date from calendar
-			todayDate = new Date()
-			maturityDate = new Date(2025,03,30) // remember this is equivalent to 06 01 2010
-			//dates in js are counted from 0, so 05 is june
-			var diff = Math.floor(todayDate.getTime() - maturityDate.getTime());
-			var day = 1000 * 60 * 60 * 24;
+		function getMonthCount(){
+			var todayDate = new Date(),
+			maturityDate = me.data.maturityDate;
 
-			var days = Math.floor(diff/day);
-			var months = Math.floor(days/31) + 1;
-			
-			return -(months);
+			if(todayDate && maturityDate){
+				//dates in js are counted from 0
+				var diff = Math.floor(todayDate.getTime() - maturityDate.getTime()),
+					day = 1000 * 60 * 60 * 24,
+					days = Math.floor(diff/day),
+					months = Math.floor(days/31) + 1;
+
+				return (months >= 0 ? months : -months);
+			}
     	}
 
 		// TOP: 3 months interest penalty
@@ -154,6 +165,7 @@
 		//get current date in given foramt
 		var currentDate = new Date();
 		$scope.minDate = getCurrentDate(currentDate);
+
 		//add 5 year to current date
 		var a5FromNow = currentDate;
 		a5FromNow.setFullYear(a5FromNow.getFullYear() + 5);

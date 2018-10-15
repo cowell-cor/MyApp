@@ -1622,7 +1622,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					$(e.currentTarget).on('focus', selectText);
 				},
 				selectText = function (e) {
-					if (e.target && e.target.type === 'range') return;
+					if (e.target && (e.target.type === 'range' || e.target.type === 'date')) return;
 					e.currentTarget.setSelectionRange(0, e.currentTarget.value.length);
 					$(e.currentTarget).on('blur', removeSelectText);
 				},
@@ -2166,6 +2166,74 @@ Formula.FV = function (rate, periods, payment, value, type) {
 			};
 		})
 
+		//input type=date, with calender
+		.directive('meriDate', function ($compile, $interpolate) {
+				directiveDefinitionObject = {
+					restrict: 'E',
+					// transclude: true,
+					transclude: false,
+					scope: {
+						min: '=',
+						max: '=',
+						label: '=',
+						isDisable: '=',
+					},
+					replace: true,
+					link: function ($scope, $elm) {
+							var dateInput = $elm && $elm.find('input');
+							dateInput && (dateInput.on('blur',function(){
+								// check if date input is valid or not
+								var isDateInvalid =  dateInput.hasClass('ng-invalid');
+								if(isDateInvalid){
+									addError();
+									$scope.maturityDate = {
+										value: new Date(),
+									};
+									$scope.$apply();
+								}else{
+									!isDateInvalid && removeError();
+								}
+							}))
+						
+						function addError(){
+							var parentElem = $elm[0];
+							var errElm = parentElem.getElementsByClassName('error-message');
+							if(errElm.length === 0){
+								var errorElem = '<span>Value entered has been adjusted to the current date .</span>';
+								var span = document.createElement('div');
+								span.classList.add("error-message");
+								span.innerHTML = errorElem;
+								parentElem.appendChild(span);
+							}
+							parentElem.classList.add('error');
+						}
+						function removeError(){
+							var parentElem = $elm[0];
+							var errElm = parentElem.getElementsByClassName('error-message');
+							$(errElm).remove();
+							parentElem.classList.remove('error');
+						}
+						
+					},
+					controller: function ($scope, $rootScope) {
+						$scope.maturityDate = {
+							value: new Date(),
+						};
+						$scope.$watch("maturityDate.value", function (newValue) {
+							newValue && $rootScope.$broadcast('setMaturityDate', $scope.maturityDate.value);
+						});
+					},
+					template: function (element, attr) {
+						return "<div class='form-group'>" +
+							'<label for="{{ id }}">{{ label }}</label>' +
+							"<input id='{{ id }}' ng-model='maturityDate.value' min='{{min}}' max='{{max}}' class='form-control' type='date' ng-disabled='isDisable'/>" +
+							'</div>';
+					}
+				};
+
+			return directiveDefinitionObject;
+		})
+
 		//Range Slider which accepts min,max,default value
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
@@ -2182,7 +2250,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					min: '=',
 					max: '=',
 					savingDuration:'=',
-					defaultVal: '=defaultVal',
+					defaultVal: '=',
 					step: '=',
 					sliderId: '=',
 					displayMin: '=',
@@ -2191,6 +2259,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					maxLen:'=',
 					label:'='
 				},
+				replace:true,
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
 						handleEvents('change');
@@ -3653,7 +3722,7 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 });
 })($cmsj,$cmsj);
 (function ($, jQuery) {
-	brCalc.controller('prePaymentScenarioCtrl', function ($scope, $attrs, scenarios, $filter, contentManager) {
+	brCalc.controller('prePaymentScenarioCtrl', function ($scope, $rootScope, $attrs, scenarios, $filter, contentManager) {
 		var me = this,
 			prePayment = scenarios.getScenarios('prePaymentData'),
 			scenario = prePayment.getScenario($attrs.scenarioIndex);
@@ -3671,6 +3740,11 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 		this.results = scenario.results;
 
 		this.validation = scenario.validation;
+
+		//capture the change event from calendar to update default value in scope
+		$rootScope.$on('setMaturityDate', function (e, value) {
+			me.data.maturityDate = value;
+		});
 
 		$scope.$watch("sce.data.remainingAmount", function (newValue) {
 			if(newValue < 0){
@@ -3718,63 +3792,69 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 			}
 		});
 
-		
-
 		$scope.$watchCollection("sce.data", updateCalculations, true);
 
-		function updateCalculations(newData,oldData){
-			var changedDataName = getChangedPropertyName(oldData,newData);
-			console.log(changedDataName);
+		function updateCalculations(){
 			$scope.getEstimatedPrepaymentPenalty(me.data.mortgageType);
 		}
 
 		$scope.getPrepaymentSubjectToPenalty = function(){
+			var amount = 0;
 			if(me.data.remainingAmount === me.data.prePaymentAmount){
-				return me.data.prePaymentAmount + me.data.lumpSumAmount;
+				amount =  me.data.prePaymentAmount + me.data.lumpSumAmount;
 			}else{	
-				return me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount;
+				amount = me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount;
 			}
-		}
+			me.data.prepaymentSubjectToPenalty = amount;
+			return amount;
+		};
 
 		$scope.getPenaltyFreePayment = function(){
 
-		}
+		};
 
 		$scope.getEstimatedPrepaymentPenalty = function(type){
 			var amount;
 			switch(type){
 				case 'Fixed':
-					var threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
-					amount = Math.max(calulateInterestRateDeferential(), threeMonthPenalty);
-					//amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
+					var threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4,
+					result = calulateInterestRateDeferential();
+					amount = (result === -0 ? threeMonthPenalty : Math.max(result, threeMonthPenalty));
 				break;
 				case 'Variable':
 					//=(B18*B7)/4
 					amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRateSimilarTerm ) / 4;
 				break;
 			}
-			return amount;
+			return (amount >= 0 ? amount : -amount);
+			//return amount;
+		};
+
+		$scope.getPrepaymentSubjectToPenaltyAmount = function(){
+			var amount = $scope.getPrepaymentSubjectToPenalty();
+			return (amount >= 0 ? amount : -amount);
 		}
 
 		function calulateInterestRateDeferential(){
 			var amount;
 			// =(((B7-(B9-B10))*B18)*B15)/12
-			amount = (((me.data.interestRate - (parseFloat(me.data.interestRateSimilarTerm) - (me.data.originalDiscountRate / 100))) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
+			amount = (((me.data.interestRate - (parseFloat(me.data.interestRateSimilarTerm) - me.data.originalDiscountRate)) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
 			return amount;
 		}
 
-		function getMonthCount(todayDate, maturityDate){
-			// TO DO - Fetch maturity Date from calendar
-			todayDate = new Date()
-			maturityDate = new Date(2025,03,30) // remember this is equivalent to 06 01 2010
-			//dates in js are counted from 0, so 05 is june
-			var diff = Math.floor(todayDate.getTime() - maturityDate.getTime());
-			var day = 1000 * 60 * 60 * 24;
+		function getMonthCount(){
+			var todayDate = new Date(),
+			maturityDate = me.data.maturityDate;
 
-			var days = Math.floor(diff/day);
-			var months = Math.floor(days/31) + 1;
-			
-			return -(months);
+			if(todayDate && maturityDate){
+				//dates in js are counted from 0
+				var diff = Math.floor(todayDate.getTime() - maturityDate.getTime()),
+					day = 1000 * 60 * 60 * 24,
+					days = Math.floor(diff/day),
+					months = Math.floor(days/31) + 1;
+
+				return (months >= 0 ? months : -months);
+			}
     	}
 
 		// TOP: 3 months interest penalty
@@ -3789,10 +3869,29 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 		// if(sce.data.remainingAmount === sce.data.prePaymentAmount) sce.data.prePaymentAmount + sce.data.lumpSumAmount 
 		// else sce.data.prePaymentAmount - Penalty free payment + sce.data.lumpSumAmount 
 
+		//minimum calender value
+		function getCurrentDate(date){
+			var dd = date.getDate();
+			var mm = date.getMonth()+1; //January is 0!
+			var yyyy = date.getFullYear();
 
+			if(dd<10) {
+				dd = '0'+dd
+			} 
 
+			if(mm<10) {
+				mm = '0'+mm
+			} 
 
+			return (yyyy+ '-' + mm+ '-' + dd);
+		}
+		//get current date in given foramt
+		var currentDate = new Date();
+		$scope.minDate = getCurrentDate(currentDate);
 
-
+		//add 5 year to current date
+		var a5FromNow = currentDate;
+		a5FromNow.setFullYear(a5FromNow.getFullYear() + 5);
+		$scope.maxDate = getCurrentDate(a5FromNow);
 	});
 })($cmsj, $cmsj);

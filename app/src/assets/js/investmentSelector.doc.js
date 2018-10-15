@@ -1625,7 +1625,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					$(e.currentTarget).on('focus', selectText);
 				},
 				selectText = function (e) {
-					if (e.target && e.target.type === 'range') return;
+					if (e.target && (e.target.type === 'range' || e.target.type === 'date')) return;
 					e.currentTarget.setSelectionRange(0, e.currentTarget.value.length);
 					$(e.currentTarget).on('blur', removeSelectText);
 				},
@@ -2169,6 +2169,74 @@ Formula.FV = function (rate, periods, payment, value, type) {
 			};
 		})
 
+		//input type=date, with calender
+		.directive('meriDate', function ($compile, $interpolate) {
+				directiveDefinitionObject = {
+					restrict: 'E',
+					// transclude: true,
+					transclude: false,
+					scope: {
+						min: '=',
+						max: '=',
+						label: '=',
+						isDisable: '=',
+					},
+					replace: true,
+					link: function ($scope, $elm) {
+							var dateInput = $elm && $elm.find('input');
+							dateInput && (dateInput.on('blur',function(){
+								// check if date input is valid or not
+								var isDateInvalid =  dateInput.hasClass('ng-invalid');
+								if(isDateInvalid){
+									addError();
+									$scope.maturityDate = {
+										value: new Date(),
+									};
+									$scope.$apply();
+								}else{
+									!isDateInvalid && removeError();
+								}
+							}))
+						
+						function addError(){
+							var parentElem = $elm[0];
+							var errElm = parentElem.getElementsByClassName('error-message');
+							if(errElm.length === 0){
+								var errorElem = '<span>Value entered has been adjusted to the current date .</span>';
+								var span = document.createElement('div');
+								span.classList.add("error-message");
+								span.innerHTML = errorElem;
+								parentElem.appendChild(span);
+							}
+							parentElem.classList.add('error');
+						}
+						function removeError(){
+							var parentElem = $elm[0];
+							var errElm = parentElem.getElementsByClassName('error-message');
+							$(errElm).remove();
+							parentElem.classList.remove('error');
+						}
+						
+					},
+					controller: function ($scope, $rootScope) {
+						$scope.maturityDate = {
+							value: new Date(),
+						};
+						$scope.$watch("maturityDate.value", function (newValue) {
+							newValue && $rootScope.$broadcast('setMaturityDate', $scope.maturityDate.value);
+						});
+					},
+					template: function (element, attr) {
+						return "<div class='form-group'>" +
+							'<label for="{{ id }}">{{ label }}</label>' +
+							"<input id='{{ id }}' ng-model='maturityDate.value' min='{{min}}' max='{{max}}' class='form-control' type='date' ng-disabled='isDisable'/>" +
+							'</div>';
+					}
+				};
+
+			return directiveDefinitionObject;
+		})
+
 		//Range Slider which accepts min,max,default value
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
@@ -2185,7 +2253,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					min: '=',
 					max: '=',
 					savingDuration:'=',
-					defaultVal: '=defaultVal',
+					defaultVal: '=',
 					step: '=',
 					sliderId: '=',
 					displayMin: '=',
@@ -2194,6 +2262,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					maxLen:'=',
 					label:'='
 				},
+				replace:true,
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
 						handleEvents('change');

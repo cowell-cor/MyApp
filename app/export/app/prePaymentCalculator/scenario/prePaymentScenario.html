@@ -7,13 +7,18 @@
 		<meri-input field-specs="sce.specs.lumpSumAmount" data-binding="sce.data.lumpSumAmount" field-validation="sce.validation.lumpSumAmount"></meri-input>
 
 		<meri-select field-specs="sce.specs.mortgageType" data-binding="sce.data.mortgageType" field-validation="sce.validation.mortgageType"></meri-select>
-		
-		<meri-input field-specs="sce.specs.interestRate" data-binding="sce.data.interestRate" field-validation="sce.validation.interestRate" ng-disabled="sce.data.mortgageType === 'Variable'"></meri-input>
+
+		<meri-input field-specs="sce.specs.interestRate" data-binding="sce.data.interestRate" field-validation="sce.validation.interestRate"
+		ng-disabled="sce.data.mortgageType === 'Variable'"></meri-input>
 
 		<a class="link" href="{{sce.content.scenarioInputs.viewAllRatesLink}}" target="_blank">{{sce.content.scenarioInputs.viewAllRates}}</a>
 
-		<meri-input field-specs="sce.specs.maturityDate" data-binding="sce.data.maturityDate" field-validation="sce.validation.maturityDate" ng-disabled="sce.data.mortgageType === 'Variable'"></meri-input>
-
+		<meri-date 
+			min="minDate"
+			max="maxDate"
+			label="sce.specs.maturityDate.label"
+			is-disable="sce.data.mortgageType === 'Variable'">
+		</meri-date>
 		<meri-input field-specs="sce.specs.originalDiscount" data-binding="sce.data.originalDiscountRate" field-validation="sce.validation.originalDiscountRate" ng-disabled="sce.data.mortgageType === 'Variable'"></meri-input>
 
 	</div>
