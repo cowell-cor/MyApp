@@ -4469,20 +4469,20 @@ brCalc.controller('lineOfCreditScenarioCtrl', function($scope,$attrs,scenarios,$
 	});
 })($cmsj,$cmsj);
 (function($,jQuery){
-brCalc.controller('lineOfCreditScenarioReportCtrl', function($scope,scenarios,$attrs,$filter) {
-	var me = this,
-		scenariosData = scenarios.getScenarios('lineOfCreditData');
-	this.scenarios = scenariosData.data.scenarios;
-	this.results = scenariosData.results;
-});
-})($cmsj,$cmsj);
-(function($,jQuery){
 brCalc.controller('lineOfCreditScenarioResultsCtrl', function($scope,$attrs,scenarios) {
 	var scenario = scenarios.getScenario('lineOfCreditData',$attrs.scenarioIndex);
 
 	this.data = scenario.data;
 	this.data.scenarioIndex = $attrs.scenarioIndex;
 	this.results = scenario.results;
+});
+})($cmsj,$cmsj);
+(function($,jQuery){
+brCalc.controller('lineOfCreditScenarioReportCtrl', function($scope,scenarios,$attrs,$filter) {
+	var me = this,
+		scenariosData = scenarios.getScenarios('lineOfCreditData');
+	this.scenarios = scenariosData.data.scenarios;
+	this.results = scenariosData.results;
 });
 })($cmsj,$cmsj);
 (function($,jQuery){

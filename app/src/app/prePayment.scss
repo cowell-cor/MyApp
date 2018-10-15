@@ -5,7 +5,67 @@
             padding-left: 5px;
             text-decoration: none;
             margin-bottom: 10px;
-            display: block;
+            margin-top: 10px;
+            display: inline-block;
+            font-size: 14px;
+        }
+        .maturity-calendar{
+            input{
+                &::-webkit-inner-spin-button {
+                    opacity: 0
+                }
+                &::-webkit-calendar-picker-indicator {
+                    background: url(../img/calendar.png) center/80% no-repeat;
+                    color: rgba(0, 0, 0, 0);
+                    opacity: 0.5
+                }
+                &::-webkit-calendar-picker-indicator:hover {
+                    background: url(../img/calendar.png) center/80% no-repeat;
+                    opacity: 0.8
+                }
+                &::-webkit-clear-button {
+                    display: none;
+                }
+                //firfox
+                &::-moz-inner-spin-button {
+                    opacity: 0
+                }
+                &::-moz-calendar-picker-indicator {
+                    background: url(../img/calendar.png) center/80% no-repeat;
+                    color: rgba(0, 0, 0, 0);
+                    opacity: 0.5
+                }
+                &::-moz-calendar-picker-indicator:hover {
+                    background: url(../img/calendar.png) center/80% no-repeat;
+                    opacity: 0.8
+                }
+                &::-moz-clear-button {
+                    display: none;
+                }
+                &:disabled{
+                    text-align: right;
+                }
+            }
+        }
+        .mortgage-containder{
+            display: flex;
+            align-items: center;
+            .mortgage-type{
+                width:100%;
+                margin-bottom: 0;
+            }
+            div{
+                &:nth-of-type(2){
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                }
+            }
+
+            .rate{
+                width: 82%;
+                margin-bottom: 0px;
+            }
         }
         .link-disclaimer{
             cursor: pointer;
@@ -72,21 +132,3 @@
         }
     }
 }
-
-//calender control
-input[type="date"]::-webkit-inner-spin-button {
-    opacity: 0
-  }
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    background: url(../img/calendar.png) center/80% no-repeat;
-    color: rgba(0, 0, 0, 0);
-    opacity: 0.5
-  }
-  input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    background: url(../img/calendar.png) center/80% no-repeat;
-    opacity: 0.8
-  }
-  
-  input[type="date"]::-webkit-clear-button {
-    display: none;
-  }
