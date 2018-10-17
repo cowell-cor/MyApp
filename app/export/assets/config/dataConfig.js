@@ -1037,12 +1037,12 @@ window.defaultBRCalcDataConfig = {
 						prePaymentAmount: 0,
 						lumpSumAmount: 0,
 						mortgageType:"Fixed",
-						interestRate: 0,
+						interestRate: 0.000,
 						maturityDate:null,
 						originalDiscountRate: 0,
 						prepaymentSubjectToPenalty: 0,
-						annualPaymentPercentage: '0.2',
-						interestRateSimilarTerm: '.02'
+						annualPaymentPercentage: 0.2,
+						interestRateSimilarTerm: 0.02
 					},
 
 					validation: {
@@ -1064,11 +1064,11 @@ window.defaultBRCalcDataConfig = {
 						},
 						interestRate: {
 							min: 0,
-							max: 100
+							max: 1
 						},
 						originalDiscountRate: {
 							min: 0,
-							max: 100
+							max: 1
 						}
 					},
 					results: {}

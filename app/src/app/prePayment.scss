@@ -15,13 +15,14 @@
                     opacity: 0
                 }
                 &::-webkit-calendar-picker-indicator {
-                    background: url(../img/calendar.png) center/80% no-repeat;
+                    background: url(../img/calendar.png) center/70% no-repeat;
                     color: rgba(0, 0, 0, 0);
-                    opacity: 0.5
+                    opacity: 0.9;
                 }
                 &::-webkit-calendar-picker-indicator:hover {
-                    background: url(../img/calendar.png) center/80% no-repeat;
-                    opacity: 0.8
+                    background: url(../img/calendar.png) center/70% no-repeat;
+                    opacity: 0.9;
+                    cursor: pointer;
                 }
                 &::-webkit-clear-button {
                     display: none;
@@ -33,11 +34,12 @@
                 &::-moz-calendar-picker-indicator {
                     background: url(../img/calendar.png) center/80% no-repeat;
                     color: rgba(0, 0, 0, 0);
-                    opacity: 0.5
+                    opacity: 0.9;
                 }
                 &::-moz-calendar-picker-indicator:hover {
                     background: url(../img/calendar.png) center/80% no-repeat;
-                    opacity: 0.8
+                    opacity: 0.9;
+                    cursor: pointer;
                 }
                 &::-moz-clear-button {
                     display: none;
@@ -49,16 +51,34 @@
         }
         .mortgage-containder{
             display: flex;
-            align-items: center;
             .mortgage-type{
                 width:100%;
                 margin-bottom: 0;
+                padding: 0;
             }
             div{
+                &:nth-of-type(1){
+                    width: 50%;
+                }
                 &:nth-of-type(2){
                     display: flex;
                     flex-direction: column;
                     align-items: flex-end;
+                    justify-content: center;
+                    width: 50%;
+                }
+                &.error{
+                    border: solid 2px #DC8633;
+                    color: #DC8633;
+                    -webkit-background-clip: padding-box;
+                    -webkit-border-radius: 5px;
+                    -moz-background-clip: padding-box;
+                    -moz-border-radius: 5px;
+                    border-radius: 5px;
+                    background-clip: padding-box;
+                    margin : -7px 2px 0 4px;
+                    padding: 5px;
+                    text-align: right;
                 }
             }
 

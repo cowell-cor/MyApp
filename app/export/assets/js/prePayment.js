@@ -3776,8 +3776,8 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 				me.data.borrowAmount = newValue;
 			}
 		});	
-		$scope.$watch("sce.data.interestRate", function (newValue) {
-			if(newValue < 0){
+		$scope.$watch("sce.data.interestRate", function (newValue, oldValue) {
+			if(Math.sign(newValue) === -1 || newValue < 0){
 				me.data.interestRate = 0;
 			}else {
 				me.data.interestRate = newValue;
@@ -3785,7 +3785,7 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 		});
 
 		$scope.$watch("sce.data.originalDiscountRate", function (newValue) {
-			if(newValue < 0){
+			if(Math.sign(newValue) === -1 || newValue < 0){
 				me.data.originalDiscountRate = 0;
 			}else {
 				me.data.originalDiscountRate = newValue;
@@ -3796,6 +3796,7 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 
 		function updateCalculations(){
 			$scope.getEstimatedPrepaymentPenalty(me.data.mortgageType);
+			$scope.getPenaltyFreePayment();
 		}
 
 		$scope.getPrepaymentSubjectToPenalty = function(){
@@ -3810,20 +3811,20 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 		};
 
 		$scope.getPenaltyFreePayment = function(){
-
+			return (me.data.borrowAmount * me.data.annualPaymentPercentage);
 		};
 
 		$scope.getEstimatedPrepaymentPenalty = function(type){
-			var amount;
+			var amount,
+				threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
 			switch(type){
 				case 'Fixed':
-					var threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4,
 					result = calulateInterestRateDeferential();
 					amount = (result === -0 ? threeMonthPenalty : Math.max(result, threeMonthPenalty));
 				break;
 				case 'Variable':
 					//=(B18*B7)/4
-					amount = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRateSimilarTerm ) / 4;
+					amount = threeMonthPenalty;
 				break;
 			}
 			return (amount >= 0 ? amount : -amount);
@@ -3838,7 +3839,7 @@ brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, conten
 		function calulateInterestRateDeferential(){
 			var amount;
 			// =(((B7-(B9-B10))*B18)*B15)/12
-			amount = (((me.data.interestRate - (parseFloat(me.data.interestRateSimilarTerm) - me.data.originalDiscountRate)) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
+			amount = (((me.data.interestRate - (me.data.interestRateSimilarTerm - me.data.originalDiscountRate)) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
 			return amount;
 		}
 
