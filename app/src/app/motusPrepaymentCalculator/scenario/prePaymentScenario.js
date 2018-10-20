@@ -153,12 +153,12 @@
 			var mm = date.getMonth()+1; //January is 0!
 			var yyyy = date.getFullYear();
 
-			if(dd<10) {
-				dd = '0'+dd
+			if(dd < 10) {
+				dd = '0'+dd;
 			} 
 
-			if(mm<10) {
-				mm = '0'+mm
+			if(mm < 10) {
+				mm = '0'+mm;
 			} 
 
 			return (yyyy+ '-' + mm+ '-' + dd);
@@ -167,9 +167,9 @@
 		var currentDate = new Date();
 		$scope.minDate = getCurrentDate(currentDate);
 
-		//add 5 year to current date
+		//add 10 years to current date
 		var a5FromNow = currentDate;
-		a5FromNow.setFullYear(a5FromNow.getFullYear() + 5);
+		a5FromNow.setFullYear(a5FromNow.getFullYear() + 10);
 		$scope.maxDate = getCurrentDate(a5FromNow);
 	});
 })($cmsj, $cmsj);
