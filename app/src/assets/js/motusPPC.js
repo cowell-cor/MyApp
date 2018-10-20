@@ -1714,9 +1714,14 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				hisaCalculatorScenarioResults: 'app/hisaCalculator/scenario/hisaScenarioResults.html?' + versionCaching,
 				hisaBoostSavings: 'app/hisaCalculator/scenario/boostSavings.html?' + versionCaching,
 
-				prePaymentCalculator: 'app/prePaymentCalculator/prepaymentCalculator.html?' + versionCaching,
-				prePaymentCalculatorScenario: 'app/prePaymentCalculator/scenario/prePaymentScenario.html?' + versionCaching,
-				prePaymentCalculatorScenarioResults: 'app/prePaymentCalculator/scenario/prePaymentScenarioResults.html?' + versionCaching
+				motusHISACalculator: 'app/motusHISACalculator/motusHISACalculator.html?' + versionCaching,
+				motusHISAaCalculatorScenario: 'app/motusHISACalculator/scenario/motusHISAScenario.html?' + versionCaching,
+				motusHISAaCalculatorScenarioResults: 'app/motusHISACalculator/scenario/motusHISAScenarioResults.html?' + versionCaching,
+				motusHISABoostSavings: 'app/motusHISACalculator/scenario/boostSavings.html?' + versionCaching,
+
+				motusPrepaymentCalculator: 'app/motusPrepaymentCalculator/prepaymentCalculator.html?' + versionCaching,
+				motusPrepaymentCalculatorScenario: 'app/motusPrepaymentCalculator/scenario/prePaymentScenario.html?' + versionCaching,
+				motusPrepaymentCalculatorScenarioResults: 'app/motusPrepaymentCalculator/scenario/prePaymentScenarioResults.html?' + versionCaching
 			};
 
 			contentManager.setContent(defaultBRCalcDataContent);
@@ -2165,75 +2170,73 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				}
 			};
 		})
-
 		//input type=date, with calender
 		.directive('meriDate', function ($compile, $interpolate) {
-				directiveDefinitionObject = {
-					restrict: 'E',
-					// transclude: true,
-					transclude: false,
-					scope: {
-						min: '=',
-						max: '=',
-						label: '=',
-						isDisable: '=',
-					},
-					replace: true,
-					link: function ($scope, $elm) {
-							var dateInput = $elm && $elm.find('input');
-							dateInput && (dateInput.on('blur',function(){
-								// check if date input is valid or not
-								var isDateInvalid =  dateInput.hasClass('ng-invalid');
-								if(isDateInvalid){
-									addError();
-									$scope.maturityDate = {
-										value: new Date(),
-									};
-									$scope.$apply();
-								}else{
-									!isDateInvalid && removeError();
-								}
-							}))
-						
-						function addError(){
-							var parentElem = $elm[0];
-							var errElm = parentElem.getElementsByClassName('error-message');
-							if(errElm.length === 0){
-								var errorElem = '<span>Value entered has been adjusted to the current date .</span>';
-								var span = document.createElement('div');
-								span.classList.add("error-message");
-								span.innerHTML = errorElem;
-								parentElem.appendChild(span);
+			directiveDefinitionObject = {
+				restrict: 'E',
+				// transclude: true,
+				transclude: false,
+				scope: {
+					min: '=',
+					max: '=',
+					label: '=',
+					isDisable: '=',
+				},
+				replace: true,
+				link: function ($scope, $elm) {
+						var dateInput = $elm && $elm.find('input');
+						dateInput && (dateInput.on('blur',function(){
+							// check if date input is valid or not
+							var isDateInvalid =  dateInput.hasClass('ng-invalid');
+							if(isDateInvalid){
+								addError();
+								$scope.maturityDate = {
+									value: new Date(),
+								};
+								$scope.$apply();
+							}else{
+								!isDateInvalid && removeError();
 							}
-							parentElem.classList.add('error');
+						}))
+					
+					function addError(){
+						var parentElem = $elm[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						if(errElm.length === 0){
+							var errorElem = '<span>Value entered has been adjusted to the current date .</span>';
+							var span = document.createElement('div');
+							span.classList.add("error-message");
+							span.innerHTML = errorElem;
+							parentElem.appendChild(span);
 						}
-						function removeError(){
-							var parentElem = $elm[0];
-							var errElm = parentElem.getElementsByClassName('error-message');
-							$(errElm).remove();
-							parentElem.classList.remove('error');
-						}
-						
-					},
-					controller: function ($scope, $rootScope) {
-						$scope.maturityDate = {
-							value: new Date(),
-						};
-						$scope.$watch("maturityDate.value", function (newValue) {
-							newValue && $rootScope.$broadcast('setMaturityDate', $scope.maturityDate.value);
-						});
-					},
-					template: function (element, attr) {
-						return "<div class='form-group'>" +
-							'<label for="{{ id }}">{{ label }}</label>' +
-							"<input id='{{ id }}' ng-model='maturityDate.value' min='{{min}}' max='{{max}}' class='form-control' type='date' ng-disabled='isDisable'/>" +
-							'</div>';
+						parentElem.classList.add('error');
 					}
-				};
+					function removeError(){
+						var parentElem = $elm[0];
+						var errElm = parentElem.getElementsByClassName('error-message');
+						$(errElm).remove();
+						parentElem.classList.remove('error');
+					}
+					
+				},
+				controller: function ($scope, $rootScope) {
+					$scope.maturityDate = {
+						value: new Date(),
+					};
+					$scope.$watch("maturityDate.value", function (newValue) {
+						newValue && $rootScope.$broadcast('setMaturityDate', $scope.maturityDate.value);
+					});
+				},
+				template: function (element, attr) {
+					return "<div class='form-group'>" +
+						'<label for="{{ id }}">{{ label }}</label>' +
+						"<input id='{{ id }}' ng-model='maturityDate.value' min='{{min}}' max='{{max}}' class='form-control' type='date' ng-disabled='isDisable'/>" +
+						'</div>';
+				}
+			};
 
 			return directiveDefinitionObject;
 		})
-
 		//Range Slider which accepts min,max,default value
 		.directive('meriRangeSlider', function ($rootScope) {
 			var tpl = "<div class='slider-cont form-group'>" +
@@ -2241,7 +2244,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 				"<input aria-hidden='true' id='{{sliderId}}' class='slider' type='range' min='{{min}}' max='{{max}}' step='{{step}}' value='{{defaultVal}}' ng-model='defaultVal' />" +
 				"<div class='slider-label'><span>{{displayMin || min}}</span>" +
 				"<span>{{displayMax||max}}<span></div></div>" +
-				"<div class='slider-text'><input aria-label='{{label}}' id='{{sliderTextId}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
+				"<div class='slider-text'><input id='{{sliderTextId}}' aria-label='{{label}}' maxlength='{{maxLen}}' ng-model=defaultVal  /></div></div></div>";
 
 			return {
 				restrict: 'E',
@@ -2250,7 +2253,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					min: '=',
 					max: '=',
 					savingDuration:'=',
-					defaultVal: '=',
+					defaultVal: '=defaultVal',
 					step: '=',
 					sliderId: '=',
 					displayMin: '=',
@@ -2259,7 +2262,6 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					maxLen:'=',
 					label:'='
 				},
-				replace:true,
 				link: function ($scope, $elm) {
 					$elm.on('change', function () {
 						handleEvents('change');
@@ -2274,7 +2276,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						var sliderElm = $('#' + slider.sliderId)[0],
 							outputVal = ((slider.defaultVal - slider.min) / (slider.max - slider.min));
 						sliderElm.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
-							'color-stop(' + outputVal + ', #39709A), ' +
+							'color-stop(' + outputVal + ', #06816E), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
 						if(slider.isError)	removeError();
@@ -2285,8 +2287,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 					function handleEvents(eventName){
 						var inputVal = parseInt(document.getElementById($scope.sliderTextId).value),
-						isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
-						
+							isMin = (inputVal <= $scope.min || isNaN(inputVal)) ? true : false;
 						if(isInputValid(inputVal)){
 							updateSlider(inputVal);
 							removeError();
@@ -2299,6 +2300,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 								slider.max = $scope.max;
 								slider.min = $scope.min;
 							} 
+							
 						}
 					}
 
@@ -2337,9 +2339,10 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						if(isNaN(inputValue)){
 							slider.max = slider.min = inputValue = 0;	
 						}
+
 						var outputVal = ((inputValue - $scope.min) / ($scope.max - $scope.min));
 						slider.style.backgroundImage = '-webkit-gradient(linear, left top, right top, ' +
-							'color-stop(' + outputVal + ', #39709A), ' +
+							'color-stop(' + outputVal + ', #06816E), ' +
 							'color-stop(' + outputVal + ', #fff)' +
 							')';
 					}
@@ -2821,6 +2824,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 											// Update view value with validated value (will format value)
 											// Render function from "number" also updates $modelValue
 											ngModelCtrl.$viewValue = value;
+											//ngModelCtrl.$modelValue = value;
 											ngModelCtrl.$render(value);
 											// ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
 											// elem.val(ngModelCtrl.$viewValue);
@@ -3707,522 +3711,192 @@ Formula.FV = function (rate, periods, payment, value, type) {
 	};
 })($cmsj, $cmsj);
 (function($,jQuery){
-brCalc.controller('retirementSavingsCalculatorCtrl', function($scope, scenarios, contentManager) {
+brCalc.controller('prePaymentCalculatorCtrl', function($scope, scenarios, contentManager) {
 	var me = this;
 	// Set the content for the tool (language-dependant content found in config)
-	this.content = contentManager.setContent(rscContent || {},'rscContent').getContent('rscContent');
+	//this.content = contentManager.setContent(prePaymentContent || {},'prePaymentContent').getContent('prePaymentContent');
 	// Get the scenarios reference, including data, results and validation objects
-	this.retirementSavingsData = scenarios.getScenarios('retirementSavingsData');
+	//this.prePaymentData = scenarios.getScenarios('prePaymentData');
 	// Get the fieldspecs from the config
 	// (HAS to be fetched AFTER setting all the content; fieldspecs have content to be updated)
-	this.specs = contentManager.getConfig('fieldspecs.retirementSavings');
+	//this.specs = contentManager.getConfig('fieldspecs.prePayment');
 	
-	this.validation = this.retirementSavingsData.validation;
+	//this.validation = this.prePaymentData.validation;
 
-	this.data = this.retirementSavingsData.data;
-
-	$scope.$watch('rsc.data.addSpouse',function(){
-		me.data.isScenarioViewSpouse = false;
-	});
 });
 })($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsScenarioCtrl', function($scope,$attrs,scenarios,$filter,contentManager) {
+(function ($, jQuery) {
+	brCalc.controller('prePaymentScenarioCtrl', function ($scope, $rootScope, $attrs, scenarios, $filter, contentManager) {
 		var me = this,
-			retirementSavingsData = scenarios.getScenarios('retirementSavingsData'),
-			scenario = retirementSavingsData.getScenario($attrs.scenarioIndex),
-			rscData = retirementSavingsData.data,
-			content = $scope.rsc.content,
-			constants = $scope.rsc.data.constants,
-			currentYear = new Date().getFullYear();
-
-		$scope.collapse = {
-			personnalQuestions:true,
-			sourceOfIncome:true,
-			investmentsAnnual:true,
-			investmentsMonthly:true
-		};
-
-		// FIX for annual limit for years 2017 and over
-		currentYear = currentYear>2016 ? 2016 : currentYear;
+			prePayment = scenarios.getScenarios('prePaymentData'),
+			scenario = prePayment.getScenario($attrs.scenarioIndex);
+		// Set the content for the tool (language-dependant content found in config)
+		this.content = contentManager.setContent(prePaymentContent || {}, 'prePaymentContent').getContent('prePaymentContent');
+		this.specs = contentManager.getConfig('fieldspecs.prePayment');
 
 		//////////////////////////////
 		// View accessible variable //
 		//////////////////////////////
-		this.data = scenario.data;
+		me.data = scenario.data;
+
 		this.data.scenarioIndex = $attrs.scenarioIndex;
 
 		this.results = scenario.results;
 
-		this.results.isSpouse = Number($attrs.scenarioIndex)!==0;
-		this.results.suffix = $attrs.suffix === 'true' ? content.spouseSuffix : $attrs.suffix!==undefined ? $attrs.suffix : '';
-
 		this.validation = scenario.validation;
 
-		///////////////////////////////
-		// Before watches initiation //
-		///////////////////////////////
-		initChart();
-		initValidation();
+		//capture the change event from calendar to update default value in scope
+		$rootScope.$on('setMaturityDate', function (e, value) {
+			me.data.maturityDate = value;
+		});
 
-		/////////////
-		// Watches //
-		/////////////
-		$scope.$watch("rsc.data.isScenarioViewSpouse",function() {
-			if (rscData.isScenarioViewSpouse===me.results.isSpouse) {
-				calculate();
+		$scope.$watch("sce.data.remainingAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.remainingAmount = 0;
+			}else {
+				me.data.remainingAmount = newValue;
 			}
 		});
-		$scope.$watch("rsc.data.inflationRate",calculate); // shared value that any scenario can change, and must recalculate again
-		$scope.$watch("rsc.data.estimatedROR",calculate); // shared value that any scenario can change, and must recalculate again
-		$scope.$watchCollection("sce.data",calculate,true);
-		
-		////////////////////////
-		// Internal functions //
-		////////////////////////
-		
-		// Important fix : Jan 03 2017 by BR Claudine
-		// !! important !!
-		// Always look for selected year and return annual limit found
-		// If not found, will look for the first previous available year in data.
-		function getLimitPerYear (contributionType,year) {
-			year = +year;
-			if (year===NaN || year < 1990) return;
-			if (contributionType==='TFSA' || contributionType==='RRSP' && year!==NaN) {
-				if (contributionType==='TFSA') {
-					if (constants.annualTFSAcontributionLimit[year]!==undefined) return constants.annualTFSAcontributionLimit[year];
-					else return getLimitPerYear(contributionType,--year);
-				}
-				else if (contributionType==='RRSP') {
-					if (constants.annualRRSPcontributionLimit[year]!==undefined) return constants.annualRRSPcontributionLimit[year];
-					else return getLimitPerYear(contributionType,--year);
-				}
+		$scope.$watch("sce.data.prePaymentAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.prePaymentAmount = 0;
+			}else {
+				me.data.prePaymentAmount = newValue;
 			}
-		}
-		
-		// All min-max generic validation is already taken care of by Validation class 
-		// This function is to set special validation only.
-		function initValidation () {
+		});
 
-			/////////////////////////////////
-			// Validation-changing watches //
-			/////////////////////////////////
-			$scope.$watch("sce.data.currentAge",function(value){
-				me.validation.retirementStartAge.set('min',value+1);
-			});
-
-			$scope.$watch("sce.data.retirementStartAge",function(value){
-				me.validation.yearsInRetirement.set('max',105-value);
-				me.validation.currentAge.set('retirementStartAge',value);
-			});
-
-			$scope.$watch("sce.data.yearsInRetirement",function(value){
-				me.validation.retirementStartAge.set('max',105-value);
-			});
-
-			//////////////////////
-			// Validation rules //
-			//////////////////////
-			me.validation.currentAge.addRule({
-				name:'readjust',
-				message: content.errorMessages['currentAge'+me.results.suffix]
-			});
-			// Retirement start age Business rule 
-			// 	Special message when a value bellow current age is entered
-			me.validation.retirementStartAge.addRule({
-				validate:function(value, validationParams){
-					if (!(value>=validationParams.min)) this.correctedValue = validationParams.min;
-					return value>=validationParams.min;
-				},
-				priority:1,
-				message: content.errorMessages.retirementStartAgeTooLow
-			});
-			// Current age Business rule 
-			// 	Special message when a value is above Retirement start age - reverse validation
-			me.validation.currentAge.addRule({
-				validate:function(value, validationParams){
-					if (validationParams.retirementStartAge) {
-						if (value>=validationParams.retirementStartAge) this.correctedValue = validationParams.retirementStartAge-1;
-						return value<validationParams.retirementStartAge;
-					}
-					return true;
-				},
-				priority:1,
-				message: content.errorMessages.currentAgeOverRetirementStartAge
-			});
-
-			////////////////////////////////
-			// Other validation constants //
-			////////////////////////////////
-			// Important fix Jan 3 2017
-			// me.validation.monthlyRRSPcontribution.set('max',constants.annualRRSPcontributionLimit[currentYear]/12)
-			me.validation.monthlyRRSPcontribution.set('max',getLimitPerYear('RRSP',currentYear)/12)
-				.set('currentYear',currentYear);
-			// Important fix Jan 3 2017
-			// me.validation.monthlyTFSAcontribution.set('max',constants.annualTFSAcontributionLimit[currentYear]/12)
-			me.validation.monthlyTFSAcontribution.set('max',getLimitPerYear('TFSA',currentYear)/12)
-				.set('currentYear',currentYear);
-		}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////
-// DÉBUT FONCTIONS DE CALCULS //
-////////////////////////////////
-
-		function calculate () {
-			var data = me.data,
-				results = me.results;
-
-			results.realInterestRate = (1+rscData.estimatedROR)/(1+rscData.inflationRate)-1;
-
-			calculateAllStartAges();
-			calculateAnnualInvestments();
-			calculateRetirementDetails();
-
-			results.sumS = 0;
-
-			results.retirementDetails.filter(function(yearPeriod,i){
-				results.sumS+=yearPeriod.actualS;
-				if (yearPeriod.age === data.retirementStartAge) {
-					results.retirementStartID = i;
-					// B40
-					results.savingsAtRetirement = yearPeriod.actualBeginningBalance;
-				}
-				return true;
-			});
-
-			// B41
-			results.annualIncomeBasedOnActualSavings = Formula.PMT(results.realInterestRate, data.yearsInRetirement,-1*results.savingsAtRetirement,0,1);
-			// B42
-			results.estimatedRetirementIncome = results.annualIncomeBasedOnActualSavings + data.oas + data.cpp + data.companyPension + data.nonRegInvestments + data.otherIncome;
-			// B43
-			results.npvDesiredIncome = Formula.MAX(-1*results.sumS,0);
-			// B44
-			results.pvOfInvestmentRequired = Formula.MAX(Formula.PV(results.realInterestRate, data.retirementStartAge-data.currentAge,results.sumInvestmentContributions,-1*results.npvDesiredIncome,1),0);
-			// B45
-			results.pvOfRecommendedInvestement = results.npvDesiredIncome;
-			// B46
-			results.recommendedInvestmentPerYear = Formula.PMT(results.realInterestRate,data.yearsInRetirement,-1*results.pvOfRecommendedInvestement,0,1);
-			// B47
-			results.fvSavings = Formula.FV(results.realInterestRate, results.retirementStartID,-1*results.sumInvestmentContributions,-1*data.currentRRSPSavings-data.currentTFSASavings-data.currentNONREGSavings,1);
-			// B48
-			results.shortfallOrSurplus = results.savingsAtRetirement - results.npvDesiredIncome;
-			// Shortfall / Surplus - graph view
-			results.surplusGraph = (results.fvSavings - results.pvOfRecommendedInvestement)>0 ? results.fvSavings - results.pvOfRecommendedInvestement : 0;
-			results.shortfallGraph = (results.pvOfRecommendedInvestement - results.fvSavings)>0 ? results.pvOfRecommendedInvestement - results.fvSavings : 0;
-			// B49
-			// Problematic scenario: if currentAge and retirementStartAge are the same, retirementStartID is 0, and Formula.PMT results in NaN
-			results.monthlyContributionNeeded = Formula.PMT(results.realInterestRate,results.retirementStartID,0,results.shortfallOrSurplus,1)/12;
-			results.totalMonthlyContributions = data.monthlyRRSPcontribution + data.monthlyTFSAcontribution + data.monthlyNONREGcontribution;
-			// B50
-			results.totalMonthlyContributionsNeeded = results.monthlyContributionNeeded + results.totalMonthlyContributions;
-			results.totalMonthlySurplus = results.monthlyContributionNeeded<0 ? results.totalMonthlyContributions - results.totalMonthlyContributionsNeeded : 0;
-			// B51
-			results.totalAnnualContributionsNeeded = results.totalMonthlyContributionsNeeded * 12;			
-			// F34
-			results.scenarioType = results.fvSavings < results.npvDesiredIncome ? 1 : results.fvSavings === results.npvDesiredIncome ? 3 : 2;
-
-			// Hypothetical Balance
-			calculateHypotheticalBalance();
-
-			// Update highchart
-			updateHighchart();
-
-			return results;
-		}
-
-		function calculateAnnualInvestments(){
-			var data = me.data,
-				results = me.results;
-
-			results.annualRRSPcontribution = data.monthlyRRSPcontribution * 12;
-			results.annualTFSAcontribution = data.monthlyTFSAcontribution * 12;
-			results.annualNONREGcontribution = data.monthlyNONREGcontribution * 12;
-			results.sumInvestmentContributions = results.annualRRSPcontribution + results.annualTFSAcontribution + results.annualNONREGcontribution;
-		}
-		
-		//IF(C2<Input!$B$5,0,IF(AND(C2>=Input!$B$5,C2<Input!$B$5+Input!$B$6),1,2))
-		function getStage(ageVal,retirementAge,yearsInRetirement){
-			return (ageVal < retirementAge) ? 0 : (retirementAge <= ageVal && ageVal < (retirementAge + yearsInRetirement)) ? 1 : 2;
-		}
-		
-		function getCppStartAge(retirementStartAge){
-			return Math.min(70,Math.max(60,retirementStartAge));
-		}
-
-		//B60
-		function getOasStartAge (retirementStartAge) {
-			return Math.min(67,retirementStartAge);
-		}
-
-		function calculateRetirementDetails() {
-			var data = me.data,
-				results = me.results,
-				yearsInRetirement = data.yearsInRetirement,
-				retirementStartAge = data.retirementStartAge,
-				retirementDetails = results.retirementDetails = [],
-				i = 0,
-				retYears = 0,
-				defaultDetails = {
-					retYears:0,
-					actualCpp:0,
-					investmentContributions:0,
-					actualOas:0,
-					actualBeginningBalance:0,
-					hypotheticalBeginningBalance:0,
-					actualIncomeRequired:0,
-					actualOtherIncome:0,
-					incomeNeeded:0
-				},
-				maxYears = yearsInRetirement + retirementStartAge - data.currentAge,
-				age,stage,details;
-
-			for(;i < maxYears; ++i) {
-
-				details = retirementDetails[i] = angular.extend({},defaultDetails);
-
-				age = details.age = data.currentAge + i;
-				stage = details.stage = getStage(age,retirementStartAge,yearsInRetirement);
-
-				if (stage !== 0) {
-					details.retYears = retYears = age-retirementStartAge;
-				}
-
-				// Stage Independant
-				// Actual CPP
-				if (age>=results.cppStartAge) {
-					details.actualCpp = Formula.FV(results.realInterestRate,retYears,0,-1*data.cpp,0);
-				}
-
-				// Stage 0 - from now until retirement time
-				if (stage === 0) {
-					details.investmentContributions = results.sumInvestmentContributions;
-				}
-				// Stage 1 - from retirement until end term
-				else if (stage === 1) {
-					// Income needed for year
-					if(data.targetIncomeIsPercent) {
-						details.incomeNeeded = data.annualIncome * data.targetIncomePercent;
-					}
-					else {
-						details.incomeNeeded = data.targetIncomeAmount;
-					}
-					//Other income
-					details.actualOtherIncome = data.companyPension + data.otherIncome + data.nonRegInvestments;
-					// OAS
-					if (age>=results.oasStartAge) {
-						details.actualOas =  Formula.FV(results.realInterestRate, retYears, 0, -1*data.oas, 0);
-					}
-
-					// J37 + K37 + L37
-					details.actualTotalIncome = details.actualOas + details.actualCpp + details.actualOtherIncome;
-					// I37 - N37
-					details.actualIncomeRequired = details.incomeNeeded - details.actualTotalIncome;
-				}
-
-				// Beginning balance
-				if (i === 0) {
-					details.actualBeginningBalance = data.currentRRSPSavings + data.currentTFSASavings + data.currentNONREGSavings;
-				}
-				else if (!(retirementDetails[i-1].actualEndingBalance<0 || stage === 2)) {
-					details.actualBeginningBalance = retirementDetails[i-1].actualEndingBalance * (1+results.realInterestRate);
-				}
-				else {
-					details.actualBeginningBalance = 0;
-				}
-				// Ending balance
-				if (stage === 2) {
-					details.actualEndingBalance = retirementDetails[i-1].actualEndingBalance;
-				}
-				else {
-					details.actualEndingBalance = details.actualBeginningBalance + details.investmentContributions - details.actualIncomeRequired;
-				}
-
-				// Primary Details - Actual, Column R
-				details.actualS = Formula.PV(results.realInterestRate, retYears, 0, details.actualIncomeRequired, 1);
+		$scope.$watch("sce.data.lumpSumAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.lumpSumAmount = 0;
+			}else {
+				me.data.lumpSumAmount = newValue;
 			}
-		}
+		});
 
-		function calculateHypotheticalBalance () {
-			var data = me.data,
-				results = me.results,
-				retirementDetails = results.retirementDetails,
-				i = 0,
-				len = retirementDetails.length,
-				stage,details;
-
-			for(;i<len;++i) {
-
-				details = retirementDetails[i];
-
-				stage = details.stage;
-
-				details.hypotheticalInvestmentContributions = 0;
-
-				// Beginning balance
-				if (i === 0) {
-					details.hypotheticalBeginningBalance = results.pvOfInvestmentRequired;
-				}
-				else if (!(retirementDetails[i-1].hypotheticalEndingBalance<0 || stage === 2)) {
-					details.hypotheticalBeginningBalance = retirementDetails[i-1].hypotheticalEndingBalance * (1+results.realInterestRate);
-				}
-				else {
-					details.hypotheticalBeginningBalance = 0;
-				}
-
-				// Ending balance
-				if (stage === 2) {
-					details.hypotheticalEndingBalance = details.hypotheticalBeginningBalance;
-				}
-				else {
-					if (stage === 0) {
-						details.hypotheticalInvestmentContributions = Formula.MAX(Formula.MIN(details.investmentContributions,results.totalAnnualContributionsNeeded),0);
-					}
-					details.hypotheticalEndingBalance = details.hypotheticalBeginningBalance + details.hypotheticalInvestmentContributions - details.actualIncomeRequired;
-				}
-
-				details.neededSavings = details.hypotheticalBeginningBalance - details.actualBeginningBalance;
+		$scope.$watch("sce.data.borrowAmount", function (newValue) {
+			if(newValue < 0){
+				me.data.borrowAmount = 0;
+			}else {
+				me.data.borrowAmount = newValue;
 			}
-		}
-
-		function calculateAllStartAges () {
-			var retirementStartAge = me.data.retirementStartAge;
-			me.results.cppStartAge = getCppStartAge(retirementStartAge);
-			me.results.oasStartAge = getOasStartAge(retirementStartAge);
-		}
-
-//////////////////////////////
-// FIN FONCTIONS DE CALCULS //
-//////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-		function initChart() {
-
-			me.results.chartRSC = (function(){
-
-				var config = contentManager.getHighchartConfig('chartRSC');
-
-				// Tooltip formatting
-				config.tooltip.formatter = function(){
-					var str=content.chartTooltip.age,
-						pts=this.points,
-						allSeries=this.points[0].series.chart.series,
-						lenSeries=allSeries.length,
-						i=0,
-						index=this.points[0].point.index,
-						len=pts.length,
-						value=0,
-						summary;
-
-					str = '<strong>'+str;
-					str += this.x+'</strong><br/>';
-
-					for (;i<lenSeries;i++) {
-						if (allSeries[i].options.showInLegend && allSeries[i].options.surplusShortfall) {
-							options = allSeries[i].options;
-							str+='<strong>'+allSeries[i].name+'</strong>: '+$filter('currency')(allSeries[i].yData[index],2)+'<br/>';
-							str+='<strong>'+options.actualSavings.name+'</strong>: '+$filter('currency')(options.actualSavings.data[index],2)+'<br/>';
-							str+='<strong>'+options.surplusShortfall[index].name+'</strong>: '+$filter('currency')(options.surplusShortfall[index].value,2)+'<br/>';
-							break;
-						}
-					}
-					return str;
-				};
-
-				return config;
-			})();
-		}
-
-		function updateHighchart () {
-			var retirementDetails = me.results.retirementDetails,
-				i = 0,
-				len = retirementDetails.length,
-				details,
-				categories = [],
-				config = angular.extend({},me.results.chartRSC),
-				noSavings,
-				isSurplusScenario = false,
-
-				surplusText = content.highchart.surplus,
-				shortfallText = content.highchart.shortfall,
-
-				surplusData = {},
-				savingsGoalData = {
-					displayName: content.highchart.savingsGoal,
-					name: content.highchart.savingsGoal,
-					surplusShortfall: [],
-					actualSavings:{},
-					data: [],
-					visible: true,
-					showInLegend: true
-				},
-				actualSavingsData = {
-					name: content.highchart.actualSavings,
-					data: [],
-					showInLegend: false // Because it musn't be visible in a scenario where no actual savings are registered
-				};
-
-			config.series = [];
-
-			for (;i<len;i++) {
-				details = retirementDetails[i];
-
-				noSavings = details.actualBeginningBalance === 0;
-
-				if (!isSurplusScenario && details.neededSavings < 0) isSurplusScenario = true;
-
-				actualSavingsData.data.push(details.actualBeginningBalance);
-
-				// Savings Data will always be available on the graph
-				// It's this data set that's responsible to display the summary in the tooltip
-				savingsGoalData.data.push(details.hypotheticalBeginningBalance);
-				savingsGoalData.surplusShortfall.push(details.neededSavings<0?{name:surplusText,value:details.neededSavings*-1}:{name:shortfallText,value:details.neededSavings});
-
-				if (!isSurplusScenario && !noSavings && !actualSavingsData.showInLegend) actualSavingsData.showInLegend = true;
-
-				categories.push(details.age);
+		});	
+		$scope.$watch("sce.data.interestRate", function (newValue, oldValue) {
+			if(Math.sign(newValue) === -1 || newValue < 0){
+				me.data.interestRate = 0;
+			}else {
+				me.data.interestRate = newValue;
 			}
+		});
 
-			// actualSavingsData.data = surplusData.data;
-			$.extend(true,surplusData,actualSavingsData); // same data. This is a question of layering in the series
-			savingsGoalData.actualSavings = actualSavingsData;
+		$scope.$watch("sce.data.originalDiscountRate", function (newValue) {
+			if(Math.sign(newValue) === -1 || newValue < 0){
+				me.data.originalDiscountRate = 0;
+			}else {
+				me.data.originalDiscountRate = newValue;
+			}
+		});
 
-			// Determine layer visibility
-			surplusData.visible = isSurplusScenario;
-			surplusData.showInLegend = isSurplusScenario;
+		$scope.$watchCollection("sce.data", updateCalculations, true);
 
-			actualSavingsData.visible = !isSurplusScenario;
-			actualSavingsData.showInLegend = actualSavingsData.showInLegend || false;
-			
-			config.xAxis.categories = categories;
-			// Series: (layering by color, first layer is bellow, last is above)
-			// 	    Blue              Orange            Blue
-			// 	Actual Savings     Savings Goal     Actual Savings
-			// config.series = [surplusData, shortfallData, savingsGoalData, actualSavingsData];
-			config.series = [surplusData, savingsGoalData, actualSavingsData];
-			me.results.chartRSC = config;
+		function updateCalculations(){
+			$scope.getEstimatedPrepaymentPenalty(me.data.mortgageType);
+			$scope.getPenaltyFreePayment();
 		}
+
+		$scope.getPrepaymentSubjectToPenalty = function(){
+			var amount = 0;
+			if(me.data.remainingAmount === me.data.prePaymentAmount){
+				amount =  me.data.prePaymentAmount + me.data.lumpSumAmount;
+			}else{	
+				amount = me.data.prePaymentAmount - (me.data.borrowAmount * me.data.annualPaymentPercentage) + me.data.lumpSumAmount;
+			}
+			me.data.prepaymentSubjectToPenalty = amount;
+			return amount;
+		};
+
+		$scope.getPenaltyFreePayment = function(){
+			return (me.data.borrowAmount * me.data.annualPaymentPercentage);
+		};
+
+		$scope.getEstimatedPrepaymentPenalty = function(type){
+			var amount,
+				threeMonthPenalty = ($scope.getPrepaymentSubjectToPenalty() * me.data.interestRate ) / 4;
+			switch(type){
+				case 'Fixed':
+					result = calulateInterestRateDeferential();
+					amount = (result === -0 ? threeMonthPenalty : Math.max(result, threeMonthPenalty));
+				break;
+				case 'Variable':
+					//=(B18*B7)/4
+					amount = threeMonthPenalty;
+				break;
+			}
+			return (amount >= 0 ? amount : -amount);
+			//return amount;
+		};
+
+		$scope.getPrepaymentSubjectToPenaltyAmount = function(){
+			var amount = $scope.getPrepaymentSubjectToPenalty();
+			return (amount >= 0 ? amount : -amount);
+		}
+
+		function calulateInterestRateDeferential(){
+			var amount;
+			// =(((B7-(B9-B10))*B18)*B15)/12
+			amount = (((me.data.interestRate - (me.data.interestRateSimilarTerm - me.data.originalDiscountRate)) *  $scope.getPrepaymentSubjectToPenalty()) * getMonthCount() ) / 12;
+			return amount;
+		}
+
+		function getMonthCount(){
+			var todayDate = new Date(),
+			maturityDate = me.data.maturityDate;
+
+			if(todayDate && maturityDate){
+				//dates in js are counted from 0
+				var diff = Math.floor(todayDate.getTime() - maturityDate.getTime()),
+					day = 1000 * 60 * 60 * 24,
+					days = Math.floor(diff/day),
+					months = Math.floor(days/31) + 1;
+
+				return (months >= 0 ? months : -months);
+			}
+    	}
+
+		// TOP: 3 months interest penalty
+		// =(B18*B7)/4
+		// (Prepayment Subjected to Penality * sce.data.interestRate)/4
+
+		// 1. Penalty free payment
+		//sce.data.borrowAmount * Annual priviledge payment percentage
+
+		// 2. Prepayment Subjected to Penality
+		//=IF(B3=B4,B4+B5,B4-B16+B5)
+		// if(sce.data.remainingAmount === sce.data.prePaymentAmount) sce.data.prePaymentAmount + sce.data.lumpSumAmount 
+		// else sce.data.prePaymentAmount - Penalty free payment + sce.data.lumpSumAmount 
+
+		//minimum calender value
+		function getCurrentDate(date){
+			var dd = date.getDate();
+			var mm = date.getMonth()+1; //January is 0!
+			var yyyy = date.getFullYear();
+
+			if(dd<10) {
+				dd = '0'+dd
+			} 
+
+			if(mm<10) {
+				mm = '0'+mm
+			} 
+
+			return (yyyy+ '-' + mm+ '-' + dd);
+		}
+		//get current date in given foramt
+		var currentDate = new Date();
+		$scope.minDate = getCurrentDate(currentDate);
+
+		//add 5 year to current date
+		var a5FromNow = currentDate;
+		a5FromNow.setFullYear(a5FromNow.getFullYear() + 5);
+		$scope.maxDate = getCurrentDate(a5FromNow);
 	});
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsScenarioResultsCtrl', ["$scope","$attrs","scenarios",function($scope,$attrs,scenarios) {
-	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
-		me = this;
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-}]);
-})($cmsj,$cmsj);
-(function($,jQuery){
-brCalc.controller('retirementSavingsScenarioResultsCtrl', function($scope,$attrs,scenarios, $location) {
-	var scenario = scenarios.getScenario('retirementSavingsData',$attrs.scenarioIndex),
-		me = this;
-
-	this.data = scenario.data;
-	this.data.scenarioIndex = $attrs.scenarioIndex;
-	this.results = scenario.results;
-});
-})($cmsj,$cmsj);
+})($cmsj, $cmsj);

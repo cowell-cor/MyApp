@@ -339,6 +339,57 @@ var isProd = true,
 			vendorsCSSwatch, // THE NEXT ONES ARE FOR WATCHS ONLY 
 			appCSSwatch
 		]
+	},
+	motusPPC: {
+		name: 'motusPPC',
+		markup: isProd ? [ 
+			'src/motusPPC.html'
+		] : [ 
+			'src/motusPPC.html'
+		],
+		javascript: isProd ? [	
+
+			'src/assets/js/no-conflict-wrap-start.js',
+			'src/vendors/**/bootstrap.min.js',// removable?? make sure they have our plugins
+			'src/assets/js/no-conflict-wrap-end.js',
+
+			/* Include Angular plugin */
+			'src/vendors/**/angular-*js',
+			'src/vendors/**/ui-bootstrap-tpls-*js',
+
+			/* Bluerush vendors */
+			'src/vendors/**/formula*.js',
+			'src/vendors/**/blueUtils*.js',
+			/* Others */
+			'src/app/motus.js',
+			'src/app/motusPrepaymentCalculator/**/*.js'
+		]:[	
+			'src/vendors/**/jquery*js',
+			'src/vendors/**/bootstrap*js',
+			'src/assets/js/jquery-cmsj-no-conflict.js',
+			'src/vendors/**/angular.*js',
+
+			'src/vendors/**/angular-*js',
+			'src/vendors/**/ui-bootstrap-*js',
+
+			/*Config*/		
+			'src/assets/js/rates.js',
+			'src/assets/config/motusDataConfig.js',
+			'src/assets/config/motusPPCConfig.js',
+
+			'src/vendors/**/ui-bootstrap-tpls-*js',
+			/* Bluerush vendors */
+			'src/vendors/**/formula*.js',
+			'src/vendors/**/blueUtils*.js',
+			/* Others */
+			'src/app/motus.js',
+			'src/app/motusPrepaymentCalculator/**/*.js'
+		],
+		css: [
+			'src/app/motusPPC.scss', // FIRST ENTRY IS THE COMPILED INDEX
+			vendorsCSSwatch, // THE NEXT ONES ARE FOR WATCHS ONLY 
+			appCSSwatch
+		]
 	}
 };
 

@@ -1,0 +1,597 @@
+@import "motus";
+
+.br {
+  &-calc {
+    .leftColumn {
+      label.bold {
+        font-weight: 800;
+      }
+
+      .form-group {
+        .savingsSelect {
+          margin-bottom: 7px;
+          padding: 0;
+          font-family: "Sofia Pro";
+          line-height: 20px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance:none;
+          background: transparent url(../img/down-arrow.svg) no-repeat right top;
+          background-size:300px 300px;
+        }
+
+        .merdianSavings {
+          padding: 0;
+          color: #414042;
+          font-family: "Sofia Pro";
+          font-size: 16px;
+          line-height: 20px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance:none;
+          background: transparent url(../img/down-arrow.svg) no-repeat right top;
+          background-position: center;
+          background-size:300px 300px;
+        }
+      }
+    }
+
+    .mainColumn {
+      .hisa-header {
+        line-height: 31px;
+        padding: 0;
+        margin: 10px 0 0 0;
+        color: #414042;
+      }
+
+      .chart-container {
+        margin-top: 23px;
+
+        .tbl-overflow {
+          max-height: 498px;
+          overflow-y: auto;
+          margin-bottom: 27px;
+          color: #414042;
+        }
+        @media(max-width: 579px){
+          .tbl-overflow{
+            max-height: 390px;
+          }
+        }
+      }
+      .table{
+        tbody{
+          tr{
+            td{
+              padding: 6px;
+            }
+            @media(max-width: 579px){
+              td{
+                padding: 5px;
+              }
+            }
+          }
+        }
+      }
+      .btn-charts {
+        width: 30%;
+        margin-bottom: 25px;
+      }
+
+      .chartHISA {
+        path.highcharts-tick {
+          display: none;
+        }
+
+        .highcharts-tooltip {
+
+          //test
+          span {
+            padding: 5px;
+            z-index: 999999;
+            width: 317px;
+          }
+        }
+      }
+    }
+
+    .btn-default {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  &-hisa-form {
+    .scenario {
+      .auto-save {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 21px;
+        margin-bottom: 20px;
+        color: $meriFormColor;
+        font-family: "Sofia Pro";
+      }
+
+      .auto-save-col {
+        margin-top: 20px;
+      }
+
+      .tooltip-icon {
+        width: 15px;
+        height: 15px;
+        background-image: url(../img/mb-tooltip.svg);
+        margin: 0 10px;
+        vertical-align: middle;
+        outline: none;
+        border-radius: 50%;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .clear {
+      button {
+        background: none;
+        border: none;
+        outline: none;
+        padding: 0;
+      }
+    }
+
+    .override-all {
+      padding: 0;
+    }
+
+    .override-bottom {
+      padding-bottom: 0;
+    }
+
+    .clearDeposit {
+      padding: 0 7px 17px 0;
+      color: #414042;	
+      font-size: 14px;
+    }
+
+    .clearTransfer {
+      padding: 0;
+      color: #414042;	
+      font-size: 14px;
+    }
+
+    .sub-heading {
+      color: #414042;
+      font-family: "Sofia Pro";
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .range-slider {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7px;
+      height: 3rem;
+
+      .slide {
+        width: 65%;
+      }
+
+      .range {
+        width: 27%;
+
+        .form-group {
+          padding: 0;
+        }
+      }
+    }
+
+
+    .collapsed {
+      display: flex;
+      align-items: center;
+      outline: none;
+
+      .collapse-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 5px 0;
+
+        .header {
+          color: #414042;
+          font-family: "Sofia Pro";
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 21px;
+        }
+      }
+    }
+
+    .stdSpacing {
+      padding: 0;
+    }
+
+  }
+
+  &-boost-row {
+    table {
+      width: 100%;
+    }
+
+    .boost-savings-tbl1 {
+      border: 1px solid #DADADA;
+      .boostAmt{
+        color: #606060;	
+        font-family: Arial;	
+        font-size: 36px;	
+        line-height: 42px;
+      }
+      thead {
+        background-color: #39709a;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 16px;
+        line-height: 16px;
+        text-align: center;
+
+        th {
+          padding: 16px 36px;
+          text-align: center;
+          line-height: 21px;
+          border: 1px solid #DADADA;
+          background-color: #00D1AF;
+          color: #414042;
+
+          .sub-heading {
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          height: 80px;
+          background-color: #FFFFFF;
+          text-align: center;
+
+          td {
+            width: 50%;
+
+            .toggle {
+              margin-left: 15px;
+            }
+
+            .vl-line {
+              border-right: 1px solid #d8d8d8;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+
+              span {
+                color: #414042;
+              }
+            }
+
+            .switch {
+              position: relative;
+              display: inline-block;
+              width: 60px;
+              height: 6px;
+            }
+
+            .switch input {
+              display: none;
+            }
+
+            .slider {
+              position: absolute;
+              cursor: pointer;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: #fff;
+              -webkit-transition: 0.4s;
+              transition: 0.4s;
+            }
+
+            .slider:before {
+              position: absolute;
+              content: "";
+              height: 26px;
+              width: 26px;
+              left: -4px;
+              bottom: -7px;
+              background-color: white;
+              -webkit-transition: 0.4s;
+              transition: 0.4s;
+              height: 25px;
+              width: 25px;
+              border: 1px solid #FFFFFF;
+              background-color: #00D1AF;
+              box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+            }
+
+            input:checked+.slider {
+              background-color: #06816E;
+            }
+
+            input:focus+.slider {
+              box-shadow: 0 0 1px #2196f3;
+            }
+
+            input:checked+.slider:before {
+              -webkit-transform: translateX(26px);
+              -ms-transform: translateX(26px);
+              transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+              height: 11px;
+              width: 46px;
+              border: 1px solid #DADADA;
+              border-radius: 40px;
+            }
+
+            .slider.round:before {
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+
+    .boost-savings-tbl2 {
+      &-margin{
+        margin-top:27px;
+      }
+      .btn-account {
+        a {
+          border: 1px solid #DADADA;
+          background-color: #00D1AF;
+          color: #414042;
+          font-family: Arial;
+          font-size: 14px;
+          line-height: 21px;
+          padding: 10px 18px;
+          border-radius: 4px;
+          text-transform: uppercase;
+          font-weight: bold;
+
+          &:hover {
+            color: #fff;
+            border: 1px solid #DADADA;
+            background-color: #31826e;;
+            text-decoration: none;
+          }
+        }
+      }
+
+      .boost-spl-padding {
+        padding: 10px 30px 30px 30px;
+      }
+
+      td {
+        text-align: center;
+        padding: 30px;
+      }
+    }
+
+    .boost-savings-tbl3 {
+      &-margin{
+        margin-top:46px;
+      }
+      td {
+        text-align: center;
+        padding: 18px 2px 2px 2px;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        color: #414042;
+      }
+
+      .lnk-disclaimer {
+        cursor: pointer;
+      }
+
+      .disclaimer-text {
+        padding: 0;
+        color: #999999;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
+      }
+    }
+  }
+
+  &-hisa-results {
+    .btn-highlight {
+      border: 1px solid #DADADA;
+      background-color: #00D1AF;
+    }
+  }
+}
+.br {
+  &-calc {
+      .header-large{
+        color: #414042;
+      }
+      .leftColumn{
+        .text-center{
+          color: #414042;
+        }
+        .form-control {
+          font-weight: normal;
+          border-bottom: 2px solid #414042;
+        }
+        .tooltip-icon {
+          width: 15px;
+          height: 15px;
+          background-image: url(../img/mb-tooltip.svg);
+          margin: 0 10px;
+          vertical-align: middle;
+          outline: none;
+          border-radius: 50%;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+      a.link{
+          color: #414042;
+          padding-left: 5px;
+          text-decoration: none;
+          margin-bottom: 10px;
+          margin-top: 10px;
+          display: inline-block;
+          font-size: 14px;
+      }
+      .maturity-calendar{
+          input{
+              &::-webkit-inner-spin-button {
+                  opacity: 0
+              }
+              &::-webkit-calendar-picker-indicator {
+                  background: url(../img/mb-calendar.png) center/70% no-repeat;
+                  color: rgba(0, 0, 0, 0);
+                  opacity: 0.9;
+              }
+              &::-webkit-calendar-picker-indicator:hover {
+                  background: url(../img/mb-calendar.png) center/70% no-repeat;
+                  opacity: 0.9;
+                  cursor: pointer;
+              }
+              &::-webkit-clear-button {
+                  display: none;
+              }
+              //firfox
+              &::-moz-inner-spin-button {
+                  opacity: 0
+              }
+              &::-moz-calendar-picker-indicator {
+                  background: url(../img/mb-calendar.png) center/80% no-repeat;
+                  color: rgba(0, 0, 0, 0);
+                  opacity: 0.9;
+              }
+              &::-moz-calendar-picker-indicator:hover {
+                  background: url(../img/mb-calendar.png) center/80% no-repeat;
+                  opacity: 0.9;
+                  cursor: pointer;
+              }
+              &::-moz-clear-button {
+                  display: none;
+              }
+              &:disabled{
+                  text-align: right;
+              }
+          }
+      }
+      .mortgage-containder{
+          display: flex;
+          .mortgage-type{
+              width:100%;
+              margin-bottom: 0;
+              padding: 0;
+          }
+          div{
+              &:nth-of-type(1){
+                  width: 50%;
+              }
+              &:nth-of-type(2){
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-end;
+                  justify-content: center;
+                  width: 50%;
+              }
+              &.error{
+                  border: solid 2px #DC8633;
+                  color: #DC8633;
+                  -webkit-background-clip: padding-box;
+                  -webkit-border-radius: 5px;
+                  -moz-background-clip: padding-box;
+                  -moz-border-radius: 5px;
+                  border-radius: 5px;
+                  background-clip: padding-box;
+                  margin : -7px 2px 0 4px;
+                  padding: 5px;
+                  text-align: right;
+              }
+          }
+
+          .rate{
+              width: 82%;
+              margin-bottom: 0px;
+          }
+      }
+      .link-disclaimer{
+          cursor: pointer;
+          text-align: center;
+          font-size: 14px;
+          color: #39709A;	
+          font-family: Arial;
+      }
+      .disclaimer{
+          text-align: left;
+          margin-top: 10px;
+      }
+      .mainColumn {
+          .calculation{
+              height: 55px;
+              vertical-align: middle;
+              padding-top: 17px;
+              width: 622px;
+              margin-left: 10px;
+              margin-top: 15px;
+              margin-bottom: 20px;
+              font-size: 16px;
+              font-weight: bold;
+              font-family: Arial;
+              text-align: center;
+          }
+          .blue{
+              //background-color: #39709A;
+              background-color: #414042;
+              color: white;
+          }
+          .white{
+              background-color: #ffffff;
+              color: #3F3F3F;
+              margin: 0;
+              padding: 0;
+              height: 20px;
+          }
+      }
+      @media (max-width: 991px){
+          .results{
+              width: 100%;
+              margin-left: -10px;
+              .blue{
+                  width: 100%;
+              }
+              .white{
+                  text-align: center;
+                  width: 100%;
+              }
+          }
+      }
+      /* Extra Small Devices, Phones */ 
+      @media (max-width : 480px) {
+              .actions{
+                  .btn{
+                      display: block;
+                      width: 50%;
+                      margin: 0 auto; 
+                  }
+                  .apply{
+                      margin-top:15px;
+                  }
+              }
+      }
+  }
+}

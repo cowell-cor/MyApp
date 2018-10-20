@@ -2,9 +2,8 @@ var defaultBRCalcDataContent = {
 		en: {
 
 			calculatorNames: {
-				lineOfCredit: 'Loan/Line of Credit Calculator',
-				affordability: 'Affordability Calculator',
-				paymentCalculator: 'Mortgage Payment Calculator'
+				hisaCalculator: 'HISA Calculator',
+				prePaymentCalculator: 'Prepayment Calculator'
 			},
 
 			input: {
@@ -49,90 +48,20 @@ var defaultBRCalcDataContent = {
 					savings: 'Savings (1.40%)',
 					tfsa: 'Tax-free Savings (1.40%)',
 					rsp: 'RSP (1.40%)'
+				},
+
+				mortgageType:{
+					fixed: 'Fixed',
+					variable: 'Variable'
 				}
 			},
 
 			errors: {
 				default: 'Value entered is incorrect.',
 				readjust: 'Value entered has been adjusted to the minimum or maximum value allowed.',
-				mortgage_matchPaymentFrequency: 'Error, your Extra payment frequency must match your regular payment frequency.',
-				aff_annualIncome_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. This is the amount you earn before taxes.',
-				aff_totalOtherDebts_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. Provide the amount outstanding on your loans, lines of credit, and credit cards. You may enter these individually by expanding this field (click the down arrow).',
-				aff_downPaymentAmount_readjust: 'Value entered has been adjusted to the minimum or maximum value allowed. For mortgages up to $500,000 you must provide at least 5%. For mortgages above $500,000 and below $1 million, you must provide 5% for the first $500,000 and 10% for the remaining amount. For mortgages equal to or above $1 Million you must provide at least 20%.',
-				aboveAllowedByMortgage: 'The mortgage amount doesn\'t allow the amount to be above {{ [max] | year }}.'
 			},
 
 			charts: {
-				chartLOC: {
-					title: {
-						text: 'Outstanding Loan Balance'
-					},
-					yAxis: {
-						title: {
-							text: 'Amount'
-						}
-					},
-					xAxis: {
-						title: {
-							text: 'Amortization Period'
-						}
-					}
-				},
-				chartRSC: {
-					title: {
-						text: 'Retirement Saving Goals'
-					},
-					yAxis: {
-						title: {
-							text: 'Amount'
-						}
-					},
-					xAxis: {
-						title: {
-							text: 'Age'
-						}
-					}
-				},
-				chartMPC: {
-					title: {
-						text: 'This illustrates the total amortization of the selected mortgage options.'
-					},
-					yAxis: {
-						title: {
-							text: 'Amount'
-						}
-					}
-				},
-				chartCompareMPC: {
-					title: {
-						text: 'This illustrates the total amortization of the selected mortgage options.'
-					},
-					yAxis: {
-						title: {
-							text: 'Amount'
-						}
-					}
-				},
-				ist_highchart: {
-					title: {
-						text: ''
-					},
-					xAxis: {
-						title: {
-							text: 'Term'
-						}
-					},
-					yAxis: {
-						title: {
-							text: 'Amount'
-						}
-					}
-				},
-				affordability: {
-					tooltip: {
-						pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-					}
-				}
 			},
 
 		units: {
@@ -143,17 +72,6 @@ var defaultBRCalcDataContent = {
 		},
 
 		ui: {
-			btnNext: 'Next',
-			btnPrevious: 'Previous',
-			btnBack: 'Back',
-			btnClose: 'Close',
-			btnBackToTop: 'Back to top',
-			startOver: 'Start over',
-			btnAmortizationTable: 'Amortization Table',
-			btnCompareScenarios: 'Compare Scenarios',
-			btnCompareSideBySide: 'Compare Side by Side',
-			btnPrintReport: 'Print Report',
-			btnShowReport: 'Show Report',
 			btnContactAdvisor: 'Contact an Advisor',
 			btnStartPreApproval: 'Start Pre-Approval'
 		}
@@ -164,310 +82,6 @@ var defaultBRCalcDataContent = {
 window.defaultBRCalcDataConfig = {
 
 	fieldspecs: {
-
-		retirementSavings: {
-			targetIncomeIsPercent_spouse: {
-				contentModel: 'label:rscContent.scenarioInputs.targetIncomeIsPercent_spouse',
-				configModel: 'input.boolean'
-			},
-			targetIncomeIsPercent: {
-				contentModel: 'label:rscContent.scenarioInputs.targetIncomeIsPercent',
-				configModel: 'input.boolean'
-			},
-			currentAge_spouse: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.currentAge_spouse'
-			},
-			currentAge: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.currentAge'
-			},
-			retirementStartAge_spouse: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.retirementStartAge_spouse'
-			},
-			retirementStartAge: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.retirementStartAge'
-			},
-			yearsInRetirement_spouse: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.yearsInRetirement_spouse'
-			},
-			yearsInRetirement: {
-				configModel: 'input.year',
-				contentModel: 'label:rscContent.scenarioInputs.yearsInRetirement',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.yearsInRetirement'
-				}
-			},
-			annualIncome_spouse: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.annualIncome_spouse'
-			},
-			annualIncome: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.annualIncome'
-			},
-			targetIncomePercent: {
-				configModel: 'input.percent2',
-				contentModel: 'label:rscContent.scenarioInputs.targetIncomePercent',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.targetIncomePercent'
-				}
-			},
-			targetIncomeAmount: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.targetIncomeAmount'
-			},
-			oas: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.oas',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.oas'
-				}
-			},
-			cpp: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.cpp',
-				tooltip: {
-					contentModel: 'message:rscContent.tooltip.cpp'
-				}
-			},
-			companyPension: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.companyPension'
-			},
-			nonRegInvestments: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.nonRegInvestments'
-			},
-			otherIncome: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.otherIncome'
-			},
-			currentRRSPSavings: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.currentRRSPSavings'
-			},
-			currentTFSASavings: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.currentTFSASavings'
-			},
-			currentNONREGSavings: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.currentNONREGSavings'
-			},
-			monthlyRRSPcontribution: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.monthlyRRSPcontribution'
-			},
-			monthlyTFSAcontribution: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.monthlyTFSAcontribution'
-			},
-			monthlyNONREGcontribution: {
-				configModel: 'input.currency2',
-				contentModel: 'label:rscContent.scenarioInputs.monthlyNONREGcontribution'
-			},
-
-			addSpouse: {
-				configModel: 'input.boolean',
-				contentModel: 'label:rscContent.scenarioInputs.addSpouse'
-			},
-			isScenarioViewSpouse: {
-				directive: 'boolean',
-				options: [{
-						value: false,
-						contentModel: 'label:rscContent.scenarioInputs.isScenarioViewSpouse'
-					},
-					{
-						value: true,
-						contentModel: 'label:rscContent.scenarioInputs.isScenarioViewSpouse_spouse'
-					}
-				]
-			},
-			estimatedROR: {
-				configModel: 'input.percent2',
-				contentModel: 'label:rscContent.scenarioInputs.estimatedROR'
-			},
-			inflationRate: {
-				configModel: 'input.percent2',
-				contentModel: 'label:rscContent.scenarioInputs.inflationRate'
-			}
-		},
-
-		affordability: {
-			annualIncome: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.annualIncome'
-			},
-			heatingCosts: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.heatingCosts'
-			},
-			propertyTaxes: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.propertyTaxes'
-			},
-			condoFees: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.condoFees'
-			},
-			interestRate: {
-				configModel: 'input.percent3',
-				contentModel: 'label:affordability.scenarioInputs.interestRate'
-			},
-			amortization: {
-				configModel: 'input.year',
-				contentModel: 'label:affordability.scenarioInputs.amortization'
-			},
-			downPaymentAmount: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.downPaymentAmount'
-			},
-			totalOtherDebt: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.totalOtherDebt'
-			},
-			vehicleLoanLease: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.vehicleLoanLease'
-			},
-			personalLoan: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.personalLoan'
-			},
-			lineOfCredit: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.lineOfCredit'
-			},
-			creditCards: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.creditCards'
-			},
-			otherDebt: {
-				configModel: 'input.currency2',
-				contentModel: 'label:affordability.scenarioInputs.otherDebt'
-			}
-		},
-
-		lineOfCredit: {
-			borrowReason_personalLoan: {
-				contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.label',
-				options: [{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.car',
-						value: 'car'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.debtConsolidation',
-						value: 'debtConsolidation'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.homeRenovation',
-						value: 'homeRenovation'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.educationFees',
-						value: 'educationFees'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.rrspContribution',
-						value: 'rrspContribution'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.other',
-						value: 'other'
-					}
-				]
-			},
-			borrowReason_lineOfCredit: {
-				contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.label',
-				options: [{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.car',
-						value: 'car'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.homeRenovation',
-						value: 'homeRenovation'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.educationFees',
-						value: 'educationFees'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.rrspContribution',
-						value: 'rrspContribution'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.borrowReason.other',
-						value: 'other'
-					}
-				]
-			},
-			repaymentDetails: {
-				contentModel: 'label:lineOfCredit.scenarioInputs.repaymentDetails.label',
-				options: [{
-						contentModel: 'label:lineOfCredit.scenarioInputs.repaymentDetails.personalLoan',
-						value: 'personalLoan'
-					},
-					{
-						contentModel: 'label:lineOfCredit.scenarioInputs.repaymentDetails.lineOfCredit',
-						value: 'lineOfCredit'
-					}
-				]
-			},
-			paymentFrequency: {
-				contentModel: 'label:lineOfCredit.scenarioInputs.paymentFrequency',
-				configModel: 'select.reducedPaymentFrequency'
-			},
-			borrowAmount: {
-				configModel: 'input.currency2',
-				contentModel: 'label:lineOfCredit.scenarioInputs.borrowAmount'
-			},
-			interestRate: {
-				configModel: 'input.percent3',
-				contentModel: 'label:lineOfCredit.scenarioInputs.interestRate'
-			},
-			amortization: {
-				configModel: 'input.year',
-				contentModel: 'label:lineOfCredit.scenarioInputs.amortization'
-			}
-
-		},
-
-		mortgagePayment: {
-			amortization: {
-				configModel: 'input.year',
-				contentModel: 'label:mortgagePayment.scenarioInputs.amortization'
-			},
-			paymentFrequency: {
-				contentModel: 'label:mortgagePayment.scenarioInputs.paymentFrequency',
-				configModel: 'select.paymentFrequency'
-			},
-			extraPaymentFrequency: {
-				contentModel: 'label:mortgagePayment.scenarioInputs.extraPaymentFrequency',
-				configModel: 'select.extraPaymentFrequency,matchingValue:scenarios.mortgagePaymentData.data.scenarioModel.data.paymentFrequency'
-			},
-			productAndType: {
-				contentModel: 'label:mortgagePayment.scenarioInputs.productAndTerm',
-				configModel: 'select.productAndType',
-				directive: 'number'
-			},
-			showExtra: {},
-			mortgageAmount: {
-				configModel: 'input.currency2',
-				contentModel: 'label:mortgagePayment.scenarioInputs.mortgageAmount'
-			},
-			interestRate: {
-				configModel: 'input.percent3',
-				contentModel: 'label:mortgagePayment.scenarioInputs.interestRate'
-			},
-			extraPaymentAmount: {
-				configModel: 'input.currency2',
-				contentModel: 'label:mortgagePayment.scenarioInputs.extraPaymentAmount'
-			}
-		},
 		hisa: {
 			savingsHeader: {
 				tooltip: {
@@ -522,6 +136,43 @@ window.defaultBRCalcDataConfig = {
 			}
 
 		},
+		prePayment:{
+			borrowAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.borrowAmount'
+			},
+			remainingAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.remainingAmount'
+			},
+			prePaymentAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.prePaymentAmount'
+			},
+			lumpSumAmount: {
+				configModel: 'input.currency2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.lumpSumAmount'
+			},
+			mortgageType: {
+				configModel: 'select.mortgageType',
+				contentModel: 'label:prePaymentContent.scenarioInputs.mortgageType',
+			},
+			maturityDate:{
+				contentModel: 'label:prePaymentContent.scenarioInputs.maturityDate',
+				directive: 'date'
+			},
+			interestRate: {
+				configModel: 'input.percent2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.interestRate'
+			},
+			originalDiscount: {
+				configModel: 'input.percent2',
+				contentModel: 'label:prePaymentContent.scenarioInputs.originalDiscount',
+				tooltip: {
+					contentModel: 'message:prePaymentContent.tooltip.originalDiscount'
+				}
+			},
+		}
 	},
 
 	scenarios: {
@@ -984,6 +635,55 @@ window.defaultBRCalcDataConfig = {
 				}
 			},
 			results: {}
+		},
+		prePaymentData: {
+			data: {
+				scenarios: [],
+				scenarioModel: {
+					data: {
+						borrowAmount: 250000,
+						remainingAmount: 0,
+						prePaymentAmount: 0,
+						lumpSumAmount: 0,
+						mortgageType:"Fixed",
+						interestRate: 0.000,
+						maturityDate:null,
+						originalDiscountRate: 0,
+						prepaymentSubjectToPenalty: 0,
+						annualPaymentPercentage: 0.2,
+						interestRateSimilarTerm: 0.02
+					},
+
+					validation: {
+						borrowAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						remainingAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						prePaymentAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						lumpSumAmount: {
+							min: 0,
+							max: 999999999.99
+						},
+						interestRate: {
+							min: 0,
+							max: 1
+						},
+						originalDiscountRate: {
+							min: 0,
+							max: 1
+						}
+					},
+					results: {}
+				}
+			},
+			results: {}
 		}
 	},
 
@@ -1016,16 +716,8 @@ window.defaultBRCalcDataConfig = {
 			connect: 'lower',
 			step: 1,
 			range: {
-				'min': 2,
+				'min': 0,
 				'max': 5
-			}
-		},
-		ist_amount: {
-			start: 0,
-			connect: 'lower',
-			range: {
-				'min': 500,
-				'max': 100000
 			}
 		}
 	},
@@ -1091,6 +783,10 @@ window.defaultBRCalcDataConfig = {
 			ACCELERATED_BI_WEEKLY: 'acceleratedBiWeekly',
 			ACCELERATED_WEEKLY: 'acceleratedWeekly',
 			ANNUALLY: 'annually'
+		},
+		mortgageType:{
+			FIXED: 'Fixed',
+			VARIABLE: 'Variable'
 		}
 	},
 	select: {
@@ -1355,6 +1051,25 @@ window.defaultBRCalcDataConfig = {
 					configModel: 'select.meridianSavingsAccountOptions.rsp'
 				}
 			]
+		},
+		mortgageTypeOptions: {
+			fixed: {
+				contentModel: 'label:select.mortgageType.fixed',
+				//contentModel: 'label:select.meridianSavingsAccount.savings',
+				configModel: 'value:globals.mortgageType.FIXED'
+			},
+			variable: {
+				contentModel: 'label:select.mortgageType.variable',
+				configModel: 'value:globals.mortgageType.VARIABLE'
+			}
+		},
+		mortgageType:{
+			options: [{
+				configModel: 'select.mortgageTypeOptions.fixed'
+			},
+			{
+				configModel: 'select.mortgageTypeOptions.variable'
+			}]
 		}
 	},
 
