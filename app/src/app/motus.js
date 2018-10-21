@@ -1216,7 +1216,7 @@
 
 		.directive('meriTooltip', function ($compile) {
 			var template = {
-					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
+					tooltip: '<a href="javascript:void(0)" class="br-icon tooltip-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
 				},
 
 				directiveDefinitionObject = {
