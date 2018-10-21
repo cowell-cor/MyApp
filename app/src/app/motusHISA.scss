@@ -16,8 +16,7 @@
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance:none;
-          background: transparent url(../img/down-arrow.svg) no-repeat right top;
-          background-size:300px 300px;
+          background: transparent url(../img/Motusbank-HISA-Pulldown-Arrow-Mint.svg) no-repeat right center;
         }
 
         .merdianSavings {
@@ -29,9 +28,7 @@
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance:none;
-          background: transparent url(../img/down-arrow.svg) no-repeat right top;
-          background-position: center;
-          background-size:300px 300px;
+          background: transparent url(../img/Motusbank-HISA-Pulldown-Arrow-Mint.svg) no-repeat right center;
         }
       }
     }
@@ -534,6 +531,11 @@
     .btn-highlight {
       border: 1px solid #DADADA;
       background-color: #00D1AF;
+      outline: 0;
+      &:focus,&:hover{
+        background-color: #00D1AF;
+        outline: 0;
+      }
     }
   }
 }
