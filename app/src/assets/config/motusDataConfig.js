@@ -519,7 +519,7 @@ window.defaultBRCalcDataConfig = {
 				scenarios: [],
 				scenarioModel: {
 					data: {
-						showBoostFeature: false,
+						showBoostFeature: true,
 						boostSavingsEnabled: false,
 						totalSavings: 0,
 						boostSavingsAmt:0,

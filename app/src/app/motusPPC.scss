@@ -15,7 +15,7 @@
         .tooltip-icon {
           width: 15px;
           height: 15px;
-          background-image: url(../img/mb-tooltip.svg);
+          background-image: url(../img/mb-tooltip-carbon.svg);
           margin: 0 10px;
           vertical-align: middle;
           outline: none;
@@ -157,12 +157,11 @@
               font-family: Arial;
               text-align: center;
           }
-          .blue{
-              //background-color: #39709A;
+          .even{
               background-color: #414042;
               color: white;
           }
-          .white{
+          .odd{
               background-color: #ffffff;
               color: #3F3F3F;
               margin: 0;
@@ -174,23 +173,26 @@
             background-color: #414042;
             border-color: #414042;
             padding-left: 20px;
-            padding-right: 20px
+            padding-right: 20px;
+            width: 200px;
           }
           .btn-warning{
             background-color:#00D1AF;
             border-color:#00D1AF;
             padding-left: 20px;
-            padding-right: 20px
+            padding-right: 20px;
+            width: 200px;
+            margin-left: 30px;
           }
       }
       @media (max-width: 991px){
           .results{
               width: 100%;
               margin-left: -10px;
-              .blue{
+              .even{
                   width: 100%;
               }
-              .white{
+              .odd{
                   text-align: center;
                   width: 100%;
               }
@@ -201,7 +203,6 @@
               .actions{
                   .btn{
                       display: block;
-                      width: 50%;
                       margin: 0 auto; 
                   }
                   .apply{

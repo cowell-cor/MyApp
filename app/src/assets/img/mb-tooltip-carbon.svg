@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>MB-Tooltip Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MB-Icons-and-Buttons" transform="translate(-290.000000, -89.000000)">
+            <g id="MB-Tooltip-Icon" transform="translate(290.000000, 89.000000)">
+                <g id="Tooltip-Icon">
+                    <circle id="Oval-2" fill="#414042" cx="7.5" cy="7.5" r="7.5"></circle>
+                    <path d="M7.786,8.47 L7.764,8.712 L6.268,8.712 L6.246,8.47 C6.246,7.898 6.246,7.7 6.323,7.337 C6.455,6.82 6.73,6.622 7.445,6.259 L7.885,6.072 C8.237,5.885 8.292,5.742 8.292,5.467 C8.292,5.126 7.962,4.873 7.511,4.873 C7.038,4.873 6.73,5.181 6.73,5.632 L5.19,5.632 C5.19,4.939 5.399,4.378 5.828,3.96 C6.257,3.542 6.818,3.333 7.511,3.333 C8.204,3.333 8.765,3.531 9.194,3.916 C9.623,4.301 9.832,4.829 9.832,5.478 C9.832,6.523 9.238,7.282 8.358,7.557 C7.918,7.689 7.786,7.931 7.786,8.47 Z M7.995,10.186 C7.995,10.714 7.566,11.11 7.038,11.11 C6.51,11.11 6.092,10.714 6.092,10.186 C6.092,9.658 6.51,9.273 7.038,9.273 C7.566,9.273 7.995,9.669 7.995,10.186 Z" id="?" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

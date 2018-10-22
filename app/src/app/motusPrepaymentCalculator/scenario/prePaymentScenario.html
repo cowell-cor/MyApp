@@ -1,10 +1,29 @@
 <h2 class="text-center" aria-label="{{sce.content.prePaymentHeader}}">{{sce.content.prePaymentHeader}}</h2>
-<form name="prePayment_{{sce.data.scenarioIndex}}">
+<form name="prePayment_{{sce.data.scenarioIndex}}" aria-controls="ppcInfo">
 	<div class="scenario">
-		<meri-input field-specs="sce.specs.borrowAmount" data-binding="sce.data.borrowAmount" field-validation="sce.validation.borrowAmount"></meri-input>
-		<meri-input field-specs="sce.specs.remainingAmount" data-binding="sce.data.remainingAmount" field-validation="sce.validation.remainingAmount"></meri-input>
-		<meri-input field-specs="sce.specs.prePaymentAmount" data-binding="sce.data.prePaymentAmount" field-validation="sce.validation.prePaymentAmount"></meri-input>
-		<meri-input field-specs="sce.specs.lumpSumAmount" data-binding="sce.data.lumpSumAmount" field-validation="sce.validation.lumpSumAmount"></meri-input>
+		<meri-input 
+			field-specs="sce.specs.borrowAmount"
+			data-binding="sce.data.borrowAmount"
+			field-validation="sce.validation.borrowAmount">
+		</meri-input>
+
+		<meri-input 
+			field-specs="sce.specs.remainingAmount"
+			data-binding="sce.data.remainingAmount"
+			field-validation="sce.validation.remainingAmount">
+		</meri-input>
+
+		<meri-input 
+			field-specs="sce.specs.prePaymentAmount"
+			data-binding="sce.data.prePaymentAmount"
+			field-validation="sce.validation.prePaymentAmount">
+		</meri-input>
+
+		<meri-input 
+			field-specs="sce.specs.lumpSumAmount" 
+			data-binding="sce.data.lumpSumAmount" 
+			field-validation="sce.validation.lumpSumAmount">
+		</meri-input>
 
 		<div class="mortgage-containder">
 			<meri-select 

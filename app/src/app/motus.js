@@ -1334,7 +1334,8 @@
 						});
 
 						inputAttributes.push({
-							attr: 'aria-labelledby'
+							attr: 'aria-labelledby',
+							value: binding,
 						});
 
 						inputAttributes.push({
@@ -1431,7 +1432,7 @@
 					template: function (element, attr) {
 						return '<div class="form-group">' +
 							'<label id={{name}}>{{ label }}</label>' +
-							'<input id="{{ name }}" name="{{ name }}" aria-labelledby={{name}} class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							'<input aria-labelledby={{name}} class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
 							// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+

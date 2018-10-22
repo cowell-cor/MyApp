@@ -99,6 +99,10 @@
             margin-top: 10px;
         }
         .mainColumn {
+            .btn-warning, .btn-success{
+                width: 200px;
+                margin-left: 30px;
+            }
             .calculation{
                 height: 55px;
                 vertical-align: middle;
@@ -112,11 +116,11 @@
                 font-family: Arial;
                 text-align: center;
             }
-            .blue{
+            .even{
                 background-color: #39709A;
                 color: white;
             }
-            .white{
+            .odd{
                 background-color: #ffffff;
                 color: #3F3F3F;
                 margin: 0;
@@ -128,10 +132,10 @@
             .results{
                 width: 100%;
                 margin-left: -10px;
-                .blue{
+                .odd{
                     width: 100%;
                 }
-                .white{
+                .even{
                     text-align: center;
                     width: 100%;
                 }
@@ -142,7 +146,6 @@
                 .actions{
                     .btn{
                         display: block;
-                        width: 50%;
                         margin: 0 auto; 
                     }
                     .apply{

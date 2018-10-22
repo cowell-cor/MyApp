@@ -2203,11 +2203,14 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						var parentElem = $elm[0];
 						var errElm = parentElem.getElementsByClassName('error-message');
 						if(errElm.length === 0){
-							var errorElem = '<span>Value entered has been adjusted to the current date .</span>';
-							var span = document.createElement('div');
-							span.classList.add("error-message");
-							span.innerHTML = errorElem;
-							parentElem.appendChild(span);
+							var errorElem = '<div id="alertText">Value entered has been adjusted to the current date .</div>';
+							var div = document.createElement('div');
+							div.classList.add("error-message");
+							div.setAttribute("role", "alertdialog");
+							div.setAttribute("aria-labelledby", "alertHeading");
+							div.setAttribute("aria-describedby", "alertText");
+							div.innerHTML = errorElem;
+							parentElem.appendChild(div);
 						}
 						parentElem.classList.add('error');
 					}
@@ -2502,7 +2505,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 		.directive('meriTooltip', function ($compile) {
 			var template = {
-					tooltip: '<a href="javascript:void(0)" class="br-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
+					tooltip: '<a href="javascript:void(0)" class="br-icon tooltip-icon" uib-tooltip="{{ getMeriTooltipContent() }}">&nbsp;</a>'
 				},
 
 				directiveDefinitionObject = {
@@ -2561,6 +2564,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 					},
 					replace: true,
 					controller: function ($scope, $element, $attrs /*,$transclude*/ ) {
+						
 						var excludeAttrTransfer = {
 								fieldSpecs: true,
 								fieldValidation: true,
@@ -2586,9 +2590,10 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						} else {
 							$scope.name = 'meri-' + ($attrs.fieldSpecs || '');
 						}
+						
 
 						$scope.id = $scope.$parent.$eval($attrs.id) || $attrs.id || '';
-
+						
 						switch (fieldSpecs.directive) {
 							case 'boolean':
 								filterDirective = 'boolean';
@@ -2613,9 +2618,21 @@ Formula.FV = function (rate, periods, payment, value, type) {
 						});
 
 						inputAttributes.push({
-							attr: 'aria-label'
+							attr: 'name',
+							value: binding,
 						});
 
+						inputAttributes.push({
+							attr: 'aria-labelledby',
+							value: binding,
+						});
+
+						inputAttributes.push({
+							attr: 'id',
+							value: fieldSpecs.id,
+						});
+					
+						
 						$scope.binding = binding;
 						$scope.label = fieldSpecs.label || $attrs.label || "";
 
@@ -2679,7 +2696,7 @@ Formula.FV = function (rate, periods, payment, value, type) {
 										input.attr(scope.inputAttributes[i].attr, scope.inputAttributes[i].value !== undefined ? scope.inputAttributes[i].value : '');
 									}
 								}
-								input.attr('aria-label','Enter '+scope.fieldSpecs.label);
+								//input.attr('aria-label',scope.fieldSpecs.label);
 								//console.log(input)
 
 								if (scope.tooltip) {
@@ -2703,8 +2720,8 @@ Formula.FV = function (rate, periods, payment, value, type) {
 
 					template: function (element, attr) {
 						return '<div class="form-group">' +
-							'<label for="{{ id }}">{{ label }}</label>' +
-							'<input id="{{ id }}" name="{{ id }}" class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
+							'<label id={{name}}>{{ label }}</label>' +
+							'<input aria-labelledby={{name}} class="form-control" type="text" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<input id="{{ id }}" name="{{ id }}" class="form-control" type="{{ fieldType }}" ng-model-options="\{ updateOn: \'blur\',allowInvalid: \'true\' \}"/>' +
 							// '<span class="view-value" ng-if="filter===\'currency\'">{{ value | currency:filterOption }}</span>'+
 							// '<span class="view-value" ng-if="filter===\'percent\'">{{ value | percent:filterOption }}</span>'+
